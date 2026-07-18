@@ -12,6 +12,7 @@ extern CConfig		 *pConfig;
 extern bool bShowDebugLabels;
 extern bool bHudScaleFix;
 extern bool bCameraTargetDebug;
+extern BOOL bToggleObjectLight;
 
 void ShutdownGame(); // .text:100C3E80
 
@@ -212,7 +213,7 @@ void cmdShowInterior(PCHAR szCmd)
 
 void cmdToggleObjectLight(PCHAR szCmd)
 {
-	// TODO: cmdToggleObjectLight .text:10069000
+	bToggleObjectLight = !bToggleObjectLight;
 }
 
 void cmdDebugLabels(PCHAR szCmd)
