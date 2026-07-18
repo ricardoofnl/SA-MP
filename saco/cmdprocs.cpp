@@ -2,6 +2,7 @@
 #include "main.h"
 
 extern CChatWindow   *pChatWindow;
+extern CGame		 *pGame;
 extern CCmdWindow	 *pCmdWindow;
 extern CDeathWindow	 *pDeathWindow;
 extern CNetGame		 *pNetGame;
@@ -124,7 +125,22 @@ void cmdSetFrameLimit(PCHAR szCmd)
 
 void cmdHeadMove(PCHAR szCmd)
 {
-	// TODO: cmdSetFrameLimit .text:10068960
+	CGame *pGame = ::pGame;
+	if(pGame)
+	{
+		if(pGame->m_bHeadMove)
+		{
+			pGame->m_bHeadMove = 0;
+			if(pConfig) pConfig->SetIntVariable("disableheadmove", 1);
+			pChatWindow->AddInfoMessage("-> Head movements disabled");
+		}
+		else
+		{
+			pGame->m_bHeadMove = 1;
+			if(pConfig) pConfig->SetIntVariable("disableheadmove", 0);
+			pChatWindow->AddInfoMessage("-> Head movements enabled");
+		}
+	}
 }
 
 void cmdQuit(PCHAR szCmd)

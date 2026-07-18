@@ -53,6 +53,8 @@ public:
 
 	void AddDebugMessage(CHAR *szFormat, ...);
 
+	void AddInfoMessage(CHAR *szFormat, ...); // .text:10068070
+
 	int SetPageSize(int iPageSize); // .text:100672A0
 
 	void ResetDialogControls(CDXUTDialog *pGameUI);

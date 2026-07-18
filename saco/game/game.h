@@ -17,7 +17,7 @@
 
 class CGame // size: 322
 {
-private:
+public:
 
 	CAudio			*m_pGameAudio;
 	CCamera			*m_pGameCamera;
@@ -35,7 +35,7 @@ private:
 	BOOL			m_bCheckpointsEnabled;
 	DWORD			m_dwCheckpointMarker;
 	int field_55;
-	int field_59;
+	int m_bHeadMove;
 	DWORD field_5D;
 	int field_61;
 	int field_65;
