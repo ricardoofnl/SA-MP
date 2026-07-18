@@ -262,7 +262,9 @@ void cmdSetTime(PCHAR szCmd)
 
 void cmdShowInterior(PCHAR szCmd)
 {
-	// TODO: cmdShowInterior .text:10068FD0
+	int iInterior;
+	ScriptCommand(&get_active_interior, &iInterior);
+	pChatWindow->AddDebugMessage("Current Interior: %u", iInterior);
 }
 
 void cmdToggleObjectLight(PCHAR szCmd)
