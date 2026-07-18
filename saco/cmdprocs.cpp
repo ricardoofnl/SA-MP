@@ -63,7 +63,7 @@ void cmdFontSize(PCHAR szCmd)
 
 void cmdNameTagStatus(PCHAR szCmd)
 {
-	// TODO: cmdNameTagStatus .text:10068720
+	if(pNetGame) pNetGame->ToggleNameTagStatus();
 }
 
 void cmdTimestamp(PCHAR szCmd)
