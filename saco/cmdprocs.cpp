@@ -221,7 +221,21 @@ void cmdSetWeather(PCHAR szCmd)
 
 void cmdSetTime(PCHAR szCmd)
 {
-	// TODO: cmdSetTime .text:10068F20
+	if(!strlen(szCmd))
+	{
+		pChatWindow->AddDebugMessage("Usage: set_time (hour) (minute)");
+		return;
+	}
+	int iHour = 0, iMinute = 0;
+	sscanf(szCmd, "%d%d", &iHour, &iMinute);
+	if(iHour < 0 || iHour > 23 || iMinute < 0 || iMinute > 59)
+	{
+		pChatWindow->AddDebugMessage("Invalid Time. Use /set_time (hour 0-23) (minute 0-59)");
+	}
+	else
+	{
+		pGame->SetTime(iHour, iMinute);
+	}
 }
 
 void cmdShowInterior(PCHAR szCmd)

@@ -56,6 +56,7 @@ public:
 	void	InitGame();
 	BOOL	IsGameLoaded();
 
+	void	SetTime(int iHour, int iMinute);   // .text:100A0AB0
 	void	SetWeather(int iWeather);      // .text:100A0B40
 	void	SetFrameLimiter(int iLimit);   // .text:100A0BB0
 
