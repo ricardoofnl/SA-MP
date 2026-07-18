@@ -168,7 +168,6 @@ void cmdQuit(PCHAR szCmd)
 
 void cmdCmpStat(PCHAR szCmd)
 {
-	// TODO: cmdCmpStat .text:100689F0
 }
 
 void cmdSavePos(PCHAR szCmd)
