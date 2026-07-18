@@ -10,6 +10,7 @@ extern CConfig		 *pConfig;
 
 extern bool bShowDebugLabels;
 extern bool bHudScaleFix;
+extern bool bCameraTargetDebug;
 
 void cmdDefaultCmdProc(PCHAR szCmd)
 {
@@ -36,7 +37,7 @@ void cmdTestDeathWindow(PCHAR szCmd)
 
 void cmdCameraTargetDebug(PCHAR szCmd)
 {
-	// TODO: cmdCameraTargetDebug .text:100685E0
+	bCameraTargetDebug = !bCameraTargetDebug;
 }
 
 void cmdPageSize(PCHAR szCmd)
