@@ -197,7 +197,25 @@ void cmdRawSavePos(PCHAR szCmd)
 
 void cmdPlayerSkin(PCHAR szCmd)
 {
-	// TODO: cmdPlayerSkin .text:10068D00
+	if(tSettings.bDebug)
+	{
+		if(!strlen(szCmd))
+		{
+			pChatWindow->AddDebugMessage("Usage: player_skin (skin number).");
+		}
+		else
+		{
+			int iSkin = atoi(szCmd);
+			if(pGame->sub_100A0930())
+			{
+				CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+				if(pPlayerPed)
+				{
+					pPlayerPed->SetSkin(iSkin);
+				}
+			}
+		}
+	}
 }
 
 void cmdCreateVehicle(PCHAR szCmd)

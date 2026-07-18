@@ -43,6 +43,8 @@ public:
 	void  SetHealth(float fHealth);
 	float GetArmour();
 	void  SetArmour(float fArmour);
+
+	void  SetSkin(int iSkin); // .text:100AFF50
 	DWORD GetStateFlags();
 	void  SetStateFlags(DWORD dwStateFlags);
 	BOOL  IsDead();

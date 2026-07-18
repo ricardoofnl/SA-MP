@@ -150,6 +150,7 @@ public:
 	void sub_100A02E0();
 	void sub_100A0310();
 	void sub_100A0330();
+	BOOL sub_100A0930();
 
 	void sub_100A1C10();
 
