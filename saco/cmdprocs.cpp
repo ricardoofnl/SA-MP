@@ -41,7 +41,16 @@ void cmdCameraTargetDebug(PCHAR szCmd)
 
 void cmdPageSize(PCHAR szCmd)
 {
-	// TODO: cmdPageSize .text:100685F0
+	int iPageSize;
+	if(strlen(szCmd) && (iPageSize = atoi(szCmd)) >= 10 && iPageSize <= 20)
+	{
+		if(pChatWindow) pChatWindow->SetPageSize(iPageSize);
+		if(pConfig) pConfig->SetIntVariable("pagesize", iPageSize);
+	}
+	else
+	{
+		if(pChatWindow) pChatWindow->AddDebugMessage("pagesize [10-20] (lines)");
+	}
 }
 
 void cmdFontSize(PCHAR szCmd)

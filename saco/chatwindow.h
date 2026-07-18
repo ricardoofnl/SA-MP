@@ -53,6 +53,8 @@ public:
 
 	void AddDebugMessage(CHAR *szFormat, ...);
 
+	int SetPageSize(int iPageSize); // .text:100672A0
+
 	void ResetDialogControls(CDXUTDialog *pGameUI);
 
 	CChatWindow(IDirect3DDevice9 *pD3DDevice, CFontRender *pFontRender, CHAR *szChatLogFile);
