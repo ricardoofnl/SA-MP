@@ -68,7 +68,22 @@ void cmdNameTagStatus(PCHAR szCmd)
 
 void cmdTimestamp(PCHAR szCmd)
 {
-	// TODO: cmdTimestamp .text:10068730
+	CChatWindow *pChatWindow = ::pChatWindow;
+	if(pChatWindow)
+	{
+		if(pChatWindow->m_bTimestamp)
+		{
+			pChatWindow->m_bTimestamp = 0;
+			pChatWindow->m_bRedraw = 1;
+			if(pConfig) pConfig->SetIntVariable("timestamp", 0);
+		}
+		else
+		{
+			pChatWindow->m_bTimestamp = 1;
+			pChatWindow->m_bRedraw = 1;
+			if(pConfig) pConfig->SetIntVariable("timestamp", 1);
+		}
+	}
 }
 
 void cmdAudioMsg(PCHAR szCmd)

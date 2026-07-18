@@ -12,12 +12,12 @@ typedef struct _CHAT_WINDOW_ENTRY
 
 class CChatWindow // size: 25578
 {
-private:
+public:
 
 	int field_0;
 	char _gap4[4];
 	int field_8;
-	char field_C;
+	char m_bTimestamp;
 	int field_D;
 	char field_11[261];
 	CDXUTDialog			*m_pGameUI;
@@ -39,7 +39,7 @@ private:
 	D3DDISPLAYMODE field_63C2;
 	DWORD field_63D2;
 	int field_63D6;
-	int field_63DA;
+	int m_bRedraw;
 	int field_63DE;
 	int field_63E2;
 	char _gap63E6[4];
