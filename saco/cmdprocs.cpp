@@ -211,7 +211,12 @@ void cmdSelectVehicle(PCHAR szCmd)
 
 void cmdSetWeather(PCHAR szCmd)
 {
-	// TODO: cmdSetWeather .text:10068ED0
+	if(!strlen(szCmd))
+	{
+		pChatWindow->AddDebugMessage("Usage: set_weather (weather number)");
+		return;
+	}
+	pGame->SetWeather(atoi(szCmd));
 }
 
 void cmdSetTime(PCHAR szCmd)
