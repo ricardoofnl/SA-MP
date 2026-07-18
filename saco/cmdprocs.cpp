@@ -12,6 +12,8 @@ extern bool bShowDebugLabels;
 extern bool bHudScaleFix;
 extern bool bCameraTargetDebug;
 
+void ShutdownGame(); // .text:100C3E80
+
 void cmdDefaultCmdProc(PCHAR szCmd)
 {
 	if(pNetGame) {
@@ -112,7 +114,7 @@ void cmdHeadMove(PCHAR szCmd)
 
 void cmdQuit(PCHAR szCmd)
 {
-	// TODO: cmdQuit .text:100689E0
+	ShutdownGame();
 }
 
 void cmdCmpStat(PCHAR szCmd)
