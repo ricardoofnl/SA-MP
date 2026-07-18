@@ -56,6 +56,8 @@ public:
 	void	InitGame();
 	BOOL	IsGameLoaded();
 
+	void	SetFrameLimiter(int iLimit);   // .text:100A0BB0
+
 	void	RequestModel(int iModelID, int iLoadingStream = 2);
 	void	LoadRequestedModels();
 	BOOL	IsModelLoaded(int iModelID);

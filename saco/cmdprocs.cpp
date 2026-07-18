@@ -139,7 +139,20 @@ void cmdMem(PCHAR szCmd)
 
 void cmdSetFrameLimit(PCHAR szCmd)
 {
-	// TODO: cmdSetFrameLimit .text:100688D0
+	if(strlen(szCmd))
+	{
+		unsigned int uiLimit = atoi(szCmd);
+		if(uiLimit >= 20 && uiLimit <= 90)
+		{
+			pGame->SetFrameLimiter(uiLimit);
+			if(pConfig) pConfig->SetIntVariable("fpslimit", uiLimit);
+			pChatWindow->AddInfoMessage("-> Frame Limiter: %u", uiLimit);
+		}
+		else
+		{
+			pChatWindow->AddInfoMessage("-> Frame Limiter: valid amounts are 20-90", uiLimit);
+		}
+	}
 }
 
 void cmdHeadMove(PCHAR szCmd)
