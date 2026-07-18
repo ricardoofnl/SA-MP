@@ -15,6 +15,7 @@ extern bool bCameraTargetDebug;
 extern BOOL bToggleObjectLight;
 
 void ShutdownGame(); // .text:100C3E80
+int VehicleSelect(int a1, int a2, int a3); // .text:1009E0A0
 
 void cmdDefaultCmdProc(PCHAR szCmd)
 {
@@ -206,7 +207,10 @@ void cmdCreateVehicle(PCHAR szCmd)
 
 void cmdSelectVehicle(PCHAR szCmd)
 {
-	// TODO: cmdSelectVehicle .text:10068EB0
+	if(tSettings.bDebug)
+	{
+		VehicleSelect(0, 0, 10);
+	}
 }
 
 void cmdSetWeather(PCHAR szCmd)
