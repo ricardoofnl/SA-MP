@@ -103,7 +103,16 @@ void cmdAudioMsg(PCHAR szCmd)
 
 void cmdLogUrls(PCHAR szCmd)
 {
-	// TODO: cmdLogUrls .text:10068800
+	if(pConfig->GetIntVariable("logurls") == 1)
+	{
+		pConfig->SetIntVariable("logurls", 0);
+		if(pChatWindow) pChatWindow->AddInfoMessage("URL messages: Off");
+	}
+	else
+	{
+		pConfig->SetIntVariable("logurls", 1);
+		if(pChatWindow) pChatWindow->AddInfoMessage("URL messages: On");
+	}
 }
 
 void cmdHudScaleFix(PCHAR szCmd)
