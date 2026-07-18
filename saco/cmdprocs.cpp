@@ -89,7 +89,16 @@ void cmdTimestamp(PCHAR szCmd)
 
 void cmdAudioMsg(PCHAR szCmd)
 {
-	// TODO: cmdAudioMsg .text:10068790
+	if(pConfig->GetIntVariable("audiomsgoff") == 1)
+	{
+		pConfig->SetIntVariable("audiomsgoff", 0);
+		if(pChatWindow) pChatWindow->AddInfoMessage("Audio messages: On");
+	}
+	else
+	{
+		pConfig->SetIntVariable("audiomsgoff", 1);
+		if(pChatWindow) pChatWindow->AddInfoMessage("Audio messages: Off");
+	}
 }
 
 void cmdLogUrls(PCHAR szCmd)
