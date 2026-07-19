@@ -279,7 +279,18 @@ void cmdDebugLabels(PCHAR szCmd)
 
 void cmdRcon(PCHAR szCmd)
 {
-	// TODO: cmdRcon .text:10069030
+	if(szCmd)
+	{
+		if(pNetGame)
+		{
+			RakNet::BitStream bsSend;
+			bsSend.Write((BYTE)201);
+			int iStrlen = strlen(szCmd);
+			bsSend.Write(iStrlen);
+			bsSend.Write(szCmd, iStrlen);
+			pNetGame->GetRakClient()->Send(&bsSend, HIGH_PRIORITY, RELIABLE, 0);
+		}
+	}
 }
 
 //----------------------------------------------------
