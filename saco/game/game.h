@@ -146,11 +146,13 @@ public:
 	BYTE sub_100A00C0();
 	void sub_100A0110();
 	void sub_100A0210();
-	void sub_100A0250();
+	CVehicle *sub_100A0250(int a1, float a2, float a3, float a4, int a5, int a6);
 	void sub_100A02E0();
 	void sub_100A0310();
 	void sub_100A0330();
 	BOOL sub_100A0930();
+	void sub_100A0940(int a1, int a2);
+	void sub_100A0960();
 
 	void sub_100A1C10();
 

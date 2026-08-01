@@ -238,7 +238,39 @@ void cmdPlayerSkin(PCHAR szCmd)
 
 void cmdCreateVehicle(PCHAR szCmd)
 {
-	// TODO: cmdCreateVehicle .text:10068D70
+	if(tSettings.bDebug)
+	{
+		if(!strlen(szCmd))
+		{
+			pChatWindow->AddDebugMessage("Usage: /v (vehicle id).");
+		}
+		else
+		{
+			int iModel = atoi(szCmd);
+			if(pGame->sub_100A0930())
+			{
+				pGame->sub_100A0940(iModel, 2);
+				pGame->sub_100A0960();
+				CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+				if(pPlayerPed)
+				{
+					MATRIX4X4 mat;
+					pPlayerPed->GetMatrix(&mat);
+					char szName[9] = {0};
+					sprintf(szName, "TYPE_%d", iModel);
+					pGame->sub_100A0250(iModel, mat.pos.X - 5.0f, mat.pos.Y - 5.0f, mat.pos.Z + 1.0f, 0, 0)->Add();
+				}
+				else
+				{
+					pChatWindow->AddDebugMessage("I couldn't find the player actor.");
+				}
+			}
+			else
+			{
+				pChatWindow->AddDebugMessage("game not loaded.");
+			}
+		}
+	}
 }
 
 void cmdSelectVehicle(PCHAR szCmd)
