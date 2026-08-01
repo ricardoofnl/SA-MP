@@ -1,6 +1,8 @@
 
 #include "main.h"
 
+extern CConfig *pConfig;
+
 //----------------------------------------------------
 
 CChatWindow::CChatWindow(IDirect3DDevice9 *pD3DDevice, CFontRender *pFontRender, CHAR *szChatLogFile)
@@ -57,8 +59,66 @@ CChatWindow::CChatWindow(IDirect3DDevice9 *pD3DDevice, CFontRender *pFontRender,
 
 void CChatWindow::CreateFonts()
 {
+	D3DSURFACE_DESC desc;
+	HRESULT hr;
 
-	// TODO: CChatWindow::CreateFonts .text:100681D0
+	field_63B2 = 1;
+
+	if(field_63BE) {
+		field_63BE->Release();
+		field_63BE = NULL;
+	}
+
+	if(field_63BA) {
+		field_63BA->Release();
+		field_63BA = NULL;
+	}
+
+	if(field_63B6) {
+		field_63B6->Release();
+		field_63B6 = NULL;
+	}
+
+	m_pD3DDevice->GetDisplayMode(0,&field_63C2);
+
+	if(pConfig->GetIntVariable("directmode")) {
+		AddDebugMessage("ChatWindow: Using direct drawing mode.");
+		FUNC_10067120();
+		field_63B2 = 0;
+		return;
+	}
+
+	// the render target has to cover the whole screen
+	if(field_63C2.Width <= 1024) {
+		hr = D3DXCreateTexture(m_pD3DDevice,1024,512,1,D3DUSAGE_RENDERTARGET,
+			D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&field_63BA);
+	} else {
+		hr = D3DXCreateTexture(m_pD3DDevice,2048,1024,1,D3DUSAGE_RENDERTARGET,
+			D3DFMT_A8R8G8B8,D3DPOOL_DEFAULT,&field_63BA);
+	}
+
+	if(hr < 0) {
+		AddDebugMessage("ChatWindow: Can't create a render surface texture. Will use direct mode.");
+		field_63B2 = 0;
+		return;
+	}
+
+	field_63BA->GetSurfaceLevel(0,&field_63BE);
+	field_63BE->GetDesc(&desc);
+
+	if(D3DXCreateRenderToSurface(m_pD3DDevice,desc.Width,desc.Height,desc.Format,
+		TRUE,D3DFMT_D16,&field_63B6) < 0)
+	{
+		AddDebugMessage("ChatWindow: Can't create a render to surface. Will use direct mode.");
+		FUNC_10067120();
+		field_63B2 = 0;
+		return;
+	}
+
+	FUNC_10067120();
+
+	field_63D6 = 0;
+	m_bRedraw = 1;
 }
 
 //----------------------------------------------------

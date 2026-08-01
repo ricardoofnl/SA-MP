@@ -72,7 +72,7 @@ void cmdFontSize(PCHAR szCmd)
 		if(pDefaultFont) pDefaultFont->CreateFonts();
 		if(pChatWindow)
 		{
-			pChatWindow->FUNC_100681D0();
+			pChatWindow->CreateFonts();
 			pChatWindow->FUNC_10067200();
 		}
 		if(pDeathWindow) pDeathWindow->CreateFonts();

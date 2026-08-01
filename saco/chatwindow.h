@@ -35,7 +35,7 @@ public:
 	int field_63B2;
 	ID3DXRenderToSurface *field_63B6;
 	IDirect3DTexture9* field_63BA;
-	int field_63BE;
+	IDirect3DSurface9 *field_63BE;
 	D3DDISPLAYMODE field_63C2;
 	DWORD field_63D2;
 	int field_63D6;
@@ -45,9 +45,9 @@ public:
 	char _gap63E6[4];
 
 
-	void CreateFonts();
+	void CreateFonts(); // .text:100681D0
 
-	void FUNC_100681D0();
+	int FUNC_10067120();
 
 	void FUNC_10067200();
 
