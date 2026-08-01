@@ -1,5 +1,6 @@
 
 #include "main.h"
+#include "game/util.h"
 
 extern CChatWindow   *pChatWindow;
 extern CGame		 *pGame;
@@ -18,6 +19,7 @@ extern BOOL bToggleObjectLight;
 void ShutdownGame(); // .text:100C3E80
 int VehicleSelect(int a1, int a2, int a3); // .text:1009E0A0
 void sub_100C5430(); // .text:100C5430
+char *sub_100C3AD0(); // .text:100C3AD0
 
 void cmdDefaultCmdProc(PCHAR szCmd)
 {
@@ -205,7 +207,51 @@ void cmdCmpStat(PCHAR szCmd)
 
 void cmdSavePos(PCHAR szCmd)
 {
-	// TODO: cmdSavePos .text:10068A00
+	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+
+	char szString[264];
+	sprintf(szString, "%s\\savedpositions.txt", sub_100C3AD0());
+
+	FILE *f = fopen(szString, "a");
+	if(!f)
+	{
+		pChatWindow->AddDebugMessage("I can't open the savepositions.txt file for append.");
+		return;
+	}
+
+	if(pPlayerPed->IsInVehicle())
+	{
+		VEHICLE_TYPE *pVehicle = pPlayerPed->GetGtaVehicle();
+		int iIndex = GamePool_Vehicle_GetIndex(pVehicle);
+		float fAngle;
+		ScriptCommand(&get_car_z_angle, iIndex, &fAngle);
+		fprintf(f, "AddStaticVehicle(%u,%.4f,%.4f,%.4f,%.4f,%u,%u); // %s\n",
+			pVehicle->entity.nModelIndex,
+			pVehicle->entity.mat->pos.X,
+			pVehicle->entity.mat->pos.Y,
+			pVehicle->entity.mat->pos.Z,
+			fAngle,
+			pVehicle->byteColor1,
+			pVehicle->byteColor2,
+			szCmd);
+		fclose(f);
+		pChatWindow->AddInfoMessage("-> InCar position saved");
+	}
+	else
+	{
+		PED_TYPE *pPed = pPlayerPed->m_pPed;
+		float fAngle;
+		ScriptCommand(&get_actor_z_angle, pPlayerPed->m_dwGTAId, &fAngle);
+		fprintf(f, "AddPlayerClass(%u,%.4f,%.4f,%.4f,%.4f,0,0,0,0,0,0); // %s\n",
+			pPlayerPed->GetModelIndex(),
+			pPed->entity.mat->pos.X,
+			pPed->entity.mat->pos.Y,
+			pPed->entity.mat->pos.Z,
+			fAngle,
+			szCmd);
+		fclose(f);
+		pChatWindow->AddInfoMessage("-> OnFoot position saved");
+	}
 }
 
 void cmdRawSavePos(PCHAR szCmd)
