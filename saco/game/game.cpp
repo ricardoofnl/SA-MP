@@ -399,9 +399,10 @@ CVehicle *CGame::sub_100A0250(int a2, float a3, float a4, float a5, float a6, in
 	return pVehicle->m_pVehicle ? pVehicle : 0;
 }
 
-void CGame::sub_100A02E0()
+void __stdcall sub_100A02E0(const char *a1)
 {
-	// TODO: CGame::sub_100A02E0() .text:100A02E0 (unused)
+	if(a1 && *a1 && strlen(a1) <= 8)
+		sub_100A4170(a1);
 }
 
 void CGame::sub_100A0310()
