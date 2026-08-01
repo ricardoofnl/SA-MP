@@ -49,7 +49,7 @@ CGame::CGame()
 	memset(bUsedPlayerSlots, 0, sizeof(bUsedPlayerSlots));
 	memset(field_6E, 0, sizeof(field_6E));
 	field_55 = 0;
-	field_59 = 1;
+	m_bHeadMove = 1;
 	field_5D = 90;
 }
 
@@ -390,9 +390,13 @@ void CGame::sub_100A0210()
 	// TODO: CGame::sub_100A0210() .text:100A0210
 }
 
-void CGame::sub_100A0250()
+CVehicle *CGame::sub_100A0250(int a2, float a3, float a4, float a5, float a6, int a7)
 {
-	// TODO: CGame::sub_100A0250() .text:100A0250
+	BOOL bKeepModelLoaded = 0;
+	if(*((char *)this + a2 - 290))
+		bKeepModelLoaded = 1;
+	CVehicle *pVehicle = new CVehicle(a2, a3, a4, a5, a6, bKeepModelLoaded, a7);
+	return pVehicle->m_pVehicle ? pVehicle : 0;
 }
 
 void CGame::sub_100A02E0()
