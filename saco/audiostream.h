@@ -12,7 +12,7 @@ public:
 		field_0 = 0;
 	}
 
-	void Reset();
+	int Reset();
 	void Stop();
 	void ConstructInfo();
 	void SyncProc();
