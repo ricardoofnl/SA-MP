@@ -53,7 +53,9 @@ public:
 
 public:
 
-	void AddDebugMessage(CHAR *szFormat, ...);
+	int sub_10067BE0(int a1, char *a2, int a3, int a4, int a5); // .text:10067BE0
+
+	int AddDebugMessage(CHAR *szFormat, ...);
 
 	void AddInfoMessage(CHAR *szFormat, ...); // .text:10068070
 

@@ -26,7 +26,7 @@ CChatWindow::CChatWindow(IDirect3DDevice9 *pD3DDevice, CFontRender *pFontRender,
 	m_dwChatDebugColor = D3DCOLOR_ARGB(255,169,196,228);
 
 	field_0 = 10;
-	field_C = 0;
+	m_bTimestamp = 0;
 
 	if(szChatLogFile && strlen(szChatLogFile))
 	{
@@ -80,9 +80,26 @@ void CChatWindow::ResetDialogControls(CDXUTDialog *pGameUI)
 //----------------------------------------------------
 //----------------------------------------------------
 
-void CChatWindow::AddDebugMessage(CHAR * szFormat, ...)
+int CChatWindow::AddDebugMessage(CHAR * szFormat, ...)
 {
-	// TODO: CChatWindow::AddDebugMessage .text:100680F0
+	char szBuffer[512];
+	va_list va;
+	va_start(va, szFormat);
+	memset(szBuffer, 0, sizeof(szBuffer));
+	vsprintf(szBuffer, szFormat, va);
+
+	char *p = szBuffer;
+	if(szBuffer[0])
+	{
+		do
+		{
+			if(*p > 0 && *p < 32)
+				*p = 32;
+		}
+		while(*++p);
+	}
+
+	return sub_10067BE0(8, szBuffer, 0, m_dwChatDebugColor, 0);
 }
 // MATCH
 void CChatWindow::FUNC_10067200()
