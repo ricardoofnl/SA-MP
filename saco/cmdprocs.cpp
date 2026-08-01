@@ -256,7 +256,51 @@ void cmdSavePos(PCHAR szCmd)
 
 void cmdRawSavePos(PCHAR szCmd)
 {
-	// TODO: cmdRawSavePos .text:10068B80
+	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+	float fAngle;
+	FILE *f;
+	PED_TYPE *pPed;
+	char szString[264];
+
+	if(pPlayerPed->IsInVehicle())
+	{
+		f = fopen("rawvehicles.txt", "a");
+		if(!f) goto cant_open;
+		VEHICLE_TYPE *pVehicle = pPlayerPed->GetGtaVehicle();
+		int iIndex = GamePool_Vehicle_GetIndex(pVehicle);
+		ScriptCommand(&get_car_z_angle, iIndex, &fAngle);
+		fprintf(f, "%u,%.4f,%.4f,%.4f,%.4f,%u,%u ; %s\n",
+			pVehicle->entity.nModelIndex,
+			pVehicle->entity.mat->pos.X,
+			pVehicle->entity.mat->pos.Y,
+			pVehicle->entity.mat->pos.Z,
+			fAngle,
+			pVehicle->byteColor1,
+			pVehicle->byteColor2,
+			szCmd);
+		fclose(f);
+		pChatWindow->AddDebugMessage("-> InCar pos saved");
+		return;
+	}
+
+	pPed = pPlayerPed->m_pPed;
+	ScriptCommand(&get_actor_z_angle, pPlayerPed->m_dwGTAId, &fAngle);
+	sprintf(szString, "%s\\rawpositions.txt", sub_100C3AD0());
+	f = fopen(szString, "a");
+	if(!f)
+	{
+cant_open:
+		pChatWindow->AddDebugMessage("I can't open the rawvehicles.txt file for append.");
+		return;
+	}
+	fprintf(f, "%.4f,%.4f,%.4f,%.4f ; %s\n",
+		pPed->entity.mat->pos.X,
+		pPed->entity.mat->pos.Y,
+		pPed->entity.mat->pos.Z,
+		fAngle,
+		szCmd);
+	fclose(f);
+	pChatWindow->AddDebugMessage("-> OnFoot pos saved");
 }
 
 void cmdPlayerSkin(PCHAR szCmd)
