@@ -8,6 +8,7 @@ extern CDeathWindow	 *pDeathWindow;
 extern CNetGame		 *pNetGame;
 extern GAME_SETTINGS tSettings;
 extern CConfig		 *pConfig;
+extern CFontRender	 *pDefaultFont;
 
 extern bool bShowDebugLabels;
 extern bool bHudScaleFix;
@@ -16,6 +17,7 @@ extern BOOL bToggleObjectLight;
 
 void ShutdownGame(); // .text:100C3E80
 int VehicleSelect(int a1, int a2, int a3); // .text:1009E0A0
+void sub_100C5430(); // .text:100C5430
 
 void cmdDefaultCmdProc(PCHAR szCmd)
 {
@@ -61,7 +63,23 @@ void cmdPageSize(PCHAR szCmd)
 
 void cmdFontSize(PCHAR szCmd)
 {
-	// TODO: cmdFontSize .text:10068670
+	int iSize;
+	if(strlen(szCmd) && (iSize = atoi(szCmd)) >= -3 && iSize <= 5)
+	{
+		if(pConfig) pConfig->SetIntVariable("fontsize", iSize);
+		if(pDefaultFont) pDefaultFont->CreateFonts();
+		if(pChatWindow)
+		{
+			pChatWindow->FUNC_100681D0();
+			pChatWindow->FUNC_10067200();
+		}
+		if(pDeathWindow) pDeathWindow->CreateFonts();
+		sub_100C5430();
+	}
+	else
+	{
+		if(pChatWindow) pChatWindow->AddDebugMessage("Valid fontsize: -3 to 5");
+	}
 }
 
 void cmdNameTagStatus(PCHAR szCmd)

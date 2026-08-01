@@ -47,6 +47,8 @@ public:
 
 	void CreateFonts();
 
+	void FUNC_100681D0();
+
 	void FUNC_10067200();
 
 public:
