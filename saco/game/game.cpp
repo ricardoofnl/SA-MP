@@ -385,9 +385,16 @@ void CGame::sub_100A0110()
 	// TODO: CGame::sub_100A0110() .text:100A0110
 }
 
-void CGame::sub_100A0210()
+int __stdcall sub_100A0210(int a1)
 {
-	// TODO: CGame::sub_100A0210() .text:100A0210
+	if(a1)
+	{
+		BYTE bytePlayerNumber = *(BYTE *)(a1 + 0x2B0);
+		((struc_vdelete *)a1)->Delete(1);
+		bUsedPlayerSlots[bytePlayerNumber] = 0;
+		return 1;
+	}
+	return 0;
 }
 
 CVehicle *CGame::sub_100A0250(int a2, float a3, float a4, float a5, float a6, int a7)

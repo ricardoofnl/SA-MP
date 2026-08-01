@@ -145,7 +145,6 @@ public:
 	void sub_100A0090(int a1, int a2);
 	BYTE sub_100A00C0();
 	void sub_100A0110();
-	void sub_100A0210();
 	CVehicle *sub_100A0250(int a2, float a3, float a4, float a5, float a6, int a7);
 	void sub_100A0330();
 	BOOL sub_100A0930();
@@ -174,4 +173,5 @@ struct struc_vdelete { virtual int Delete(int a1); };
 
 void sub_100A4170(const char *a1); // .text:100A4170
 void __stdcall sub_100A02E0(const char *a1); // .text:100A02E0
+int __stdcall sub_100A0210(int a1); // .text:100A0210
 int __stdcall sub_100A0310(void *a1); // .text:100A0310
