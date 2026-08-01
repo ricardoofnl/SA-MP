@@ -405,9 +405,14 @@ void __stdcall sub_100A02E0(const char *a1)
 		sub_100A4170(a1);
 }
 
-void CGame::sub_100A0310()
+int __stdcall sub_100A0310(void *a1)
 {
-	// TODO: CGame::sub_100A0310() .text:100A0310 (unused)
+	if(a1)
+	{
+		((struc_vdelete *)a1)->Delete(1);
+		return 1;
+	}
+	return 0;
 }
 
 void CGame::sub_100A0330()
