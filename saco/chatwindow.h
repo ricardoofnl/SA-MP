@@ -26,7 +26,7 @@ public:
 	DWORD				m_dwChatTextColor;
 	DWORD				m_dwChatInfoColor;
 	DWORD				m_dwChatDebugColor;
-	char _gap12E[4];
+	int field_12E;
 	CHAT_WINDOW_ENTRY	m_ChatWindowEntries[MAX_MESSAGES];
 	CFontRender			*m_pFontRender;
 	ID3DXSprite			*field_63A6;
