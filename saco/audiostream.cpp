@@ -51,7 +51,48 @@ void CAudioStream::Stop()
 
 void CAudioStream::ConstructInfo()
 {
-	// TODO: CAudioStream::sub_100665C0 100665C0
+	const char *pTags;
+
+	memset(g_szMeta, 0, 257);
+
+	pTags = (const char *)BASS_ChannelGetTags(g_hStream, BASS_TAG_META);
+	if(pTags)
+	{
+		char *p = strstr((char *)pTags, "StreamTitle='");
+		if(p)
+		{
+			char *pDup = _strdup(p + 13);
+			*(strchr(pDup, ';') - 1) = 0;
+			_snprintf(g_szMeta, 256, "%s", pDup);
+			free(pDup);
+		}
+	}
+	else
+	{
+		pTags = (const char *)BASS_ChannelGetTags(g_hStream, BASS_TAG_OGG);
+		if(pTags)
+		{
+			char *pArtist = 0;
+			char *pTitle = 0;
+			char *p = (char *)pTags;
+
+			if(*p)
+			{
+				do
+				{
+					if(!_strnicmp(p, "artist=", 7)) pArtist = p + 7;
+					if(!_strnicmp(p, "title=", 6)) pTitle = p + 6;
+					p += strlen(p) + 1;
+				}
+				while(*p);
+
+				if(pArtist)
+					_snprintf(g_szMeta, 256, "%s - %s", pArtist, pTitle);
+				else if(pTitle)
+					_snprintf(g_szMeta, 256, "%s", pTitle);
+			}
+		}
+	}
 }
 
 void CAudioStream::SyncProc()
