@@ -83,7 +83,12 @@ void CLocalPlayer::ResetAllSyncAttributes()
 
 void CLocalPlayer::Say(PCHAR szText)
 {
-	// TODO: CLocalPlayer::Say .text:10005A10
+	BYTE byteTextLength = strlen(szText);
+	RakNet::BitStream bsSend;
+
+	bsSend.Write(byteTextLength);
+	bsSend.Write(szText, byteTextLength);
+	pNetGame->GetRakClient()->RPC(RPC_Chat, &bsSend, HIGH_PRIORITY, RELIABLE, 0, FALSE);
 }
 
 //----------------------------------------------------------
