@@ -10,7 +10,7 @@
 
 class CPlayerPool
 {
-private:
+public:
 
 	int field_0;
 	PLAYERID		m_LocalPlayerID;

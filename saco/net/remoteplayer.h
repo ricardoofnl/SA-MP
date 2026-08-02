@@ -6,7 +6,7 @@
 #pragma pack(1)
 class CRemotePlayer
 {
-private:
+public:
 	//char _gap0[509];
 	int field_0;
 	int field_4;
@@ -23,7 +23,7 @@ private:
 	char field_AD[24];
 	char field_C5[68];
 	char field_109;
-	char field_10A;
+	BYTE field_10A;
 	char field_10B;
 	int field_10C;
 	int field_110;
@@ -44,7 +44,7 @@ private:
 	CPlayerPed			*m_pPlayerPed;
 	int field_1E1;
 	PLAYERID			m_PlayerID;
-	short field_1E7;
+	WORD field_1E7;
 	int field_1E9;
 	int field_1ED;
 	int field_1F1;
