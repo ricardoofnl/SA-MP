@@ -15,6 +15,10 @@
 extern IDirect3DDevice9 *pD3DDevice;
 D3DXMATRIX matView, matProj, matWorld;
 
+void sub_1009D8B0(); // .text:1009D8B0
+void sub_100C3F50(); // .text:100C3F50
+void sub_100C41B0(); // .text:100C41B0
+
 //-------------------------------------------
 
 HRESULT __stdcall IDirect3DDevice9Hook::Present(CONST RECT* pSourceRect, CONST RECT* pDestRect, HWND hDestWindowOverride, CONST RGNDATA* pDirtyRegion)
@@ -106,9 +110,11 @@ UINT __stdcall IDirect3DDevice9Hook::GetNumberOfSwapChains()
 
 HRESULT __stdcall IDirect3DDevice9Hook::Reset(D3DPRESENT_PARAMETERS* pPresentationParameters)
 {
-	// TODO: IDirect3DDevice9Hook::Reset
-
-	return pD3DDevice->Reset(pPresentationParameters);
+	sub_100C3F50();
+	HRESULT hr = pD3DDevice->Reset(pPresentationParameters);
+	if(hr >= 0)
+		sub_100C41B0();
+	return hr;
 }
 
 HRESULT __stdcall IDirect3DDevice9Hook::GetBackBuffer(UINT iSwapChain, UINT iBackBuffer, D3DBACKBUFFER_TYPE Type, IDirect3DSurface9** ppBackBuffer)
