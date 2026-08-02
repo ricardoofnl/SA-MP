@@ -2,8 +2,9 @@
 #include "main.h"
 #include "bass.h"
 
-extern CGame	*pGame;
-extern CConfig	*pConfig;
+extern CGame		*pGame;
+extern CConfig		*pConfig;
+extern CFontRender	*pDefaultFont;
 
 // stream state (file scope)
 HSTREAM	g_hStream = 0;
@@ -79,5 +80,26 @@ void CAudioStream::ControlGameRadio()
 
 void CAudioStream::DrawInfo()
 {
-	// TODO: CAudioStream::sub_10066AB0 10066AB0
+	char szString[264];
+
+	if(field_0 && g_bPlaying)
+	{
+		memset(szString, 0, 257);
+
+		if(strlen(g_szMeta) && strlen(g_szName))
+		{
+			RECT rc;
+			int iTop;
+
+			_snprintf(szString, 256, "%s - %s", g_szMeta, g_szName);
+
+			iTop = pGame->GetScreenHeight() - 20;
+			rc.left = 15;
+			rc.top = iTop;
+			rc.bottom = iTop + 30;
+			rc.right = pGame->GetScreenWidth();
+
+			pDefaultFont->RenderText(NULL, szString, rc, DT_NOCLIP, 0x99FFFFFF, FALSE);
+		}
+	}
 }
