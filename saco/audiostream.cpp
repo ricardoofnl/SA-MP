@@ -7,7 +7,7 @@ extern CConfig	*pConfig;
 
 // stream state (file scope)
 HSTREAM	g_hStream = 0;
-BYTE	g_bPlaying = 0;
+volatile BYTE	g_bPlaying = 0;
 BYTE	g_bStopRequested = 0;
 float	g_fPosX = 0.0f;
 float	g_fPosY = 0.0f;
@@ -70,7 +70,11 @@ void CAudioStream::Play()
 
 void CAudioStream::ControlGameRadio()
 {
-	// TODO: CAudioStream::sub_10066A80 10066A80
+	if(field_0 && g_bPlaying)
+	{
+		pGame->m_pGameAudio->StartRadio(-1);
+		pGame->m_pGameAudio->StopRadio();
+	}
 }
 
 void CAudioStream::DrawInfo()
