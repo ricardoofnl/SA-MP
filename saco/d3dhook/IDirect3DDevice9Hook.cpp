@@ -239,9 +239,10 @@ HRESULT __stdcall IDirect3DDevice9Hook::BeginScene()
 
 HRESULT __stdcall IDirect3DDevice9Hook::EndScene()
 {
-	// TODO: IDirect3DDevice9Hook::EndScene
-
-	return pD3DDevice->EndScene();
+	sub_1009D8B0();
+	HRESULT hr = pD3DDevice->EndScene();
+	sub_1009D8B0();
+	return hr;
 }
 
 HRESULT __stdcall IDirect3DDevice9Hook::Clear(DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil)
