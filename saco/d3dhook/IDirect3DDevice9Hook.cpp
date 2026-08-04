@@ -13,11 +13,20 @@
 #include "../main.h"
 
 extern IDirect3DDevice9 *pD3DDevice;
+extern CNetGame *pNetGame;
 D3DXMATRIX matView, matProj, matWorld;
+
+int dword_101A25F8;
+int dword_101A25FC;
+int dword_10140D60;
+int dword_1026EBA0;
+int dword_101516D8;
 
 void sub_1009D8B0(); // .text:1009D8B0
 void sub_100C3F50(); // .text:100C3F50
 void sub_100C41B0(); // .text:100C41B0
+int sub_100A4470(); // .text:100A4470
+int sub_100C3E20(int a1, int a2); // .text:100C3E20
 
 //-------------------------------------------
 
@@ -370,7 +379,36 @@ HRESULT __stdcall IDirect3DDevice9Hook::GetTexture(DWORD Stage, IDirect3DBaseTex
 
 HRESULT __stdcall IDirect3DDevice9Hook::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture)
 {
-	// TODO: IDirect3DDevice9Hook::SetTexture
+	if(dword_101A25F8 && dword_101A25FC)
+	{
+		for(dword_10140D60 = 0; dword_10140D60 != 16; dword_10140D60++)
+		{
+			if(*(DWORD *)(dword_101A25FC + 4 * dword_10140D60 + 0x110B) == (DWORD)pTexture &&
+				*(DWORD *)(dword_101A25FC + 4 * dword_10140D60 + 0x114B))
+			{
+				return pD3DDevice->SetTexture(Stage,
+					(IDirect3DBaseTexture9 *)*(DWORD *)(dword_101A25FC + 4 * dword_10140D60 + 0x114B));
+			}
+		}
+	}
+
+	int v4 = sub_100A4470();
+	if(v4 && v4 == (int)pTexture && pNetGame && pNetGame->GetVehiclePool())
+	{
+		CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+		short v5 = pVehiclePool->FUNC_1001EB90(dword_101516D8);
+		int v7 = pVehiclePool->FUNC_10001120(v5);
+		if(v7 && *(DWORD *)(v7 + 0x8F))
+		{
+			sub_100C3E20(9, 2);
+			return pD3DDevice->SetTexture(Stage, (IDirect3DBaseTexture9 *)*(DWORD *)(v7 + 0x8F));
+		}
+		if(*(DWORD *)(dword_1026EBA0 + 0x20))
+		{
+			sub_100C3E20(9, 2);
+			return pD3DDevice->SetTexture(Stage, (IDirect3DBaseTexture9 *)*(DWORD *)(dword_1026EBA0 + 0x20));
+		}
+	}
 
 	return pD3DDevice->SetTexture(Stage, pTexture);
 }

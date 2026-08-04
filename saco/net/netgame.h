@@ -75,6 +75,7 @@ public:
 	int GetGameState() { return m_iGameState; };
 	BOOL GetWalkStyle() { return field_3D5->bUseCJWalk; };
 
+	CVehiclePool * GetVehiclePool() { return m_pPools->pVehiclePool; };
 	CPlayerPool * GetPlayerPool() { return m_pPools->pPlayerPool; };
 	CGangZonePool * GetGangZonePool() { return m_pPools->pGangZonePool; };
 	RakClientInterface * GetRakClient() { return m_pRakClient; };

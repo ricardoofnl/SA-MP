@@ -23,6 +23,10 @@ public:
 
 	int field_17894;
 
+	short FUNC_1001EB90(int a1); // .text:1001EB90
+
+	int FUNC_10001120(unsigned short a1); // .text:10001120
+
 	CVehiclePool();
 };
 
