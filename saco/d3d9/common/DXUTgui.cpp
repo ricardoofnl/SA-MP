@@ -7360,7 +7360,7 @@ void CDXUTIMEEditBox::Render( IDirect3DDevice9* pd3dDevice, float fElapsedTime )
     //
     // Now render the IME elements
     //
-    if( m_bHasFocus )
+    if( s_bEnableImeSystem )
     {
         // Render the input locale indicator
         RenderIndicator( pd3dDevice, fElapsedTime );
