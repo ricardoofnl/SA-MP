@@ -467,7 +467,7 @@ HRESULT CDXUTDialog::OnRender( float fElapsedTime )
         /*
 		if( m_bMinimized )
             StringCchCat( wszOutput, 256, " (Minimized)" );*/
-        DrawText( wszOutput, &m_CapElement, &rc, true );
+        DrawText( wszOutput, &m_CapElement, &rc, false );
     }
 
     // If the dialog is minimized, skip rendering
