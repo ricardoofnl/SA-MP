@@ -5965,7 +5965,7 @@ void CDXUTIMEEditBox::CheckInputLocale()
         WCHAR wszLang[5];
         GetLocaleInfoW( MAKELCID( LOWORD( s_hklCurrent ), SORT_DEFAULT ), LOCALE_SABBREVLANGNAME, wszLang, 5 );
         s_wszCurrIndicator[0] = wszLang[0];
-        s_wszCurrIndicator[1] = tolower( wszLang[1] );
+        s_wszCurrIndicator[1] = towlower( wszLang[1] );
     }
 }
 
