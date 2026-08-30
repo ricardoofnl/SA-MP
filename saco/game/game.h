@@ -147,11 +147,13 @@ public:
 	void sub_100A0110();
 	CVehicle *sub_100A0250(int a2, float a3, float a4, float a5, float a6, int a7);
 	void sub_100A0330();
+	BOOL sub_100A0920();
 	BOOL sub_100A0930();
 	void sub_100A0940(int a1, int a2);
 	void sub_100A0960();
 
 	void sub_100A1C10();
+	void sub_100A1DB0(int a1);
 
 	void LoadScene(char* szScene);
 	int GetMemoryUsedForStreaming();

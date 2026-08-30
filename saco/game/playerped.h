@@ -105,6 +105,8 @@ public:
 
 	CPlayerPed();
 
+	int			sub_100ADFA0(); // .text:100ADFA0
+
 	void		ProcessVehicleHorn();
 
 	void		StartDancing(int iStyle);

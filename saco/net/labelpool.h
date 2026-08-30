@@ -18,4 +18,6 @@ public:
 
 	BOOL Delete(WORD wLabelID);
 
+	void FUNC_10001350(); // .text:10001350
+
 };

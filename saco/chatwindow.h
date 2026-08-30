@@ -51,6 +51,8 @@ public:
 
 	void FUNC_10067200();
 
+	void FUNC_10067E00(); // .text:10067E00
+
 	void FUNC_10067ED0(); // .text:10067ED0
 
 public:

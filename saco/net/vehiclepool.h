@@ -23,6 +23,9 @@ public:
 
 	int field_17894;
 
+	int GetSlotState(unsigned short VehicleID) { if(VehicleID >= MAX_VEHICLES) return 0; return field_3074[VehicleID]; }
+	int GetAt(unsigned short VehicleID) { if(!field_3074[VehicleID]) return 0; return field_1134[VehicleID]; }
+
 	short FUNC_1001EB90(int a1); // .text:1001EB90
 
 	int FUNC_10001120(unsigned short a1); // .text:10001120

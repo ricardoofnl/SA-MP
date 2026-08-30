@@ -22,19 +22,237 @@ int dword_10140D60;
 int dword_1026EBA0;
 int dword_101516D8;
 
+extern CGame *pGame;
+extern CChatWindow *pChatWindow;
+extern GAME_SETTINGS tSettings;
+
+int  dword_1012DE64;
+int  dword_1026EB4C;
+int  dword_1026EB50;
+int  dword_1026EB54;
+int  dword_1026EB58;
+int  dword_1026EB5C;
+int  dword_1026EB60;
+int  dword_1026EB64;
+int  dword_1026EB68;
+int  dword_1026EB6C;
+int  dword_1026EB70;
+int  dword_1026EB74;
+int  dword_1026EB78;
+int  dword_1026EB84;
+int  dword_1026EB88;
+int  dword_1026EB8C;
+int  dword_1026EC24;
+int  dword_1026EC2C;
+char byte_1026EBB8;
+
 void sub_1009D8B0(); // .text:1009D8B0
 void sub_100C3F50(); // .text:100C3F50
 void sub_100C41B0(); // .text:100C41B0
 int sub_100A4470(); // .text:100A4470
 int sub_100C3E20(int a1, int a2); // .text:100C3E20
+void sub_100755C0(); // .text:100755C0
+void sub_10074480(); // .text:10074480
+void sub_10074210(); // .text:10074210
+void sub_10075330(); // .text:10075330
+void sub_1009E490(); // .text:1009E490
+// samp keeps this gta helper in a data slot, so the call goes through a pointer
+float (*dword_10102BF4)(float a1, float a2) = (float (*)(float, float))0x568FE0;
+
+// dispatch helpers invoked on render-manager globals (thiscall)
+class CD3DHookDispatch
+{
+public:
+	void FUNC_10066AB0(); // .text:10066AB0
+	void FUNC_1006BC70(); // .text:1006BC70
+	void FUNC_1006BC80(); // .text:1006BC80
+	void FUNC_1006BC90(void *a1, char *a2, int a3, int a4, int a5); // .text:1006BC90
+	void FUNC_1006F0B0(); // .text:1006F0B0
+	void FUNC_10060D70(); // .text:10060D70
+	void FUNC_10071260(); // .text:10071260
+	void FUNC_1006BB30(); // .text:1006BB30
+	void FUNC_10066ED0(); // .text:10066ED0
+	void FUNC_100696F0(); // .text:100696F0
+	void FUNC_1006A2E0(); // .text:1006A2E0
+	void FUNC_1006F890(); // .text:1006F890
+	void FUNC_10071AC0(); // .text:10071AC0
+	void FUNC_1006A910(); // .text:1006A910
+	void FUNC_100908E0(float a1); // .text:100908E0
+	void FUNC_10073780(); // .text:10073780
+	void FUNC_1006DC00(); // .text:1006DC00
+	void FUNC_10071410(); // .text:10071410
+};
 
 //-------------------------------------------
 
 HRESULT __stdcall IDirect3DDevice9Hook::Present(CONST RECT* pSourceRect, CONST RECT* pDestRect, HWND hDestWindowOverride, CONST RGNDATA* pDirtyRegion)
 {
-	// TODO: IDirect3DDevice9Hook::Present
+	if(dword_1012DE64)
+		sub_100755C0();
 
-	return pD3DDevice->Present(pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
+	sub_10074480();
+
+	if(!pGame->sub_100A0920())
+	{
+		if(pNetGame)
+		{
+			CVehiclePool *v3 = pNetGame->GetVehiclePool();
+			sub_10074210();
+			sub_10075330();
+			if(dword_1026EB8C)
+				((CD3DHookDispatch *)dword_1026EB8C)->FUNC_10066AB0();
+			if(byte_1026EBB8)
+			{
+				if(dword_1026EB5C)
+					((CD3DHookDispatch *)dword_1026EB5C)->FUNC_1006BC70();
+				float *v4 = (float *)((char *)v3 + 0x11AD8);
+				for(unsigned short i = 0; i < MAX_VEHICLES; i++, v4 += 3)
+				{
+					if(v3->GetSlotState(i) == 1)
+					{
+						CEntity *v7 = (CEntity *)v3->GetAt(i);
+						if(v7)
+						{
+							if(v7->FUNC_1009F0C0() <= 20.0f)
+							{
+								MATRIX4X4 a2;
+								v7->GetMatrix(&a2);
+								int v35[3];
+								v35[0] = *(int *)&a2.pos.X;
+								v35[1] = *(int *)&a2.pos.Y;
+								v35[2] = *(int *)&a2.pos.Z;
+								char string[264];
+								sprintf(string,
+									"[id: %d, type: %d subtype: %d Health: %.1f preloaded: %u]\n"
+									"Distance: %.2fm\n"
+									"PassengerSeats: %u\n"
+									"cPos: %.3f,%.3f,%.3f\n"
+									"sPos: %.3f,%.3f,%.3f",
+									i,
+									v7->GetModelIndex(),
+									v7->FUNC_100B7390(),
+									v7->FUNC_100B72A0(),
+									*((BYTE *)pGame + v7->GetModelIndex() - 0x122),
+									v7->FUNC_1009F0C0(),
+									v7->FUNC_100B8340(),
+									a2.pos.X, a2.pos.Y, a2.pos.Z, v4[-1], v4[0], v4[1]);
+								((CD3DHookDispatch *)dword_1026EB5C)->FUNC_1006BC90(v35, string, 0xFF358BD4, 1, 0);
+							}
+						}
+					}
+				}
+				if(dword_1026EB5C)
+					((CD3DHookDispatch *)dword_1026EB5C)->FUNC_1006BC80();
+			}
+			if(pNetGame)
+			{
+				if(*(int *)dword_1026EB4C)
+				{
+					pGame->sub_100A1DB0(0);
+					((CD3DHookDispatch *)dword_1026EB4C)->FUNC_1006F0B0();
+					goto LABEL_77;
+				}
+				if(GetAsyncKeyState(0x74) && pNetGame->GetGameState() == 5)
+				{
+					pGame->sub_100A1DB0(0);
+					if(dword_1026EB6C)
+						((CD3DHookDispatch *)dword_1026EB6C)->FUNC_10060D70();
+					goto LABEL_77;
+				}
+				if(pNetGame)
+				{
+					if(GetAsyncKeyState(0x79))
+					{
+						pGame->sub_100A1DB0(0);
+						if(dword_1026EB70)
+							((CD3DHookDispatch *)dword_1026EB70)->FUNC_10071260();
+						goto LABEL_77;
+					}
+					if(pNetGame && GetAsyncKeyState(0x70) && dword_1026EB74)
+						((CD3DHookDispatch *)dword_1026EB74)->FUNC_1006BB30();
+				}
+			}
+		}
+
+		if(pChatWindow->field_8)
+			pGame->sub_100A1DB0(1);
+		else
+			pGame->sub_100A1DB0(0);
+		if(pGame)
+		{
+			if(pGame->FindPlayerPed())
+			{
+				CPlayerPed *PlayerPed = pGame->FindPlayerPed();
+				if(PlayerPed->sub_100ADFA0() > 5000)
+					pGame->sub_100A1DB0(0);
+			}
+		}
+		if(dword_1026EB78)
+			((CD3DHookDispatch *)dword_1026EB78)->FUNC_10066ED0();
+		if(pNetGame && pNetGame->GetLabelPool())
+			pNetGame->GetLabelPool()->FUNC_10001350();
+		if(pChatWindow)
+			pChatWindow->FUNC_10067E00();
+		if(dword_1026EB84)
+			((CD3DHookDispatch *)dword_1026EB84)->FUNC_100696F0();
+		if(dword_1026EB88)
+			((CD3DHookDispatch *)dword_1026EB88)->FUNC_1006A2E0();
+		if(pNetGame)
+		{
+			if(dword_1026EB50)
+				((CD3DHookDispatch *)dword_1026EB50)->FUNC_1006F890();
+			if(pNetGame)
+			{
+				if(dword_1026EB54)
+					((CD3DHookDispatch *)dword_1026EB54)->FUNC_10071AC0();
+				if(pNetGame && dword_1026EB58)
+					((CD3DHookDispatch *)dword_1026EB58)->FUNC_1006A910();
+			}
+		}
+		if(dword_1026EC24)
+			((CD3DHookDispatch *)dword_1026EC24)->FUNC_100908E0(10.0f);
+		if(dword_1026EC2C)
+			((CD3DHookDispatch *)dword_1026EC2C)->FUNC_100908E0(10.0f);
+		if(dword_1026EB60)
+			((CD3DHookDispatch *)dword_1026EB60)->FUNC_10073780();
+		if(dword_1026EB64)
+			((CD3DHookDispatch *)dword_1026EB64)->FUNC_1006DC00();
+		if(dword_1026EB68)
+			((CD3DHookDispatch *)dword_1026EB68)->FUNC_10071410();
+	}
+	else
+	{
+		if(pGame->sub_100A0920() && pNetGame && *(int *)0xBA6774 && (GetAsyncKeyState(2) & 1) && !*(char *)0xBA8298)
+		{
+			float v32, v30;
+			char *p = (char *)0xBA873D;
+			int n = 175;
+			do
+			{
+				if(*(WORD *)p == 0x1203 && *(WORD *)p)
+				{
+					v32 = *(float *)(p - 29);
+					v30 = *(float *)(p - 25);
+				}
+				p += 40;
+			}
+			while(--n);
+
+			RakNet::BitStream bs;
+			bs.Write(v32);
+			bs.Write(v30);
+			bs.Write(dword_10102BF4(v32, v30) + 2.0f);
+			pNetGame->GetRakClient()->RPC("w", &bs, HIGH_PRIORITY, RELIABLE, 0, 0);
+		}
+	}
+
+LABEL_77:
+	if(tSettings.bDebug)
+		sub_1009E490();
+	sub_1009D8B0();
+	HRESULT hr = pD3DDevice->Present(pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
+	sub_1009D8B0();
+	return hr;
 }
 
 HRESULT __stdcall IDirect3DDevice9Hook::QueryInterface(REFIID riid, void** ppvObj)
