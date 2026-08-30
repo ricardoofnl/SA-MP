@@ -2498,8 +2498,6 @@ bool CDXUTButton::HandleKeyboard( UINT uMsg, WPARAM wParam, LPARAM lParam )
 //--------------------------------------------------------------------------------------
 bool CDXUTButton::HandleMouse( UINT uMsg, POINT pt, WPARAM wParam, LPARAM lParam )
 {
-	OutputDebugString("CDXUTButton::HandleMouse");
-
     if( !m_bEnabled || !m_bVisible )
         return false;
 
@@ -2513,6 +2511,7 @@ bool CDXUTButton::HandleMouse( UINT uMsg, POINT pt, WPARAM wParam, LPARAM lParam
                 // Pressed while inside the control
                 m_bPressed = true;
                 SetCapture( DXUTGetHWND() );
+                m_pDialog->SendEvent( EVENT_BUTTON_PRESSED, true, this );
 
                 if( !m_bHasFocus )
                     m_pDialog->RequestFocus( this );

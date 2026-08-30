@@ -17,6 +17,7 @@
 // Defines and macros 
 //--------------------------------------------------------------------------------------
 #define EVENT_BUTTON_CLICKED                0x0101
+#define EVENT_BUTTON_PRESSED                0x0102
 #define EVENT_COMBOBOX_SELECTION_CHANGED    0x0201
 #define EVENT_RADIOBUTTON_CHANGED           0x0301
 #define EVENT_CHECKBOX_CHANGED              0x0401
