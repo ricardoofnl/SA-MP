@@ -6280,7 +6280,7 @@ bool CDXUTIMEEditBox::StaticMsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                                     default:    // unsupported sub-language
                                         GetLocaleInfoW( MAKELCID( LOWORD( phKL[i] ), SORT_DEFAULT ), LOCALE_SABBREVLANGNAME, wszDesc, 128 );
                                         Locale.m_wszLangAbb[0] = wszDesc[0];
-                                        Locale.m_wszLangAbb[1] = tolower( wszDesc[1] );
+                                        Locale.m_wszLangAbb[1] = towlower( wszDesc[1] );
                                         Locale.m_wszLangAbb[2] = '\0';
                                         break;
                                 }
