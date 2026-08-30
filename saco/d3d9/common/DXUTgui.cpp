@@ -7529,11 +7529,14 @@ HRESULT CUniBuffer::Analyse()
     if( !m_pFontNode )
         return E_FAIL;
 
-    HRESULT hr = _ScriptStringAnalyse( m_pFontNode->pFont ? m_pFontNode->pFont->GetDC() : NULL,
+	HRESULT hr;
+	if( !field_12 )
+	{
+        hr = _ScriptStringAnalyse( m_pFontNode->pFont ? m_pFontNode->pFont->GetDC() : NULL,
                                        m_pwszBuffer,
                                        lstrlenW( m_pwszBuffer ) + 1,  // NULL is also analyzed.
                                        lstrlenW( m_pwszBuffer ) * 3 / 2 + 16,
-                                       DEFAULT_CHARSET,
+                                       -1,
                                        SSA_BREAK | SSA_GLYPHS | SSA_FALLBACK | SSA_LINK,
                                        0,
                                        &ScriptControl,
@@ -7542,6 +7545,23 @@ HRESULT CUniBuffer::Analyse()
                                        NULL,
                                        NULL,
                                        &m_Analysis );
+	}
+	else
+	{
+        hr = _ScriptStringAnalyse( m_pFontNode->pFont ? m_pFontNode->pFont->GetDC() : NULL,
+                                       MaskText( m_pwszBuffer ),
+                                       lstrlenW( MaskText( m_pwszBuffer ) ) + 1,  // NULL is also analyzed.
+                                       lstrlenW( MaskText( m_pwszBuffer ) ) * 3 / 2 + 16,
+                                       -1,
+                                       SSA_BREAK | SSA_GLYPHS | SSA_FALLBACK | SSA_LINK,
+                                       0,
+                                       &ScriptControl,
+                                       &ScriptState,
+                                       NULL,
+                                       NULL,
+                                       NULL,
+                                       &m_Analysis );
+	}
     if( SUCCEEDED( hr ) )
         m_bAnalyseRequired = false;  // Analysis is up-to-date
     return hr;
