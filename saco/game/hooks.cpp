@@ -247,6 +247,9 @@ NUDE CPed_Render_Hook()
 
 //-----------------------------------------------------------
 
+// saved return address, shared by the task and anim hooks below
+DWORD dwHookRetnAddr;
+
 NUDE CAnimManager__AddAnimation_Hook()
 {
 	// TODO: CAnimManager__AddAnimation_Hook
@@ -488,9 +491,44 @@ NUDE CTrain_ProcessControl_Derailment()
 
 //-----------------------------------------------------------
 
+int FUNC_100A36C0(); // todo: implement `FUNC_100A36C0`
+
+DWORD dwEnterExitVehicle;
+
 NUDE TaskEnterVehicleDriver_Hook()
 {
-	// TODO: TaskEnterVehicleDriver_Hook
+	_asm mov eax, [esp]
+	_asm mov dwHookRetnAddr, eax
+	_asm mov eax, [esp+4]
+	_asm mov dwEnterExitVehicle, eax
+	_asm pushad
+
+	if((dwHookRetnAddr == 0x570A20 || dwHookRetnAddr == 0x570A99) && !FUNC_100A36C0())
+	{
+		_asm
+		{
+			popad
+
+			// kill the task, we're not letting them in
+			mov ebx, [ecx]
+			test ebx, ebx
+			jz noTaskDelete
+			push 1
+			call dword ptr [ebx]
+noTaskDelete:
+			pop eax
+			pop eax
+			mov eax, 0x570A9E
+			jmp eax
+		}
+	}
+
+	_asm popad
+	_asm mov eax, [esp+4]
+	_asm push esi
+	_asm push 0
+	_asm mov ebx, 0x6402F7
+	_asm jmp ebx
 }
 
 //-----------------------------------------------------------
