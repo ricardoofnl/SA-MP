@@ -5978,7 +5978,7 @@ void CDXUTIMEEditBox::CheckToggleState()
     s_bChineseIME = ( GetPrimaryLanguage() == LANG_CHINESE ) && bIme;
 
     HIMC hImc;
-    if( NULL != ( hImc = _ImmGetContext( DXUTGetHWND() ) ) )
+    if( NULL != ( hImc = _ImmGetContext( pGame->GetMainWindowHwnd() ) ) )
     {
         if( s_bChineseIME )
         {
@@ -5990,7 +5990,7 @@ void CDXUTIMEEditBox::CheckToggleState()
         {
             s_ImeState = ( bIme && _ImmGetOpenStatus( hImc ) != 0 ) ? IMEUI_STATE_ON : IMEUI_STATE_OFF;
         }
-        _ImmReleaseContext( DXUTGetHWND(), hImc );
+        _ImmReleaseContext( pGame->GetMainWindowHwnd(), hImc );
     }
     else
         s_ImeState = IMEUI_STATE_OFF;
