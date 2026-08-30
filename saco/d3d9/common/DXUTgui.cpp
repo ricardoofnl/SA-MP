@@ -5094,7 +5094,7 @@ void CDXUTEditBox::PasteFromClipboard()
 
     if( OpenClipboard( NULL ) )
     {
-        HANDLE handle = GetClipboardData( CF_OEMTEXT );
+        HANDLE handle = GetClipboardData( CF_UNICODETEXT );
         if( handle )
         {
             // Convert the ANSI string to Unicode, then
