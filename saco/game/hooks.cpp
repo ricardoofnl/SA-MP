@@ -488,9 +488,56 @@ NUDE CPlayerPed_ProcessControl_Hook()
 
 //-----------------------------------------------------------
 
+MATRIX4X4 unnamed_10150A48;	// ped matrix saved across ProcessControl
+float unnamed_10150C1C;
+float unnamed_10150C20;
+float unnamed_10150C24;
+
 NUDE CCivillianPed__ProcessControl_Hook()
 {
-	// TODO: CCivillianPed__ProcessControl_Hook
+	_asm mov dwProcessControlPed, ecx
+	_asm pushad
+
+	_pProcessControlPed = (PED_TYPE *)dwProcessControlPed;
+
+	// hold attached/frozen peds still while the game processes them
+	if((_pProcessControlPed->entity.dwPhysFlags & 0x40000) &&
+		(_pProcessControlPed->entity.dwPhysFlags & 0x800000) &&
+		(_pProcessControlPed->entity.dwPhysFlags & 0x200000))
+	{
+		_pProcessControlPed->entity.vecMoveSpeed.X = 0.0f;
+		_pProcessControlPed->entity.vecMoveSpeed.Y = 0.0f;
+	}
+
+	if(_pProcessControlPed->entity.mat)
+	{
+		unnamed_10150A48 = *_pProcessControlPed->entity.mat;
+		unnamed_10150C1C = _pProcessControlPed->entity.vecMoveSpeed.X;
+		unnamed_10150C20 = _pProcessControlPed->entity.vecMoveSpeed.Y;
+		unnamed_10150C24 = _pProcessControlPed->entity.vecMoveSpeed.Z;
+	}
+
+	_asm mov ecx, dwProcessControlPed
+	_asm mov edx, 0x5DDBF0	;// CCivilianPed::ProcessControl
+	_asm call edx
+
+	if((_pProcessControlPed->entity.dwPhysFlags & 0x40000) &&
+		(_pProcessControlPed->entity.dwPhysFlags & 0x800000) &&
+		(_pProcessControlPed->entity.dwPhysFlags & 0x200000))
+	{
+		if(_pProcessControlPed->entity.mat)
+		{
+			_pProcessControlPed->entity.mat->pos.X = unnamed_10150A48.pos.X;
+			_pProcessControlPed->entity.mat->pos.Y = unnamed_10150A48.pos.Y;
+			_pProcessControlPed->entity.mat->pos.Z = unnamed_10150A48.pos.Z;
+		}
+
+		_pProcessControlPed->entity.vecMoveSpeed.X = 0.0f;
+		_pProcessControlPed->entity.vecMoveSpeed.Y = 0.0f;
+	}
+
+	_asm popad
+	_asm retn
 }
 
 //-----------------------------------------------------------
