@@ -42,12 +42,12 @@ void __stdcall FUNC_100B4390(BYTE bytePlayer, DWORD a2, DWORD a3, DWORD a4, DWOR
 struc_13 * __stdcall FUNC_100B43D0(BYTE bytePlayer);
 BYTE __stdcall FUNC_100B43F0(DWORD *pdwRenderWare);
 float __stdcall SquaredDistanceBetweenHorizontalPoints(float x1, float y1, float x2, float y2);
-float DistanceBetweenHorizontalPoints(float x1, float y1, float x2, float y2);
-float DistanceBetweenPoints(float x1, float y1, float z1, float x2, float y2, float z2);
+float __stdcall DistanceBetweenHorizontalPoints(float x1, float y1, float x2, float y2);
+float __stdcall DistanceBetweenPoints(float x1, float y1, float z1, float x2, float y2, float z2);
 float __stdcall SquaredDistanceBetweenPoints(float x1, float y1, float z1, float x2, float y2, float z2);
 float __stdcall SquaredDistanceBetweenPoints(VECTOR *vec1, VECTOR *vec2);
 
-void __stdcall _VectorNormalise(VECTOR *vec);
+void _VectorNormalise(VECTOR *vec);
 DWORD __stdcall CRC32FromUpcaseString(char *szString);
 
 float DegToRad(float fDegrees);
