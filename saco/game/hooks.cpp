@@ -250,9 +250,47 @@ NUDE CPed_Render_Hook()
 // saved return address, shared by the task and anim hooks below
 DWORD dwHookRetnAddr;
 
+// animation the local player got told to play, picked up for sync
+DWORD dwAnimClump;
+DWORD dwAnimGroup;
+DWORD dwAnimID;
+DWORD dwAnimBlend;
+DWORD dwLocalPlayerClump;
+
+DWORD dwSyncAnimType;
+DWORD dwSyncAnimGroup;
+DWORD dwSyncAnimID;
+DWORD dwSyncAnimBlend;
+
+DWORD dwAddAnimationRetAddr = 0x4D3AAA;
+
 NUDE CAnimManager__AddAnimation_Hook()
 {
-	// TODO: CAnimManager__AddAnimation_Hook
+	_asm mov edx, [esp]
+	_asm mov dwHookRetnAddr, edx
+	_asm mov edx, [esp+4]
+	_asm mov dwAnimClump, edx
+	_asm mov edx, [esp+8]
+	_asm mov dwAnimGroup, edx
+	_asm mov edx, [esp+12]
+	_asm mov dwAnimID, edx
+	_asm pushad
+
+	_pPlayer = GamePool_FindPlayerPed();
+	if(_pPlayer) dwLocalPlayerClump = (DWORD)_pPlayer->entity.pdwRenderWare;
+	else dwLocalPlayerClump = 0;
+
+	if(dwAnimClump == dwLocalPlayerClump && (dwAnimGroup || dwAnimID != 0xA0))
+	{
+		dwSyncAnimType = 1;
+		dwSyncAnimGroup = dwAnimGroup;
+		dwSyncAnimID = dwAnimID;
+	}
+
+	_asm popad
+	_asm mov eax, [esp+12]
+	_asm mov edx, ds:0xB4EA34
+	_asm jmp dwAddAnimationRetAddr
 }
 
 //-----------------------------------------------------------
