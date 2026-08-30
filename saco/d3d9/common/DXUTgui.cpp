@@ -4765,12 +4765,15 @@ void CDXUTListBox::Render( IDirect3DDevice9* pd3dDevice, float fElapsedTime )
     if( m_Items.GetSize() > 0 )
     {
         // Find out the height of a single line of text
-        /*RECT rc = m_rcText;
+        RECT rc = m_rcText;
         RECT rcSel = m_rcSelection;
-        rc.bottom = rc.top + m_pDialog->GetManager()->GetFontNode( pElement->iFont )->nHeight;
+        rc.bottom = rc.top + m_pDialog->GetFont( pElement->iFont )->nHeight;
 
         // Update the line height formation
         m_nTextHeight = rc.bottom - rc.top;
+
+        if( m_ScrollBar.GetTrackPos() < 0 )
+            m_ScrollBar.SetTrackPos( 0 );
 
         static bool bSBInit;
         if( !bSBInit )
@@ -4809,17 +4812,44 @@ void CDXUTListBox::Render( IDirect3DDevice9* pd3dDevice, float fElapsedTime )
                     bSelectedStyle = true;
             }
 
-            if( bSelectedStyle )
+            int nLeft;
+
+            if( pItem->field_29D || !bSelectedStyle )
+            {
+                if( pItem->TextColor )
+                    pElement->FontColor.Current = pItem->TextColor;
+
+                m_pDialog->DrawText( pItem->strText, pElement, &rc );
+                if( field_4D > 0 )
+                {
+                    nLeft = rc.left;
+                    for( int iColumn = 0; iColumn < field_4D; ++iColumn )
+                    {
+                        rc.left += field_51[iColumn];
+                        m_pDialog->DrawText( pItem->strColumnText[iColumn], pElement, &rc );
+                    }
+                    rc.left = nLeft;
+                }
+            }
+            else
             {
                 rcSel.top = rc.top; rcSel.bottom = rc.bottom;
                 m_pDialog->DrawSprite( pSelElement, &rcSel );
                 m_pDialog->DrawText( pItem->strText, pSelElement, &rc );
+                if( field_4D > 0 )
+                {
+                    nLeft = rc.left;
+                    for( int iColumn = 0; iColumn < field_4D; ++iColumn )
+                    {
+                        rc.left += field_51[iColumn];
+                        m_pDialog->DrawText( pItem->strColumnText[iColumn], pSelElement, &rc );
+                    }
+                    rc.left = nLeft;
+                }
             }
-            else
-                m_pDialog->DrawText( pItem->strText, pElement, &rc );
 
             OffsetRect( &rc, 0, m_nTextHeight );
-        }*/
+        }
     }
 
     // Render the scroll bar
