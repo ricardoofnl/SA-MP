@@ -45,6 +45,7 @@ DWORD dwParam1;
 DWORD dwParam2;
 DWORD dwParamThis;
 
+DWORD unnamed_10150960;
 DWORD unnamed_101516D4;
 DWORD unnamed_10151710;
 DWORD unnamed_10151810;
@@ -410,7 +411,17 @@ NUDE PlayerWalk_Hook()
 
 NUDE PickUpPickup_Hook()
 {
-	// TODO: PickUpPickup_Hook
+	_asm mov unnamed_10150960, esi
+	_asm pushad
+
+	if (pNetGame && pNetGame->GetPickupPool())
+		pNetGame->GetPickupPool()->sub_10013440((unnamed_10150960 - 0x9788C0) >> 5);
+
+	_asm popad
+	_asm mov al, [esi+0x1C]
+	_asm cmp al, 6
+	_asm push 0x4579CB
+	_asm ret
 }
 
 //-----------------------------------------------------------
