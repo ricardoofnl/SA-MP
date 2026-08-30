@@ -6213,9 +6213,12 @@ void CDXUTIMEEditBox::OnFocusOut()
 {
     CDXUTEditBox::OnFocusOut();
 
-    FinalizeString( false );  // Don't send the comp string as to match RichEdit behavior
+    if( s_bEnableImeSystem )
+    {
+        FinalizeString( false );  // Don't send the comp string as to match RichEdit behavior
 
-    _ImmAssociateContext( pGame->GetMainWindowHwnd(), NULL );
+        _ImmAssociateContext( pGame->GetMainWindowHwnd(), NULL );
+    }
 }
 
 
