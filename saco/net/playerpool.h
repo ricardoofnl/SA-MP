@@ -50,6 +50,9 @@ public:
 
 	class CObject *FUNC_10013B70(ENTITY_TYPE *pEntity); // todo: implement
 
+	void sub_10013C90(); // todo: implement
+	void sub_10013D10(); // todo: implement
+
 	CPlayerPool();
 };
 

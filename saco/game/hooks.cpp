@@ -2252,7 +2252,7 @@ exitFn:
 
 //-----------------------------------------------------------
 
-// todo: implement fully
+// arguments of the shot being fired, shared with CWeapon__FireSniper_Hook
 ENTITY_TYPE* 	pFiringEntity = 0;
 VECTOR* 		pPosn = 0;
 VECTOR* 		pEffectPosn = 0;
@@ -2295,9 +2295,14 @@ NUDE CWeapon__FireInstantHit_Hook()
 		}
 	}
 
-	// todo: implement sub_10013C90
-	/*if ( pNetGame && pNetGame->m_pPools->pPlayerPool )
-    	sub_10013C90();*/
+	if(pNetGame && pNetGame->GetPlayerPool())
+		pNetGame->GetPlayerPool()->sub_10013C90();
+
+	if(pGame && pGame->FindPlayerPed())
+		pGame->FindPlayerPed()->FUNC_100AFA70();
+
+	if(pNetGame && pNetGame->GetPlayerPool())
+		pNetGame->GetPlayerPool()->sub_10013D10();
 
 	_asm popad
 	_asm ret 0x20
@@ -2312,15 +2317,13 @@ NUDE CWorld__ProcessLineOfSight_Hook()
 
 //-----------------------------------------------------------
 
-ENTITY_TYPE* 	pSniperFiringEntity = 0;
-
 NUDE CWeapon__FireSniper_Hook()
 {
 	_asm mov eax, [esp+0x4]
-	_asm mov pSniperFiringEntity, eax
+	_asm mov pFiringEntity, eax
 	_asm pushad
 
-	if(pSniperFiringEntity != (ENTITY_TYPE*)GamePool_FindPlayerPed())
+	if(pFiringEntity != (ENTITY_TYPE*)GamePool_FindPlayerPed())
 	{
 		__asm
 		{
