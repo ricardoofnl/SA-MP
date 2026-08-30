@@ -13,7 +13,7 @@ public:
 	}
 
 	int Reset();
-	void Stop();
+	void Stop(char byteResetRadio);
 	void ConstructInfo();
 	void SyncProc();
 	void Process();

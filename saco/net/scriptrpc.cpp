@@ -4,6 +4,7 @@
 using namespace RakNet;
 extern CNetGame*	pNetGame;
 extern CGame * pGame;
+extern CAudioStream * pAudioStream;
 
 //----------------------------------------------------
 
@@ -80,7 +81,10 @@ void ScrUnk23(RPCParameters *rpcParams) {}
 void ScrUnk43(RPCParameters *rpcParams) {}
 void ScrUnk71(RPCParameters *rpcParams) {}
 void ScrUnk29(RPCParameters *rpcParams) {}
-void ScrUnk2A(RPCParameters *rpcParams) {}
+void ScrUnk2A(RPCParameters *rpcParams)
+{
+	if(pAudioStream) pAudioStream->Stop(0);
+}
 void ScrUnk2B(RPCParameters *rpcParams) {}
 void ScrUnk51(RPCParameters *rpcParams) {}
 void ScrUnk52(RPCParameters *rpcParams) {}

@@ -44,7 +44,7 @@ int CAudioStream::Reset()
 	return 0;
 }
 
-void CAudioStream::Stop()
+void CAudioStream::Stop(char byteResetRadio)
 {
 	// TODO: CAudioStream::sub_10066560 10066560
 }
