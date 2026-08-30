@@ -1013,6 +1013,7 @@ NUDE CVehicle__Render_Hook()
 class CObject
 {
 public:
+	void FUNC_100A7E20();
 	void FUNC_100A9E30();
 	void FUNC_100A9E70();
 };
@@ -1218,7 +1219,7 @@ NUDE CAutomobile__BreakTowLink_Hook()
 //-----------------------------------------------------------
 
 ENTITY_TYPE	*_pAttachedEntity;
-CEntity		*_pAttachedObject;
+CObject		*_pAttachedObject;
 DWORD		_dwAttachedEntityEsp;
 DWORD		_dwAttachedEntityResult;
 
