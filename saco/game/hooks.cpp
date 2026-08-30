@@ -939,7 +939,20 @@ NUDE CWorld__ProcessVerticalLine_Hook()
 
 NUDE CStreaming__RequestModel_Hook()
 {
-	// TODO: CStreaming__RequestModel_Hook
+	__asm
+	{
+		cmp ebp, 0			;// model id
+		jl exitFn
+		push esi
+		push edi
+		lea edi, [ebp+ebp*4]
+		mov eax, 0x4087F0	;// CStreaming::RequestModel
+		jmp eax
+exitFn:
+		pop ebp
+		pop ebx
+		ret
+	}
 }
 
 //-----------------------------------------------------------
