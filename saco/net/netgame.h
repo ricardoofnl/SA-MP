@@ -78,6 +78,7 @@ public:
 	CVehiclePool * GetVehiclePool() { return m_pPools->pVehiclePool; };
 	CPlayerPool * GetPlayerPool() { return m_pPools->pPlayerPool; };
 	CPickupPool * GetPickupPool() { return m_pPools->pPickupPool; };
+	CObjectPool * GetObjectPool() { return m_pPools->pObjectPool; };
 	CGangZonePool * GetGangZonePool() { return m_pPools->pGangZonePool; };
 	RakClientInterface * GetRakClient() { return m_pRakClient; };
 

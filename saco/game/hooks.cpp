@@ -9,6 +9,7 @@ extern int iGtaVersion;
 extern CNetGame* pNetGame;
 extern CGame* pGame;
 extern CChatWindow *pChatWindow;
+extern CObjectPool *unnamed_1014FFAC; // 0x1014FFAC, lives in another translation unit
 
 extern DWORD dwGraphicsLoop; // Used for the external dll game loop.
 
@@ -53,6 +54,8 @@ DWORD unnamed_10151810;
 DWORD unnamed_10151814;
 DWORD unnamed_10151818;
 DWORD unnamed_10151824;
+
+CObjectPool *unnamed_1015177C;
 
 WORD wLastRendObj=0;
 
@@ -861,7 +864,21 @@ NUDE CWorld__ProcessAttachedEntities__PositionAttachedEntity_Hook()
 
 NUDE CRenderer__RenderEverythingBarRoads_Hook()
 {
-	// TODO: CRenderer__RenderEverythingBarRoads_Hook
+	_asm mov eax, 0x553AA0	;// CRenderer::RenderEverythingBarRoads
+	_asm call eax
+
+	if(pNetGame) {
+		unnamed_1015177C = pNetGame->GetObjectPool();
+		if(unnamed_1015177C) {
+			unnamed_1015177C->FUNC_10012B90();
+		}
+	}
+
+	if(unnamed_1014FFAC) {
+		unnamed_1014FFAC->FUNC_10012B90();
+	}
+
+	_asm ret
 }
 
 //-----------------------------------------------------------
