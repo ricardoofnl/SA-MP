@@ -4565,7 +4565,6 @@ bool CDXUTListBox::HandleMouse( UINT uMsg, POINT pt, WPARAM wParam, LPARAM lPara
                     nClicked < m_ScrollBar.GetTrackPos() + m_ScrollBar.GetPageSize() )
                 {
                     SetCapture( DXUTGetHWND() );
-                    m_bDrag = true;
 
                     // If this is a double click, fire off an event and exit
                     // since the first click would have taken care of the selection
@@ -4676,7 +4675,7 @@ bool CDXUTListBox::HandleMouse( UINT uMsg, POINT pt, WPARAM wParam, LPARAM lPara
             ReleaseCapture();
             m_bDrag = false;
 
-            if( m_nSelected != -1 )
+            if( m_nSelected < (int)m_Items.GetSize() && m_nSelected != -1 )
             {
                 // Set all items between m_nSelStart and m_nSelected to
                 // the same state as m_nSelStart
