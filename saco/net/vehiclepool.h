@@ -27,6 +27,8 @@ public:
 
 	int FUNC_10001120(unsigned short a1); // .text:10001120
 
+	void FUNC_1001ED70(); // .text:1001ED70
+
 	char FUNC_1001EE20(VECTOR *vecStart, VECTOR *vecEnd); // .text:1001EE20
 
 	CVehiclePool();

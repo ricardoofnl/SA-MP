@@ -51,6 +51,8 @@ public:
 
 	void FUNC_10067200();
 
+	void FUNC_10067ED0(); // .text:10067ED0
+
 public:
 
 	int sub_10067BE0(int a1, char *a2, int a3, int a4, int a5); // .text:10067BE0

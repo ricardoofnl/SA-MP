@@ -13,7 +13,7 @@ extern CObjectPool *unnamed_1014FFAC; // 0x1014FFAC, lives in another translatio
 
 extern DWORD dwGraphicsLoop; // Used for the external dll game loop.
 
-extern CObjectPool *unnamed_1014FFAC; // second object pool, see .text:100A5090
+int WINAPI exc_filter(unsigned int code, struct _EXCEPTION_POINTERS *ep, char *what);
 
 #define NUDE void _declspec(naked) 
 
@@ -244,9 +244,41 @@ NUDE CCamera__Process_Hook()
 
 //-----------------------------------------------------------
 
-NUDE CGame__Process_Hook()
+void CGame__Process_Hook()
 {
-	// TODO: CGame__Process_Hook
+	if(pGame) pGame->sub_100A1C10();
+
+	// every pool update gets its own seh block, tagged so exc_filter can name it
+	if(pNetGame && pNetGame->GetObjectPool())
+	{
+		__try
+		{
+			pNetGame->GetObjectPool()->FUNC_10012A50();
+		}
+		__except(exc_filter(GetExceptionCode(), GetExceptionInformation(), "s003")) { }
+	}
+
+	if(unnamed_1014FFAC)
+	{
+		__try
+		{
+			unnamed_1014FFAC->FUNC_10012A50();
+		}
+		__except(exc_filter(GetExceptionCode(), GetExceptionInformation(), "s003d")) { }
+	}
+
+	if(pNetGame && pNetGame->GetVehiclePool()) pNetGame->GetVehiclePool()->FUNC_1001ED70();
+	if(pNetGame && pNetGame->GetObjectPool()) pNetGame->GetObjectPool()->FUNC_10012B10();
+	if(pChatWindow) pChatWindow->FUNC_10067ED0();
+
+	__try
+	{
+		_asm mov edx, 0x53BEE0
+		_asm call edx
+	}
+	__except(exc_filter(GetExceptionCode(), GetExceptionInformation(), "s007")) { }
+
+	if(pNetGame && pNetGame->GetTextDrawPool()) pNetGame->GetTextDrawPool()->FUNC_1001E870();
 }
 
 //-----------------------------------------------------------

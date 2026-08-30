@@ -88,6 +88,7 @@ public:
 	CObjectPool * GetObjectPool() { return m_pPools->pObjectPool; };
 	CObjectPool * FUNC_10002E10(); // todo: implement, returns m_pPools->pObjectPool
 	CGangZonePool * GetGangZonePool() { return m_pPools->pGangZonePool; };
+	CTextDrawPool * GetTextDrawPool() { return m_pPools->pTextDrawPool; };
 	RakClientInterface * GetRakClient() { return m_pRakClient; };
 
 	void  ResetMapIcons();
