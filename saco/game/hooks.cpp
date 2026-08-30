@@ -1130,7 +1130,20 @@ NUDE CCollision__CheckCameraCollisionVehicles_Hook()
 
 NUDE CWorld__CameraToIgnoreThisObject_Hook()
 {
-	// TODO: CWorld__CameraToIgnoreThisObject_Hook
+	__asm
+	{
+		mov eax, [esp+4]			// pEntity
+		test eax, eax
+		jz ignore_this_object
+		mov ecx, [eax+0xFC]
+		cmp ecx, 0
+		jnz ignore_this_object
+		mov edx, 0x563F40			// CWorld::CameraToIgnoreThisObject
+		jmp edx
+	ignore_this_object:
+		mov eax, 1
+		retn
+	}
 }
 
 //-----------------------------------------------------------
