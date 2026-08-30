@@ -1107,9 +1107,40 @@ exitFn:
 
 //-----------------------------------------------------------
 
+DWORD dwEventDamageThis;
+DWORD dwEventDamagePed;
+
 NUDE CEventDamage__AffectsPed_Hook()
 {
-	// TODO: CEventDamage__AffectsPed_Hook
+	__asm
+	{
+		mov dwEventDamageThis, ecx
+		mov eax, [esp+4]
+		mov dwEventDamagePed, eax
+		pushad
+		cmp pNetGame, 0
+		jz do_affects_ped
+		call GamePool_FindPlayerPed
+		cmp dwEventDamagePed, eax
+		jnz do_affects_ped
+		mov eax, pbyteCurrentPlayer
+		movzx ecx, byte ptr [eax]
+		test ecx, ecx
+		jz do_affects_ped
+		popad
+
+		// inside a remote player context: always report the event as affecting the ped
+		xor eax, eax
+		mov al, 1
+		retn 4
+	do_affects_ped:
+		popad
+		sub esp, 0xC
+		push esi
+		mov esi, ecx
+		mov eax, 0x4B35A6			// CEventDamage::AffectsPed + 6
+		jmp eax
+	}
 }
 
 //-----------------------------------------------------------
