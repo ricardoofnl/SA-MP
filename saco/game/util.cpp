@@ -1021,3 +1021,42 @@ UINT GetVehicleSubtypeFromVehiclePtr(VEHICLE_TYPE *pVehicle)
 
 
 
+
+//-----------------------------------------------------------
+
+void FUNC_100B4D10(VECTOR *vecOut, MATRIX4X4 *pMatrix, VECTOR *vecOffset)
+{
+	vecOut->X = pMatrix->at.X * vecOffset->Z + pMatrix->up.X * vecOffset->Y +
+		pMatrix->right.X * vecOffset->X + pMatrix->pos.X;
+	vecOut->Y = ((pMatrix->at.Y * vecOffset->Z + pMatrix->up.Y * vecOffset->Y) +
+		pMatrix->right.Y * vecOffset->X) + pMatrix->pos.Y;
+	vecOut->Z = ((pMatrix->at.Z * vecOffset->Z + pMatrix->up.Z * vecOffset->Y) +
+		pMatrix->right.Z * vecOffset->X) + pMatrix->pos.Z;
+}
+
+//-----------------------------------------------------------
+
+DWORD unnamed_1026BBB0;
+
+BOOL __stdcall FUNC_100B4860(VEHICLE_TYPE *pVehicle)
+{
+	BOOL bTowed = FALSE;
+
+	if(pVehicle)
+	{
+		VEHICLE_TYPE *pTractor = (VEHICLE_TYPE *)pVehicle->dwTractor;
+		if(pTractor)
+		{
+			unnamed_1026BBB0 = pVehicle->dwTractor;
+
+			// towed by a vehicle somebody is sitting in
+			PED_TYPE *pDriver = pTractor->pDriver;
+			if(pDriver)
+			{
+				if(pDriver->dwStateFlags & 0x100) return TRUE;
+			}
+		}
+	}
+
+	return bTowed;
+}
