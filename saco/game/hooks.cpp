@@ -46,6 +46,7 @@ DWORD dwParam2;
 DWORD dwParamThis;
 
 DWORD unnamed_101516D4;
+DWORD unnamed_10151824;
 
 WORD wLastRendObj=0;
 
@@ -932,7 +933,21 @@ NUDE CAEWeatherAudioEntity__UpdateParameters_Hook()
 
 NUDE CWorld__ProcessVerticalLine_Hook()
 {
-	// TODO: CWorld__ProcessVerticalLine_Hook
+	__asm
+	{
+		mov eax, [esp]				;// caller
+		mov unnamed_10151824, eax
+		cmp eax, 0x59E8F9
+		jz callFn
+		mov eax, [esp+0x14]
+		test eax, eax
+		jz callFn
+		mov byte ptr [esp+0x20], 1
+callFn:
+		sub esp, 0x2C
+		mov eax, 0x407C37	;// CWorld::ProcessVerticalLine
+		jmp eax
+	}
 }
 
 //-----------------------------------------------------------
