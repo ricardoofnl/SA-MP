@@ -882,7 +882,16 @@ NUDE CRenderer__AddEntityToRenderList_Hook()
 
 NUDE CEntity__RenderEffects__RenderRoadsignAtomic_Hook()
 {
-	// TODO: CEntity__RenderEffects__RenderRoadsignAtomic_Hook
+	__asm
+	{
+		mov eax, [esp+4]	;// arg0 (RpAtomic *)
+		test eax, eax
+		jz exitFn
+		mov eax, 0x6FF350	;// CCustomRoadsignMgr::RenderRoadsignAtomic
+		jmp eax
+exitFn:
+		ret
+	}
 }
 
 //-----------------------------------------------------------
