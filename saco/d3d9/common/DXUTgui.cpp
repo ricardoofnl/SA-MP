@@ -5114,6 +5114,26 @@ void CDXUTEditBox::PasteFromClipboard()
 }
 
 
+// replaces every character with a bullet so password boxes never show the real text
+static LPCWSTR MaskText( LPCWSTR wszText )
+{
+	static WCHAR wszMasked[256];
+	ZeroMemory( wszMasked, sizeof(wszMasked) - 1 );
+
+	int nLength = wcslen( wszText );
+	int i = 0;
+	if( nLength <= 255 )
+	{
+		for( ; i != nLength; i++ )
+			wszMasked[i] = 0x25CF;
+
+		wszMasked[i] = 0;
+	}
+
+	return wszMasked;
+}
+
+
 //--------------------------------------------------------------------------------------
 bool CDXUTEditBox::HandleKeyboard( UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
@@ -5527,18 +5547,35 @@ void CDXUTEditBox::Render( IDirect3DDevice9* pd3dDevice, float fElapsedTime )
     // Render the text
     //
     // Element 0 for text
-    m_Elements.GetAt( 0 )->FontColor.Current = m_TextColor;
-    m_pDialog->DrawText( m_Buffer.GetBuffer() + m_nFirstVisible, m_Elements.GetAt( 0 ), &m_rcText );
+	if( !field_126 )
+	{
+        m_Elements.GetAt( 0 )->FontColor.Current = m_TextColor;
+        m_pDialog->DrawText( m_Buffer.GetBuffer() + m_nFirstVisible, m_Elements.GetAt( 0 ), &m_rcText );
 
-    // Render the selected text
-    if( m_nCaret != m_nSelStart )
-    {
-        int nFirstToRender = __max( m_nFirstVisible, __min( m_nSelStart, m_nCaret ) );
-        int nNumChatToRender = __max( m_nSelStart, m_nCaret ) - nFirstToRender;
-        m_Elements.GetAt( 0 )->FontColor.Current = m_SelTextColor;
-        m_pDialog->DrawText( m_Buffer.GetBuffer() + nFirstToRender,
-                             m_Elements.GetAt( 0 ), &rcSelection, false, nNumChatToRender );
-    }
+        // Render the selected text
+        if( m_nCaret != m_nSelStart )
+        {
+            int nFirstToRender = __max( m_nFirstVisible, __min( m_nSelStart, m_nCaret ) );
+            int nNumChatToRender = __max( m_nSelStart, m_nCaret ) - nFirstToRender;
+            m_Elements.GetAt( 0 )->FontColor.Current = m_SelTextColor;
+            m_pDialog->DrawText( m_Buffer.GetBuffer() + nFirstToRender,
+                                 m_Elements.GetAt( 0 ), &rcSelection, false, nNumChatToRender );
+        }
+	}
+	else
+	{
+        m_Elements.GetAt( 0 )->FontColor.Current = m_TextColor;
+        m_pDialog->DrawText( MaskText( m_Buffer.GetBuffer() + m_nFirstVisible ), m_Elements.GetAt( 0 ), &m_rcText );
+
+        if( m_nCaret != m_nSelStart )
+        {
+            int nFirstToRender = __max( m_nFirstVisible, __min( m_nSelStart, m_nCaret ) );
+            int nNumChatToRender = __max( m_nSelStart, m_nCaret ) - nFirstToRender;
+            m_Elements.GetAt( 0 )->FontColor.Current = m_SelTextColor;
+            m_pDialog->DrawText( MaskText( m_Buffer.GetBuffer() + nFirstToRender ),
+                                 m_Elements.GetAt( 0 ), &rcSelection, false, nNumChatToRender );
+        }
+	}
 
     //
     /* Blink the caret
