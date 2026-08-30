@@ -1004,6 +1004,12 @@
 				</File>
 				<File
 					RelativePath=".\d3d9\dxutil.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							InlineFunctionExpansion="2"/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\d3d9\include\dxutil.h">
