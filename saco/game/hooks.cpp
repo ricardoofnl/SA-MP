@@ -263,6 +263,7 @@ DWORD dwSyncAnimID;
 DWORD dwSyncAnimBlend;
 
 DWORD dwAddAnimationRetAddr = 0x4D3AAA;
+DWORD dwBlendAnimationRetAddr = 0x4D4617;
 
 NUDE CAnimManager__AddAnimation_Hook()
 {
@@ -297,7 +298,34 @@ NUDE CAnimManager__AddAnimation_Hook()
 
 NUDE CAnimManager__BlendAnimation_Hook()
 {
-	// TODO: CAnimManager__BlendAnimation_Hook
+	_asm mov edx, [esp]
+	_asm mov dwHookRetnAddr, edx
+	_asm mov edx, [esp+4]
+	_asm mov dwAnimClump, edx
+	_asm mov edx, [esp+8]
+	_asm mov dwAnimGroup, edx
+	_asm mov edx, [esp+12]
+	_asm mov dwAnimID, edx
+	_asm mov edx, [esp+16]
+	_asm mov dwAnimBlend, edx
+	_asm pushad
+
+	_pPlayer = GamePool_FindPlayerPed();
+	if(_pPlayer) dwLocalPlayerClump = (DWORD)_pPlayer->entity.pdwRenderWare;
+	else dwLocalPlayerClump = 0;
+
+	if(dwAnimClump == dwLocalPlayerClump && (dwAnimGroup || dwAnimID != 0xA0))
+	{
+		dwSyncAnimType = 2;
+		dwSyncAnimGroup = dwAnimGroup;
+		dwSyncAnimID = dwAnimID;
+		dwSyncAnimBlend = dwAnimBlend;
+	}
+
+	_asm popad
+	_asm sub esp, 0x14
+	_asm mov ecx, [esp+0x18]
+	_asm jmp dwBlendAnimationRetAddr
 }
 
 //-----------------------------------------------------------
