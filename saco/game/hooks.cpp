@@ -52,12 +52,8 @@ DWORD unnamed_10113ADC = 0x7FB270; // RwRasterCreate
 WORD  unnamed_10113B2C;
 BYTE unnamed_10113AE8[3] = {0xFF,0x52,0x20}; // original `call dword ptr [edx+20h]` at 0x4096AA
 
-DWORD unnamed_101506C8;
 PCHAR unnamed_10150734;
 DWORD unnamed_10150960;
-BYTE unnamed_10151614;	// value of *pbyteCurrentPlayer when the ped hooks below were entered
-DWORD unnamed_10151618;	// ped being processed by the ped hooks below
-BYTE unnamed_1015161C;	// its samp player number
 PCHAR unnamed_10151628;
 DWORD unnamed_101516C8;
 DWORD unnamed_101516D0;
@@ -511,21 +507,21 @@ DWORD unnamed_10151688;
 
 NUDE WeaponRender__GetWeaponSkill_Hook()
 {
-	_asm mov unnamed_10151618, ecx
+	_asm mov dwProcessControlPed, ecx
 
-	unnamed_101506C8 = unnamed_10151618;
-	unnamed_10151614 = *pbyteCurrentPlayer;
-	unnamed_1015161C = FindPlayerNumFromPedPtr(unnamed_10151618);
+	_pProcessControlPed = (PED_TYPE *)dwProcessControlPed;
+	byteSavedCurrentPlayer = *pbyteCurrentPlayer;
+	byteProcessControlPlayerID = FindPlayerNumFromPedPtr(dwProcessControlPed);
 
-	if(unnamed_10151618 && unnamed_1015161C && !unnamed_10151614)
+	if(dwProcessControlPed && byteProcessControlPlayerID && !byteSavedCurrentPlayer)
 	{
 		// render a remote player with his own skill level
 		GameStoreLocalPlayerWeaponSkills();
-		GameSetRemotePlayerWeaponSkills(unnamed_1015161C);
+		GameSetRemotePlayerWeaponSkills(byteProcessControlPlayerID);
 		unnamed_10151688 = 1;
 	}
 
-	_asm mov ecx, unnamed_10151618
+	_asm mov ecx, dwProcessControlPed
 	_asm movsx eax, byte ptr [ecx+0x718]
 	_asm imul eax, 0x1C
 	_asm mov eax, [eax+ecx+0x5A0]
