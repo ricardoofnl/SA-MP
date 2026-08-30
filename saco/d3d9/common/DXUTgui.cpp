@@ -5065,20 +5065,20 @@ void CDXUTEditBox::CopyToClipboard()
     {
         EmptyClipboard();
 
-        HGLOBAL hBlock = GlobalAlloc( GMEM_MOVEABLE, sizeof(TCHAR) * ( m_Buffer.GetTextSize() + 1 ) );
+        HGLOBAL hBlock = GlobalAlloc( GMEM_MOVEABLE, sizeof(WCHAR) * ( m_Buffer.GetTextSize() + 1 ) );
         if( hBlock )
         {
-            TCHAR *pwszText = (TCHAR*)GlobalLock( hBlock );
+            WCHAR *pwszText = (WCHAR*)GlobalLock( hBlock );
             if( pwszText )
             {
                 int nFirst = __min( m_nCaret, m_nSelStart );
                 int nLast = __max( m_nCaret, m_nSelStart );
                 if( nLast - nFirst > 0 )
-                    CopyMemory( pwszText, m_Buffer.GetBuffer() + nFirst, (nLast - nFirst) * sizeof(TCHAR) );
+                    CopyMemory( pwszText, m_Buffer.GetBuffer() + nFirst, (nLast - nFirst) * sizeof(WCHAR) );
                 pwszText[nLast - nFirst] = L'\0';  // Terminate it
                 GlobalUnlock( hBlock );
             }
-            SetClipboardData( CF_OEMTEXT, hBlock );
+            SetClipboardData( CF_UNICODETEXT, hBlock );
         }
         CloseClipboard();
         // We must not free the object until CloseClipboard is called.
