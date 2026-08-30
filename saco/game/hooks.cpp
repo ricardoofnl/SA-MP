@@ -1153,6 +1153,14 @@ NUDE CVehicle__Render_Hook()
 class CObject
 {
 public:
+	char _gap0[84];
+	float field_54;
+	char _gap58[4403];
+	int field_118B;
+	char _gap118F[10];
+	BYTE field_1199;
+
+public:
 	void FUNC_100A7E20();
 	void FUNC_100A9E30();
 	void FUNC_100A9E70();
@@ -1458,9 +1466,55 @@ NUDE CRenderer__RenderFadingInEntities_Hook()
 
 //-----------------------------------------------------------
 
+ENTITY_TYPE *_pRenderListEntity;
+
 NUDE CRenderer__AddEntityToRenderList_Hook()
 {
-	// TODO: CRenderer__AddEntityToRenderList_Hook
+	_asm push esi
+	_asm mov esi, [esp+8]
+	_asm mov _pRenderListEntity, esi
+
+	_asm pushad
+
+	// keep objects out of the render list once they are past their draw distance
+	if (pNetGame && _pRenderListEntity && _pRenderListEntity->vtable == 0x866F60 &&
+		(_pRenderListEntity->dwProcessingFlags & 0x80000000))
+	{
+		_pRenderNetObject = pNetGame->FUNC_10002E10()->FUNC_100129D0(_pRenderListEntity);
+
+		if (_pRenderNetObject && (_pRenderNetObject->field_118B != 0 ||
+			_pRenderNetObject->field_54 > 300.0f || _pRenderNetObject->field_1199 != 0))
+		{
+			_asm popad
+			_asm pop esi
+			_asm retn
+		}
+	}
+
+	if (GLOBAL_1014FFAC && _pRenderListEntity && _pRenderListEntity->vtable == 0x866F60 &&
+		(_pRenderListEntity->dwProcessingFlags & 0x80000000))
+	{
+		_pRenderNetObject = GLOBAL_1014FFAC->FUNC_100129D0(_pRenderListEntity);
+
+		if (_pRenderNetObject && (_pRenderNetObject->field_118B != 0 ||
+			_pRenderNetObject->field_54 > 300.0f))
+		{
+			_asm popad
+			_asm pop esi
+			_asm retn
+		}
+	}
+
+	_asm
+	{
+		popad
+
+		// original code
+		mov esi, _pRenderListEntity
+		movsx eax, word ptr [esi+22h]
+		mov edx, 0x5534B9
+		jmp edx
+	}
 }
 
 //-----------------------------------------------------------

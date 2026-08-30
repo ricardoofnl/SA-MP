@@ -79,6 +79,7 @@ public:
 	CPlayerPool * GetPlayerPool() { return m_pPools->pPlayerPool; };
 	CPickupPool * GetPickupPool() { return m_pPools->pPickupPool; };
 	CObjectPool * GetObjectPool() { return m_pPools->pObjectPool; };
+	CObjectPool * FUNC_10002E10(); // todo: implement, returns m_pPools->pObjectPool
 	CGangZonePool * GetGangZonePool() { return m_pPools->pGangZonePool; };
 	RakClientInterface * GetRakClient() { return m_pRakClient; };
 
