@@ -885,7 +885,21 @@ NUDE CRenderer__RenderEverythingBarRoads_Hook()
 
 NUDE CRenderer__RenderFadingInEntities_Hook()
 {
-	// TODO: CRenderer__RenderFadingInEntities_Hook
+	_asm mov eax, 0x5531E0	;// CRenderer::RenderFadingInEntities
+	_asm call eax
+
+	if(pNetGame) {
+		unnamed_1015177C = pNetGame->GetObjectPool();
+		if(unnamed_1015177C) {
+			unnamed_1015177C->FUNC_10012BD0();
+		}
+	}
+
+	if(unnamed_1014FFAC) {
+		unnamed_1014FFAC->FUNC_10012BD0();
+	}
+
+	_asm ret
 }
 
 //-----------------------------------------------------------
