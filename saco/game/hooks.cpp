@@ -54,7 +54,7 @@ BYTE unnamed_10113AE8[3] = {0xFF,0x52,0x20}; // original `call dword ptr [edx+20
 
 PCHAR unnamed_10150734;
 DWORD unnamed_10150960;
-PCHAR unnamed_10151628;
+PCHAR unnamed_10151628;	// gxt key, also reused as the ped a use-gun task runs on
 DWORD unnamed_101516C8;
 DWORD unnamed_101516D0;
 DWORD unnamed_101516D4;
@@ -542,7 +542,6 @@ NUDE CCivillianPed__ProcessControl_Hook()
 
 //-----------------------------------------------------------
 
-DWORD unnamed_10151628;	// ped the task is running on
 WORD unnamed_10150730;
 BYTE unnamed_10150BC0;
 DWORD unnamed_1015168C;
