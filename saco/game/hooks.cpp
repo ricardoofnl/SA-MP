@@ -1837,9 +1837,28 @@ NUDE CWorld__ProcessLineOfSight_Hook()
 
 //-----------------------------------------------------------
 
+ENTITY_TYPE* 	pSniperFiringEntity = 0;
+
 NUDE CWeapon__FireSniper_Hook()
 {
-	// TODO: CWeapon__FireSniper_Hook
+	_asm mov eax, [esp+0x4]
+	_asm mov pSniperFiringEntity, eax
+	_asm pushad
+
+	if(pSniperFiringEntity != (ENTITY_TYPE*)GamePool_FindPlayerPed())
+	{
+		__asm
+		{
+			popad
+			retn 0xC
+		}
+	}
+
+	if(pGame && pGame->FindPlayerPed())
+		pGame->FindPlayerPed()->FUNC_100AFA70();
+
+	_asm popad
+	_asm ret 0xC
 }
 
 //-----------------------------------------------------------

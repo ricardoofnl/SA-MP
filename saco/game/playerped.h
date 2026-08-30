@@ -141,6 +141,8 @@ public:
 	VECTOR*		GetBonePosition(int iBone, VECTOR *vecPos);
 	VECTOR*		GetTransformedBonePosition(int iBone, VECTOR *vecOffset);
 
+	BOOL		FUNC_100AFA70(); // .text:100AFA70
+
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
 	struc_97 field_74[10];
