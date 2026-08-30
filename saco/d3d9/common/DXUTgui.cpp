@@ -5342,7 +5342,7 @@ bool CDXUTEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
     {
 	    case WM_CHAR:
         {
-            switch( (TCHAR)wParam )
+            switch( (WCHAR)wParam )
             {
                 // Backspace
                 case VK_BACK:
@@ -5373,7 +5373,7 @@ bool CDXUTEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                     CopyToClipboard();
 
                     // If the key is Ctrl-X, delete the selection too.
-                    if( (TCHAR)wParam == 24 )
+                    if( (WCHAR)wParam == 24 )
                     {
                         DeleteSelectionText();
                         m_pDialog->SendEvent( EVENT_EDITBOX_CHANGE, true, this );
@@ -5439,7 +5439,7 @@ bool CDXUTEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
 
 					if(strlen(GetTextA()) >= 128) return true;
 
-					bool bPlaceCaret;
+					bool bPlaceCaret = false;
 
                     // If we are in overwrite mode and there is already
                     // a char at the caret's position, simply replace it.
@@ -5454,16 +5454,24 @@ bool CDXUTEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
 						}
 						else
 						{
-
+							bPlaceCaret = m_Buffer.SetChar(m_nCaret, (CHAR)wParam);
 						}
                     } else
                     {
 						// Insert the char
-						if((WCHAR)wParam <= 255)
-							bPlaceCaret = m_Buffer.InsertChar(m_nCaret, (WCHAR)wParam);
+						int nCaret = m_nCaret;
+						if((WCHAR)wParam > 255)
+							bPlaceCaret = m_Buffer.InsertChar(nCaret, (WCHAR)wParam);
 						else
-							bPlaceCaret = m_Buffer.InsertChar(m_nCaret, (CHAR)wParam);
+							bPlaceCaret = m_Buffer.InsertChar(nCaret, (CHAR)wParam);
                     }
+
+					if( bPlaceCaret )
+					{
+						PlaceCaret( m_nCaret + 1 );
+						m_nSelStart = m_nCaret;
+					}
+
                     ResetCaretBlink();
                     m_pDialog->SendEvent( EVENT_EDITBOX_CHANGE, true, this );
                 }
