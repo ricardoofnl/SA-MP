@@ -666,38 +666,6 @@ bool CDXUTDialog::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
         m_bKeyboardInput = true;
     }
 
-    // If caption is enable, check for clicks in the caption area.
-    if( m_bCaption )
-    {
-        static bool bDrag;
-
-        if( uMsg == WM_LBUTTONDOWN || uMsg == WM_LBUTTONDBLCLK )
-        {
-            POINT mousePoint = { short(LOWORD(lParam)), short(HIWORD(lParam)) };
-
-            if( mousePoint.x >= m_x && mousePoint.x < m_x + m_width &&
-                mousePoint.y >= m_y && mousePoint.y < m_y + m_nCaptionHeight )
-            {
-                bDrag = true;
-                SetCapture( DXUTGetHWND() );
-                return true;
-            }
-        } else
-        if( uMsg == WM_LBUTTONUP && bDrag )
-        {
-            POINT mousePoint = { short(LOWORD(lParam)), short(HIWORD(lParam)) };
-
-            if( mousePoint.x >= m_x && mousePoint.x < m_x + m_width &&
-                mousePoint.y >= m_y && mousePoint.y < m_y + m_nCaptionHeight )
-            {
-                ReleaseCapture();
-                bDrag = false;
-                m_bMinimized = !m_bMinimized;
-                return true;
-            }
-        }
-    }
-
     // If the dialog is minimized, don't send any messages to controls.
     if( m_bMinimized )
         return false;
@@ -833,8 +801,6 @@ bool CDXUTDialog::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
         case WM_RBUTTONDBLCLK:
         case WM_MOUSEWHEEL:
         {
-			OutputDebugString("CDXUTDialog::MsgProc(MOUSE)");
-
             // If not accepting mouse input, return false to indicate the message should still 
             // be handled by the application (usually to move the camera).
             if( !m_bMouseInput )
