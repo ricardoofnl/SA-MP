@@ -6184,21 +6184,21 @@ void CDXUTIMEEditBox::OnFocusIn()
 
     if( s_bEnableImeSystem )
     {
-        _ImmAssociateContext( DXUTGetHWND(), s_hImcDef );
+        _ImmAssociateContext( pGame->GetMainWindowHwnd(), s_hImcDef );
         CheckToggleState();
     } else
-        _ImmAssociateContext( DXUTGetHWND(), NULL );
+        _ImmAssociateContext( pGame->GetMainWindowHwnd(), NULL );
 
     //
     // Set up the IME global state according to the current instance state
     //
     HIMC hImc;
-    if( NULL != ( hImc = _ImmGetContext( DXUTGetHWND() ) ) ) 
+    if( NULL != ( hImc = _ImmGetContext( pGame->GetMainWindowHwnd() ) ) ) 
     {
         if( !s_bEnableImeSystem )
             s_ImeState = IMEUI_STATE_OFF;
 
-        _ImmReleaseContext( DXUTGetHWND(), hImc );
+        _ImmReleaseContext( pGame->GetMainWindowHwnd(), hImc );
         CheckToggleState();
     }
 }
@@ -6211,7 +6211,7 @@ void CDXUTIMEEditBox::OnFocusOut()
 
     FinalizeString( false );  // Don't send the comp string as to match RichEdit behavior
 
-    _ImmAssociateContext( DXUTGetHWND(), NULL );
+    _ImmAssociateContext( pGame->GetMainWindowHwnd(), NULL );
 }
 
 
@@ -6400,12 +6400,12 @@ bool CDXUTIMEEditBox::HandleMouse( UINT uMsg, POINT pt, WPARAM wParam, LPARAM lP
                 // Now generate keypress events to move the comp string cursor
                 // to the click point.  First, if the candidate window is displayed,
                 // send Esc to close it.
-                HIMC hImc = _ImmGetContext( DXUTGetHWND() );
+                HIMC hImc = _ImmGetContext( pGame->GetMainWindowHwnd() );
                 if( !hImc )
                     return true;
 
                 _ImmNotifyIME( hImc, NI_CLOSECANDIDATE, 0, 0 );
-                _ImmReleaseContext( DXUTGetHWND(), hImc );
+                _ImmReleaseContext( pGame->GetMainWindowHwnd(), hImc );
 
                 switch( GetPrimaryLanguage() )
                 {
@@ -6575,7 +6575,7 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                 WCHAR wszCompStr[MAX_COMPSTRING_SIZE];
 
                 *trapped = true;
-                if( NULL == ( hImc = _ImmGetContext( DXUTGetHWND() ) ) )
+                if( NULL == ( hImc = _ImmGetContext( pGame->GetMainWindowHwnd() ) ) )
                 {
                     break;
                 }
@@ -6695,8 +6695,8 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                             int nCount = lstrlenW( s_CompString.GetBuffer() + s_nCompCaret );
                             // Send left keystrokes
                             for( int i = 0; i < nCount; ++i )
-                                SendMessage( DXUTGetHWND(), WM_KEYDOWN, VK_LEFT, 0 );
-                            SendMessage( DXUTGetHWND(), WM_KEYUP, VK_LEFT, 0 );
+                                SendMessage( pGame->GetMainWindowHwnd(), WM_KEYDOWN, VK_LEFT, 0 );
+                            SendMessage( pGame->GetMainWindowHwnd(), WM_KEYUP, VK_LEFT, 0 );
                         }
                     }
 
@@ -6718,7 +6718,7 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                     s_adwCompStringClause[lRet / sizeof(DWORD)] = 0;  // Terminate
                 }
 
-                _ImmReleaseContext( DXUTGetHWND(), hImc );
+                _ImmReleaseContext( pGame->GetMainWindowHwnd(), hImc );
             }
             break;
 
@@ -6751,7 +6751,7 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
 
                     s_CandList.bShowWindow = true;
                     *trapped = true;
-                    if( NULL == ( hImc = _ImmGetContext( DXUTGetHWND() ) ) )
+                    if( NULL == ( hImc = _ImmGetContext( pGame->GetMainWindowHwnd() ) ) )
                         break;
 
                     LPCANDIDATELIST lpCandList = NULL;
@@ -6814,7 +6814,7 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                             s_CandList.dwCount = lpCandList->dwPageSize;
 
                         HeapFree( GetProcessHeap(), 0, lpCandList );
-                        _ImmReleaseContext( DXUTGetHWND(), hImc );
+                        _ImmReleaseContext( pGame->GetMainWindowHwnd(), hImc );
 
                         // Korean and old Chinese IME can't have selection.
                         // User must use the number hotkey or Enter to select
