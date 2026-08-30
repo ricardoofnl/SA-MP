@@ -7762,8 +7762,8 @@ bool CUniBuffer::InsertString( int nIndex, const WCHAR *pStr, int nCount )
             return false;  // out of memory
     }
 
-    MoveMemory( m_pwszBuffer + nIndex + nCount, m_pwszBuffer + nIndex, sizeof(TCHAR) * ( lstrlenW( m_pwszBuffer ) - nIndex + 1 ) );
-    CopyMemory( m_pwszBuffer + nIndex, pStr, nCount * sizeof(TCHAR) );
+    MoveMemory( m_pwszBuffer + nIndex + nCount, m_pwszBuffer + nIndex, sizeof(WCHAR) * ( lstrlenW( m_pwszBuffer ) - nIndex + 1 ) );
+    CopyMemory( m_pwszBuffer + nIndex, pStr, nCount * sizeof(WCHAR) );
     m_bAnalyseRequired = true;
 
     return true;
