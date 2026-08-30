@@ -773,7 +773,43 @@ NUDE CGameShutdownHook()
 
 //-----------------------------------------------------------
 
-NUDE PedDamage_Hook() {}
+DWORD unnamed_101516A0;	// CEventDamage *
+DWORD unnamed_101516A4;	// CPed * taking the damage
+
+int __stdcall FUNC_100A3BB0(DWORD *pEventDamage, PED_TYPE *pPed); // todo: implement `FUNC_100A3BB0`
+
+NUDE PedDamage_Hook()
+{
+	__asm
+	{
+		mov eax, fs:0
+		test ecx, ecx
+		jz computeResponse
+		mov unnamed_101516A0, ecx
+		mov ebx, [esp+4]
+		test ebx, ebx
+		jz computeResponse
+		mov unnamed_101516A4, ebx
+		pushad
+
+		mov eax, unnamed_101516A4
+		push eax
+		mov ecx, unnamed_101516A0
+		push ecx
+		call FUNC_100A3BB0
+		test eax, eax
+		jz computeResponseAfterSync
+
+		// the netcode dealt with it, don't let the game apply the damage
+		popad
+		retn 0Ch
+	computeResponseAfterSync:
+		popad
+	computeResponse:
+		mov edx, 0x4B5AC6	;// CEventDamage::ComputeDamageResponse + 6
+		jmp edx
+	}
+}
 
 //-----------------------------------------------------------
 
