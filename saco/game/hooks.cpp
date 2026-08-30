@@ -1422,8 +1422,6 @@ public:
 	void FUNC_100A9E70();
 };
 
-extern CObjectPool *GLOBAL_1014FFAC; // todo: define, lives in another file
-
 DWORD dwRenderObjectRet = 0;
 ENTITY_TYPE *_pRenderEntity;
 CObject *_pRenderNetObject;
@@ -1451,9 +1449,9 @@ NUDE CObject__Render_Hook()
 		}
 	}
 
-	if (GLOBAL_1014FFAC && _pRenderEntity && (_pRenderEntity->dwProcessingFlags & 0x80000000))
+	if (unnamed_1014FFAC && _pRenderEntity && (_pRenderEntity->dwProcessingFlags & 0x80000000))
 	{
-		_pRenderNetObject = GLOBAL_1014FFAC->FUNC_100129D0(_pRenderEntity);
+		_pRenderNetObject = unnamed_1014FFAC->FUNC_100129D0(_pRenderEntity);
 		if (_pRenderNetObject) _pRenderNetObject->FUNC_100A9E30();
 	}
 
@@ -1469,7 +1467,7 @@ NUDE CObject__Render_Hook()
 	}
 
 	if (pNetGame && _pRenderNetObject) _pRenderNetObject->FUNC_100A9E70();
-	if (GLOBAL_1014FFAC && _pRenderNetObject) _pRenderNetObject->FUNC_100A9E70();
+	if (unnamed_1014FFAC && _pRenderNetObject) _pRenderNetObject->FUNC_100A9E70();
 
 	_asm popad
 	_asm retn
@@ -1790,10 +1788,10 @@ NUDE CRenderer__AddEntityToRenderList_Hook()
 		}
 	}
 
-	if (GLOBAL_1014FFAC && _pRenderListEntity && _pRenderListEntity->vtable == 0x866F60 &&
+	if (unnamed_1014FFAC && _pRenderListEntity && _pRenderListEntity->vtable == 0x866F60 &&
 		(_pRenderListEntity->dwProcessingFlags & 0x80000000))
 	{
-		_pRenderNetObject = GLOBAL_1014FFAC->FUNC_100129D0(_pRenderListEntity);
+		_pRenderNetObject = unnamed_1014FFAC->FUNC_100129D0(_pRenderListEntity);
 
 		if (_pRenderNetObject && (_pRenderNetObject->field_118B != 0 ||
 			_pRenderNetObject->field_54 > 300.0f))
