@@ -6757,6 +6757,7 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                     DXUTTRACE( wParam == IMN_CHANGECANDIDATE ? "  IMN_CHANGECANDIDATE\n" : "  IMN_OPENCANDIDATE\n" );
 
                     s_CandList.bShowWindow = true;
+                    dwImeWaitTick = GetTickCount();
                     *trapped = true;
                     if( NULL == ( hImc = _ImmGetContext( pGame->GetMainWindowHwnd() ) ) )
                         break;
@@ -6866,6 +6867,7 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                 {
                     DXUTTRACE( "  IMN_CLOSECANDIDATE\n" );
                     s_CandList.bShowWindow = false;
+                    dwImeWaitTick = GetTickCount();
                     if( !s_bShowReadingWindow )
                     {
                         s_CandList.dwCount = 0;
