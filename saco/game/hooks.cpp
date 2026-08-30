@@ -713,10 +713,6 @@ NUDE CWorld__ProcessPedsAfterPreRender_Hook()
 
 //-----------------------------------------------------------
 
-// 0x100B4860 and 0x100B6950, live in another translation unit
-BOOL __stdcall FUNC_100B4860(VEHICLE_TYPE *pVehicle);
-BOOL __stdcall FUNC_100B6950(VEHICLE_TYPE *pVehicle);
-
 DWORD unnamed_10150978;		// original ProcessControl of the vehicle class
 float unnamed_10150A34;
 VEHICLE_TYPE *unnamed_10150A38;
