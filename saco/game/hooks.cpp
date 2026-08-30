@@ -47,6 +47,7 @@ DWORD dwParamThis;
 
 DWORD unnamed_10150960;
 DWORD unnamed_101516D4;
+DWORD unnamed_101516D8; // vehicle being rendered
 DWORD unnamed_10151710;
 DWORD unnamed_10151810;
 DWORD unnamed_10151814;
@@ -759,7 +760,8 @@ NUDE RwRasterDestroy_Hook()
 
 NUDE CVehicle__Render_Hook()
 {
-	// TODO: CVehicle__Render_Hook
+	_asm mov unnamed_101516D8, esi
+	_asm ret
 }
 
 //-----------------------------------------------------------
