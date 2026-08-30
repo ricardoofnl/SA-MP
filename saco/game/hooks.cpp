@@ -713,9 +713,211 @@ NUDE CWorld__ProcessPedsAfterPreRender_Hook()
 
 //-----------------------------------------------------------
 
+// 0x100B4860 and 0x100B6950, live in another translation unit
+BOOL __stdcall FUNC_100B4860(VEHICLE_TYPE *pVehicle);
+BOOL __stdcall FUNC_100B6950(VEHICLE_TYPE *pVehicle);
+
+DWORD unnamed_10150978;		// original ProcessControl of the vehicle class
+float unnamed_10150A34;
+VEHICLE_TYPE *unnamed_10150A38;
+BYTE unnamed_10150AA0;
+DWORD unnamed_10150BBC;		// vtable of the vehicle being processed
+DWORD unnamed_10150C88;
+DWORD unnamed_10151690;
+
 NUDE AllVehicles_ProcessControl_Hook()
 {
-	// TODO: AllVehicles_ProcessControl_Hook
+	_asm mov unnamed_10150A38, ecx
+	_asm mov eax, [ecx]
+	_asm mov unnamed_10150BBC, eax
+	_asm pushad
+
+	if(unnamed_10150BBC == 0x871120) unnamed_10150978 = 0x6B1880;		// CAutomobile
+	else if(unnamed_10150BBC == 0x8721A0) unnamed_10150978 = 0x6F1770;	// CBoat
+	else if(unnamed_10150BBC == 0x871360) unnamed_10150978 = 0x6B9250;	// CBike
+	else if(unnamed_10150BBC == 0x871948) unnamed_10150978 = 0x6C9260;	// CPlane
+	else if(unnamed_10150BBC == 0x871680) unnamed_10150978 = 0x6C7050;	// CHeli
+	else if(unnamed_10150BBC == 0x871528) unnamed_10150978 = 0x6BFA30;	// CBmx
+	else if(unnamed_10150BBC == 0x8717D8) unnamed_10150978 = 0x6C8250;	// CMonsterTruck
+	else if(unnamed_10150BBC == 0x871AE8) unnamed_10150978 = 0x6CDCC0;	// CQuadBike
+	else if(unnamed_10150BBC == 0x872370) unnamed_10150978 = 0x6F86A0;	// CTrain
+	else if(unnamed_10150BBC == 0x871C28) unnamed_10150978 = 0x6CED20;	// CTrailer
+
+	byteSavedCurrentPlayer = *(BYTE *)0xB7CD74;
+
+	PED_TYPE *pDriver;
+	pDriver = unnamed_10150A38->pDriver;
+
+	// a remote player drives it, run the class ProcessControl with his keys and aim
+	if(unnamed_10150A38->pDriver && pDriver->dwPedType == 0 &&
+		pDriver != GamePool_FindPlayerPed() && byteSavedCurrentPlayer == 0)
+	{
+		byteProcessControlPlayerID = FindPlayerNumFromPedPtr((DWORD)pDriver);
+
+		GameStoreLocalPlayerKeys();
+		GameSetRemotePlayerKeys(byteProcessControlPlayerID);
+
+		unnamed_10150BC0 = *pbyteCameraMode;
+		*pbyteCameraMode = GameGetPlayerCameraMode(byteProcessControlPlayerID);
+		unnamed_10150730 = *wCameraMode2;
+		*wCameraMode2 = GameGetPlayerCameraMode(byteProcessControlPlayerID);
+		if(*wCameraMode2 == 4) *wCameraMode2 = 0;
+
+		GameStoreLocalPlayerAim();
+		GameSetRemotePlayerAim(byteProcessControlPlayerID);
+
+		if((unnamed_10150A38->byteFlags & 0x10) == 0)
+		{
+			if(unnamed_10150BBC == 0x871680) unnamed_10150A38->entity.nControlFlags |= 0x20;
+
+			pProcessControlKeys = GameGetInternalKeys();
+			pProcessControlKeys->wKeys1[14] = 0;
+			pProcessControlKeys->wKeys2[14] = 0;
+			pProcessControlKeys->wKeys1[16] = 0;
+			pProcessControlKeys->wKeys2[16] = 0;
+		} else {
+			unnamed_10150A38->entity.nControlFlags &= 0xDF;
+		}
+
+		unnamed_10150C88 = *(DWORD *)((BYTE *)unnamed_10150A38 + 0x648);
+		*(DWORD *)&unnamed_10150A34 = *(DWORD *)((BYTE *)unnamed_10150A38 + 0x64C);
+
+		// let the game process it as a civillian driven vehicle
+		*pbyteCurrentPlayer = 0;
+		unnamed_10150A38->pDriver->dwPedType = 4;
+		unnamed_10150AA0 = unnamed_10150A38->entity.nControlFlags;
+		unnamed_10150A38->entity.nControlFlags = 0x1A;
+
+		_asm mov edx, unnamed_10150A38
+		_asm lea ecx, [edx+0x138]
+		_asm mov edx, 0x502280
+		_asm call edx
+
+		unnamed_10150A38->entity.nControlFlags = unnamed_10150AA0;
+		unnamed_10150A38->pDriver->dwPedType = 0;
+		*pbyteCurrentPlayer = byteProcessControlPlayerID;
+
+		MATRIX4X4 *pMatrix = unnamed_10150A38->entity.mat;
+		if(pMatrix)
+		{
+			unnamed_10150A48 = *pMatrix;
+			*(DWORD *)&unnamed_10150C1C = *(DWORD *)&unnamed_10150A38->entity.vecMoveSpeed.X;
+			*(DWORD *)&unnamed_10150C20 = *(DWORD *)&unnamed_10150A38->entity.vecMoveSpeed.Y;
+			*(DWORD *)&unnamed_10150C24 = *(DWORD *)&unnamed_10150A38->entity.vecMoveSpeed.Z;
+		}
+
+		_asm mov ecx, unnamed_10150A38
+		_asm mov eax, unnamed_10150978
+		_asm call eax
+
+		if(unnamed_10150A38->entity.mat && !FUNC_100B6950(unnamed_10150A38) &&
+			!IsATrainPart(&unnamed_10150A38->entity))
+		{
+			// keep the height and vertical speed the server gave us
+			*(DWORD *)&unnamed_10150A38->entity.mat->pos.Z = *(DWORD *)&unnamed_10150A48.pos.Z;
+			unnamed_10150A38->entity.vecMoveSpeed.Z = unnamed_10150C24;
+		}
+		else if(unnamed_10150A38->entity.mat && (unnamed_10150978 == 0x6F1770 ||
+			unnamed_10150978 == 0x6C9260 || unnamed_10150978 == 0x6C7050))
+		{
+			*(DWORD *)&unnamed_10150A38->entity.mat->pos.Z = *(DWORD *)&unnamed_10150A48.pos.Z;
+			unnamed_10150A38->entity.vecMoveSpeed.Z = unnamed_10150C24;
+		}
+
+		if(unnamed_10150978 == 0x6BFA30 || unnamed_10150978 == 0x6B9250)
+		{
+			// bikes, ease the lean angle half way back to the synced one
+			*(DWORD *)((BYTE *)unnamed_10150A38 + 0x648) = unnamed_10150C88;
+			*(float *)((BYTE *)unnamed_10150A38 + 0x64C) = unnamed_10150A34;
+
+			if(*(float *)((BYTE *)unnamed_10150A38 + 0x64C) > *(float *)((BYTE *)unnamed_10150A38 + 0x648))
+			{
+				*(float *)((BYTE *)unnamed_10150A38 + 0x648) = (*(float *)((BYTE *)unnamed_10150A38 + 0x64C) -
+					*(float *)((BYTE *)unnamed_10150A38 + 0x648)) * 0.5f + *(float *)((BYTE *)unnamed_10150A38 + 0x648);
+			}
+			else if(*(float *)((BYTE *)unnamed_10150A38 + 0x64C) < *(float *)((BYTE *)unnamed_10150A38 + 0x648))
+			{
+				*(float *)((BYTE *)unnamed_10150A38 + 0x648) = *(float *)((BYTE *)unnamed_10150A38 + 0x648) -
+					(*(float *)((BYTE *)unnamed_10150A38 + 0x648) - *(float *)((BYTE *)unnamed_10150A38 + 0x64C)) * 0.5f;
+			}
+		}
+
+		*pbyteCurrentPlayer = 0;
+		GameSetLocalPlayerKeys();
+		*pbyteCameraMode = unnamed_10150BC0;
+		*wCameraMode2 = unnamed_10150730;
+		GameSetLocalPlayerAim();
+
+		_asm popad
+		_asm retn
+	}
+	else if(pDriver && pDriver->dwPedType == 0 &&
+		unnamed_10150A38->pDriver == GamePool_FindPlayerPed())
+	{
+		if((unnamed_10150A38->byteFlags & 0x10) == 0)
+		{
+			if(unnamed_10150BBC == 0x871680) unnamed_10150A38->entity.nControlFlags |= 0x20;
+
+			unnamed_10151690 = 1;
+			GameStoreLocalPlayerKeys();
+
+			pProcessControlKeys = GameGetInternalKeys();
+			pProcessControlKeys->wKeys1[14] = 0;
+			pProcessControlKeys->wKeys2[14] = 0;
+			pProcessControlKeys->wKeys1[16] = 0;
+			pProcessControlKeys->wKeys2[16] = 0;
+		} else {
+			unnamed_10150A38->entity.nControlFlags &= 0xDF;
+		}
+
+		_asm mov edx, unnamed_10150A38
+		_asm lea ecx, [edx+0x138]
+		_asm mov edx, 0x502280
+		_asm call edx
+
+		_asm mov ecx, unnamed_10150A38
+		_asm mov eax, unnamed_10150978
+		_asm call eax
+
+		if(unnamed_10151690)
+		{
+			unnamed_10151690 = 0;
+			GameSetLocalPlayerKeys();
+		}
+
+		_asm popad
+		_asm retn
+	}
+	else
+	{
+		if(FUNC_100B4860(unnamed_10150A38) || IsATrainPart(&unnamed_10150A38->entity) ||
+			FUNC_100B6950(unnamed_10150A38))
+		{
+			MATRIX4X4 *pMatrix = unnamed_10150A38->entity.mat;
+			if(pMatrix)
+			{
+				unnamed_10150A48 = *pMatrix;
+				*(DWORD *)&unnamed_10150C1C = *(DWORD *)&unnamed_10150A38->entity.vecMoveSpeed.X;
+				*(DWORD *)&unnamed_10150C20 = *(DWORD *)&unnamed_10150A38->entity.vecMoveSpeed.Y;
+				*(DWORD *)&unnamed_10150C24 = *(DWORD *)&unnamed_10150A38->entity.vecMoveSpeed.Z;
+			}
+
+			_asm mov edx, unnamed_10150A38
+			_asm lea ecx, [edx+0x138]
+			_asm mov edx, 0x502280
+			_asm call edx
+
+			_asm mov ecx, unnamed_10150A38
+			_asm mov eax, unnamed_10150978
+			_asm call eax
+		}
+
+		_asm popad
+		_asm retn
+	}
+
+	_asm popad
+	_asm retn
 }
 
 //-----------------------------------------------------------
