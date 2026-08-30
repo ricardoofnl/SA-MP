@@ -850,9 +850,39 @@ NUDE CRadar__DrawMap__FindPlayerSpeed_Hook()
 
 //-----------------------------------------------------------
 
+DWORD dwObjectInstance = 0;
+DWORD dwObjectInstanceUnused = 0;
+BOOL bReplaceAllObjects = FALSE;
+
+int FUNC_1009D050(int iModelID, float fX, float fY, float fZ); // todo: implement `IsObjectRemoved`
+
 NUDE CFileLoader__LoadObjectInstance_Hook()
 {
-	// TODO: CFileLoader__LoadObjectInstance_Hook
+	_asm mov eax, [esp+4]
+	_asm mov dwObjectInstance, eax
+	_asm mov eax, [esp+8]
+	_asm mov dwObjectInstanceUnused, eax
+
+	_asm pushad
+
+	// replace removed objects with an invisible model
+	if (dwObjectInstance && FUNC_1009D050(*(int *)(dwObjectInstance + 0x1C), *(float *)dwObjectInstance,
+		*(float *)(dwObjectInstance + 4), *(float *)(dwObjectInstance + 8)))
+	{
+		*(int *)(dwObjectInstance + 0x1C) = 19300;
+	}
+
+	if (bReplaceAllObjects) *(int *)(dwObjectInstance + 0x1C) = 19300;
+
+	_asm
+	{
+		popad
+
+		push -1
+		push 0x83C931
+		mov eax, 0x538097
+		jmp eax
+	}
 }
 
 //-----------------------------------------------------------
