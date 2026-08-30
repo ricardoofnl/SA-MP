@@ -81,6 +81,7 @@ public:
 	struc_41 * GetSettings() { return field_3D5; };
 
 	CVehiclePool * GetVehiclePool() { return m_pPools->pVehiclePool; };
+	CVehiclePool * FUNC_10001180(); // .text:10001180, out of line copy of GetVehiclePool
 	CPlayerPool * GetPlayerPool() { return m_pPools->pPlayerPool; };
 	CPickupPool * GetPickupPool() { return m_pPools->pPickupPool; };
 	CObjectPool * GetObjectPool() { return m_pPools->pObjectPool; };

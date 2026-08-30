@@ -1602,9 +1602,52 @@ NUDE CEntity__DeleteRwObject_Hook()
 
 //-----------------------------------------------------------
 
+VEHICLE_TYPE	*_pBreakTowLinkVehicle;
+VEHICLEID		_BreakTowLinkTractorId;
+CVehiclePool	*_pBreakTowLinkPool;
+// set while samp detaches a trailer itself, so gta gets to break the link
+BOOL			bIgnoreBreakTowLinkHook;
+CVehicle		*_pBreakTowLinkTractor;
+
 NUDE CAutomobile__BreakTowLink_Hook()
 {
-	// TODO: CAutomobile__BreakTowLink_Hook
+	__asm
+	{
+		mov _pBreakTowLinkVehicle, ecx
+
+		pushad
+	}
+
+	if (pNetGame && !bIgnoreBreakTowLinkHook && _pBreakTowLinkVehicle &&
+		_pBreakTowLinkVehicle->fHealth > 0.0f)
+	{
+		_pBreakTowLinkPool = pNetGame->FUNC_10001180();
+		_BreakTowLinkTractorId = _pBreakTowLinkPool->FUNC_1001EB90(_pBreakTowLinkVehicle->dwTractor);
+
+		if (_BreakTowLinkTractorId != 0xFFFF)
+		{
+			_pBreakTowLinkTractor = (CVehicle *)_pBreakTowLinkPool->FUNC_10001120(_BreakTowLinkTractorId);
+
+			if (_pBreakTowLinkTractor && !_pBreakTowLinkTractor->IsDriverLocalPlayer() &&
+				*(DWORD *)_pBreakTowLinkTractor->_gap48)
+			{
+				__asm
+				{
+					popad
+					retn
+				}
+			}
+		}
+	}
+
+	__asm
+	{
+		popad
+
+		// call original CAutomobile::BreakTowLink
+		mov eax, 0x6A4400
+		jmp eax
+	}
 }
 
 //-----------------------------------------------------------
