@@ -46,6 +46,7 @@ DWORD dwParam2;
 DWORD dwParamThis;
 
 DWORD unnamed_101516D4;
+DWORD unnamed_10151710;
 DWORD unnamed_10151810;
 DWORD unnamed_10151814;
 DWORD unnamed_10151818;
@@ -761,7 +762,16 @@ NUDE CObject__Render_Hook()
 
 NUDE CRadar__DrawMap__FindPlayerSpeed_Hook()
 {
-	// TODO: CRadar__DrawMap__FindPlayerSpeed_Hook
+	// keep the map still while the local player is a vehicle passenger
+	if(pGame && pGame->FindPlayerPed() && pGame->FindPlayerPed()->IsInVehicle() &&
+		pGame->FindPlayerPed()->sub_100ABFC0())
+	{
+		_asm lea eax, unnamed_10151710
+		_asm ret
+	}
+
+	_asm mov edx, 0x56E090	;// FindPlayerSpeed
+	_asm jmp edx
 }
 
 //-----------------------------------------------------------

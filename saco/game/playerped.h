@@ -49,6 +49,7 @@ public:
 	void  SetStateFlags(DWORD dwStateFlags);
 	BOOL  IsDead();
 	BOOL  IsInVehicle();
+	BOOL  sub_100ABFC0(); // .text:100ABFC0
 	BYTE  GetActionTrigger();
 	void  SetActionTrigger(BYTE byteTrigger);
 
