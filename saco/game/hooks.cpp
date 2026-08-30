@@ -1050,10 +1050,40 @@ NUDE CAutomobile__BreakTowLink_Hook()
 
 //-----------------------------------------------------------
 
+ENTITY_TYPE	*_pAttachedEntity;
+CEntity		*_pAttachedObject;
+DWORD		_dwAttachedEntityEsp;
+DWORD		_dwAttachedEntityResult;
+
 NUDE CWorld__ProcessAttachedEntities__PositionAttachedEntity_Hook()
 {
-	// TODO: CWorld__ProcessAttachedEntities__PositionAttachedEntity_Hook
-}
+	__asm
+	{
+		mov _dwAttachedEntityEsp, esp
+		mov _pAttachedEntity, ecx
+
+		pushad
+
+		// call original CEntity::PositionAttachedEntity
+		mov ecx, _pAttachedEntity
+		mov ebx, 0x546FF0
+		call ebx
+
+		mov _dwAttachedEntityResult, eax
+	}
+
+	if (pNetGame && pNetGame->GetObjectPool())
+	{
+		_pAttachedObject = pNetGame->GetObjectPool()->FUNC_100129D0(_pAttachedEntity);
+		if (_pAttachedObject) _pAttachedObject->FUNC_100A7E20();
+	}
+
+	__asm
+	{
+		popad
+		mov eax, _dwAttachedEntityResult
+		retn
+	}}
 
 //-----------------------------------------------------------
 

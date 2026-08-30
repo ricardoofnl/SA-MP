@@ -49,6 +49,8 @@ public:
 	DWORD GetWorldBoundRadius();
 	void  SetEulerAngles(float fX, float fY, float fZ);
 
+	void  FUNC_100A7E20(); // .text:100A7E20
+
 	virtual void  Add();
 	virtual void  Remove();
 	BOOL  IsAdded();
