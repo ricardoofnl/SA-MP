@@ -1250,7 +1250,48 @@ NUDE CAutomobile__ProcessEntityCollision_Hook()
 
 NUDE CBike__ProcessEntityCollision_Hook()
 {
-	// TODO: CBike__ProcessEntityCollision_Hook
+	__asm
+	{
+		mov dwCollisionThis, ecx
+		mov edx, [esp]
+		mov dwCollisionRetAddr, edx
+		mov edx, [esp+4]
+		mov dwCollisionEntity, edx
+		pushad
+		cmp pNetGame, 0
+		jz process_collision
+		mov eax, pNetGame
+		movzx ecx, byte ptr [eax+0x232]			// pNetGame->field_232
+		test ecx, ecx
+		jz process_collision
+		cmp dwCollisionThis, 0
+		jz process_collision
+		cmp dwCollisionEntity, 0
+		jz process_collision
+		mov edx, dwCollisionEntity
+		movzx eax, word ptr [edx+0x22]			// entity.nModelIndex
+		cmp eax, 400
+		jl process_collision
+		mov ecx, dwCollisionEntity
+		movzx edx, word ptr [ecx+0x22]
+		cmp edx, 611							// only vehicle models pass
+		jg process_collision
+		mov eax, dwCollisionThis
+		cmp dword ptr [eax+0x460], 0			// pVehicle->pDriver
+		jz process_collision
+		mov ecx, dwCollisionEntity
+		cmp dword ptr [ecx+0x460], 0
+		jz process_collision
+		popad
+
+		// both vehicles are being driven, so don't collide them
+		mov eax, 0
+		retn 8
+	process_collision:
+		popad
+		mov edx, 0x6BDEA0						// CBike::ProcessEntityCollision
+		jmp edx
+	}
 }
 
 //-----------------------------------------------------------
