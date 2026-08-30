@@ -788,7 +788,33 @@ exitFn:
 
 NUDE RwRasterDestroy_Hook()
 {
-	// TODO: RwRasterDestroy_Hook
+	__asm
+	{
+		mov eax, [esp+4]	;// arg0 (RwRaster *)
+		mov unnamed_101516D0, eax
+		pushad
+
+		// never let the game destroy our cached plate raster
+		cmp unnamed_10113AD8, 0
+		jz destroyRaster
+		cmp unnamed_101516C8, 0
+		jz destroyRaster
+		mov eax, unnamed_101516D0
+		cmp eax, unnamed_101516C8
+		jnz destroyRaster
+
+		popad
+		mov eax, 1
+		retn
+
+destroyRaster:
+		popad
+		push esi
+		mov esi, [esp+8]
+		push esi
+		mov edx, unnamed_101516D4
+		jmp edx
+	}
 }
 
 //-----------------------------------------------------------
