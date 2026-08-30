@@ -79,6 +79,7 @@
 				OmitFramePointers="TRUE"
 				AdditionalIncludeDirectories="d3d9\include\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;SACO_EXPORTS;SAMPCLI"
+				StringPooling="TRUE"
 				ExceptionHandling="TRUE"
 				RuntimeLibrary="0"
 				StructMemberAlignment="1"
