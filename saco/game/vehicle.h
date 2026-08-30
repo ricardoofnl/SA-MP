@@ -71,6 +71,8 @@ public:
 
 	BOOL	IsOccupied();
 
+	BOOL	FUNC_100B8330(); // .text:100B8330
+
 
 };
 

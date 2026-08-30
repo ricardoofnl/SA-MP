@@ -48,6 +48,7 @@ DWORD dwParamThis;
 
 DWORD unnamed_10113AD8 = 1;
 DWORD unnamed_10113ADC = 0x7FB270; // RwRasterCreate
+WORD  unnamed_10113B2C;
 
 DWORD unnamed_101506C8;
 DWORD unnamed_10150960;
@@ -59,6 +60,9 @@ DWORD unnamed_101516D0;
 DWORD unnamed_101516D4;
 DWORD unnamed_101516D8; // vehicle being rendered
 DWORD unnamed_10151710;
+DWORD unnamed_10151804;
+bool  unnamed_10151808;
+DWORD unnamed_1015180C;
 DWORD unnamed_10151810;
 DWORD unnamed_10151814;
 DWORD unnamed_10151818;
@@ -1705,7 +1709,47 @@ NUDE CPhysical__ProcessEntityCollision_Hook()
 
 NUDE CVehicle__UsesSiren_Hook()
 {
-	// TODO: CVehicle__UsesSiren_Hook
+	__asm
+	{
+		// the streamed in check below already answered for this vehicle
+		mov eax, unnamed_1015180C
+		test eax, eax
+		jz usesSiren
+		mov unnamed_1015180C, 0
+		mov al, 1
+		retn
+
+usesSiren:
+		mov unnamed_10151804, ecx
+		mov edx, 0x6D8470					// CVehicle::UsesSiren
+		call edx
+		mov unnamed_10151808, al
+	}
+
+	if(!unnamed_10151808)
+	{
+		_asm pushad
+
+		// the game doesn't know about server sided sirens, ask our own vehicle
+		if(pNetGame)
+		{
+			CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+			if(pVehiclePool)
+			{
+				unnamed_10113B2C = pVehiclePool->FUNC_1001EB90(unnamed_10151804);
+				if(unnamed_10113B2C != 0xFFFF)
+				{
+					CVehicle *pVehicle = (CVehicle *)pNetGame->GetVehiclePool()->FUNC_10001120(unnamed_10113B2C);
+					if(pVehicle->FUNC_100B8330()) unnamed_10151808 = 1;
+				}
+			}
+		}
+
+		_asm popad
+	}
+
+	_asm mov al, unnamed_10151808
+	_asm retn
 }
 
 //-----------------------------------------------------------
