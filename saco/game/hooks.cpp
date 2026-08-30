@@ -46,6 +46,9 @@ DWORD dwParam2;
 DWORD dwParamThis;
 
 DWORD unnamed_101516D4;
+DWORD unnamed_10151810;
+DWORD unnamed_10151814;
+DWORD unnamed_10151818;
 DWORD unnamed_10151824;
 
 WORD wLastRendObj=0;
@@ -926,7 +929,26 @@ NUDE CVehicle__UsesSiren_Hook()
 
 NUDE CAEWeatherAudioEntity__UpdateParameters_Hook()
 {
-	// TODO: CAEWeatherAudioEntity__UpdateParameters_Hook
+	_asm mov edx, [esp+4]
+	_asm mov unnamed_10151814, edx
+	_asm mov edx, [esp+8]
+	_asm mov unnamed_10151818, edx
+	unnamed_10151810 = *(DWORD *)0xB72914;
+
+	// mute the rain/wind audio while the outdoor ambience track is disabled
+	if(pGame)
+	{
+		CAudio *pAudio = pGame->m_pGameAudio;
+		if(pAudio->field_4) *(DWORD *)0xB72914 = 1;
+	}
+
+	_asm push unnamed_10151818
+	_asm push unnamed_10151814
+	_asm mov edx, 0x505A00
+	_asm call edx
+
+	*(DWORD *)0xB72914 = unnamed_10151810;
+	_asm ret 8
 }
 
 //-----------------------------------------------------------
