@@ -1123,7 +1123,23 @@ NUDE CCollision__BuildCacheOfCameraCollision_Hook()
 
 NUDE CCollision__CheckCameraCollisionVehicles_Hook()
 {
-	// TODO: CCollision__CheckCameraCollisionVehicles_Hook
+	__asm
+	{
+		pushad
+		cmp pNetGame, 0
+		jz do_check
+		mov eax, pNetGame
+		movzx ecx, byte ptr [eax+0x232]		// pNetGame->field_232
+		test ecx, ecx
+		jz do_check
+		popad
+		xor eax, eax
+		retn
+	do_check:
+		popad
+		mov eax, 0x41A990					// CCollision::CheckCameraCollisionVehicles
+		jmp eax
+	}
 }
 
 //-----------------------------------------------------------
