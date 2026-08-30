@@ -7693,7 +7693,7 @@ bool CUniBuffer::RemoveChar( int nIndex )
     if( !lstrlenW( m_pwszBuffer ) || nIndex < 0 || nIndex >= lstrlenW( m_pwszBuffer ) )
         return false;  // Invalid index
 
-    MoveMemory( m_pwszBuffer + nIndex, m_pwszBuffer + nIndex + 1, sizeof(TCHAR) * ( lstrlenW( m_pwszBuffer ) - nIndex ) );
+    MoveMemory( m_pwszBuffer + nIndex, m_pwszBuffer + nIndex + 1, sizeof(WCHAR) * ( lstrlenW( m_pwszBuffer ) - nIndex ) );
     m_bAnalyseRequired = true;
     return true;
 }
