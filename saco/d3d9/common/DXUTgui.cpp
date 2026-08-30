@@ -4242,7 +4242,7 @@ void CDXUTListBox::UpdateRects()
     // Update the scrollbar's rects
     m_ScrollBar.SetLocation( m_rcBoundingBox.right - m_nSBWidth, m_rcBoundingBox.top );
     m_ScrollBar.SetSize( m_nSBWidth, m_height );
-    DXUTFontNode* pFontNode = m_pDialog->GetManager()->GetFontNode( m_Elements.GetAt( 0 )->iFont );
+    DXUTFontNode* pFontNode = m_pDialog->GetFont( m_Elements.GetAt( 0 )->iFont );
     if( pFontNode && pFontNode->nHeight )
     {
         m_ScrollBar.SetPageSize( RectHeight( m_rcText ) / pFontNode->nHeight );
