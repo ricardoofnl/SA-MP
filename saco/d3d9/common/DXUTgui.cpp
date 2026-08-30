@@ -6,6 +6,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 #include "dxstdafx.h"
+// <new.h> omits operator delete's throw(), which forces unwind frames into
+// every dtor that deletes
+#include <new>
 #include "DXUTgui.h"
 #include "DXUTsettingsDlg.h"
 #undef min // use __min instead
