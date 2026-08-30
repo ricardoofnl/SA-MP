@@ -4258,7 +4258,7 @@ void CDXUTListBox::UpdateRects()
 
 
 //--------------------------------------------------------------------------------------
-HRESULT CDXUTListBox::AddItem( const TCHAR *wszText, void *pData )
+HRESULT CDXUTListBox::AddItem( const TCHAR *wszText, void *pData, D3DCOLOR TextColor )
 {
     DXUTListBoxItem *pNewItem = new DXUTListBoxItem;
     if( !pNewItem )
@@ -4268,6 +4268,10 @@ HRESULT CDXUTListBox::AddItem( const TCHAR *wszText, void *pData )
     pNewItem->pData = pData;
     SetRect( &pNewItem->rcActive, 0, 0, 0, 0 );
     pNewItem->bSelected = false;
+    pNewItem->TextColor = TextColor;
+    pNewItem->field_29D = false;
+    for( int i = 0; i < 3; i++ )
+        ZeroMemory( pNewItem->strColumnText[i], 64 );
 
     HRESULT hr = m_Items.Add( pNewItem );
     if( FAILED(hr) )
