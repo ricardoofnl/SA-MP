@@ -46,7 +46,12 @@ DWORD dwParam1;
 DWORD dwParam2;
 DWORD dwParamThis;
 
+DWORD unnamed_10113AD8 = 1;
+DWORD unnamed_10113ADC = 0x7FB270; // RwRasterCreate
+
 DWORD unnamed_10150960;
+DWORD unnamed_101516C8;
+DWORD unnamed_101516D0;
 DWORD unnamed_101516D4;
 DWORD unnamed_101516D8; // vehicle being rendered
 DWORD unnamed_10151710;
@@ -749,7 +754,34 @@ NUDE GetText_Hook()
 
 NUDE CCustomCarPlateMgr__CreatePlateTexture__RwRasterCreate_Hook()
 {
-	// TODO: CCustomCarPlateMgr__CreatePlateTexture__RwRasterCreate_Hook
+	__asm
+	{
+		// only ever create the plate raster once
+		mov eax, unnamed_101516C8
+		test eax, eax
+		jnz exitFn
+
+		cmp iGtaVersion, GTASA_VERSION_USA10
+		jnz createRaster
+		mov unnamed_10113ADC, 0x7FB230
+
+createRaster:
+		push 0x604
+		push 0x20
+		push 0x10
+		push 0x40
+		mov ebx, unnamed_10113ADC
+		call ebx
+		mov unnamed_101516C8, eax
+		pop ebx
+		pop ebx
+		pop ebx
+		pop ebx
+
+exitFn:
+		mov eax, unnamed_101516C8
+		retn
+	}
 }
 
 //-----------------------------------------------------------
