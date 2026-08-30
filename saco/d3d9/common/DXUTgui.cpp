@@ -5786,18 +5786,23 @@ HRESULT CDXUTIMEEditBox::StaticOnCreateDevice()
 //--------------------------------------------------------------------------------------
 void CDXUTIMEEditBox::UpdateRects()
 {
-    // Temporary adjust m_width so that CDXUTEditBox can compute
-    // the correct rects for its rendering since we need to make space
-    // for the indicator button
-    int nWidth = m_width;
-    m_width -= m_nIndicatorWidth + m_nBorder * 2; // Make room for the indicator button
-    CDXUTEditBox::UpdateRects();
-    m_width = nWidth;  // Restore
+    if( s_bEnableImeSystem )
+    {
+        // Temporary adjust m_width so that CDXUTEditBox can compute
+        // the correct rects for its rendering since we need to make space
+        // for the indicator button
+        int nWidth = m_width;
+        m_width -= m_nIndicatorWidth + m_nBorder * 2; // Make room for the indicator button
+        CDXUTEditBox::UpdateRects();
+        m_width = nWidth;  // Restore
 
-    // Compute the indicator button rectangle
-    SetRect( &m_rcIndicator, m_rcBoundingBox.right, m_rcBoundingBox.top, m_x + m_width, m_rcBoundingBox.bottom );
+        // Compute the indicator button rectangle
+        SetRect( &m_rcIndicator, m_rcBoundingBox.right, m_rcBoundingBox.top, m_x + m_width, m_rcBoundingBox.bottom );
 //    InflateRect( &m_rcIndicator, -m_nBorder, -m_nBorder );
-    m_rcBoundingBox.right = m_rcBoundingBox.left + m_width;
+        m_rcBoundingBox.right = m_rcBoundingBox.left + m_width;
+    }
+    else
+        CDXUTEditBox::UpdateRects();
 }
 
 
