@@ -542,9 +542,71 @@ NUDE CCivillianPed__ProcessControl_Hook()
 
 //-----------------------------------------------------------
 
+DWORD unnamed_10151628;	// ped the task is running on
+WORD unnamed_10150730;
+BYTE unnamed_10150BC0;
+DWORD unnamed_1015168C;
+
 NUDE TaskUseGun_Hook()
 {
-	// TODO: TaskUseGun_Hook
+	_asm mov unnamed_10151628, ecx
+	_asm mov eax, [esp+4]
+	_asm mov dwProcessControlPed, eax
+
+	byteSavedCurrentPlayer = *pbyteCurrentPlayer;
+	byteProcessControlPlayerID = FindPlayerNumFromPedPtr(dwProcessControlPed);
+
+	if(dwProcessControlPed && byteProcessControlPlayerID && !byteSavedCurrentPlayer)
+	{
+		// run the task with the remote player's keys, camera and skills in place
+		GameStoreLocalPlayerKeys();
+		GameSetRemotePlayerKeys(byteProcessControlPlayerID);
+
+		unnamed_10150BC0 = *pbyteCameraMode;
+		*pbyteCameraMode = GameGetPlayerCameraMode(byteProcessControlPlayerID);
+
+		unnamed_10150730 = *wCameraMode2;
+		*wCameraMode2 = GameGetPlayerCameraMode(byteProcessControlPlayerID);
+		if(*wCameraMode2 == 4) *wCameraMode2 = 0;
+
+		GameStoreLocalPlayerCameraExtZoom();
+		GameSetRemotePlayerCameraExtZoom(byteProcessControlPlayerID);
+
+		GameStoreLocalPlayerAim();
+		GameSetRemotePlayerAim(byteProcessControlPlayerID);
+
+		GameStoreLocalPlayerWeaponSkills();
+		GameSetRemotePlayerWeaponSkills(byteProcessControlPlayerID);
+
+		*pbyteCurrentPlayer = byteProcessControlPlayerID;
+
+		_asm mov ecx, unnamed_10151628
+		_asm push dwProcessControlPed
+		_asm mov eax, 0x624ED0	;// CTaskSimpleUseGun::ProcessPed
+		_asm call eax
+
+		*pbyteCameraMode = unnamed_10150BC0;
+		*wCameraMode2 = unnamed_10150730;
+
+		GameSetLocalPlayerWeaponSkills();
+		GameSetLocalPlayerCameraExtZoom();
+		*pbyteCurrentPlayer = 0;
+		GameSetLocalPlayerAim();
+		GameSetLocalPlayerKeys();
+	}
+	else
+	{
+		unnamed_1015168C = 1;
+
+		_asm mov ecx, unnamed_10151628
+		_asm push dwProcessControlPed
+		_asm mov eax, 0x624ED0
+		_asm call eax
+
+		unnamed_1015168C = 0;
+	}
+
+	_asm retn 4
 }
 
 //-----------------------------------------------------------
