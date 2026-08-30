@@ -106,6 +106,8 @@ public:
 	void ReturnToClassSelection() { m_bWantsAnotherClass = TRUE; };
 
 	BOOL IsInRCMode() { return m_bInRCMode; };
+
+	void FUNC_10005BF0(WORD a1); // .text:10005BF0
 };
 
 //----------------------------------------------------------

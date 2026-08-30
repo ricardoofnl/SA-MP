@@ -599,9 +599,72 @@ noTaskDelete:
 
 //-----------------------------------------------------------
 
+DWORD dwExitTaskThis;
+DWORD dwPutOutOfVehicle = 0xFFFFFFFF;
+CVehiclePool *pExitVehiclePool;
+WORD wExitVehicleID;
+CVehicle *pExitVehicle;
+CLocalPlayer *pExitLocalPlayer;
+MATRIX4X4 matExitVehicle;
+
 NUDE TaskExitVehicle()
 {
-	// TODO: TaskExitVehicle
+	_asm mov ebp, esp
+	_asm mov dwExitTaskThis, ecx
+	_asm mov eax, [ebp]
+	_asm mov dwHookRetnAddr, eax
+	_asm mov eax, [ebp+4]
+	_asm mov dwEnterExitVehicle, eax
+
+	dwPutOutOfVehicle = 0xFFFFFFFF;
+
+	if(!bIgnoreNextExit &&
+		(dwHookRetnAddr == 0x5704A1 || dwHookRetnAddr == 0x5703FC))
+	{
+		if(pNetGame)
+		{
+			if(GamePool_FindPlayerPed()->pVehicle == dwEnterExitVehicle)
+			{
+				pExitVehiclePool = pNetGame->GetVehiclePool();
+				wExitVehicleID = pExitVehiclePool->FUNC_1001EB90((int)GamePool_FindPlayerPed()->pVehicle);
+
+				if(wExitVehicleID != 0xFFFF)
+				{
+					pExitVehicle = (CVehicle *)pExitVehiclePool->FUNC_10001120(wExitVehicleID);
+					pExitLocalPlayer = pNetGame->GetPlayerPool()->GetLocalPlayer();
+
+					if(pExitVehicle && pExitLocalPlayer)
+					{
+						if(pExitVehicle->IsATrainPart())
+						{
+							// exiting a train part normally doesn't work, dump them next to it
+							dwPutOutOfVehicle = 1;
+							pExitVehicle->GetMatrix(&matExitVehicle);
+							pExitLocalPlayer->GetPlayerPed()->RemoveFromVehicleAndPutAt(
+								matExitVehicle.pos.X + 2.5f,
+								matExitVehicle.pos.Y + 2.5f,
+								matExitVehicle.pos.Z);
+						}
+						else
+						{
+							pExitLocalPlayer->FUNC_10005BF0(wExitVehicleID);
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		bIgnoreNextExit = FALSE;
+	}
+
+	_asm push dwPutOutOfVehicle
+	_asm push 0x841618
+	_asm mov ecx, dwExitTaskThis
+	_asm mov edx, 0x63B8C0
+	_asm add edx, 7
+	_asm jmp edx
 }
 
 //-----------------------------------------------------------
