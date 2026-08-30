@@ -298,8 +298,23 @@ NUDE CWorld__ProcessAttachedEntities_Hook()
 
 NUDE CWorld__ProcessPedsAfterPreRender_Hook()
 {
-	// TODO: CWorld__ProcessPedsAfterPreRender_Hook
-}
+	__asm
+	{
+		// call original CWorld::ProcessPedsAfterPreRender
+		mov edx, 0x563430
+		call edx
+
+		pushad
+	}
+
+	if (pNetGame && pNetGame->GetPlayerPool())
+		pNetGame->GetPlayerPool()->FUNC_10013960();
+
+	__asm
+	{
+		popad
+		retn
+	}}
 
 //-----------------------------------------------------------
 

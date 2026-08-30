@@ -37,6 +37,8 @@ public:
 
 	CLocalPlayer * GetLocalPlayer() { return m_pLocalPlayer; };
 
+	void FUNC_10013960(); // .text:10013960
+
 	CRemotePlayer* GetAt(PLAYERID playerId) {
 		if(playerId > MAX_PLAYERS) { return NULL; }
 		CNetPlayer *pNetPlayer = m_pPlayers[playerId];
