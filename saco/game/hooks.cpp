@@ -49,6 +49,7 @@ DWORD dwParamThis;
 DWORD unnamed_10113AD8 = 1;
 DWORD unnamed_10113ADC = 0x7FB270; // RwRasterCreate
 WORD  unnamed_10113B2C;
+BYTE unnamed_10113AE8[3] = {0xFF,0x52,0x20}; // original `call dword ptr [edx+20h]` at 0x4096AA
 
 DWORD unnamed_101506C8;
 PCHAR unnamed_10150734;
@@ -62,6 +63,7 @@ DWORD unnamed_101516D0;
 DWORD unnamed_101516D4;
 DWORD unnamed_101516D8; // vehicle being rendered
 DWORD unnamed_10151710;
+DWORD unnamed_1015172C;
 DWORD unnamed_10151804;
 bool  unnamed_10151808;
 DWORD unnamed_1015180C;
@@ -1301,7 +1303,28 @@ NUDE CEscalator__Update_Hook()
 
 NUDE CObject__CreateRwObject_Hook()
 {
-	// TODO: CObject__CreateRwObject_Hook
+	_asm mov eax, [esp]
+	_asm mov unnamed_1015172C, eax
+	_asm pushad
+
+	// stop the original from calling the roadsign/plate atomic setup
+	UnFuck(0x4096AA, 3);
+	memset((void *)0x4096AA, 0x90, 3);
+
+	__asm
+	{
+		popad
+
+		mov eax, 0x533D30 // CObject::CreateRwObject
+		call eax
+
+		pushad
+	}
+
+	memcpy((void *)0x4096AA, unnamed_10113AE8, 3);
+
+	__asm popad
+	__asm ret
 }
 
 //-----------------------------------------------------------
