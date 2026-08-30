@@ -1863,9 +1863,44 @@ NUDE CWeapon__FireSniper_Hook()
 
 //-----------------------------------------------------------
 
+// bullets get a 50x velocity so the shot lands on the frame it was fired
+const float fBulletVelocityScale = 50.0f;
+
 NUDE CBulletInfo__AddBullet_Hook()
 {
-	// TODO: CBulletInfo__AddBullet_Hook
+	__asm
+	{
+		push ebp
+		mov ebp, esp
+
+		fld dword ptr [ebp+0x1C]
+		fmul fBulletVelocityScale
+		fstp dword ptr [ebp+0x1C]
+		fld dword ptr [ebp+0x20]
+		fmul fBulletVelocityScale
+		fstp dword ptr [ebp+0x20]
+		fld dword ptr [ebp+0x24]
+		fmul fBulletVelocityScale
+		fstp dword ptr [ebp+0x24]
+
+		push dword ptr [ebp+0x24]
+		push dword ptr [ebp+0x20]
+		push dword ptr [ebp+0x1C]
+		push dword ptr [ebp+0x18]
+		push dword ptr [ebp+0x14]
+		push dword ptr [ebp+0x10]
+		push dword ptr [ebp+0xC]
+		push dword ptr [ebp+0x8]
+		mov edx, 0x736010	;// CBulletInfo::AddBullet
+		call edx
+		add esp, 0x20
+
+		mov edx, 0x7360D0	;// CBulletInfo::Update
+		call edx
+
+		pop ebp
+		retn
+	}
 }
 
 //-----------------------------------------------------------
