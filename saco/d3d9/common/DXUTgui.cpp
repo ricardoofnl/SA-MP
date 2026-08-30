@@ -4288,7 +4288,7 @@ HRESULT CDXUTListBox::AddItem( const TCHAR *wszText, void *pData, D3DCOLOR TextC
 
 
 //--------------------------------------------------------------------------------------
-HRESULT CDXUTListBox::InsertItem( int nIndex, const TCHAR *wszText, void *pData )
+HRESULT CDXUTListBox::InsertItem( int nIndex, const TCHAR *wszText, void *pData, D3DCOLOR TextColor )
 {
     DXUTListBoxItem *pNewItem = new DXUTListBoxItem;
     if( !pNewItem )
@@ -4298,6 +4298,7 @@ HRESULT CDXUTListBox::InsertItem( int nIndex, const TCHAR *wszText, void *pData 
     pNewItem->pData = pData;
     SetRect( &pNewItem->rcActive, 0, 0, 0, 0 );
     pNewItem->bSelected = false;
+    pNewItem->TextColor = TextColor;
 
     HRESULT hr = m_Items.Insert( nIndex, pNewItem );
     if( SUCCEEDED( hr ) )

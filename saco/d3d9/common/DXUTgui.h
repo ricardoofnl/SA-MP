@@ -625,7 +625,7 @@ public:
     void SetScrollBarWidth( int nWidth ) { m_nSBWidth = nWidth; UpdateRects(); }
     void SetBorder( int nBorder, int nMargin ) { m_nBorder = nBorder; m_nMargin = nMargin; }
     HRESULT AddItem( const TCHAR *wszText, void *pData, D3DCOLOR TextColor );
-    HRESULT InsertItem( int nIndex, const TCHAR *wszText, void *pData );
+    HRESULT InsertItem( int nIndex, const TCHAR *wszText, void *pData, D3DCOLOR TextColor );
     void RemoveItem( int nIndex );
     void RemoveItemByText( TCHAR *wszText );
     void RemoveItemByData( void *pData );
