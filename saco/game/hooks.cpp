@@ -49,7 +49,11 @@ DWORD dwParamThis;
 DWORD unnamed_10113AD8 = 1;
 DWORD unnamed_10113ADC = 0x7FB270; // RwRasterCreate
 
+DWORD unnamed_101506C8;
 DWORD unnamed_10150960;
+BYTE unnamed_10151614;	// value of *pbyteCurrentPlayer when the ped hooks below were entered
+DWORD unnamed_10151618;	// ped being processed by the ped hooks below
+BYTE unnamed_1015161C;	// its samp player number
 DWORD unnamed_101516C8;
 DWORD unnamed_101516D0;
 DWORD unnamed_101516D4;
@@ -376,9 +380,42 @@ NUDE TaskUseGun_Hook()
 
 //-----------------------------------------------------------
 
+DWORD unnamed_10151684;
+DWORD unnamed_10151688;
+
 NUDE WeaponRender__GetWeaponSkill_Hook()
 {
-	// TODO: WeaponRender__GetWeaponSkill_Hook
+	_asm mov unnamed_10151618, ecx
+
+	unnamed_101506C8 = unnamed_10151618;
+	unnamed_10151614 = *pbyteCurrentPlayer;
+	unnamed_1015161C = FindPlayerNumFromPedPtr(unnamed_10151618);
+
+	if(unnamed_10151618 && unnamed_1015161C && !unnamed_10151614)
+	{
+		// render a remote player with his own skill level
+		GameStoreLocalPlayerWeaponSkills();
+		GameSetRemotePlayerWeaponSkills(unnamed_1015161C);
+		unnamed_10151688 = 1;
+	}
+
+	_asm mov ecx, unnamed_10151618
+	_asm movsx eax, byte ptr [ecx+0x718]
+	_asm imul eax, 0x1C
+	_asm mov eax, [eax+ecx+0x5A0]
+	_asm push eax
+	_asm mov edx, 0x5E3B60	;// CPed::GetWeaponSkill
+	_asm call edx
+	_asm mov unnamed_10151684, eax
+
+	if(unnamed_10151688)
+	{
+		GameSetLocalPlayerWeaponSkills();
+		unnamed_10151688 = 0;
+	}
+
+	_asm mov eax, unnamed_10151684
+	_asm retn
 }
 
 //-----------------------------------------------------------
