@@ -6190,7 +6190,210 @@ void CDXUTIMEEditBox::GetReadingWindowOrientation( DWORD dwId )
 // Obtain the reading string upon WM_IME_NOTIFY/INM_PRIVATE notification.
 void CDXUTIMEEditBox::GetPrivateReadingString()
 {
-	return;
+    DWORD dwId = GetImeId();
+
+    if( !dwId )
+    {
+        s_bShowReadingWindow = false;
+        return;
+    }
+
+    HIMC hImc;
+    if( NULL == ( hImc = _ImmGetContext( pGame->GetMainWindowHwnd() ) ) )
+    {
+        s_bShowReadingWindow = false;
+        return;
+    }
+
+    DWORD dwReadingStrLen = 0;
+    DWORD dwErr = 0;
+    WCHAR *pwszReadingStringBuffer = NULL;
+    WCHAR *pwStr = NULL;
+    bool bUnicodeIme = false;
+    INPUTCONTEXT *lpIC = NULL;
+
+    if( _GetReadingString )
+    {
+        UINT uMaxUiLen;
+        BOOL bVertical;
+
+        // ask for the size, then for the string itself
+        dwReadingStrLen = _GetReadingString( hImc, 0, NULL, (PINT)&dwErr, &bVertical, &uMaxUiLen );
+        if( dwReadingStrLen )
+        {
+            pwStr = pwszReadingStringBuffer = (WCHAR *)HeapAlloc( GetProcessHeap(), 0, sizeof(WCHAR) * dwReadingStrLen );
+            if( !pwszReadingStringBuffer )
+            {
+                // out of memory
+                _ImmReleaseContext( pGame->GetMainWindowHwnd(), hImc );
+                return;
+            }
+
+            dwReadingStrLen = _GetReadingString( hImc, dwReadingStrLen, (PCHAR)pwStr, (PINT)&dwErr, &bVertical, &uMaxUiLen );
+        }
+
+        s_bHorizontalReading = !bVertical;
+        bUnicodeIme = true;
+    }
+    else
+    {
+        // the IME exports nothing, so dig the reading string out of its private data
+        lpIC = _ImmLockIMC( hImc );
+
+        LPBYTE p;
+        switch( dwId )
+        {
+            case IMEID_CHT_VER42:
+            case IMEID_CHT_VER43:
+            case IMEID_CHT_VER44:
+                p = *(LPBYTE *)( (LPBYTE)_ImmLockIMCC( lpIC->hPrivate ) + 24 );
+                if( !p )
+                    break;
+                dwReadingStrLen = *(DWORD *)( p + 7*4 + 32*4 );
+                dwErr = *(DWORD *)( p + 8*4 + 32*4 );
+                pwStr = (WCHAR *)( p + 56 );
+                bUnicodeIme = true;
+                break;
+
+            case IMEID_CHT_VER50:
+            {
+                p = *(LPBYTE *)( (LPBYTE)_ImmLockIMCC( lpIC->hPrivate ) + 3*4 );
+                if( !p )
+                    break;
+                LPBYTE q = *(LPBYTE *)( p + 8*4 );
+                if( !q )
+                    break;
+                dwReadingStrLen = *(DWORD *)( q + 16*4 + 16 );
+                dwErr = *(DWORD *)( q + 16*4 + 16 + 4 );
+                pwStr = (WCHAR *)( q + 16*4 );
+                bUnicodeIme = false;
+                break;
+            }
+
+            case IMEID_CHT_VER51:
+            case IMEID_CHT_VER52:
+            case IMEID_CHS_VER53:
+            {
+                p = *(LPBYTE *)( (LPBYTE)_ImmLockIMCC( lpIC->hPrivate ) + 1*4 );
+                if( !p )
+                    break;
+                LPBYTE q = *(LPBYTE *)( p + 6*4 );
+                if( !q )
+                    break;
+                dwReadingStrLen = *(DWORD *)( q + 16*4 + 16*2 );
+                dwErr = *(DWORD *)( q + 16*4 + 16*2 + 4 );
+                pwStr = (WCHAR *)( q + 16*4 );
+                bUnicodeIme = true;
+                break;
+            }
+
+            case IMEID_CHS_VER41:
+            {
+                int nOffset = ( GetImeId( 1 ) >= 2 ) ? 8 : 7;
+
+                p = *(LPBYTE *)( (LPBYTE)_ImmLockIMCC( lpIC->hPrivate ) + nOffset*4 );
+                if( !p )
+                    break;
+                dwReadingStrLen = *(DWORD *)( p + 7*4 + 16*2*4 );
+                dwErr = *(DWORD *)( p + 8*4 + 16*2*4 );
+                dwErr = __min( dwErr, dwReadingStrLen );
+                pwStr = (WCHAR *)( p + 6*4 + 16*2 );
+                bUnicodeIme = true;
+                break;
+            }
+
+            case IMEID_CHS_VER42:
+            {
+                OSVERSIONINFOW osi;
+                osi.dwOSVersionInfoSize = sizeof( OSVERSIONINFOW );
+                GetVersionExW( &osi );
+                int nTcharSize = ( osi.dwPlatformId == VER_PLATFORM_WIN32_NT ) ? sizeof(WCHAR) : sizeof(char);
+
+                p = *(LPBYTE *)( (LPBYTE)_ImmLockIMCC( lpIC->hPrivate ) + 8*4 );
+                if( !p )
+                    break;
+                dwReadingStrLen = *(DWORD *)( p + ( nTcharSize + 4 ) * 16 );
+                dwErr = *(DWORD *)( p + nTcharSize * 16 + 68 );
+                pwStr = (WCHAR *)( p + 16*4 );
+                bUnicodeIme = ( osi.dwPlatformId == VER_PLATFORM_WIN32_NT );
+                break;
+            }
+        }
+    }
+
+    // Copy the reading string to the candidate list
+    s_CandList.awszCandidate[0][0] = L'\0';
+    s_CandList.awszCandidate[1][0] = L'\0';
+    s_CandList.awszCandidate[2][0] = L'\0';
+    s_CandList.awszCandidate[3][0] = L'\0';
+    s_CandList.dwCount = dwReadingStrLen;
+    s_CandList.dwSelection = (DWORD)-1; // don't select any candidate
+    UINT i;
+    if( bUnicodeIme )
+    {
+        for( i = 0; i < dwReadingStrLen; ++i )
+        {
+            if( dwErr <= i && s_CandList.dwSelection == (DWORD)-1 )
+                s_CandList.dwSelection = i;
+
+            s_CandList.awszCandidate[i][0] = pwStr[i];
+            s_CandList.awszCandidate[i][1] = L'\0';
+        }
+        s_CandList.awszCandidate[i][0] = L'\0';
+    }
+    else
+    {
+        // ansi private data, so widen it one character at a time
+        LPSTR pszStr = (LPSTR)pwStr;
+        UINT indexA = 0;
+        for( i = 0; indexA < dwReadingStrLen; ++i )
+        {
+            if( dwErr <= indexA && s_CandList.dwSelection == (DWORD)-1 )
+                s_CandList.dwSelection = i;
+
+            UINT nCodePage = 0;
+            WCHAR wszCodePage[8];
+            if( GetLocaleInfoW( MAKELCID( GetLanguage(), SORT_DEFAULT ), LOCALE_IDEFAULTANSICODEPAGE, wszCodePage, 8 ) )
+                nCodePage = wcstol( wszCodePage, NULL, 0 );
+
+            MultiByteToWideChar( nCodePage, 0, pszStr + indexA,
+                                 IsDBCSLeadByteEx( nCodePage, pszStr[indexA] ) ? 2 : 1,
+                                 s_CandList.awszCandidate[i], 1 );
+            if( IsDBCSLeadByteEx( nCodePage, pszStr[indexA] ) )
+                ++indexA;
+            ++indexA;
+        }
+        s_CandList.awszCandidate[i][0] = L'\0';
+        s_CandList.dwCount = i;
+    }
+
+    if( !_GetReadingString )
+    {
+        _ImmUnlockIMCC( lpIC->hPrivate );
+        _ImmUnlockIMC( hImc );
+
+        GetReadingWindowOrientation( dwId );
+    }
+    _ImmReleaseContext( pGame->GetMainWindowHwnd(), hImc );
+
+    if( pwszReadingStringBuffer )
+        HeapFree( GetProcessHeap(), 0, pwszReadingStringBuffer );
+
+    s_bShowReadingWindow = ( s_CandList.dwCount > 0 );
+    if( s_bHorizontalReading )
+    {
+        s_CandList.nReadingError = -1;  // Clear error
+        s_wszReadingString[0] = L'\0';
+        for( UINT i = 0; i < s_CandList.dwCount; ++i )
+        {
+            if( s_CandList.dwSelection == i )
+                s_CandList.nReadingError = lstrlenW( s_wszReadingString );
+
+            StringCchCatW( s_wszReadingString, 32, s_CandList.awszCandidate[i] );
+        }
+    }
+
+    s_CandList.dwPageSize = MAX_CANDLIST;
 }
 
 //--------------------------------------------------------------------------------------
