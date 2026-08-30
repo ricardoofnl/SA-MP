@@ -801,6 +801,7 @@ public:
 
     bool InsertChar( int nIndex, WCHAR tchr ); // Inserts the char at specified index. If nIndex == -1, insert to the end.
     bool InsertChar( int nIndex, CHAR tchr );
+    bool SetChar( int nIndex, CHAR tchr );
 	bool RemoveChar( int nIndex );  // Removes the char at specified index. If nIndex == -1, remove the last char.
     bool InsertString( int nIndex, const WCHAR *pStr, int nCount = -1 );  // Inserts the first nCount characters of the string pStr at specified index.  If nCount == -1, the entire string is inserted. If nIndex == -1, insert to the end.
     bool SetText( LPCWSTR wszText );
