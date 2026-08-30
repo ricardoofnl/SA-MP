@@ -1,6 +1,9 @@
 
 #include "../main.h"
 
+extern CNetGame*	pNetGame;
+extern CGame * pGame;
+
 // TODO: these RPCs
 void Unk22(RPCParameters *rpcParams) {}
 void Unk24(RPCParameters *rpcParams) {}
@@ -8,12 +11,21 @@ void Unk3A(RPCParameters *rpcParams) {}
 void Unk3B(RPCParameters *rpcParams) {}
 void Unk3D(RPCParameters *rpcParams) {}
 void SetCheckpoint(RPCParameters *rpcParams) {}
-void DisableCheckpoint(RPCParameters *rpcParams) {}
+void DisableCheckpoint(RPCParameters *rpcParams)
+{
+	pGame->m_bCheckpointsEnabled = FALSE;
+}
 void SetRaceCheckpoint(RPCParameters *rpcParams) {}
-void DisableRaceCheckpoint(RPCParameters *rpcParams) {}
+void DisableRaceCheckpoint(RPCParameters *rpcParams)
+{
+	pGame->m_bRaceCheckpointsEnabled = FALSE;
+}
 void UpdateScoresPingsIPs(RPCParameters *rpcParams) {}
 void SvrStats(RPCParameters *rpcParams) {}
-void GameModeRestart(RPCParameters *rpcParams) {}
+void GameModeRestart(RPCParameters *rpcParams)
+{
+	pNetGame->sub_1000A540();
+}
 void ConnectionRejected(RPCParameters *rpcParams) {}
 void ClientMessage(RPCParameters *rpcParams) {}
 void WorldTime(RPCParameters *rpcParams) {}

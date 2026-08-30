@@ -87,4 +87,5 @@ public:
 	void  DisableMapIcon(BYTE byteIndex);
 
 	int ToggleNameTagStatus(); // .text:10008E90
+	void sub_1000A540(); // .text:1000A540
 };
