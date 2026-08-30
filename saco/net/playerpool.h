@@ -46,6 +46,8 @@ public:
 
 	PLAYERID GetLocalPlayerID() { return m_LocalPlayerID; };
 
+	class CObject *FUNC_10013B70(ENTITY_TYPE *pEntity); // todo: implement
+
 	CPlayerPool();
 };
 

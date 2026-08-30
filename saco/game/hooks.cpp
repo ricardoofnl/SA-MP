@@ -827,9 +827,65 @@ NUDE CVehicle__Render_Hook()
 
 //-----------------------------------------------------------
 
+// todo: implement `CObject` (samp object, holds the material/text data)
+class CObject
+{
+public:
+	void FUNC_100A9E30();
+	void FUNC_100A9E70();
+};
+
+extern CObjectPool *GLOBAL_1014FFAC; // todo: define, lives in another file
+
+DWORD dwRenderObjectRet = 0;
+ENTITY_TYPE *_pRenderEntity;
+CObject *_pRenderNetObject;
+CPlayerPool *_pRenderPlayerPool;
+
 NUDE CObject__Render_Hook()
 {
-	// TODO: CObject__Render_Hook
+	_asm mov eax, [esp]
+	_asm mov dwRenderObjectRet, eax
+	_asm mov _pRenderEntity, ecx
+
+	_asm pushad
+
+	if (_pRenderEntity) wLastRendObj = _pRenderEntity->nModelIndex;
+
+	_pRenderNetObject = NULL;
+
+	if (pNetGame && _pRenderEntity && (_pRenderEntity->dwProcessingFlags & 0x80000000))
+	{
+		if ((_pRenderNetObject = pNetGame->GetObjectPool()->FUNC_100129D0(_pRenderEntity)) != NULL ||
+			((_pRenderPlayerPool = pNetGame->GetPlayerPool()) != NULL &&
+			(_pRenderNetObject = _pRenderPlayerPool->FUNC_10013B70(_pRenderEntity)) != NULL))
+		{
+			_pRenderNetObject->FUNC_100A9E30();
+		}
+	}
+
+	if (GLOBAL_1014FFAC && _pRenderEntity && (_pRenderEntity->dwProcessingFlags & 0x80000000))
+	{
+		_pRenderNetObject = GLOBAL_1014FFAC->FUNC_100129D0(_pRenderEntity);
+		if (_pRenderNetObject) _pRenderNetObject->FUNC_100A9E30();
+	}
+
+	_asm
+	{
+		popad
+
+		// call original CObject::Render
+		mov eax, 0x59F180
+		call eax
+
+		pushad
+	}
+
+	if (pNetGame && _pRenderNetObject) _pRenderNetObject->FUNC_100A9E70();
+	if (GLOBAL_1014FFAC && _pRenderNetObject) _pRenderNetObject->FUNC_100A9E70();
+
+	_asm popad
+	_asm retn
 }
 
 //-----------------------------------------------------------
