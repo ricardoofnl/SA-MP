@@ -594,11 +594,15 @@ protected:
 //-----------------------------------------------------------------------------
 struct DXUTListBoxItem
 {
-    TCHAR strText[256];
+    TCHAR strText[257];
+    TCHAR strColumnText[3][129];
     void*  pData;
 
     RECT  rcActive;
     bool  bSelected;
+
+    D3DCOLOR TextColor;
+    bool  field_29D;
 };
 
 class CDXUTListBox : public CDXUTControl
@@ -640,9 +644,9 @@ public:
 	int field_59;
 
 protected:
+    CDXUTScrollBar m_ScrollBar;
     RECT m_rcText;      // Text rendering bound
     RECT m_rcSelection; // Selection box bound
-    CDXUTScrollBar m_ScrollBar;
     int m_nSBWidth;
     int m_nBorder;
     int m_nMargin;
