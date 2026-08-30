@@ -86,6 +86,7 @@ public:
 	void  SetMapIcon(BYTE byteIndex, float fX, float fY, float fZ, BYTE byteIcon, DWORD dwColor, int iStyle);
 	void  DisableMapIcon(BYTE byteIndex);
 
+	CMenuPool * GetMenuPool(); // .text:100084F0
 	int ToggleNameTagStatus(); // .text:10008E90
 	void sub_1000A540(); // .text:1000A540
 };

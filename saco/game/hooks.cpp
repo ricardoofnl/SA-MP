@@ -51,10 +51,12 @@ DWORD unnamed_10113ADC = 0x7FB270; // RwRasterCreate
 WORD  unnamed_10113B2C;
 
 DWORD unnamed_101506C8;
+PCHAR unnamed_10150734;
 DWORD unnamed_10150960;
 BYTE unnamed_10151614;	// value of *pbyteCurrentPlayer when the ped hooks below were entered
 DWORD unnamed_10151618;	// ped being processed by the ped hooks below
 BYTE unnamed_1015161C;	// its samp player number
+PCHAR unnamed_10151628;
 DWORD unnamed_101516C8;
 DWORD unnamed_101516D0;
 DWORD unnamed_101516D4;
@@ -1031,7 +1033,41 @@ exitFn:
 
 NUDE GetText_Hook()
 {
-	// TODO: GetText_Hook
+	__asm
+	{
+		// stolen prologue from CText::Get
+		sub esp, 0x20
+		push esi
+		push edi
+		mov edi, [esp+0x2C]
+		pushad
+		mov unnamed_10151628, edi
+	}
+
+	unnamed_10150734 = 0;
+
+	// SAMP prefixed keys are server menu text, not gxt entries
+	if(pNetGame && unnamed_10151628[0] == 'S' && unnamed_10151628[1] == 'A' &&
+		unnamed_10151628[2] == 'M' && unnamed_10151628[3] == 'P' && pNetGame->GetMenuPool())
+	{
+		unnamed_10150734 = pNetGame->GetMenuPool()->GetTextPointer(unnamed_10151628 + 4);
+	}
+
+	__asm
+	{
+		popad
+		cmp unnamed_10150734, 0
+		jz callOriginal
+		mov eax, unnamed_10150734
+		pop edi
+		pop esi
+		add esp, 0x20
+		retn 4
+
+callOriginal:
+		mov eax, 0x6A0059
+		jmp eax
+	}
 }
 
 //-----------------------------------------------------------
