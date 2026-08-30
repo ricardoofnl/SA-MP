@@ -240,9 +240,34 @@ NUDE CGame__Process_Hook()
 
 //-----------------------------------------------------------
 
+void FUNC_100C3D30(BOOL bFogEnable); // todo: implement `FUNC_100C3D30`, lives in another file
+extern DWORD GLOBAL_1026EBDC; // todo: define, lives in another file
+
 NUDE CPed_Render_Hook()
 {
-	// TODO: CPed_Render_Hook
+	__asm pushad
+
+	FUNC_100C3D30(FALSE);
+
+	__asm
+	{
+		popad
+
+		// call original CPed::Render
+		mov edx, 0x5E7680
+		call edx
+
+		pushad
+	}
+
+	if (GLOBAL_1026EBDC) FUNC_100C3D30(TRUE);
+	else FUNC_100C3D30(FALSE);
+
+	__asm
+	{
+		popad
+		retn
+	}
 }
 
 //-----------------------------------------------------------
