@@ -4218,6 +4218,9 @@ CDXUTListBox::CDXUTListBox( CDXUTDialog *pDialog ) :
     m_nBorder = 6;
     m_nMargin = 5;
     m_nTextHeight = 0;
+    field_4D = 0;
+    for( int i = 0; i < 3; i++ )
+        field_51[i] = 0;
 }
 
 

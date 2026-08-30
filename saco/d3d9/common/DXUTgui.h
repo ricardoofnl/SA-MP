@@ -639,9 +639,7 @@ public:
     enum STYLE { MULTISELECTION = 1 };
 
 	int field_4D;
-	int field_51;
-	int field_55;
-	int field_59;
+	int field_51[3];
 
 protected:
     CDXUTScrollBar m_ScrollBar;
