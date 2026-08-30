@@ -1905,9 +1905,48 @@ NUDE CBulletInfo__AddBullet_Hook()
 
 //-----------------------------------------------------------
 
+// todo: implement sub_100A5240, it tells whether the damage came from a team mate
+BOOL sub_100A5240(DWORD dwVehicle, DWORD dwInflictor, DWORD dwWeapon);
+
+DWORD	dwDamageInflictor = 0;
+DWORD	dwDamagedVehicle = 0;
+DWORD	dwDamageWeapon = 0;
+BOOL	bIgnoreVehicleDamage = 0;
+DWORD	dwInflictDamageRetAddr = 0;
+
 NUDE CVehicle__InflictDamage_Hook()
 {
-	// TODO: CVehicle__InflictDamage_Hook
+	_asm mov dwDamagedVehicle, ecx
+	_asm mov eax, [esp]
+	_asm mov dwInflictDamageRetAddr, eax
+	_asm mov eax, [esp+0x4]
+	_asm mov dwDamageInflictor, eax
+	_asm mov eax, [esp+0x8]
+	_asm mov dwDamageWeapon, eax
+	_asm pushad
+
+	bIgnoreVehicleDamage = sub_100A5240(dwDamagedVehicle, dwDamageInflictor, dwDamageWeapon);
+
+	_asm popad
+
+	if(bIgnoreVehicleDamage)
+	{
+		_asm xor eax, eax
+		_asm retn 0x18
+	}
+
+	if(iGtaVersion == 1)
+	{
+		_asm push 0xFFFFFFFF
+		_asm mov eax, 0x404CDC
+		_asm jmp eax
+	}
+	else
+	{
+		_asm push 0xFFFFFFFF
+		_asm mov eax, 0x404CE3
+		_asm jmp eax
+	}
 }
 
 //-----------------------------------------------------------
