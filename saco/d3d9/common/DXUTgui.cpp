@@ -5712,7 +5712,7 @@ int       CDXUTIMEEditBox::s_nFirstTargetConv;  // Index of the first target con
 CUniBuffer CDXUTIMEEditBox::s_CompString = CUniBuffer( 0 );
 BYTE      CDXUTIMEEditBox::s_abCompStringAttr[MAX_COMPSTRING_SIZE];
 DWORD     CDXUTIMEEditBox::s_adwCompStringClause[MAX_COMPSTRING_SIZE];
-TCHAR     CDXUTIMEEditBox::s_wszReadingString[32];
+WCHAR     CDXUTIMEEditBox::s_wszReadingString[32];
 CDXUTIMEEditBox::CCandList CDXUTIMEEditBox::s_CandList;       // Data relevant to the candidate list
 bool      CDXUTIMEEditBox::s_bShowReadingWindow; // Indicates whether reading window is visible
 bool      CDXUTIMEEditBox::s_bHorizontalReading; // Indicates whether the reading window is vertical or horizontal
@@ -6509,7 +6509,7 @@ bool CDXUTIMEEditBox::HandleMouse( UINT uMsg, POINT pt, WPARAM wParam, LPARAM lP
                         if( nCharHit >= nEntryStart )
                         {
                             // Haven't found it.
-                            nEntryStart += lstrlenA( s_CandList.awszCandidate[i] ) + 1;  // plus space separator
+                            nEntryStart += lstrlenW( s_CandList.awszCandidate[i] ) + 1;  // plus space separator
                         } else
                         {
                             // Found it.  This entry starts at the right side of the click point,
@@ -6572,7 +6572,7 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
             DXUTTRACE( "WM_IME_COMPOSITION\n" );
             {
                 LONG lRet;  // Returned count in CHARACTERS
-                TCHAR wszCompStr[MAX_COMPSTRING_SIZE];
+                WCHAR wszCompStr[MAX_COMPSTRING_SIZE];
 
                 *trapped = true;
                 if( NULL == ( hImc = _ImmGetContext( DXUTGetHWND() ) ) )
@@ -6604,9 +6604,9 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                     lRet = _ImmGetCompositionStringW( hImc, GCS_RESULTSTR, wszCompStr, sizeof( wszCompStr ) );
                     if( lRet > 0 )
                     {
-                        lRet /= sizeof(TCHAR);
+                        lRet /= sizeof(WCHAR);
                         wszCompStr[lRet] = 0;  // Force terminate
-                        TruncateCompString( false, (int)strlen( wszCompStr ) );
+                        TruncateCompString( false, (int)wcslen( wszCompStr ) );
                         s_CompString.SetText( wszCompStr );
                         SendCompString();
                         ResetCompositionString();
@@ -6624,12 +6624,12 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                     lRet = _ImmGetCompositionStringW( hImc, GCS_COMPSTR, wszCompStr, sizeof( wszCompStr ) );
                     if( lRet > 0 )
                     {
-                        lRet /= sizeof(TCHAR);  // Convert size in byte to size in char
+                        lRet /= sizeof(WCHAR);  // Convert size in byte to size in char
                         wszCompStr[lRet] = 0;  // Force terminate
                         //
                         // Remove the whole of the string
                         //
-                        TruncateCompString( false, (int)strlen( wszCompStr ) );
+                        TruncateCompString( false, (int)wcslen( wszCompStr ) );
 
                         s_CompString.SetText( wszCompStr );
 
@@ -6654,7 +6654,7 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                                 }
                                 s_CandList.dwPageSize = MAX_CANDLIST;
                                 // Clear comp string after we are done copying
-                                ZeroMemory( (LPVOID)s_CompString.GetBuffer(), 4 * sizeof(TCHAR) );
+                                ZeroMemory( (LPVOID)s_CompString.GetBuffer(), 4 * sizeof(WCHAR) );
                                 s_bShowReadingWindow = true;
                                 GetReadingWindowOrientation( 0 );
                                 if( s_bHorizontalReading )
@@ -6672,8 +6672,8 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                                     for( UINT i = 0; i < s_CandList.dwCount; ++i )
                                     {
                                         if( s_CandList.dwSelection == i )
-                                            s_CandList.nReadingError = lstrlen( s_wszReadingString );
-                                        StringCchCat( s_wszReadingString, 32, s_CandList.awszCandidate[i] );
+                                            s_CandList.nReadingError = lstrlenW( s_wszReadingString );
+                                        StringCchCatW( s_wszReadingString, 32, s_CandList.awszCandidate[i] );
                                     }
                                 }
                             }
@@ -6793,14 +6793,14 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                             i++, j++ )
                         {
                             // Initialize the candidate list strings
-                            PCHAR pwsz = s_CandList.awszCandidate[j];
+                            PWCHAR pwsz = s_CandList.awszCandidate[j];
                             // For every candidate string entry,
                             // write [index] + Space + [String] if vertical,
                             // write [index] + [String] + Space if horizontal.
-                            *pwsz++ = (TCHAR)( L'0' + ( (j + 1) % 10 ) );  // Index displayed is 1 based
+                            *pwsz++ = (WCHAR)( L'0' + ( (j + 1) % 10 ) );  // Index displayed is 1 based
                             if( s_bVerticalCand )
                                 *pwsz++ = L' ';
-                            TCHAR *pwszNewCand = (PCHAR)( (LPBYTE)lpCandList + lpCandList->dwOffset[i] );
+                            WCHAR *pwszNewCand = (PWCHAR)( (LPBYTE)lpCandList + lpCandList->dwOffset[i] );
                             while ( *pwszNewCand )
                                 *pwsz++ = *pwszNewCand++;
                             if( !s_bVerticalCand )
@@ -6829,7 +6829,7 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                         // horizontal candidate window.
                         if( !s_bVerticalCand )
                         {
-                            TCHAR wszCand[256] = "";
+                            WCHAR wszCand[256] = L"";
 
                             s_CandList.nFirstSelected = 0;
                             s_CandList.nHoriSelectedLen = 0;
@@ -6838,17 +6838,17 @@ bool CDXUTIMEEditBox::MsgProc( UINT uMsg, WPARAM wParam, LPARAM lParam )
                                 if( s_CandList.awszCandidate[i][0] == L'\0' )
                                     break;
 
-                                TCHAR wszEntry[32];
-                                StringCchPrintf( wszEntry, 32, "%s ", s_CandList.awszCandidate[i] );
+                                WCHAR wszEntry[32];
+                                StringCchPrintfW( wszEntry, 32, L"%s ", s_CandList.awszCandidate[i] );
                                 // If this is the selected entry, mark its char position.
                                 if( s_CandList.dwSelection == i )
                                 {
-                                    s_CandList.nFirstSelected = lstrlen( wszCand );
-                                    s_CandList.nHoriSelectedLen = lstrlen( wszEntry ) - 1;  // Minus space
+                                    s_CandList.nFirstSelected = lstrlenW( wszCand );
+                                    s_CandList.nHoriSelectedLen = lstrlenW( wszEntry ) - 1;  // Minus space
                                 }
-                                StringCchCat( wszCand, 256, wszEntry );
+                                StringCchCatW( wszCand, 256, wszEntry );
                             }
-                            wszCand[lstrlen(wszCand) - 1] = L'\0';  // Remove the last space
+                            wszCand[lstrlenW(wszCand) - 1] = L'\0';  // Remove the last space
                             s_CandList.HoriCand.SetText( wszCand );
                         }
                     }

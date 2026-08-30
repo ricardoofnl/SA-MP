@@ -1036,7 +1036,7 @@ protected:
 
     struct CCandList
     {
-        TCHAR awszCandidate[MAX_CANDLIST][256];
+        WCHAR awszCandidate[MAX_CANDLIST][256];
         CUniBuffer HoriCand; // Candidate list string (for horizontal candidate window)
         int   nFirstSelected; // First character position of the selected string in HoriCand
         int   nHoriSelectedLen; // Length of the selected string in HoriCand
@@ -1074,7 +1074,7 @@ protected:
     static CUniBuffer s_CompString;       // Buffer to hold the composition string (we fix its length)
     static BYTE    s_abCompStringAttr[MAX_COMPSTRING_SIZE];
     static DWORD   s_adwCompStringClause[MAX_COMPSTRING_SIZE];
-    static TCHAR   s_wszReadingString[32];// Used only with horizontal reading window (why?)
+    static WCHAR   s_wszReadingString[32];// Used only with horizontal reading window (why?)
     static CCandList s_CandList;          // Data relevant to the candidate list
     static bool    s_bShowReadingWindow;  // Indicates whether reading window is visible
     static bool    s_bHorizontalReading;  // Indicates whether the reading window is vertical or horizontal
