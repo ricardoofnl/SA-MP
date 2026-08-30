@@ -6191,20 +6191,19 @@ void CDXUTIMEEditBox::OnFocusIn()
     {
         _ImmAssociateContext( pGame->GetMainWindowHwnd(), s_hImcDef );
         CheckToggleState();
-    } else
-        _ImmAssociateContext( pGame->GetMainWindowHwnd(), NULL );
 
-    //
-    // Set up the IME global state according to the current instance state
-    //
-    HIMC hImc;
-    if( NULL != ( hImc = _ImmGetContext( pGame->GetMainWindowHwnd() ) ) ) 
-    {
-        if( !s_bEnableImeSystem )
-            s_ImeState = IMEUI_STATE_OFF;
+        //
+        // Set up the IME global state according to the current instance state
+        //
+        HIMC hImc;
+        if( NULL != ( hImc = _ImmGetContext( pGame->GetMainWindowHwnd() ) ) )
+        {
+            if( !s_bEnableImeSystem )
+                s_ImeState = IMEUI_STATE_OFF;
 
-        _ImmReleaseContext( pGame->GetMainWindowHwnd(), hImc );
-        CheckToggleState();
+            _ImmReleaseContext( pGame->GetMainWindowHwnd(), hImc );
+            CheckToggleState();
+        }
     }
 }
 
