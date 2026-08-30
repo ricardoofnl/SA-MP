@@ -13,6 +13,8 @@ extern CObjectPool *unnamed_1014FFAC; // 0x1014FFAC, lives in another translatio
 
 extern DWORD dwGraphicsLoop; // Used for the external dll game loop.
 
+extern CObjectPool *unnamed_1014FFAC; // second object pool, see .text:100A5090
+
 #define NUDE void _declspec(naked) 
 
 //-----------------------------------------------------------
@@ -1838,9 +1840,60 @@ NUDE CEventDamage__AffectsPed_Hook()
 
 //-----------------------------------------------------------
 
-NUDE CCollision__BuildCacheOfCameraCollision_Hook()
+// the game hands two 20 byte blocks (a position plus two more floats) to
+// CCollision::BuildCacheOfCameraCollision
+typedef struct _CAMCOL_POINT
 {
-	// TODO: CCollision__BuildCacheOfCameraCollision_Hook
+	VECTOR	vecPos;
+	float	field_C;
+	float	field_10;
+} CAMCOL_POINT;
+
+CAMCOL_POINT	_camColStart;
+CAMCOL_POINT	_camColEnd;
+BYTE			_byteCamColResult;
+
+BYTE CCollision__BuildCacheOfCameraCollision_Hook(CAMCOL_POINT *pStart, CAMCOL_POINT *pEnd)
+{
+	_camColStart = *pStart;
+	_camColEnd = *pEnd;
+
+	_byteCamColResult = 0;
+
+	__asm
+	{
+		push pEnd
+		push pStart
+
+		// call original CCollision::BuildCacheOfCameraCollision
+		mov edx, 0x41AC40
+		call edx
+
+		mov _byteCamColResult, al
+
+		pop edx
+		pop edx
+	}
+
+	// gta only caches collision inside the map bounds, so samp entities placed
+	// outside of them have to be checked by hand
+	if (pEnd->vecPos.X > 3000.0f || pEnd->vecPos.X < -3000.0f ||
+		pEnd->vecPos.Y > 3000.0f || pEnd->vecPos.Y < -3000.0f)
+	{
+		if (pNetGame && !_byteCamColResult &&
+			pNetGame->GetObjectPool()->FUNC_10012DE0(&_camColStart.vecPos, &_camColEnd.vecPos))
+			_byteCamColResult = 1;
+
+		if (unnamed_1014FFAC && !_byteCamColResult &&
+			unnamed_1014FFAC->FUNC_10012DE0(&_camColStart.vecPos, &_camColEnd.vecPos))
+			_byteCamColResult = 1;
+
+		if (pNetGame && !pNetGame->GetField232() && !_byteCamColResult &&
+			pNetGame->GetVehiclePool()->FUNC_1001EE20(&_camColStart.vecPos, &_camColEnd.vecPos))
+			_byteCamColResult = 1;
+	}
+
+	return _byteCamColResult;
 }
 
 //-----------------------------------------------------------

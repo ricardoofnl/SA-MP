@@ -77,6 +77,7 @@ public:
 
 	DWORD GetTime();
 	int GetGameState() { return m_iGameState; };
+	char GetField232() { return field_232; };
 	BOOL GetWalkStyle() { return field_3D5->bUseCJWalk; };
 	struc_41 * GetSettings() { return field_3D5; };
 

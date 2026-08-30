@@ -8,6 +8,8 @@ private:
 	int field_4[MAX_OBJECTS];
 	int field_FA4[MAX_OBJECTS];
 public:
+	char FUNC_10012DE0(VECTOR *vecStart, VECTOR *vecEnd); // .text:10012DE0
+
 	CObjectPool();
 
 	void FUNC_10012B90(); // .text:10012B90
