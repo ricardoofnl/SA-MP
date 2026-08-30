@@ -13,7 +13,7 @@ struc_13 VAR_1026C258[PLAYER_PED_SLOTS];
 
 //-----------------------------------------------------------
 
-void __declspec(naked) ProcessLineOfSight(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR *colPoint,
+BOOL __declspec(naked) ProcessLineOfSight(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR *colPoint,
 		DWORD *pHitEntity, int bCheckBuildings, int bCheckVehicles, int bCheckPeds,
 		int bCheckObjects, int bCheckDummies, int bSeeThroughStuff,
 		int  bIgnoreSomeObjectsForCamera, int bUnk1)

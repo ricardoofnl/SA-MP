@@ -9,7 +9,7 @@ struct struc_13
 	DWORD field_C;
 };
 
-void ProcessLineOfSight(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR *colPoint,
+BOOL ProcessLineOfSight(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR *colPoint,
 		DWORD *pHitEntity, int bCheckBuildings, int bCheckVehicles, int bCheckPeds,
 		int bCheckObjects, int bCheckDummies, int bSeeThroughStuff,
 		int  bIgnoreSomeObjectsForCamera, int bUnk1);
@@ -60,6 +60,7 @@ BOOL IsFileOrDirectoryExists(char * szPath);
 DWORD unnamed_100B6100(char *szString, int nMaxLen);
 
 bool FUNC_100B4B50(VECTOR *vecPos);
+void FUNC_100B4D10(VECTOR *vecOut, MATRIX4X4 *pMatrix, VECTOR *vecOffset);
 
 BUILDING_TYPE * GamePool_GetBuilding();
 DUMMY_TYPE * GamePool_GetDummy();

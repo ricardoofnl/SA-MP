@@ -2542,9 +2542,75 @@ NUDE CWeapon__FireInstantHit_Hook()
 
 //-----------------------------------------------------------
 
-NUDE CWorld__ProcessLineOfSight_Hook()
+extern DWORD unnamed_10118990; // 0x10118990, lives in another translation unit
+
+// where a synced shot came from, snapshotted by CPlayerPed::FUNC_100AFA70
+struct SHOT_SYNC_DATA
 {
-	// TODO: CWorld__ProcessLineOfSight_Hook
+	char			_gap0[0x1C];
+	VECTOR			vecOffset;
+	ENTITY_TYPE		*pAttachedTo;
+};
+
+// todo: implement sub_100A5410
+void __stdcall sub_100A5410(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR *colPoint, DWORD *pHitEntity);
+
+VECTOR			vecShotOrigin;				// 0x10150CE4
+BOOL			bLineOfSightResult = 0;		// 0x101517B0
+CPlayerPed		*pShotSyncPlayer = 0;		// 0x101517CC
+SHOT_SYNC_DATA	*pShotSyncData = 0;			// 0x101517D0
+
+BOOL CWorld__ProcessLineOfSight_Hook(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR *colPoint,
+		DWORD *pHitEntity, int bCheckBuildings, int bCheckVehicles, int bCheckPeds,
+		int bCheckObjects, int bCheckDummies, int bSeeThroughStuff,
+		int  bIgnoreSomeObjectsForCamera, int bUnk1)
+{
+	// aim the ray at where the remote player actually shot from
+	if(unnamed_10118990 != 2 && pShotSyncPlayer && pShotSyncPlayer != pGame->FindPlayerPed() &&
+		pShotSyncData && pShotSyncData->pAttachedTo &&
+		pShotSyncData->pAttachedTo->vtable != 0x863C40 &&
+		pShotSyncData->pAttachedTo->mat)
+	{
+		if(unnamed_10118990 == 0)
+		{
+			FUNC_100B4D10(&vecShotOrigin, pShotSyncData->pAttachedTo->mat, &pShotSyncData->vecOffset);
+		}
+		else
+		{
+			vecShotOrigin.X = pShotSyncData->pAttachedTo->mat->pos.X + pShotSyncData->vecOffset.X;
+			vecShotOrigin.Y = pShotSyncData->pAttachedTo->mat->pos.Y + pShotSyncData->vecOffset.Y;
+			vecShotOrigin.Z = pShotSyncData->pAttachedTo->mat->pos.Z + pShotSyncData->vecOffset.Z;
+		}
+
+		vecLine->X = vecShotOrigin.X - vecOrigin->X + vecShotOrigin.X;
+		vecLine->Y = vecShotOrigin.Y - vecOrigin->Y + vecShotOrigin.Y;
+		vecLine->Z = vecShotOrigin.Z - vecOrigin->Z + vecShotOrigin.Z;
+	}
+
+	bLineOfSightResult = ProcessLineOfSight(vecOrigin, vecLine, colPoint, pHitEntity,
+		bCheckBuildings, bCheckVehicles, bCheckPeds, bCheckObjects, bCheckDummies,
+		bSeeThroughStuff, bIgnoreSomeObjectsForCamera, bUnk1);
+
+	// a remote player's shot must not collide with the local player
+	if(unnamed_10118990 != 2 && pShotSyncPlayer && pShotSyncPlayer != pGame->FindPlayerPed() &&
+		pShotSyncData && !pShotSyncData->pAttachedTo)
+	{
+		if(*pHitEntity == (DWORD)GamePool_FindPlayerPed() ||
+			(IN_VEHICLE(GamePool_FindPlayerPed()) &&
+			*pHitEntity == GamePool_FindPlayerPed()->pVehicle))
+		{
+			*pHitEntity = 0;
+			colPoint->X = 0.0f;
+			colPoint->Y = 0.0f;
+			colPoint->Z = 0.0f;
+			return FALSE;
+		}
+	}
+
+	if(pShotSyncPlayer && pShotSyncPlayer == pGame->FindPlayerPed())
+		sub_100A5410(vecOrigin, vecLine, colPoint, pHitEntity);
+
+	return bLineOfSightResult;
 }
 
 //-----------------------------------------------------------
