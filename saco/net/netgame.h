@@ -9,7 +9,11 @@ struct struc_41
 {
 	bool bUseCJWalk;
 	int field_1;
-	char _gap5[17];
+	float fWorldBoundryPX;
+	float fWorldBoundryZX;
+	float fWorldBoundryPY;
+	float fWorldBoundryNY;
+	char _gap15;
 	float field_16;
 	char field_1A;
 	char _gap1B[4];
@@ -74,6 +78,7 @@ public:
 	DWORD GetTime();
 	int GetGameState() { return m_iGameState; };
 	BOOL GetWalkStyle() { return field_3D5->bUseCJWalk; };
+	struc_41 * GetSettings() { return field_3D5; };
 
 	CVehiclePool * GetVehiclePool() { return m_pPools->pVehiclePool; };
 	CPlayerPool * GetPlayerPool() { return m_pPools->pPlayerPool; };

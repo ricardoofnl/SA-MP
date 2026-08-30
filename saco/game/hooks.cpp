@@ -32,6 +32,7 @@ BYTE	byteSavedCameraMode;
 DWORD	dwCurPlayerActor=0;
 BYTE	*pbyteCameraMode = (BYTE *)0xB6F1A8;
 BYTE	*pbyteCurrentPlayer = (BYTE *)0xB7CD74;
+WORD	*wCameraMode2 = (WORD *)0xB6F858;
 
 PED_TYPE pedCrimeReportTemp; // pay attention! used in 0x100A1790 ; void __thiscall CGame::PlayCrimeReport as pedCrimeReportTemp 0x10150D00
 
@@ -367,9 +368,126 @@ NUDE CAnimManager__BlendAnimation_Hook()
 
 //-----------------------------------------------------------
 
+DWORD dwProcessControlPed;
+PED_TYPE *_pProcessControlPed;
+BYTE byteSavedCurrentPlayer;
+BYTE byteProcessControlPlayerID;
+WORD wSavedCameraMode2;
+DWORD dwSavedPedHealth;
+GTA_CONTROLSET *pProcessControlKeys;
+
+// `fst [esi+0x55C]` heading writes at 0x6884C4 and 0x688200, only enabled for the local player
+BYTE PedHeadingCode1[] = {0xD9,0x96,0x5C,0x05,0x00,0x00};
+BYTE PedHeadingCode2[] = {0xD9,0x96,0x5C,0x05,0x00,0x00};
+// `call 0x5E1B10` at 0x5E92F4, nopped out while a remote ped processes
+BYTE RemotePedProcessCode[] = {0xE8,0x17,0x88,0xFF,0xFF};
+
+// runs the original CPlayerPed::ProcessControl for a remote ped under SEH
+void ProcessControlRemotePed(); // .text:100A27C0
+
 NUDE CPlayerPed_ProcessControl_Hook()
 {
-	// TODO: CPlayerPed_ProcessControl_Hook
+	_asm mov dwProcessControlPed, ecx
+	_asm pushad
+
+	_pProcessControlPed = (PED_TYPE *)dwProcessControlPed;
+	byteSavedCurrentPlayer = *pbyteCurrentPlayer;
+	byteProcessControlPlayerID = FindPlayerNumFromPedPtr(dwProcessControlPed);
+
+	if(dwProcessControlPed && byteProcessControlPlayerID && !byteSavedCurrentPlayer)
+	{
+		GameStoreLocalPlayerKeys();
+		GameSetRemotePlayerKeys(byteProcessControlPlayerID);
+
+		byteSavedCameraMode = *pbyteCameraMode;
+		*pbyteCameraMode = GameGetPlayerCameraMode(byteProcessControlPlayerID);
+		wSavedCameraMode2 = *wCameraMode2;
+		*wCameraMode2 = GameGetPlayerCameraMode(byteProcessControlPlayerID);
+		if(*wCameraMode2 == 4) *wCameraMode2 = 0;
+
+		GameStoreLocalPlayerCameraExtZoom();
+		GameSetRemotePlayerCameraExtZoom(byteProcessControlPlayerID);
+		GameStoreLocalPlayerAim();
+		GameSetRemotePlayerAim(byteProcessControlPlayerID);
+		GameStoreLocalPlayerWeaponSkills();
+		GameSetRemotePlayerWeaponSkills(byteProcessControlPlayerID);
+
+		*pbyteCurrentPlayer = byteProcessControlPlayerID;
+		dwSavedPedHealth = *(DWORD *)&_pProcessControlPed->fHealth;
+
+		UnFuck(0x5E92F4, 5);
+		memset((void *)0x5E92F4, 0x90, 5);
+		ProcessControlRemotePed();
+		memcpy((void *)0x5E92F4, RemotePedProcessCode, 5);
+
+		GameSetLocalPlayerWeaponSkills();
+		*pbyteCameraMode = byteSavedCameraMode;
+		*wCameraMode2 = wSavedCameraMode2;
+		GameSetLocalPlayerCameraExtZoom();
+		*pbyteCurrentPlayer = 0;
+		GameSetLocalPlayerKeys();
+		GameSetLocalPlayerAim();
+	}
+	else
+	{
+		if(pNetGame && pNetGame->GetPlayerPool()->GetLocalPlayer()->GetField_F0())
+		{
+			struc_41 *pSettings = pNetGame->GetSettings();
+
+			if(pGame->FindPlayerPed()->HasExceededWorldBoundries(pSettings->fWorldBoundryPX,
+				pSettings->fWorldBoundryZX, pSettings->fWorldBoundryPY, pSettings->fWorldBoundryNY))
+			{
+				if(!pGame->GetActiveInterior())
+				{
+					DWORD dwStateFlags = _pProcessControlPed->dwStateFlags;
+
+					if(!(dwStateFlags & 0x100) && (dwStateFlags & 3))
+					{
+						pProcessControlKeys = GameGetInternalKeys();
+						pProcessControlKeys->wKeys1[14] = 255;
+						pProcessControlKeys->wKeys2[14] = 0;
+					}
+				}
+			}
+		}
+
+		if(pGame->FindPlayerPed())
+		{
+			if(pGame->FindPlayerPed()->field_2F7)
+			{
+				pProcessControlKeys = GameGetInternalKeys();
+				pProcessControlKeys->wKeys1[18] = 0;
+				pProcessControlKeys->wKeys2[18] = 0;
+			}
+
+			if(pGame->FindPlayerPed()->field_2F6)
+			{
+				pProcessControlKeys = GameGetInternalKeys();
+				pProcessControlKeys->wKeys1[14] = 0;
+				pProcessControlKeys->wKeys2[14] = 0;
+			}
+
+			if(pGame->FindPlayerPed()->field_2F8)
+			{
+				pProcessControlKeys = GameGetInternalKeys();
+				pProcessControlKeys->wKeys1[16] = 0;
+				pProcessControlKeys->wKeys2[16] = 0;
+			}
+		}
+
+		memcpy((void *)0x6884C4, PedHeadingCode1, 6);
+		memcpy((void *)0x688200, PedHeadingCode2, 6);
+
+		_asm mov ecx, dwProcessControlPed
+		_asm mov edx, 0x60EA90
+		_asm call edx
+
+		memset((void *)0x6884C4, 0x90, 6);
+		memset((void *)0x688200, 0x90, 6);
+	}
+
+	_asm popad
+	_asm retn
 }
 
 //-----------------------------------------------------------
