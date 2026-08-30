@@ -929,9 +929,45 @@ NUDE CObject__CreateRwObject_Hook()
 
 //-----------------------------------------------------------
 
+DWORD dwDeleteRwObjectRet = 0;
+ENTITY_TYPE *_pDeleteRwObjectEntity;
+BYTE byteSavedRoadsignCode[5] = {0xE8,0x3C,0xFF,0xFF,0xFF};
+
 NUDE CEntity__DeleteRwObject_Hook()
 {
-	// TODO: CEntity__DeleteRwObject_Hook
+	_asm mov eax, [esp]
+	_asm mov dwDeleteRwObjectRet, eax
+	_asm mov _pDeleteRwObjectEntity, ecx
+
+	_asm pushad
+
+	if (_pDeleteRwObjectEntity->nModelIndex == 3586 || _pDeleteRwObjectEntity->nModelIndex == 3743 ||
+		_pDeleteRwObjectEntity->nModelIndex == 8980 || _pDeleteRwObjectEntity->nModelIndex == 8979)
+	{
+		// nop the CCustomRoadsignMgr call these models crash in
+		UnFuck(0x71791F, 5);
+		memset((void *)0x71791F, 0x90, 5);
+
+		_asm
+		{
+			popad
+
+			// call original CEntity::DeleteRwObject
+			mov eax, 0x534030
+			call eax
+
+			pushad
+		}
+
+		memcpy((void *)0x71791F, byteSavedRoadsignCode, 5);
+
+		_asm popad
+		_asm retn
+	}
+
+	_asm popad
+	_asm mov eax, 0x534030
+	_asm jmp eax
 }
 
 //-----------------------------------------------------------
