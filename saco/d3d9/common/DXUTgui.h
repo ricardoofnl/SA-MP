@@ -1011,6 +1011,7 @@ public:
     virtual void OnFocusOut();
 
     void PumpMessage();
+    static bool IsImeActive();
 
     virtual void RenderCandidateReadingWindow( IDirect3DDevice9* pd3dDevice, float fElapsedTime, bool bReading );
     virtual void RenderComposition( IDirect3DDevice9* pd3dDevice, float fElapsedTime );

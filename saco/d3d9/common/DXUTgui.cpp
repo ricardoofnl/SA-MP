@@ -7703,6 +7703,23 @@ void CDXUTIMEEditBox::Uninitialize()
 }
 
 //--------------------------------------------------------------------------------------
+// samp asks this before letting its own key handlers run
+bool CDXUTIMEEditBox::IsImeActive()
+{
+    if( s_CandList.bShowWindow )
+        return true;
+
+    if( s_bShowReadingWindow )
+        return true;
+
+    if( (int)( GetTickCount() - dwImeWaitTick ) < 300 )
+        return true;
+
+    return false;
+}
+
+
+//--------------------------------------------------------------------------------------
 // MATCH
 void DXUTBlendColor::Init( D3DCOLOR defaultColor, D3DCOLOR disabledColor, D3DCOLOR hiddenColor )
 {
