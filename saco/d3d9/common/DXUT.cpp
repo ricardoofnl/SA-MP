@@ -1946,7 +1946,9 @@ float DXUTRankDeviceCombo( CD3DEnumDeviceSettingsCombo* pDeviceSettingsCombo,
     }
     else
     {
-        int nBitDepthDelta = abs( (long) DXUTColorChannelBits(pDeviceSettingsCombo->AdapterFormat) -
+        // hoisted: retail evaluates the combo side first here (unlike the back buffer block below)
+        long nAdapterBits = (long) DXUTColorChannelBits(pDeviceSettingsCombo->AdapterFormat);
+        int nBitDepthDelta = abs( nAdapterBits -
                                   (long) DXUTColorChannelBits(pOptimalDeviceSettings->AdapterFormat) );
         float fScale = __max(0.9f - (float)nBitDepthDelta*0.2f, 0.0f);
         fCurRanking += fScale * fAdapterFormatWeight;
