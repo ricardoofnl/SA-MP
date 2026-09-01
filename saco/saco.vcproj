@@ -1061,6 +1061,9 @@
 			<File
 				RelativePath=".\d3d9\common\DXUTSettingsDlg.h">
 			</File>
+			<File
+				RelativePath=".\d3d9\common\DXUTUniBuffer.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="temp"
