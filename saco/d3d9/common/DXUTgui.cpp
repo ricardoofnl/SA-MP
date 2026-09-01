@@ -554,6 +554,27 @@ int CDXUTDialogResourceManager::AddFont( LPCTSTR strFaceName, LONG height, LONG 
 
 
 //--------------------------------------------------------------------------------------
+// retains a cached font entry in place; unreferenced in retail
+int CDXUTDialogResourceManager::SetFont( int iFont, LPCTSTR strFaceName, LONG height, LONG weight )
+{
+    DXUTFontNode* pFontNode = m_FontCache.GetAt( iFont );
+    if( pFontNode )
+    {
+        StringCchCopy( pFontNode->strFace, MAX_PATH, strFaceName );
+        pFontNode->nHeight = height;
+        pFontNode->nWeight = weight;
+
+        if( m_pd3dDevice )
+            CreateFont( iFont );
+
+        return iFont;
+    }
+
+    return -1;
+}
+
+
+//--------------------------------------------------------------------------------------
 // MATCH
 HRESULT CDXUTDialog::SetFont( UINT index, LPCTSTR strFaceName, LONG height, LONG weight )
 {

@@ -329,6 +329,7 @@ public:
     
     int AddFont( LPCTSTR strFaceName, LONG height, LONG weight );
     int AddTexture( LPCTSTR strFilename );
+    int SetFont( int iFont, LPCTSTR strFaceName, LONG height, LONG weight );
 
     DXUTFontNode*     GetFontNode( int iIndex )     { return m_FontCache.GetAt( iIndex ); };
     DXUTTextureNode*  GetTextureNode( int iIndex )  { return m_TextureCache.GetAt( iIndex ); };
