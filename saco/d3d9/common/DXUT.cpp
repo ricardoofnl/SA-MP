@@ -2715,11 +2715,11 @@ HRESULT DXUTChangeDevice( DXUTDeviceSettings* pNewDeviceSettings, IDirect3DDevic
 
         // If different device windows are used for windowed mode and fullscreen mode,
         // hide the fullscreen window so that it doesn't obscure the screen.
-        if( DXUTGetHWNDDeviceFullScreen() != DXUTGetHWNDDeviceWindowed() )
+        if( DXUTGetHWNDDeviceWindowed() != DXUTGetHWNDDeviceFullScreen() )
             ShowWindow( DXUTGetHWNDDeviceFullScreen(), SW_HIDE );
 
         // If using the same window for windowed and fullscreen mode, reattach menu if one exists
-        if( DXUTGetHWNDDeviceFullScreen() == DXUTGetHWNDDeviceWindowed() )
+        if( DXUTGetHWNDDeviceWindowed() == DXUTGetHWNDDeviceFullScreen() )
         {
             if( GetDXUTState().GetMenu() != NULL )
                 SetMenu( DXUTGetHWNDDeviceWindowed(), GetDXUTState().GetMenu() );
@@ -2754,7 +2754,7 @@ HRESULT DXUTChangeDevice( DXUTDeviceSettings* pNewDeviceSettings, IDirect3DDevic
         SetWindowLong( DXUTGetHWNDDeviceFullScreen(), GWL_STYLE, WS_POPUP|WS_SYSMENU );
 
         // If using the same window for windowed and fullscreen mode, save and remove menu 
-        if( DXUTGetHWNDDeviceFullScreen() == DXUTGetHWNDDeviceWindowed() )
+        if( DXUTGetHWNDDeviceWindowed() == DXUTGetHWNDDeviceFullScreen() )
         {
             HMENU hMenu = GetMenu( DXUTGetHWNDDeviceFullScreen() );
             GetDXUTState().SetMenu( hMenu );
