@@ -6175,6 +6175,25 @@ void CDXUTIMEEditBox::FinalizeString( bool bSend )
     bProcessing = false;
 }
 
+//--------------------------------------------------------------------------------------
+// nothing calls this in retail either
+void CDXUTIMEEditBox::PumpMessage()
+{
+    MSG msg;
+
+    while( PeekMessageW( &msg, NULL, 0, 0, PM_NOREMOVE ) )
+    {
+        if( !GetMessageW( &msg, NULL, 0, 0 ) )
+        {
+            PostQuitMessage( msg.wParam );
+            return;
+        }
+
+        TranslateMessage( &msg );
+        DispatchMessage( &msg );
+    }
+}
+
 
 //--------------------------------------------------------------------------------------
 // Determine whether the reading window should be vertical or horizontal.
@@ -7682,7 +7701,6 @@ void CDXUTIMEEditBox::Uninitialize()
         s_hDllVer = NULL;
     }
 }
-
 
 //--------------------------------------------------------------------------------------
 // MATCH
