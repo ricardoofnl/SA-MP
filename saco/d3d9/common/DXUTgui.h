@@ -628,6 +628,7 @@ public:
     HRESULT AddItem( const TCHAR *wszText, void *pData, D3DCOLOR TextColor );
     HRESULT InsertItem( int nIndex, const TCHAR *wszText, void *pData, D3DCOLOR TextColor );
     void RemoveItem( int nIndex );
+    void SetItemColumnText( int nIndex, int nColumn, const TCHAR *wszText );
     void RemoveItemByText( TCHAR *wszText );
     void RemoveItemByData( void *pData );
     void RemoveAllItems();

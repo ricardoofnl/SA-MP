@@ -4319,6 +4319,17 @@ void CDXUTListBox::RemoveItem( int nIndex )
 
 
 //--------------------------------------------------------------------------------------
+void CDXUTListBox::SetItemColumnText( int nIndex, int nColumn, const TCHAR *wszText )
+{
+    if( nIndex < 0 || nIndex >= m_Items.GetSize() || nColumn < 0 || nColumn >= field_4D )
+        return;
+
+    ZeroMemory( m_Items.GetAt( nIndex )->strColumnText[nColumn], 128 );
+    strncpy( m_Items.GetAt( nIndex )->strColumnText[nColumn], wszText, 128 );
+}
+
+
+//--------------------------------------------------------------------------------------
 void CDXUTListBox::RemoveItemByText( TCHAR *wszText )
 {
 }
