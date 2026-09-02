@@ -90,3 +90,24 @@ void CScoreBoard::Hide(bool bResetInput)
 
 	field_0 = 0;
 }
+
+// stub: rebuilds the three player columns from the pool, not reconstructed yet
+void CScoreBoard::FUNC_1006ED30()
+{
+}
+
+void CScoreBoard::Show()
+{
+	if(field_0) return;
+	if(!m_pDialog) return;
+
+	m_pDialog->SetVisible(true);
+	m_pListBox->SetEnabled(true);
+	m_pListBox->UpdateRects();
+	m_pListBox->SetVisible(true);
+
+	FUNC_1006ED30();
+	pGame->ToggleKeyInputsDisabled(3, FALSE);
+
+	field_0 = 1;
+}
