@@ -1747,23 +1747,6 @@ NUDE CVehicle__Render_Hook()
 
 //-----------------------------------------------------------
 
-// todo: implement `CObject` (samp object, holds the material/text data)
-class CObject
-{
-public:
-	char _gap0[84];
-	float field_54;
-	char _gap58[4403];
-	int field_118B;
-	char _gap118F[10];
-	BYTE field_1199;
-
-public:
-	void FUNC_100A7E20();
-	void FUNC_100A9E30();
-	void FUNC_100A9E70();
-};
-
 DWORD dwRenderObjectRet = 0;
 ENTITY_TYPE *_pRenderEntity;
 CObject *_pRenderNetObject;
