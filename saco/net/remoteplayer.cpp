@@ -155,7 +155,7 @@ void CRemotePlayer::FUNC_100143A0()
 		vec.X = mat.pos.X + field_1C9.X;
 		vec.Y = mat.pos.Y + field_1C9.Y;
 		vec.Z = mat.pos.Z + field_1C9.Z;
-		m_pPlayerPed->FUNC_100ADFD0("FollowPedSA", 0, 1000, -1, &vec, 0, 0.1f, 500, 3, 0);
+		m_pPlayerPed->ApplyCommandTask("FollowPedSA", 0, 1000, -1, &vec, 0, 0.1f, 500, 3, 0);
 		field_1D9 = dwTick;
 	}
 }
@@ -262,10 +262,10 @@ void CRemotePlayer::FUNC_10016270(BYTE byteNewState, BYTE byteOldState)
 	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
 	if(!pPlayerPed) return;
 	if(!pPlayerPed->IsInVehicle()) return;
-	if(pPlayerPed->sub_100ABFC0()) return;
+	if(pPlayerPed->IsAPassenger()) return;
 
 	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
-	if((WORD)pVehiclePool->FUNC_1001EB90(pPlayerPed->FUNC_100AC000()) == field_1E7) {
+	if((WORD)pVehiclePool->FUNC_1001EB90((int)pPlayerPed->GetGtaVehicle()) == field_1E7) {
 		MATRIX4X4 mat;
 		pPlayerPed->GetMatrix(&mat);
 		pPlayerPed->RemoveFromVehicleAndPutAt(mat.pos.X, mat.pos.Y, mat.pos.Z + 1.0f);

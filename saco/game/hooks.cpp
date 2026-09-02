@@ -1821,7 +1821,7 @@ NUDE CRadar__DrawMap__FindPlayerSpeed_Hook()
 {
 	// keep the map still while the local player is a vehicle passenger
 	if(pGame && pGame->FindPlayerPed() && pGame->FindPlayerPed()->IsInVehicle() &&
-		pGame->FindPlayerPed()->sub_100ABFC0())
+		pGame->FindPlayerPed()->IsAPassenger())
 	{
 		_asm lea eax, unnamed_10151710
 		_asm ret
@@ -2838,8 +2838,8 @@ BOOL FUNC_100A5240(DWORD dwVehicle, DWORD dwPed)
 {
 	if(!pNetGame || !pGame || !pGame->FindPlayerPed()
 		|| !pGame->FindPlayerPed()->IsInVehicle()
-		|| pGame->FindPlayerPed()->sub_100ABFC0()
-		|| pGame->FindPlayerPed()->FUNC_100AC000() != (int)dwVehicle)
+		|| pGame->FindPlayerPed()->IsAPassenger()
+		|| (int)pGame->FindPlayerPed()->GetGtaVehicle() != (int)dwVehicle)
 		return FALSE;
 
 	wInflictDamageDriver = FUNC_100A3AE0(dwPed);

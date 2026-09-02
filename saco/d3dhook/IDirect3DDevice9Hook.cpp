@@ -133,7 +133,7 @@ void sub_10075330()
 				if(!pPlayerPed->IsAdded())
 					continue;
 				memset(&vec_10140D3C, 0, sizeof(VECTOR));
-				pPlayerPed->FUNC_100AE480(8, &vec_10140D3C);
+				pPlayerPed->GetBonePosition(8, &vec_10140D3C);
 			}
 
 			vec_10140D64 = vec_10140D3C;
