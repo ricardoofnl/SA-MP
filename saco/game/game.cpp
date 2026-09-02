@@ -56,7 +56,11 @@ CGame::CGame()
 void CGame::sub_100A0010()
 {
 	int time = (int)RakNet::GetTime();
-	if(unnamed_1015068C)
+	if(!unnamed_1015068C)
+	{
+		unnamed_1015068C = time;
+	}
+	else
 	{
 		if((time - unnamed_1015068C) > 30)
 		{
@@ -66,10 +70,6 @@ void CGame::sub_100A0010()
 			unnamed_1015068C = time;
 		}
 		*(BYTE*)0xB7356E = unnamed_10150688;
-	}
-	else
-	{
-		unnamed_1015068C = time;
 	}
 }
 
