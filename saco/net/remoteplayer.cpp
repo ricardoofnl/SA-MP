@@ -185,6 +185,21 @@ void CRemotePlayer::FUNC_100155E0(int a1, VECTOR *pPos, VECTOR *pMoveSpeed)
 
 //----------------------------------------------------
 
+float CRemotePlayer::FUNC_100160A0(CRemotePlayer *pOther)
+{
+	if(!m_pPlayerPed) return 10000.0f;
+
+	MATRIX4X4 matThis, matOther;
+	m_pPlayerPed->GetMatrix(&matThis);
+	pOther->m_pPlayerPed->GetMatrix(&matOther);
+
+	return sqrt((matThis.pos.X - matOther.pos.X) * (matThis.pos.X - matOther.pos.X) +
+		(matThis.pos.Y - matOther.pos.Y) * (matThis.pos.Y - matOther.pos.Y) +
+		(matThis.pos.Z - matOther.pos.Z) * (matThis.pos.Z - matOther.pos.Z));
+}
+
+//----------------------------------------------------
+
 float CRemotePlayer::FUNC_10016120()
 {
 	CEntity *pEntity = m_pPlayerPed;

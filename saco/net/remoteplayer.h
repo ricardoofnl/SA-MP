@@ -82,6 +82,7 @@ public:
 	void FUNC_100165B0(BYTE byteNewState); // .text:100165B0
 	BOOL FUNC_10014620(); // .text:10014620
 	void FUNC_10016660(); // .text:10016660
+	float FUNC_100160A0(CRemotePlayer *pOther); // .text:100160A0
 	float FUNC_10016120(); // .text:10016120
 	void FUNC_10017530(); // .text:10017530
 	void FUNC_10017570(); // .text:10017570
