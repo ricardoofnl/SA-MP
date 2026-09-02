@@ -430,6 +430,26 @@ void CPlayerPed::ShowMarker(int iMarkerColorID)
 
 //-----------------------------------------------------------
 
+void CPlayerPed::SetInterior(BYTE byteInterior, BOOL bRefresh)
+{
+	MATRIX4X4 mat;
+
+	if(!m_pPed) return;
+
+	if(!m_bytePlayerNumber) {
+		ScriptCommand(&select_interior, byteInterior);
+		ScriptCommand(&link_actor_to_interior, m_dwGTAId, byteInterior);
+		if(bRefresh) {
+			GetMatrix(&mat);
+			ScriptCommand(&refresh_streaming_at, mat.pos.X, mat.pos.Y);
+		}
+	} else {
+		ScriptCommand(&link_actor_to_interior, m_dwGTAId, byteInterior);
+	}
+}
+
+//-----------------------------------------------------------
+
 void CPlayerPed::HideMarker()
 {
 	if (m_dwArrow) ScriptCommand(&disable_marker, m_dwArrow);

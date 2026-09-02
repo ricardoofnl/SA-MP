@@ -101,6 +101,8 @@ const SCRIPT_COMMAND get_car_z_angle					= { 0x0174, "iv" };
 
 const SCRIPT_COMMAND lock_actor							= { 0x04d7, "ii" };
 const SCRIPT_COMMAND refresh_streaming_at				= { 0x04E4, "ff" };
+const SCRIPT_COMMAND select_interior					= { 0x04BB, "i" };		// interior
+const SCRIPT_COMMAND link_actor_to_interior				= { 0x0860, "ii" };		// var_actor, interior
 const SCRIPT_COMMAND put_actor_in_car2					= { 0x0430, "iii" };
 
 const SCRIPT_COMMAND kill_actor							= { 0x0321, "i" };

@@ -44,6 +44,7 @@ public:
 		GameSetPlayerCameraExtZoom(m_bytePlayerNumber, fZoom, fRatio);
 	};
 
+	void  SetInterior(BYTE byteInterior, BOOL bRefresh); // .text:100AD340
 	void  ShowMarker(int iMarkerColorID);
 	void  HideMarker();
 	BYTE  GetCurrentWeapon();
