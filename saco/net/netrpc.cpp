@@ -216,7 +216,22 @@ void Unk1C(RPCParameters *rpcParams) {}
 void UnkAA(RPCParameters *rpcParams) {}
 void ClientCheck(RPCParameters *rpcParams) {}
 void UnkAB(RPCParameters *rpcParams) {}
-void UnkAC(RPCParameters *rpcParams) {}
+void UnkAC(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	ACTORID ActorID;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CActorPool *pActorPool = pNetGame->GetActorPool();
+	if(!pActorPool) return;
+
+	bsData.Read(ActorID);
+
+	pActorPool->sub_100016F0(ActorID);
+}
 
 //----------------------------------------------------
 

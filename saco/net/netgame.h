@@ -88,6 +88,7 @@ public:
 	CVehiclePool * FUNC_10001180(); // .text:10001180, out of line copy of GetVehiclePool
 	CPlayerPool * GetPlayerPool() { return m_pPools->pPlayerPool; };
 	CPickupPool * GetPickupPool() { return m_pPools->pPickupPool; };
+	CActorPool * GetActorPool() { return m_pPools->pActorPool; };
 	CObjectPool * GetObjectPool() { return m_pPools->pObjectPool; };
 	CObjectPool * FUNC_10002E10(); // todo: implement, returns m_pPools->pObjectPool
 	CGangZonePool * GetGangZonePool() { return m_pPools->pGangZonePool; };

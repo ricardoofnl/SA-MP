@@ -5,7 +5,7 @@
 
 class CActorPool
 {
-private:
+public:
 	int field_0;
 	int field_4[MAX_ACTORS];
 	int field_FA4[MAX_ACTORS];
@@ -16,6 +16,8 @@ private:
 public:
 
 	CActorPool();
+
+	void sub_100016F0(ACTORID ActorID); // .text:100016F0
 };
 
 //----------------------------------------------------
