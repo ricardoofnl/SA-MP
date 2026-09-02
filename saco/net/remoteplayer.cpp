@@ -165,6 +165,16 @@ void CRemotePlayer::FUNC_10016270(BYTE byteNewState, BYTE byteOldState)
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_100165B0(BYTE byteNewState)
+{
+	if(byteNewState != field_10A) {
+		FUNC_10016270(byteNewState, field_10A);
+		field_10A = byteNewState;
+	}
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_10016660()
 {
 	if(field_1F9) {
