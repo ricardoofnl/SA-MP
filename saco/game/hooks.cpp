@@ -2819,7 +2819,7 @@ NUDE FUNC_100A5FF0()
 
 //-----------------------------------------------------------
 
-void InstallMethodHook(	DWORD dwInstallAddress,
+inline void InstallMethodHook(	DWORD dwInstallAddress,
 						DWORD dwHookFunction )
 {
 	DWORD oldProt, oldProt2;
@@ -2851,7 +2851,7 @@ void InstallHook( DWORD dwInstallAddress,
 
 //-----------------------------------------------------------
 
-void InstallCallHook(DWORD dwInstallAddress, DWORD dwHookFunction, BYTE byteJumpCode = 0xE8)
+inline void InstallCallHook(DWORD dwInstallAddress, DWORD dwHookFunction, BYTE byteJumpCode = 0xE8)
 {
 	DWORD oldProt, oldProt2;
 	DWORD disp = dwHookFunction - (dwInstallAddress + 5);
