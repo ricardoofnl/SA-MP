@@ -379,7 +379,21 @@ void ScrUnk6F(RPCParameters *rpcParams)
 }
 void ScrUnk62(RPCParameters *rpcParams) {}
 void ScrUnk70(RPCParameters *rpcParams) {}
-void ScrSetSpawnInfo(RPCParameters *rpcParams) {}
+void ScrSetSpawnInfo(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	SPAWN_INFO SpawnInfo;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	bsData.Read((PCHAR)&SpawnInfo, 46);
+
+	pPlayerPool->GetLocalPlayer()->sub_10003BE0(&SpawnInfo);
+}
 void ScrUnk45(RPCParameters *rpcParams) {}
 void ScrUnk99(RPCParameters *rpcParams)
 {
