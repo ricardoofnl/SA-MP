@@ -81,7 +81,19 @@ void ScrUnkA1(RPCParameters *rpcParams) {}
 void ScrUnk0F(RPCParameters *rpcParams) {}
 void ScrUnk10(RPCParameters *rpcParams) {}
 void ScrUnk11(RPCParameters *rpcParams) {}
-void ScrUnk12(RPCParameters *rpcParams) {}
+void ScrUnk12(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	int iMoney;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(iMoney);
+
+	pGame->AddToLocalMoney(iMoney);
+}
 void ScrSetPlayerFacingAngle(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
