@@ -554,7 +554,32 @@ void ScrUnkA9(RPCParameters *rpcParams) {}
 void ScrUnkAD(RPCParameters *rpcParams) {}
 void ScrUnkAE(RPCParameters *rpcParams) {}
 void ScrUnkAF(RPCParameters *rpcParams) {}
-void ScrUnkB0(RPCParameters *rpcParams) {}
+void ScrUnkB0(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	ACTORID actorId;
+	VECTOR vecPos;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(actorId);
+	bsData.Read(vecPos.X);
+	bsData.Read(vecPos.Y);
+	bsData.Read(vecPos.Z);
+
+	CActorPool *pActorPool = pNetGame->GetActorPool();
+	if(pActorPool) {
+		if(actorId < MAX_ACTORS) {
+			if(pActorPool->field_FA4[actorId]) {
+				CEntity *pActor = (CEntity *)pActorPool->field_4[actorId];
+				if(pActor) pActor->TeleportTo(vecPos.X, vecPos.Y, vecPos.Z);
+			}
+		}
+	}
+}
 void ScrUnkB2(RPCParameters *rpcParams) {}
 void ScrUnk30(RPCParameters *rpcParams) {}
 void ScrInitMenu(RPCParameters *rpcParams)
