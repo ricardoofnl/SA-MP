@@ -71,6 +71,8 @@ public:
 	DWORD GetPlayerColorAsRGBA();
 	DWORD GetPlayerColorAsARGB();
 
+	BOOL FUNC_10001080() { return m_pPlayerPed && field_10A; }; // .text:10001080
+
 	void EnterVehicle(VEHICLEID VehicleID, BOOL bPassenger);
 	void ExitVehicle();
 
