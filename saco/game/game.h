@@ -145,6 +145,7 @@ public:
 	void sub_100A0090(int a1, int a2);
 	BYTE sub_100A00C0();
 	void sub_100A0110();
+	int DeletePlayerPed(int pPlayerPed); // .text:100A0210
 	CVehicle *sub_100A0250(int a2, float a3, float a4, float a5, float a6, int a7);
 	void sub_100A0330();
 	BOOL sub_100A0920();

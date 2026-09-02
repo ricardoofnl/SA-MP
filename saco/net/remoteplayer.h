@@ -63,6 +63,8 @@ public:
 
 	void EnterVehicle(VEHICLEID VehicleID, BOOL bPassenger);
 	void ExitVehicle();
+
+	void FUNC_10017530(); // .text:10017530
 };
 
 //----------------------------------------------------

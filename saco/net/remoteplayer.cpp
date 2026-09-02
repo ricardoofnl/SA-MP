@@ -100,6 +100,19 @@ void CRemotePlayer::EnterVehicle(VEHICLEID VehicleID, BOOL bPassenger)
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10017530()
+{
+	if(m_pPlayerPed) {
+		ResetAllSyncAttributes();
+		pGame->DeletePlayerPed((int)m_pPlayerPed);
+		m_pPlayerPed = NULL;
+	}
+	field_10A = 0;
+	field_4 = 1;
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::ExitVehicle()
 {
 	if(m_pPlayerPed && m_pPlayerPed->IsInVehicle()) {
