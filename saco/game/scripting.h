@@ -158,6 +158,8 @@ const SCRIPT_COMMAND unload_wav = { 0x40D, "i" };
 const SCRIPT_COMMAND set_wav_at_location = { 0x3D7, "ifff" };
 
 const SCRIPT_COMMAND set_widescreen = { 0x02A3, "i" };
+// the fifth argument is declared "i" but samp passes a float
+const SCRIPT_COMMAND script_command_0948 = { 0x0948, "fffii" };
 
 
 

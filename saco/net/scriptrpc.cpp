@@ -34,7 +34,24 @@ void ScrUnk2C(RPCParameters *rpcParams) {}
 void ScrUnk2D(RPCParameters *rpcParams) {}
 void ScrUnk2E(RPCParameters *rpcParams) {}
 void ScrUnk2F(RPCParameters *rpcParams) {}
-void ScrUnk4F(RPCParameters *rpcParams) {}
+void ScrUnk4F(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	float fX, fY, fZ, fUnk;
+	int iUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(fX);
+	bsData.Read(fY);
+	bsData.Read(fZ);
+	bsData.Read(iUnk);
+	bsData.Read(fUnk);
+
+	ScriptCommand(&script_command_0948, fX, fY, fZ, iUnk, fUnk);
+}
 void ScrUnk50(RPCParameters *rpcParams) {}
 void ScrUnk63(RPCParameters *rpcParams) {}
 void ScrUnk7A(RPCParameters *rpcParams) {}
