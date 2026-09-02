@@ -214,7 +214,6 @@ void WorldPlayerRemove(RPCParameters *rpcParams)
 			pRemotePlayer->FUNC_10017530();
 	}
 }
-void WorldPlayerRemove(RPCParameters *rpcParams) {}
 void WorldVehicleAdd(RPCParameters *rpcParams) {}
 void WorldVehicleRemove(RPCParameters *rpcParams) {}
 // MATCH
@@ -276,7 +275,6 @@ void EnterVehicle(RPCParameters *rpcParams)
 	}
 }
 // MATCH
-void EnterVehicle(RPCParameters *rpcParams) {}
 void ExitVehicle(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
