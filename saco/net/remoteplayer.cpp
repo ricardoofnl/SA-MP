@@ -50,7 +50,7 @@ void CRemotePlayer::ResetAllSyncAttributes()
 	memset(field_19, 0, sizeof(field_19));
 	memset(field_AD, 0, sizeof(field_AD));
 	memset(field_8E, 0, sizeof(field_8E));
-	memset(field_1C9, 0, sizeof(field_1C9));
+	memset(&field_1C9, 0, sizeof(field_1C9));
 	if(field_1F9)
 	{
 		pGame->DisableMarker(field_1F9);
@@ -121,6 +121,43 @@ void CRemotePlayer::FUNC_10017570()
 	}
 	if(field_10A != 32) field_10A = 32;
 	ResetAllSyncAttributes();
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_100143A0()
+{
+	if(!m_pPlayerPed) return;
+	if(!m_pPlayerPed->IsAdded()) return;
+	if(field_10C) return;
+	if(pGame && !pGame->m_bHeadMove) return;
+	if(m_pPlayerPed->FUNC_100ADC90()) return;
+
+	MATRIX4X4 mat;
+	m_pPlayerPed->GetMatrix(&mat);
+
+	DWORD dwTick = GetTickCount();
+
+	if((dwTick - field_1D5) > 1000) {
+		CAMERA_AIM *pAim = GameGetRemotePlayerAim(m_pPlayerPed->m_bytePlayerNumber);
+		VECTOR vecAim;
+		vecAim.X = pAim->f1x * 20.0f + mat.pos.X;
+		vecAim.Y = pAim->f1y * 20.0f + mat.pos.Y;
+		vecAim.Z = pAim->f1z * 20.0f + mat.pos.Z;
+		field_1D5 = dwTick;
+		field_1C9.X = vecAim.X - mat.pos.X;
+		field_1C9.Y = vecAim.Y - mat.pos.Y;
+		field_1C9.Z = vecAim.Z - mat.pos.Z;
+	}
+
+	if((dwTick - field_1D9) > 200) {
+		VECTOR vec;
+		vec.X = mat.pos.X + field_1C9.X;
+		vec.Y = mat.pos.Y + field_1C9.Y;
+		vec.Z = mat.pos.Z + field_1C9.Z;
+		m_pPlayerPed->FUNC_100ADFD0("FollowPedSA", 0, 1000, -1, &vec, 0, 0.1f, 500, 3, 0);
+		field_1D9 = dwTick;
+	}
 }
 
 //----------------------------------------------------

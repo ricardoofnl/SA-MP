@@ -57,6 +57,9 @@ public:
 	BOOL  IsInVehicle();
 	BOOL  sub_100ABFC0(); // .text:100ABFC0
 	int   FUNC_100AC000(); // .text:100AC000
+	BOOL  FUNC_100ADC90(); // .text:100ADC90
+	void  FUNC_100ADFD0(char *szMarker, int a2, int a3, int a4, VECTOR *pVec,
+		int a6, float a7, int a8, int a9, int a10); // .text:100ADFD0
 	BYTE  GetActionTrigger();
 	void  SetActionTrigger(BYTE byteTrigger);
 

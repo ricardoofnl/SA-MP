@@ -43,7 +43,7 @@ public:
 	DWORD field_1BD;
 	int field_1C1;
 	int field_1C5;
-	char field_1C9[12];
+	VECTOR field_1C9;
 	DWORD field_1D5;
 	DWORD field_1D9;
 	CPlayerPed			*m_pPlayerPed;
@@ -69,6 +69,7 @@ public:
 	void EnterVehicle(VEHICLEID VehicleID, BOOL bPassenger);
 	void ExitVehicle();
 
+	void FUNC_100143A0(); // .text:100143A0
 	BOOL FUNC_100145F0(); // .text:100145F0
 	void FUNC_10016270(BYTE byteNewState, BYTE byteOldState); // .text:10016270
 	void FUNC_100165B0(BYTE byteNewState); // .text:100165B0
