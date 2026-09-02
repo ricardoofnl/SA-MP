@@ -151,7 +151,23 @@ void Unk18(RPCParameters *rpcParams) {}
 void EnterVehicle(RPCParameters *rpcParams) {}
 void ExitVehicle(RPCParameters *rpcParams) {}
 void ServerJoin(RPCParameters *rpcParams) {}
-void ServerQuit(RPCParameters *rpcParams) {}
+void ServerQuit(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	PLAYERID playerId;
+	BYTE byteReason;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+
+	bsData.Read(playerId);
+	bsData.Read(byteReason);
+
+	pPlayerPool->sub_10014090(playerId,byteReason);
+}
 void InitGame(RPCParameters *rpcParams) {}
 void Chat(RPCParameters *rpcParams) {}
 void RequestClass(RPCParameters *rpcParams) {}

@@ -39,6 +39,8 @@ public:
 
 	void FUNC_10013960(); // .text:10013960
 
+	BOOL sub_10014090(PLAYERID playerId, BYTE byteReason); // .text:10014090
+
 	CRemotePlayer* GetAt(PLAYERID playerId) {
 		if(playerId > MAX_PLAYERS) { return NULL; }
 		CNetPlayer *pNetPlayer = m_pPlayers[playerId];
