@@ -1292,6 +1292,39 @@ void CPlayerPed::SetSkin(int iSkin)
 }
 
 //-----------------------------------------------------------
+
+BOOL CPlayerPed::HasObjectAttached()
+{
+	for(int x = 0; x < 10; x++) {
+		if(field_4C[x] == 1) return TRUE;
+	}
+	return FALSE;
+}
+
+//-----------------------------------------------------------
+
+void CPlayerPed::RemoveAttachedObject(int iIndex)
+{
+	if(iIndex >= 0 && iIndex < 10 && field_4C[iIndex] == 1) {
+		CEntity *pObject = (CEntity *)field_27C[iIndex];
+		if(pObject) {
+			delete pObject;
+			field_27C[iIndex] = 0;
+		}
+		memset(&field_74[iIndex], 0, sizeof(struc_97));
+		field_4C[iIndex] = 0;
+	}
+}
+
+//-----------------------------------------------------------
+
+BOOL CPlayerPed::GetAttachedObjectSlotState(int iIndex)
+{
+	if(iIndex < 0 || iIndex >= 10) return FALSE;
+	return (field_4C[iIndex] == 1);
+}
+
+//-----------------------------------------------------------
 // drunk level, driven from the net layer and read by the blur overlay
 
 int CPlayerPed::sub_100ADFA0()

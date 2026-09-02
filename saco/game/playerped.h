@@ -168,6 +168,13 @@ public:
 	VECTOR*		GetTransformedBonePosition(int iBone, VECTOR *vecOffset);
 
 	BOOL		FUNC_100AFA70(); // .text:100AFA70
+
+	BOOL		HasObjectAttached(); // .text:100AEE30
+	void		RemoveAttachedObject(int iIndex); // .text:100AEE50
+	BOOL		GetAttachedObjectSlotState(int iIndex); // .text:100AEEB0
+	void		RemoveAllAttachedObjects(); // .text:100B0AB0
+	void		StopCarrying(); // .text:100ADC00
+	void		Destroy(); // .text:100B0FA0
 	void		FUNC_100AFFD0(); // .text:100AFFD0
 
 	int			m_iCellPhoneEnabled;
