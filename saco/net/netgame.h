@@ -95,7 +95,7 @@ public:
 	CPickupPool * GetPickupPool() { return m_pPools->pPickupPool; };
 	CActorPool * GetActorPool() { return m_pPools->pActorPool; };
 	CObjectPool * GetObjectPool() { return m_pPools->pObjectPool; };
-	CObjectPool * FUNC_10002E10(); // todo: implement, returns m_pPools->pObjectPool
+	CObjectPool * FUNC_10002E10() { return m_pPools->pObjectPool; }; // .text:10002E10, out of line copy of GetObjectPool
 	CGangZonePool * GetGangZonePool() { return m_pPools->pGangZonePool; };
 	CLabelPool * GetLabelPool() { return m_pPools->pLabelPool; };
 	CTextDrawPool * GetTextDrawPool() { return m_pPools->pTextDrawPool; };
