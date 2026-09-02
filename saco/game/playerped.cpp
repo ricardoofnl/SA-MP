@@ -823,7 +823,8 @@ void CPlayerPed::PutDirectlyInVehicle(int iVehicleID, int iSeat)
 	if(pNetGame) {
 		CVehiclePool* pVehiclePool = pNetGame->GetVehiclePool();
 		VEHICLEID TrainVehicleId = pVehiclePool->FUNC_1001EB90((int)pVehicle);
-		if(TrainVehicleId > MAX_VEHICLES) return;
+		// 0xFFFF is the vehicle pool not-found sentinel
+		if(TrainVehicleId == 0xFFFF || TrainVehicleId > MAX_VEHICLES) return;
 
 		CVehicle* pTrain = (CVehicle *)pVehiclePool->FUNC_10001120(TrainVehicleId);
 		if ( pTrain && pTrain->IsATrainPart() && m_pPed == GamePool_FindPlayerPed() ) {
