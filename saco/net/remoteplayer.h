@@ -65,6 +65,7 @@ public:
 	void ExitVehicle();
 
 	void FUNC_10016660(); // .text:10016660
+	float FUNC_10016120(); // .text:10016120
 	void FUNC_10017530(); // .text:10017530
 	void FUNC_10017570(); // .text:10017570
 };
