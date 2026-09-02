@@ -147,7 +147,16 @@ void ScrUnk99(RPCParameters *rpcParams) {}
 void ScrSetPlayerPos(RPCParameters *rpcParams) {}
 void ScrUnk0D(RPCParameters *rpcParams) {}
 void ScrPutPlayerInVehicle(RPCParameters *rpcParams) {}
-void ScrRemovePlayerFromVehicle(RPCParameters *rpcParams) {}
+void ScrRemovePlayerFromVehicle(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	pNetGame->GetPlayerPool()->GetLocalPlayer()->GetPlayerPed()->ExitCurrentVehicle();
+}
 void ScrDisplayGameText(RPCParameters *rpcParams) {}
 void ScrSetInterior(RPCParameters *rpcParams)
 {
