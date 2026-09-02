@@ -82,6 +82,7 @@ public:
 	DWORD GetTime();
 	int GetGameState() { return m_iGameState; };
 	char GetField232() { return field_232; };
+	void SetField232(char cValue) { field_232 = cValue; };
 	BOOL GetWalkStyle() { return field_3D5->bUseCJWalk; };
 	struc_41 * GetSettings() { return field_3D5; };
 	void SetWorldTime(BYTE byteHour) { field_3D5->field_2C = byteHour; };

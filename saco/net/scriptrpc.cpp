@@ -10,7 +10,21 @@ extern CChatWindow * pChatWindow;
 //----------------------------------------------------
 
 // TODO: These script RPCs
-void ScrUnkA7(RPCParameters *rpcParams) {}
+void ScrUnkA7(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	bool bValue;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bValue = false;
+	bsData.Read(bValue);
+
+	if(pNetGame) pNetGame->SetField232(bValue);
+}
 void ScrUnk38(RPCParameters *rpcParams) {}
 void ScrUnk90(RPCParameters *rpcParams) {}
 void ScrUnk91(RPCParameters *rpcParams) {}
