@@ -33,7 +33,12 @@ public:
 	int field_10C;
 	int field_110;
 
-	char _gap114[152];
+	char _gap114[88];
+	char _gap16C[16];
+	VECTOR field_17C;
+	VECTOR field_188;
+	VECTOR field_194;
+	VECTOR field_1A0;
 
 	int field_1AC;
 	int field_1B0;
@@ -70,6 +75,7 @@ public:
 	void ExitVehicle();
 
 	void FUNC_100143A0(); // .text:100143A0
+	void FUNC_100150D0(VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100150D0
 	BOOL FUNC_100145F0(); // .text:100145F0
 	void FUNC_10016270(BYTE byteNewState, BYTE byteOldState); // .text:10016270
 	void FUNC_100165B0(BYTE byteNewState); // .text:100165B0

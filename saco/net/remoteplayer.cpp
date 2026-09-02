@@ -162,6 +162,19 @@ void CRemotePlayer::FUNC_100143A0()
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_100150D0(VECTOR *pPos, VECTOR *pMoveSpeed)
+{
+	field_17C.X = pPos->X;
+	field_17C.Y = pPos->Y;
+	field_17C.Z = pPos->Z;
+	field_188.X = pMoveSpeed->X;
+	field_188.Y = pMoveSpeed->Y;
+	field_188.Z = pMoveSpeed->Z;
+	m_pPlayerPed->SetMoveSpeedVector(field_188);
+}
+
+//----------------------------------------------------
+
 BOOL CRemotePlayer::FUNC_100145F0()
 {
 	if(field_10A == 17 && field_C5.wVehicleID && field_C5.wVehicleID != INVALID_VEHICLE_ID &&
