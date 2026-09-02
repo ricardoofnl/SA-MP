@@ -419,13 +419,6 @@ BYTE CPlayerPed::GetCurrentWeapon()
 
 //-----------------------------------------------------------
 
-int CPlayerPed::GetCurrentVehicleID()
-{
-	if(!m_pPed) return 0;
-
-	VEHICLE_TYPE *pVehicle = (VEHICLE_TYPE *)m_pPed->pVehicle;
-	return GamePool_Vehicle_GetIndex(pVehicle);
-}
 
 //-----------------------------------------------------------
 // Shows the normal marker
@@ -874,7 +867,6 @@ void CPlayerPed::ExitCurrentVehicle()
 	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
 	if(IN_VEHICLE(m_pPed)) {
 		if(GetCurrentVehicleID()) {
-			int iVehicleID;
 			VEHICLE_TYPE *pVehicle = GamePool_Vehicle_GetAt(GetCurrentVehicleID());
 			if(pVehicle) {
 				if( pVehicle->entity.nModelIndex != TRAIN_PASSENGER &&

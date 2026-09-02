@@ -5,6 +5,8 @@
 #include "aimstuff.h"
 #include "entity.h"
 
+DWORD __stdcall GamePool_Vehicle_GetIndex(VEHICLE_TYPE *pVehicle);
+
 struct struc_97
 {
 	char _gap0[52];
@@ -37,7 +39,11 @@ public:
 	void  ShowMarker(int iMarkerColorID);
 	void  HideMarker();
 	BYTE  GetCurrentWeapon();
-	int   GetCurrentVehicleID();
+	int   GetCurrentVehicleID() {
+		if(!m_pPed) return 0;
+		VEHICLE_TYPE *pVehicle = (VEHICLE_TYPE *)m_pPed->pVehicle;
+		return GamePool_Vehicle_GetIndex(pVehicle);
+	};
 	BOOL  IsOnScreen();
 	float GetHealth();
 	void  SetHealth(float fHealth);
