@@ -57,7 +57,20 @@ void WorldTime(RPCParameters *rpcParams)
 	pNetGame->SetWorldTime(byteWorldTime);
 }
 void Pickup(RPCParameters *rpcParams) {}
-void DestroyPickup(RPCParameters *rpcParams) {}
+void DestroyPickup(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	int iPickup;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(iPickup);
+
+	CPickupPool *pPickupPool = pNetGame->GetPickupPool();
+	if(pPickupPool)
+		pPickupPool->sub_10013320(iPickup);
+}
 void DestroyWeaponPickup(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);

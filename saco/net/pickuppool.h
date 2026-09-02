@@ -34,6 +34,7 @@ public:
 	~CPickupPool();
 
 	void sub_10013440(int iPickup); // .text:10013440
+	void sub_10013320(int iPickup); // .text:10013320
 	void sub_10013380(WORD wPickup); // .text:10013380
 
 };
