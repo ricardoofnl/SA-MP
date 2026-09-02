@@ -1366,6 +1366,15 @@ DWORD unnamed_101516A4;	// CPed * taking the damage
 
 int __stdcall FUNC_100A3BB0(DWORD *pEventDamage, PED_TYPE *pPed); // todo: implement `FUNC_100A3BB0`
 
+// maps a ped pointer to the actor that owns it
+ACTORID FUNC_100A3B80(DWORD dwPed)
+{
+	if(!dwPed) return 0xFFFF;
+	return pNetGame->GetActorPool()->FUNC_100018B0(dwPed);
+}
+
+//-----------------------------------------------------------
+
 NUDE PedDamage_Hook()
 {
 	__asm
