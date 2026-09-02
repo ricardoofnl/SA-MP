@@ -32,6 +32,9 @@ public:
 	void FUNC_1001E8D0(); // .text:1001E8D0
 
 	void FUNC_1001E8A0(); // .text:1001E8A0
+
+	// creates the slot's CTextDraw, replacing any existing one; returns it or 0
+	int FUNC_1001E910(unsigned short TextDrawID, char *pTransmit, char *szText); // .text:1001E910
 };
 
 //----------------------------------------------------
