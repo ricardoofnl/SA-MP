@@ -4,7 +4,9 @@
 class CUnkClass10
 {
 private:
-	char _gap0[120];
+	int field_0;
+	int field_4;
+	RECT field_8[7];
 	int field_78;
 	int field_7C;
 	int field_80;
@@ -31,6 +33,8 @@ public:
 
 	float FUNC_10071C20(D3DXVECTOR3 *pPos, D3DXVECTOR2 *pOut);
 	PCHAR FUNC_10071FA0(int nIndex);
+	void FUNC_10072040(RECT *pRect, POINT *pPoint);
+	void FUNC_100720A0();
 	void FUNC_100721F0(int nStyle);
 	BOOL FUNC_100723C0();
 

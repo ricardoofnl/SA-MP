@@ -74,6 +74,32 @@ PCHAR CUnkClass10::FUNC_10071FA0(int nIndex)
 }
 
 
+void CUnkClass10::FUNC_10072040(RECT *pRect, POINT *pPoint)
+{
+	pRect->left = pPoint->x - field_0 / 2;
+	pRect->right = pRect->left + field_0;
+	pRect->top = pPoint->y - field_4 / 2;
+	pRect->bottom = pRect->top + field_4;
+}
+
+// picks the hovered cell out of the seven hit rects
+void CUnkClass10::FUNC_100720A0()
+{
+	POINT point;
+	GetCursorPos(&point);
+	ScreenToClient(pGame->GetMainWindowHwnd(), &point);
+
+	if(!field_84) field_113 = -1;
+	else if(!pGame->field_61) field_113 = -1;
+	else if(PtInRect(&field_8[0], point)) field_113 = 0;
+	else if(PtInRect(&field_8[1], point)) field_113 = 1;
+	else if(PtInRect(&field_8[2], point)) field_113 = 2;
+	else if(PtInRect(&field_8[3], point)) field_113 = 3;
+	else if(PtInRect(&field_8[4], point)) field_113 = 4;
+	else if(PtInRect(&field_8[5], point)) field_113 = 5;
+	else field_113 = PtInRect(&field_8[6], point) ? 10 : -1;
+}
+
 void CUnkClass10::FUNC_100721F0(int nStyle)
 {
 	if(field_78 == 1 && nStyle == 2)
