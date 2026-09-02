@@ -103,7 +103,7 @@ public:
 
 	void  ResetMapIcons();
 	void  SetMapIcon(BYTE byteIndex, float fX, float fY, float fZ, BYTE byteIcon, DWORD dwColor, int iStyle);
-	void  DisableMapIcon(BYTE byteIndex);
+	void  DisableMapIcon(BYTE byteIndex); // .text:10008FB0
 
 	CMenuPool * GetMenuPool() { return m_pPools->pMenuPool; }; // .text:100084F0
 	int ToggleNameTagStatus(); // .text:10008E90
