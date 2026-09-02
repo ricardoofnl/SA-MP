@@ -86,3 +86,6 @@ DWORD * GetNextTaskFromTask(DWORD *task);
 int GetTaskTypeFromTask(DWORD *task);
 const char* GetTaskNameFromTask(DWORD *task);
 
+void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
+// stack cleanup is folded into the next call's argument setup
+

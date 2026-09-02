@@ -52,7 +52,7 @@ public:
 	DWORD field_1D5;
 	DWORD field_1D9;
 	CPlayerPed			*m_pPlayerPed;
-	int field_1E1;
+	CVehicle *field_1E1;
 	PLAYERID			m_PlayerID;
 	WORD field_1E7;
 	int field_1E9;
@@ -76,6 +76,7 @@ public:
 
 	void FUNC_100143A0(); // .text:100143A0
 	void FUNC_100150D0(VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100150D0
+	void FUNC_100155E0(int a1, VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100155E0
 	BOOL FUNC_100145F0(); // .text:100145F0
 	void FUNC_10016270(BYTE byteNewState, BYTE byteOldState); // .text:10016270
 	void FUNC_100165B0(BYTE byteNewState); // .text:100165B0

@@ -175,6 +175,16 @@ void CRemotePlayer::FUNC_100150D0(VECTOR *pPos, VECTOR *pMoveSpeed)
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_100155E0(int a1, VECTOR *pPos, VECTOR *pMoveSpeed)
+{
+	FUNC_100B5210(a1, &_gap16C);
+	field_194 = *pPos;
+	field_1A0 = *pMoveSpeed;
+	field_1E1->SetMoveSpeedVector(*pMoveSpeed);
+}
+
+//----------------------------------------------------
+
 BOOL CRemotePlayer::FUNC_100145F0()
 {
 	if(field_10A == 17 && field_C5.wVehicleID && field_C5.wVehicleID != INVALID_VEHICLE_ID &&
