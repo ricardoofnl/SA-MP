@@ -38,3 +38,11 @@ void CVehiclePool::FUNC_1001E9B0()
 }
 
 //----------------------------------------------------
+
+int __stdcall FUNC_1001EBE0(VEHICLE_TYPE *pVehicle)
+{
+	if(pVehicle) return GamePool_Vehicle_GetIndex(pVehicle);
+	return INVALID_VEHICLE_ID;
+}
+
+//----------------------------------------------------
