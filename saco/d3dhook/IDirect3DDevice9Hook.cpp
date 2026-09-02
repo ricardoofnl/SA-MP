@@ -51,7 +51,7 @@ void sub_100C3F50(); // .text:100C3F50
 void sub_100C41B0(); // .text:100C41B0
 int sub_100A4470(); // .text:100A4470
 int sub_100C3E20(int a1, int a2); // .text:100C3E20
-void sub_100755C0(); // .text:100755C0
+int sub_10062270(std::string *pstrFileName); // .text:10062270
 void sub_10074480(); // .text:10074480
 void sub_10074210(); // .text:10074210
 void sub_10075330(); // .text:10075330
@@ -82,6 +82,43 @@ public:
 	void FUNC_1006DC00(); // .text:1006DC00
 	void FUNC_10071410(); // .text:10071410
 };
+
+//-------------------------------------------
+
+// screenshot grab: reached from Present when the F8 handler raises dword_1012DE64
+void sub_100755C0()
+{
+	dword_1012DE64 = 0;
+
+	std::string strFileName;
+	int iIndex = sub_10062270(&strFileName);
+
+	IDirect3DSurface9 *pSurface;
+	pD3DDevice->CreateOffscreenPlainSurface(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
+		D3DFMT_A8R8G8B8, D3DPOOL_SCRATCH, &pSurface, NULL);
+
+	if(SUCCEEDED(pD3DDevice->GetFrontBufferData(0, pSurface)))
+	{
+		POINT pt;
+		pt.x = 0;
+		pt.y = 0;
+		ClientToScreen(*(HWND *)0xC97C1C, &pt);
+
+		RECT rc;
+		GetClientRect(*(HWND *)0xC97C1C, &rc);
+		rc.left += pt.x;
+		rc.right += pt.x;
+		rc.top += pt.y;
+		rc.bottom += pt.y;
+
+		D3DXSaveSurfaceToFileA(strFileName.c_str(), D3DXIFF_PNG, pSurface, NULL, &rc);
+		pChatWindow->AddInfoMessage("Screenshot Taken - sa-mp-%03i.png", iIndex);
+	}
+	else
+	{
+		pChatWindow->AddDebugMessage("Unable to save screenshot.");
+	}
+}
 
 //-------------------------------------------
 
