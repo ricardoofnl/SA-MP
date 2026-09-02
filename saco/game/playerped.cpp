@@ -1293,6 +1293,40 @@ void CPlayerPed::SetSkin(int iSkin)
 
 //-----------------------------------------------------------
 
+void CPlayerPed::RemoveAllAttachedObjects()
+{
+	// retail spells the RemoveAttachedObject body out here
+	for(int x = 0; x < 10; x++) {
+		if(x >= 0 && x < 10 && field_4C[x] == 1) {
+			CEntity *pObject = (CEntity *)field_27C[x];
+			if(pObject) {
+				delete pObject;
+				field_27C[x] = 0;
+			}
+			memset(&field_74[x], 0, sizeof(struc_97));
+			field_4C[x] = 0;
+		}
+	}
+}
+
+//-----------------------------------------------------------
+
+void CPlayerPed::StopCarrying()
+{
+	MATRIX4X4 mat;
+
+	if(field_2C5) {
+		ScriptCommand(&task_pick_up_object, m_dwGTAId, field_2C5, 0.0f, 0.0f, 0.0f, 6, 16, "NULL", "NULL", 0);
+		field_2C5 = 0;
+	}
+
+	GetMatrix(&mat);
+	TeleportTo(mat.pos.X, mat.pos.Y, mat.pos.Z);
+	field_2C1 = 0;
+}
+
+//-----------------------------------------------------------
+
 BOOL CPlayerPed::HasObjectAttached()
 {
 	for(int x = 0; x < 10; x++) {
