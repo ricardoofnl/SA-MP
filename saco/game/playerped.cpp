@@ -1057,7 +1057,8 @@ BOOL CPlayerPed::IsInJetpackMode()
 
 void CPlayerPed::StartGoggles()
 {
-	if (HasGoggles()) return;
+	// retail writes the HasGoggles test out inline
+	if (m_pPed && (m_pPed->dwActiveVision != 0 || m_bGoggleState)) return;
 	if (FindWeaponSlot( 44 ) == NULL && FindWeaponSlot( 45 ) == NULL)
 		GiveWeapon( 44, 1 ); // Prevents crashing due to lack of animations.
 
