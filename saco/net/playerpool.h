@@ -42,7 +42,7 @@ public:
 		else {
 			CNetPlayer *pPlayer = m_pPlayers[playerId];
 			if(!pPlayer) szName = NULL;
-			else szName = (PCHAR)pPlayer->m_PlayerName.c_str();
+			else szName = pPlayer->GetName();
 		}
 		return szName;
 	};
