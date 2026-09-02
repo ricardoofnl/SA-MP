@@ -144,3 +144,30 @@ void CNetGame::ResetMapIcons()
 }
 
 //----------------------------------------------------
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::Packet_NoFreeIncomingConnections(Packet *p)
+{
+	pChatWindow->AddDebugMessage("The server is full. Retrying...");
+	m_iGameState = GAMESTATE_WAIT_CONNECT;
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::Packet_InvalidPassword(Packet *p)
+{
+	pChatWindow->AddDebugMessage("Wrong server password.");
+	GetRakClient()->Disconnect(0,0);
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::Packet_ConnectionAttemptFailed(Packet *p)
+{
+	pChatWindow->AddDebugMessage("The server didn't respond. Retrying..");
+	m_iGameState = GAMESTATE_WAIT_CONNECT;
+}
