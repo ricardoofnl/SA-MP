@@ -36,6 +36,14 @@ public:
 			return GameGetPlayerCameraMode(m_bytePlayerNumber);
 	};
 
+	void SetCameraMode(BYTE byteMode) { // .text:10014340
+		GameSetPlayerCameraMode(byteMode, m_bytePlayerNumber);
+	};
+
+	void SetCameraExtZoom(float fZoom, float fRatio) { // .text:10014360
+		GameSetPlayerCameraExtZoom(m_bytePlayerNumber, fZoom, fRatio);
+	};
+
 	void  ShowMarker(int iMarkerColorID);
 	void  HideMarker();
 	BYTE  GetCurrentWeapon();
