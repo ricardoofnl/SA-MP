@@ -185,7 +185,31 @@ void WorldVehicleAdd(RPCParameters *rpcParams) {}
 void WorldVehicleRemove(RPCParameters *rpcParams) {}
 void DamageVehicle(RPCParameters *rpcParams) {}
 void Unk18(RPCParameters *rpcParams) {}
-void EnterVehicle(RPCParameters *rpcParams) {}
+void EnterVehicle(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	PLAYERID playerId;
+	VEHICLEID VehicleID = 0;
+	BYTE bytePassenger = 0;
+	BOOL bPassenger = FALSE;
+
+	bsData.Read(playerId);
+	bsData.Read(VehicleID);
+	bsData.Read(bytePassenger);
+
+	if(bytePassenger) bPassenger = TRUE;
+
+	CRemotePlayer *pRemotePlayer = pNetGame->GetPlayerPool()->GetAt(playerId);
+	if(pRemotePlayer)
+	{
+		if(pRemotePlayer->FUNC_10016120() < 200.0f)
+			pRemotePlayer->EnterVehicle(VehicleID,bPassenger);
+	}
+}
 void ExitVehicle(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
