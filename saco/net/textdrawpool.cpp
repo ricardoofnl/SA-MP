@@ -29,3 +29,17 @@ void CTextDrawPool::FUNC_1001E7F0(unsigned short TextDrawID)
 }
 
 //----------------------------------------------------
+
+void CTextDrawPool::FUNC_1001E8D0()
+{
+	for(int i = 0; i < MAX_TEXT_DRAWS; i++) {
+		CTextDraw *pTextDraw = (CTextDraw *)field_2400[i];
+		if(pTextDraw) {
+			delete pTextDraw;
+			field_2400[i] = 0;
+			field_0[i] = 0;
+		}
+	}
+}
+
+//----------------------------------------------------
