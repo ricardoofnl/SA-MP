@@ -58,9 +58,9 @@ void CScoreBoard::ResetDialogControls(CDXUTDialog *pDialog)
 		m_pListBox->OnInit();
 		m_pListBox->GetElement(0)->TextureColor.Init(D3DCOLOR_ARGB( 200, 255, 255, 255 ));
 		m_pListBox->field_4D = 3;
-		m_pListBox->field_51 = field_24 * field_14;
-		m_pListBox->field_59 = field_28 * field_14;
-		m_pListBox->field_55 = field_2C * field_14;
+		m_pListBox->field_51[0] = field_24 * field_14;
+		m_pListBox->field_51[2] = field_28 * field_14;
+		m_pListBox->field_51[1] = field_2C * field_14;
 		m_pListBox->SetEnabled(false);
 		m_pListBox->SetVisible(false);
 

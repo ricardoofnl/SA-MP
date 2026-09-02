@@ -41,7 +41,7 @@ void CUnkClass5::ResetDialogControls(CDXUTDialog *pDialog)
 		m_pListBox->SetEnabled(false);
 		m_pListBox->SetVisible(false);
 		m_pListBox->field_4D = 2;
-		m_pListBox->field_51 = field_23C;
-		m_pListBox->field_55 = field_240;
+		m_pListBox->field_51[0] = field_23C;
+		m_pListBox->field_51[1] = field_240;
 	}
 }
