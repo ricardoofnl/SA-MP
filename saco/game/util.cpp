@@ -1007,6 +1007,14 @@ DWORD unnamed_100B6100(char *szString, int nMaxLen)
 	return 0;
 }
 
+int FUNC_100B61D0(int a1)
+{
+	_asm mov eax, 0x745C70
+	_asm push a1
+	_asm call eax
+	_asm pop edx
+}
+
 UINT GetVehicleSubtypeFromVehiclePtr(VEHICLE_TYPE *pVehicle)
 {
 	if(!pVehicle) return 0;

@@ -58,6 +58,7 @@ void SaveCameraRaster(char *filename);
 BOOL IsFileOrDirectoryExists(char * szPath);
 
 DWORD unnamed_100B6100(char *szString, int nMaxLen);
+int FUNC_100B61D0(int a1); // .text:100B61D0
 
 bool FUNC_100B4B50(VECTOR *vecPos);
 void FUNC_100B4D10(VECTOR *vecOut, MATRIX4X4 *pMatrix, VECTOR *vecOffset);
