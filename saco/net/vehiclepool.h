@@ -32,6 +32,8 @@ public:
 		return 0;
 	}
 
+	void FUNC_1001E9B0(); // .text:1001E9B0
+
 	short FUNC_1001EB90(int a1); // .text:1001EB90
 
 	int FindGtaIDFromID(int VehicleID); // .text:1001EBC0

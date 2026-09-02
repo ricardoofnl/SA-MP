@@ -27,3 +27,14 @@ int CVehiclePool::FindGtaIDFromID(int VehicleID)
 }
 
 //----------------------------------------------------
+
+void CVehiclePool::FUNC_1001E9B0()
+{
+	int iHighest = 0;
+	for(int i = 0; i < MAX_VEHICLES; i++) {
+		if(field_3074[i]) iHighest = i;
+	}
+	field_0 = iHighest;
+}
+
+//----------------------------------------------------
