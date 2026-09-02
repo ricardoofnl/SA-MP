@@ -586,8 +586,8 @@ void CPlayerPed::ForceTargetRotation(float fRotation)
 	if(!m_pPed) return;
 	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
 
-	m_pPed->fRotation1 = DegToRad(fRotation);
 	m_pPed->fRotation2 = DegToRad(fRotation);
+	m_pPed->fRotation1 = DegToRad(fRotation);
 
 	ScriptCommand(&set_actor_z_angle,m_dwGTAId,fRotation);   
 }
