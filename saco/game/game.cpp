@@ -408,12 +408,12 @@ void CGame::sub_100A0110()
 	// TODO: CGame::sub_100A0110() .text:100A0110
 }
 
-int __stdcall sub_100A0210(int a1)
+int CGame::DeletePlayerPed(int pPlayerPed)
 {
-	if(a1)
+	if(pPlayerPed)
 	{
-		BYTE bytePlayerNumber = *(BYTE *)(a1 + 0x2B0);
-		((struc_vdelete *)a1)->Delete(1);
+		BYTE bytePlayerNumber = *(BYTE *)(pPlayerPed + 0x2B0);
+		((struc_vdelete *)pPlayerPed)->Delete(1);
 		bUsedPlayerSlots[bytePlayerNumber] = 0;
 		return 1;
 	}
