@@ -209,7 +209,20 @@ void ScrUnk42(RPCParameters *rpcParams)
 }
 void ScrUnk37(RPCParameters *rpcParams) {}
 void ScrUnk21(RPCParameters *rpcParams) {}
-void ScrUnk23(RPCParameters *rpcParams) {}
+void ScrUnk23(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	int iLevel;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(iLevel);
+
+	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+	if(pPlayerPed) pPlayerPed->FUNC_100ADFB0(iLevel);
+}
 void ScrUnk43(RPCParameters *rpcParams) {}
 void ScrUnk71(RPCParameters *rpcParams) {}
 void ScrUnk29(RPCParameters *rpcParams) {}
