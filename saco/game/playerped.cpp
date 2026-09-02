@@ -132,10 +132,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[4] = 0x00;
 		pPlayerKeys->wKeys2[4] = 0x00;
 	 }
-	 wKeys >>= 1; // 1
 
 	 // CROUCHING TOGGLE (18)
-	 if(IsInVehicle() && wKeys & 1) {
+	 if((m_pPed && IN_VEHICLE(m_pPed)) && (wKeys & 2)) {
 		if(pPlayerKeys->wKeys1[18]) {
 			pPlayerKeys->wKeys1[18] = 0xFF;
 			pPlayerKeys->wKeys2[18] = 0xFF;
@@ -147,10 +146,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[18] = 0x00;
 		pPlayerKeys->wKeys2[18] = 0x00;
 	 }
-	 wKeys >>= 1; // 2
 
 	  // FIRING (17)
-	 if(wKeys & 1) {
+	 if(wKeys & 4) {
 		if(pPlayerKeys->wKeys1[17]) {
 			pPlayerKeys->wKeys1[17] = 0xFF;
 			pPlayerKeys->wKeys2[17] = 0xFF;
@@ -162,10 +160,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[17] = 0x00;
 		pPlayerKeys->wKeys2[17] = 0x00;
 	 }
-	 wKeys >>= 1; // 3
 
 	  // SPRINT (16)
-	 if(wKeys & 1) {
+	 if(wKeys & 8) {
 		if(pPlayerKeys->wKeys1[16]) {
 			pPlayerKeys->wKeys1[16] = 0xFF;
 			pPlayerKeys->wKeys2[16] = 0xFF;
@@ -177,11 +174,12 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[16] = 0x00;
 		pPlayerKeys->wKeys2[16] = 0x00;
 	 }
-	 wKeys >>= 1; // 4
 
 
 	 // SECONDARY ONFOOT ATTACK (15)
-	 if( (wKeys & 1) && !IsInJetpackMode() ) {
+	 if( (wKeys & 0x10) &&
+		 (!m_pPed || IN_VEHICLE(m_pPed) || m_pPed->Tasks->pdwJumpJetPack == NULL ||
+		  m_pPed->Tasks->pdwJumpJetPack[0] != 0x8705C4) ) {
 		if(pPlayerKeys->wKeys1[15]) {
 			pPlayerKeys->wKeys1[15] = 0xFF;
 			pPlayerKeys->wKeys2[15] = 0xFF;
@@ -193,10 +191,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[15] = 0x00;
 		pPlayerKeys->wKeys2[15] = 0x00;
 	 }
-	 wKeys >>= 1; // 5
 
 	 // JUMP (14)
-	 if(wKeys & 1) {
+	 if(wKeys & 0x20) {
 		if(pPlayerKeys->wKeys1[14]) {
 			pPlayerKeys->wKeys1[14] = 0xFF;
 			pPlayerKeys->wKeys2[14] = 0xFF;
@@ -208,10 +205,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[14] = 0x00;
 		pPlayerKeys->wKeys2[14] = 0x00;
 	 }
-	 wKeys >>= 1; // 6
 
 	 // INCAR LOOK RIGHT (7)
-	 if(wKeys & 1) {
+	 if(wKeys & 0x40) {
 		if(pPlayerKeys->wKeys1[7]) {
 			pPlayerKeys->wKeys1[7] = 0xFF;
 			pPlayerKeys->wKeys2[7] = 0xFF;
@@ -223,10 +219,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[7] = 0x00;
 		pPlayerKeys->wKeys2[7] = 0x00;
 	 }
-	 wKeys >>= 1; // 7
 
 	 // INCAR HANDBRAKE / ONFOOT TARGET (6)
-	 if(wKeys & 1) {
+	 if(wKeys & 0x80) {
 		if(pPlayerKeys->wKeys1[6]) {
 			pPlayerKeys->wKeys1[6] = 0xFF;
 			pPlayerKeys->wKeys2[6] = 0xFF;
@@ -238,10 +233,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[6] = 0x00;
 		pPlayerKeys->wKeys2[6] = 0x00;
 	 }
-	 wKeys >>= 1; // 8
 
  	 // INCAR LOOK LEFT (5)
-	 if(wKeys & 1) {
+	 if(wKeys & 0x100) {
 		if(pPlayerKeys->wKeys1[5]) {
 			pPlayerKeys->wKeys1[5] = 0xFF;
 			pPlayerKeys->wKeys2[5] = 0xFF;
@@ -253,10 +247,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[5] = 0x00;
 		pPlayerKeys->wKeys2[5] = 0x00;
 	 }
-	 wKeys >>= 1; // 9
 
 	 // SUBMISSION (19)
-	 if(wKeys & 1) {
+	 if(wKeys & 0x200) {
 		if(pPlayerKeys->wKeys1[19] == 0xFF) {
 			pPlayerKeys->wKeys1[19] = 0xFF;
 			pPlayerKeys->wKeys2[19] = 0xFF;
@@ -268,10 +261,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[19] = 0x00;
 		pPlayerKeys->wKeys2[19] = 0x00;
 	 }
-	 wKeys >>= 1; // 10
 
 	 // WALKING (21)
-	 if(wKeys & 1) {
+	 if(wKeys & 0x400) {
 		if(pPlayerKeys->wKeys1[21] == 0xFF) {
 			pPlayerKeys->wKeys1[21] = 0xFF;
 			pPlayerKeys->wKeys2[21] = 0xFF;
@@ -283,10 +275,9 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[21] = 0x00;
 		pPlayerKeys->wKeys2[21] = 0x00;
 	 }
-	 wKeys >>= 1; // 11
 
 	 // ANALOG2 D/U
-	 BYTE byteVal = wKeys & 3;
+	 BYTE byteVal = (wKeys >> 11) & 3;
 
 	 if(byteVal==2) {
 		pPlayerKeys->wKeys1[3] = (WORD)(128);
@@ -298,10 +289,8 @@ void CPlayerPed::SetKeys(WORD wKeys, WORD lrAnalog, WORD udAnalog)
 		pPlayerKeys->wKeys1[3] = 0;
 		pPlayerKeys->wKeys2[3] = 0;
 	 }
-	 wKeys >>= 2; // 12-13
-
 	 // ANALOG2 L/R
-	 byteVal = wKeys & 3;
+	 byteVal = (BYTE)((wKeys >> 11) >> 2) & 3;
 
 	 if(byteVal==2) {
 		pPlayerKeys->wKeys1[2] = (WORD)(128);
