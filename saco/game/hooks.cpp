@@ -1366,6 +1366,52 @@ DWORD unnamed_101516A4;	// CPed * taking the damage
 
 int __stdcall FUNC_100A3BB0(DWORD *pEventDamage, PED_TYPE *pPed); // todo: implement `FUNC_100A3BB0`
 
+// maps a ped pointer to a player id, falling back to the driver of the vehicle it is in
+PLAYERID FUNC_100A3AE0(DWORD dwPed)
+{
+	if(!dwPed) return 0xFFFF;
+
+	PLAYERID playerId;
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+
+	playerId = pPlayerPool->FUNC_100138C0(dwPed);
+
+	if(playerId == 0xFFFF)
+	{
+		VEHICLEID vehicleId = pNetGame->GetVehiclePool()->FUNC_1001EB90(dwPed);
+
+		if(vehicleId != 0xFFFF)
+		{
+			int iHighestId = pPlayerPool->field_2F3A;
+
+			for(int i = 0; i <= iHighestId; i++)
+			{
+				PLAYERID id = (PLAYERID)i;
+
+				if(id < MAX_PLAYERS && pPlayerPool->field_2A[id])
+				{
+					CNetPlayer *pNetPlayer = pPlayerPool->m_pPlayers[id];
+					CRemotePlayer *pRemotePlayer;
+
+					if(pNetPlayer) pRemotePlayer = pNetPlayer->m_pRemotePlayer;
+					else pRemotePlayer = NULL;
+
+					// no null check, same as retail
+					if(pRemotePlayer->field_1E7 == vehicleId)
+					{
+						playerId = id;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return playerId;
+}
+
+//-----------------------------------------------------------
+
 // maps a ped pointer to the actor that owns it
 ACTORID FUNC_100A3B80(DWORD dwPed)
 {
