@@ -4,6 +4,17 @@
 //----------------------------------------------------------
 
 #pragma pack(1)
+typedef struct _SPAWN_INFO {
+	BYTE		byteTeam;
+	int			iSkin;
+	BYTE		byteUnk;
+	VECTOR		vecPos;
+	float		fRotation;
+	int			iSpawnWeapons[3];
+	int			iSpawnWeaponsAmmo[3];
+} SPAWN_INFO, *PSPAWN_INFO;
+
+#pragma pack(1)
 class CLocalPlayer
 {
 public:
@@ -110,6 +121,8 @@ public:
 	void FUNC_10005BF0(WORD a1); // .text:10005BF0
 	void FUNC_10003570(); // .text:10003570
 	void sub_10003C20(); // .text:10003C20
+	void sub_10003BE0(SPAWN_INFO *pSpawnInfo); // .text:10003BE0
+	void sub_100040E0(BOOL bSpawn); // .text:100040E0
 
 	DWORD GetField_F0() { return field_F0; };
 };

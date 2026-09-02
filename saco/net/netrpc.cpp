@@ -482,7 +482,32 @@ void Chat(RPCParameters *rpcParams)
 			pRemotePlayer->sub_10017610(szText);
 	}
 }
-void RequestClass(RPCParameters *rpcParams) {}
+// MATCH
+void RequestClass(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	BYTE byteRequestOutcome = 0;
+	SPAWN_INFO SpawnInfo;
+
+	CLocalPlayer *pLocalPlayer = pNetGame->GetPlayerPool()->GetLocalPlayer();
+
+	bsData.Read(byteRequestOutcome);
+	bsData.Read((PCHAR)&SpawnInfo,sizeof(SPAWN_INFO));
+
+	if(byteRequestOutcome)
+	{
+		pLocalPlayer->sub_10003BE0(&SpawnInfo);
+		pLocalPlayer->sub_100040E0(TRUE);
+	}
+	else
+	{
+		pLocalPlayer->sub_100040E0(FALSE);
+	}
+}
 // MATCH
 void RequestSpawn(RPCParameters *rpcParams)
 {
