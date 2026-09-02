@@ -27,7 +27,22 @@ void ScrUnkA7(RPCParameters *rpcParams)
 }
 void ScrUnk38(RPCParameters *rpcParams) {}
 void ScrUnk90(RPCParameters *rpcParams) {}
-void ScrUnk91(RPCParameters *rpcParams) {}
+void ScrUnk91(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	CLocalPlayer *pLocalPlayer = pNetGame->GetPlayerPool()->GetLocalPlayer();
+	BYTE byteWeapon;
+	WORD wAmmo;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(byteWeapon);
+	bsData.Read(wAmmo);
+
+	pLocalPlayer->GetPlayerPed()->SetWeaponAmmo(byteWeapon, wAmmo);
+}
 void ScrSetGravity(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
