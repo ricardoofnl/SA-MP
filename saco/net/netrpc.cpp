@@ -287,7 +287,24 @@ void ServerQuit(RPCParameters *rpcParams)
 void InitGame(RPCParameters *rpcParams) {}
 void Chat(RPCParameters *rpcParams) {}
 void RequestClass(RPCParameters *rpcParams) {}
-void RequestSpawn(RPCParameters *rpcParams) {}
+// MATCH
+void RequestSpawn(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	BYTE byteRequestOutcome = 0;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(byteRequestOutcome);
+
+	CLocalPlayer *pLocalPlayer = pNetGame->GetPlayerPool()->GetLocalPlayer();
+
+	if(byteRequestOutcome == 2 || (byteRequestOutcome && pLocalPlayer->field_302))
+		pLocalPlayer->sub_10003C20();
+	else
+		pLocalPlayer->field_302 = 0;
+}
 void EditAttachedObject(RPCParameters *rpcParams) {}
 void EditObject(RPCParameters *rpcParams) {}
 void SelectObject(RPCParameters *rpcParams) {}

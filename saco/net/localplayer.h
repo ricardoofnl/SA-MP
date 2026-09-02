@@ -6,7 +6,7 @@
 #pragma pack(1)
 class CLocalPlayer
 {
-private:
+public:
 
 	BYTE field_0[63];
 	//BYTE field_3C[3];
@@ -109,6 +109,7 @@ public:
 
 	void FUNC_10005BF0(WORD a1); // .text:10005BF0
 	void FUNC_10003570(); // .text:10003570
+	void sub_10003C20(); // .text:10003C20
 
 	DWORD GetField_F0() { return field_F0; };
 };
