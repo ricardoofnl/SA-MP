@@ -118,6 +118,8 @@ public:
 	void		FUNC_100ADFB0(int iLevel); // .text:100ADFB0
 	int			FUNC_100ADC90(); // .text:100ADC90
 
+	void		FUNC_100AE480(int a1, PVECTOR pVec); // .text:100AE480
+
 	void		ProcessVehicleHorn();
 
 	void		StartDancing(int iStyle);

@@ -50,6 +50,10 @@ public:
 
 	PLAYERID GetLocalPlayerID() { return m_LocalPlayerID; };
 
+	int GetSlotState(PLAYERID playerId) { if(playerId >= MAX_PLAYERS) return 0; return field_2A[playerId]; }
+
+	PCHAR FUNC_100175C0(int iPlayerId); // .text:100175C0
+
 	class CObject *FUNC_10013B70(ENTITY_TYPE *pEntity); // todo: implement
 
 	void sub_10013C90(); // todo: implement

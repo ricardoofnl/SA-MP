@@ -24,6 +24,7 @@ int dword_101516D8;
 
 extern CGame *pGame;
 extern CChatWindow *pChatWindow;
+extern CNewPlayerTags *pNewPlayerTags;
 extern GAME_SETTINGS tSettings;
 
 int  dword_1012DE64;
@@ -45,6 +46,11 @@ int  dword_1026EB8C;
 int  dword_1026EC24;
 int  dword_1026EC2C;
 char byte_1026EBB8;
+MATRIX4X4 stru_10140CF8;
+MATRIX4X4 stru_10140AF8;
+VECTOR vec_10140D3C;
+VECTOR vec_10140D64;
+char byte_10140C78[128];
 
 void sub_1009D8B0(); // .text:1009D8B0
 void sub_100C3F50(); // .text:100C3F50
@@ -54,7 +60,7 @@ int sub_100C3E20(int a1, int a2); // .text:100C3E20
 int sub_10062270(std::string *pstrFileName); // .text:10062270
 void sub_10074480(); // .text:10074480
 void sub_10074210(); // .text:10074210
-void sub_10075330(); // .text:10075330
+int sub_100B7E00(); // .text:100B7E00
 void sub_1009E490(); // .text:1009E490
 // samp keeps this gta helper in a data slot, so the call goes through a pointer
 float (*dword_10102BF4)(float a1, float a2) = (float (*)(float, float))0x568FE0;
@@ -82,6 +88,77 @@ public:
 	void FUNC_1006DC00(); // .text:1006DC00
 	void FUNC_10071410(); // .text:10071410
 };
+
+//-------------------------------------------
+
+// per-frame nametag pass: walks the player pool and draws a tag over every visible remote ped
+void sub_10075330()
+{
+	if(!pNetGame)
+		return;
+	if(!pNetGame->GetSettings()->field_38)
+		return;
+
+	pNewPlayerTags->FUNC_1006CD80();
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	pGame->FindPlayerPed()->GetMatrix(&stru_10140CF8);
+
+	int iHighestId = pPlayerPool->field_2F3A;
+	for(int i = 0; i <= iHighestId; i++)
+	{
+		if(pPlayerPool->GetSlotState((PLAYERID)i) != 1)
+			continue;
+		CRemotePlayer *pRemotePlayer = pPlayerPool->GetAt((PLAYERID)i);
+		if(!pRemotePlayer)
+			continue;
+		CPlayerPed *pPlayerPed = pRemotePlayer->m_pPlayerPed;
+		if(!pPlayerPed)
+			continue;
+		if(!pRemotePlayer->field_10A)
+			continue;
+		if(!pRemotePlayer->field_4)
+			continue;
+
+		float fDistance = pPlayerPed->FUNC_1009F190();
+		if(fDistance <= pNetGame->GetSettings()->field_27)
+		{
+			if(pRemotePlayer->field_10A == 19 && pRemotePlayer->field_1E1 && sub_100B7E00())
+			{
+				((CEntity *)pRemotePlayer->field_1E1)->GetMatrix(&stru_10140AF8);
+				vec_10140D3C = stru_10140AF8.pos;
+			}
+			else
+			{
+				if(!pPlayerPed->IsAdded())
+					continue;
+				memset(&vec_10140D3C, 0, sizeof(VECTOR));
+				pPlayerPed->FUNC_100AE480(8, &vec_10140D3C);
+			}
+
+			vec_10140D64 = vec_10140D3C;
+
+			CAMERA_AIM *pAim = GameGetInternalAim();
+			int iLineOfSight = 0;
+			if(pNetGame->GetSettings()->field_2F)
+				iLineOfSight = ScriptCommand(&is_line_of_sight_clear,
+					vec_10140D64.X, vec_10140D64.Y, vec_10140D64.Z,
+					pAim->pos1x, pAim->pos1y, pAim->pos1z, 1, 0, 0, 1, 0);
+			if(!pNetGame->GetSettings()->field_2F || iLineOfSight)
+			{
+				sprintf(byte_10140C78, "%s (%d)", pPlayerPool->FUNC_100175C0(i), i);
+				if(!pRemotePlayer->field_10C)
+				{
+					pNewPlayerTags->Draw((D3DXVECTOR3 *)&vec_10140D64, byte_10140C78,
+						pRemotePlayer->GetPlayerColorAsARGB(), pPlayerPed->FUNC_1009F190(),
+						pNetGame->field_234, pRemotePlayer->FUNC_10016330());
+				}
+			}
+		}
+	}
+
+	pNewPlayerTags->FUNC_1006CD90();
+}
 
 //-------------------------------------------
 

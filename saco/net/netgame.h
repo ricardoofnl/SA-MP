@@ -28,7 +28,9 @@ struct struc_41
 	BYTE field_2D;
 	char field_2E;
 	char field_2F;
-	char _gap30[10];
+	char _gap30[8];
+	BYTE field_38;
+	char _gap39;
 };
 
 typedef struct _NETGAME_POOLS {
@@ -56,7 +58,9 @@ private:
 	char m_szHostName[257];
 	char field_232;
 	char field_233;
-	char field_234;
+public:
+	BYTE field_234;
+private:
 	int m_iPort;
 	int field_239;
 	DWORD		m_dwMapIcon[100];
