@@ -7,6 +7,7 @@ extern CGame * pGame;
 // TODO: these RPCs
 void Unk22(RPCParameters *rpcParams) {}
 void Unk24(RPCParameters *rpcParams) {}
+// MATCH
 void Unk3A(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -27,23 +28,27 @@ void Unk3A(RPCParameters *rpcParams)
 void Unk3B(RPCParameters *rpcParams) {}
 void Unk3D(RPCParameters *rpcParams) {}
 void SetCheckpoint(RPCParameters *rpcParams) {}
+// MATCH
 void DisableCheckpoint(RPCParameters *rpcParams)
 {
 	pGame->m_bCheckpointsEnabled = FALSE;
 }
 void SetRaceCheckpoint(RPCParameters *rpcParams) {}
+// MATCH
 void DisableRaceCheckpoint(RPCParameters *rpcParams)
 {
 	pGame->m_bRaceCheckpointsEnabled = FALSE;
 }
 void UpdateScoresPingsIPs(RPCParameters *rpcParams) {}
 void SvrStats(RPCParameters *rpcParams) {}
+// MATCH
 void GameModeRestart(RPCParameters *rpcParams)
 {
 	pNetGame->sub_1000A540();
 }
 void ConnectionRejected(RPCParameters *rpcParams) {}
 void ClientMessage(RPCParameters *rpcParams) {}
+// MATCH
 void WorldTime(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -56,6 +61,7 @@ void WorldTime(RPCParameters *rpcParams)
 
 	pNetGame->SetWorldTime(byteWorldTime);
 }
+// MATCH
 void Pickup(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -72,6 +78,7 @@ void Pickup(RPCParameters *rpcParams)
 	if(pPickupPool)
 		pPickupPool->sub_10013270(&Pickup,iPickup);
 }
+// MATCH
 void DestroyPickup(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -86,6 +93,7 @@ void DestroyPickup(RPCParameters *rpcParams)
 	if(pPickupPool)
 		pPickupPool->sub_10013320(iPickup);
 }
+// MATCH
 void DestroyWeaponPickup(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -98,6 +106,7 @@ void DestroyWeaponPickup(RPCParameters *rpcParams)
 
 	pNetGame->GetPickupPool()->sub_10013380(bytePickupIndex);
 }
+// MATCH
 void ScmEvent(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -118,6 +127,7 @@ void ScmEvent(RPCParameters *rpcParams)
 
 	sub_10001A60(playerId,iEvent,iVehicle,iArg1,iArg2);
 }
+// MATCH
 void Weather(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -131,6 +141,7 @@ void Weather(RPCParameters *rpcParams)
 	pNetGame->SetWeather(byteWeather);
 	pGame->SetWorldWeather(byteWeather);
 }
+// MATCH
 void SetTimeEx(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -148,6 +159,7 @@ void SetTimeEx(RPCParameters *rpcParams)
 	pNetGame->SetWorldMinute(byteMinute);
 }
 void ToggleClock(RPCParameters *rpcParams) {}
+// MATCH
 void Unk3C(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -161,6 +173,7 @@ void Unk3C(RPCParameters *rpcParams)
 	pGame->SetTimeInMilliseconds(dwTime);
 }
 void WorldPlayerAdd(RPCParameters *rpcParams) {}
+// MATCH
 void WorldPlayerDeath(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -181,6 +194,7 @@ void WorldPlayerDeath(RPCParameters *rpcParams)
 			pRemotePlayer->FUNC_10017570();
 	}
 }
+// MATCH
 void WorldPlayerRemove(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -204,6 +218,7 @@ void WorldVehicleAdd(RPCParameters *rpcParams) {}
 void WorldVehicleRemove(RPCParameters *rpcParams) {}
 void DamageVehicle(RPCParameters *rpcParams) {}
 void Unk18(RPCParameters *rpcParams) {}
+// MATCH
 void EnterVehicle(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -229,6 +244,7 @@ void EnterVehicle(RPCParameters *rpcParams)
 			pRemotePlayer->EnterVehicle(VehicleID,bPassenger);
 	}
 }
+// MATCH
 void ExitVehicle(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -250,6 +266,7 @@ void ExitVehicle(RPCParameters *rpcParams)
 	}
 }
 void ServerJoin(RPCParameters *rpcParams) {}
+// MATCH
 void ServerQuit(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -278,6 +295,7 @@ void Unk1C(RPCParameters *rpcParams) {}
 void UnkAA(RPCParameters *rpcParams) {}
 void ClientCheck(RPCParameters *rpcParams) {}
 void UnkAB(RPCParameters *rpcParams) {}
+// MATCH
 void UnkAC(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
