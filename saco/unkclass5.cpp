@@ -1,10 +1,37 @@
 
 #include "main.h"
 
+CIntArray::~CIntArray()
+{
+	SetSize(0);
+}
+
+bool CIntArray::SetSize(unsigned int nSize)
+{
+	if(!nSize) {
+		if(m_pData) {
+			free(m_pData);
+			m_pData = NULL;
+		}
+		m_nSize = 0;
+		return true;
+	}
+
+	int *pNew = (int *)realloc(m_pData, nSize * sizeof(int));
+	if(!pNew) return false;
+
+	m_pData = pNew;
+	if(m_nSize < nSize) {
+		for(unsigned int i = m_nSize; i != nSize; i++)
+			m_pData[i] = 0;
+	}
+
+	m_nSize = nSize;
+	return true;
+}
+
 CUnkClass5::CUnkClass5(IDirect3DDevice9 *pD3DDevice)
 {
-	field_0 = 0;
-	field_4 = 0;
 	m_pD3DDevice = pD3DDevice;
 	m_pDialog = NULL;
 	field_30 = 0;
