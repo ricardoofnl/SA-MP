@@ -165,7 +165,7 @@ void cmdSetFrameLimit(PCHAR szCmd)
 		unsigned int uiLimit = atoi(szCmd);
 		if(uiLimit >= 20 && uiLimit <= 90)
 		{
-			pGame->SetFrameLimiter(uiLimit);
+			pGame->SetFrameLimit(uiLimit);
 			if(pConfig) pConfig->SetIntVariable("fpslimit", uiLimit);
 			pChatWindow->AddInfoMessage("-> Frame Limiter: %u", uiLimit);
 		}
@@ -378,7 +378,7 @@ void cmdSetWeather(PCHAR szCmd)
 		pChatWindow->AddDebugMessage("Usage: set_weather (weather number)");
 		return;
 	}
-	pGame->SetWeather(atoi(szCmd));
+	pGame->SetWorldWeather(atoi(szCmd));
 }
 
 void cmdSetTime(PCHAR szCmd)
@@ -396,7 +396,7 @@ void cmdSetTime(PCHAR szCmd)
 	}
 	else
 	{
-		pGame->SetTime(iHour, iMinute);
+		pGame->SetWorldTime(iHour, iMinute);
 	}
 }
 
