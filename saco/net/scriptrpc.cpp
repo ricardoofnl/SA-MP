@@ -1,5 +1,6 @@
 
 #include "../main.h"
+#include "../game/util.h"
 
 using namespace RakNet;
 extern CNetGame*	pNetGame;
@@ -227,7 +228,35 @@ void ScrUnk62(RPCParameters *rpcParams) {}
 void ScrUnk70(RPCParameters *rpcParams) {}
 void ScrSetSpawnInfo(RPCParameters *rpcParams) {}
 void ScrUnk45(RPCParameters *rpcParams) {}
-void ScrUnk99(RPCParameters *rpcParams) {}
+void ScrUnk99(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	int iPlayerId;
+	int iSkin = 0;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	if(!pPlayerPool) return;
+
+	bsData.Read(iPlayerId);
+	bsData.Read(iSkin);
+
+	if(!IsValidPedModel(iSkin)) {
+		if(pChatWindow) pChatWindow->AddDebugMessage("Warning: SetPlayerSkin %d isn't a valid ped model.", iSkin);
+		return;
+	}
+
+	if(iPlayerId == pPlayerPool->GetLocalPlayerID()) {
+		pPlayerPool->GetLocalPlayer()->GetPlayerPed()->SetSkin(iSkin);
+	} else if(pPlayerPool->GetSlotState(iPlayerId) && pPlayerPool->GetAt(iPlayerId)->FUNC_10001080()
+		&& pPlayerPool->GetAt(iPlayerId)->m_pPlayerPed) {
+		pPlayerPool->GetAt(iPlayerId)->m_pPlayerPed->SetSkin(iSkin);
+	}
+}
 void ScrSetPlayerPos(RPCParameters *rpcParams) {}
 void ScrUnk0D(RPCParameters *rpcParams) {}
 void ScrPutPlayerInVehicle(RPCParameters *rpcParams) {}
