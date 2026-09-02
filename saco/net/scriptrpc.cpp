@@ -142,7 +142,22 @@ void ScrUnk4B(RPCParameters *rpcParams)
 }
 void ScrUnk85(RPCParameters *rpcParams) {}
 void ScrUnk86(RPCParameters *rpcParams) {}
-void ScrUnk87(RPCParameters *rpcParams) {}
+void ScrUnk87(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD wTextDrawId;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CTextDrawPool *pTextDrawPool = pNetGame->GetTextDrawPool();
+	if(pTextDrawPool) {
+		bsData.Read(wTextDrawId);
+		pTextDrawPool->FUNC_1001E7F0(wTextDrawId);
+	}
+}
 void ScrUnk69(RPCParameters *rpcParams) {}
 void ScrAddGangZone(RPCParameters *rpcParams)
 {
