@@ -1246,6 +1246,28 @@ BOOL CPlayerPed::IsDancing()
 }
 
 //-----------------------------------------------------------
+// drunk level, driven from the net layer and read by the blur overlay
+
+int CPlayerPed::sub_100ADFA0()
+{
+	return field_2C9;
+}
+
+//-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100ADFB0(int iLevel)
+{
+	field_2C9 = iLevel;
+}
+
+//-----------------------------------------------------------
+
+int CPlayerPed::FUNC_100ADC90()
+{
+	return field_2C1;
+}
+
+//-----------------------------------------------------------
 
 void CPlayerPed::ProcessMarkers(BOOL bMarkerStreamingEnabled, float fMarkerStreamRadius, BOOL bVisible)
 {

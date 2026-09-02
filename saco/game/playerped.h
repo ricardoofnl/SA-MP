@@ -112,6 +112,8 @@ public:
 	CPlayerPed();
 
 	int			sub_100ADFA0(); // .text:100ADFA0
+	void		FUNC_100ADFB0(int iLevel); // .text:100ADFB0
+	int			FUNC_100ADC90(); // .text:100ADC90
 
 	void		ProcessVehicleHorn();
 
