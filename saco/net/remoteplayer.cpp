@@ -232,6 +232,25 @@ void CRemotePlayer::FUNC_10017610(char *szText)
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10014540(short a1, short a2, short a3)
+{
+	field_1E9 = 1;
+
+	if(field_1F9) {
+		pGame->DisableMarker(field_1F9);
+		field_1F9 = 0;
+	}
+
+	if(m_pPlayerPed) return;
+
+	field_1F9 = pGame->FUNC_100A0D90(0, (float)a1, (float)a2, (float)a3, m_PlayerID, 0);
+	field_1ED = a1;
+	field_1F1 = a2;
+	field_1F5 = a3;
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_10014500(int a1)
 {
 	if(!a1) {

@@ -84,6 +84,7 @@ public:
 	void	ReleaseAnimation(char *szAnimFile);
 	void	ToggleRadar(int iToggle);
 	void	DisplayGameText(char *szStr,int iTime,int iSize);
+	DWORD	FUNC_100A0D90(int a1, float fX, float fY, float fZ, int a5, int a6); // .text:100A0D90
 	void	SetGravity(float fGravity);
 	void	EnableClock(BYTE byteClock);
 	void	EnableZoneNames(BYTE byteEnable);
