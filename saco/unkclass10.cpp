@@ -1,6 +1,8 @@
 
 #include "main.h"
 
+extern CGame *pGame;
+
 CUnkClass10::CUnkClass10(IDirect3DDevice9 *pD3DDevice)
 {
 	m_pD3DDevice = pD3DDevice;
@@ -49,4 +51,24 @@ PCHAR CUnkClass10::FUNC_10071FA0(int nIndex)
 	}
 
 	return "0";
+}
+
+
+void CUnkClass10::FUNC_100721F0(int nStyle)
+{
+	if(field_78 == 1 && nStyle == 2)
+		nStyle = 0;
+
+	field_7C = nStyle;
+}
+
+BOOL CUnkClass10::FUNC_100723C0()
+{
+	RECT rect;
+	GetClientRect(pGame->GetMainWindowHwnd(), &rect);
+
+	field_A7 = (rect.right - rect.left) / 2;
+	field_AB = (rect.bottom - rect.top) / 2;
+
+	return SetCursorPos(field_A7, field_AB);
 }

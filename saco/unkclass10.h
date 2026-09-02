@@ -17,7 +17,9 @@ private:
 	char field_A4;
 	char field_A5;
 	char field_A6;
-	char _gapA7[92];
+	int field_A7;
+	int field_AB;
+	char _gapAF[84];
 	IDirect3DDevice9 *m_pD3DDevice;
 	ID3DXLine *m_pD3DLine;
 	ID3DXFont *m_pD3DFont1;
@@ -28,5 +30,7 @@ public:
 	CUnkClass10(IDirect3DDevice9 *pD3DDevice);
 
 	PCHAR FUNC_10071FA0(int nIndex);
+	void FUNC_100721F0(int nStyle);
+	BOOL FUNC_100723C0();
 
 };
