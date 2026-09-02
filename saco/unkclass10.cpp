@@ -2,6 +2,7 @@
 #include "main.h"
 
 extern CGame *pGame;
+extern D3DXMATRIX matView, matProj;
 
 CUnkClass10::CUnkClass10(IDirect3DDevice9 *pD3DDevice)
 {
@@ -25,6 +26,25 @@ CUnkClass10::CUnkClass10(IDirect3DDevice9 *pD3DDevice)
 		SYMBOL_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "SAMPAUX3", &m_pD3DFont1);
 	D3DXCreateFont(pD3DDevice, 28, 0, FW_NORMAL, 1, FALSE,
 		SYMBOL_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "SAMPAUX3", &m_pD3DFont2);
+}
+
+
+float CUnkClass10::FUNC_10071C20(D3DXVECTOR3 *pPos, D3DXVECTOR2 *pOut)
+{
+	D3DXVECTOR3 In = *pPos;
+	D3DVIEWPORT9 Viewport;
+	D3DXVECTOR3 Out;
+	D3DXMATRIX matIdent;
+
+	m_pD3DDevice->GetViewport(&Viewport);
+
+	D3DXMatrixIdentity(&matIdent);
+	D3DXVec3Project(&Out, &In, &Viewport, &matProj, &matView, &matIdent);
+
+	pOut->x = Out.x;
+	pOut->y = Out.y;
+
+	return Out.z;
 }
 
 

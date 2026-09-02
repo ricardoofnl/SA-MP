@@ -29,6 +29,7 @@ private:
 public:
 	CUnkClass10(IDirect3DDevice9 *pD3DDevice);
 
+	float FUNC_10071C20(D3DXVECTOR3 *pPos, D3DXVECTOR2 *pOut);
 	PCHAR FUNC_10071FA0(int nIndex);
 	void FUNC_100721F0(int nStyle);
 	BOOL FUNC_100723C0();
