@@ -350,8 +350,36 @@ void ScrUnkB0(RPCParameters *rpcParams) {}
 void ScrUnkB2(RPCParameters *rpcParams) {}
 void ScrUnk30(RPCParameters *rpcParams) {}
 void ScrInitMenu(RPCParameters *rpcParams) {}
-void ScrShowMenu(RPCParameters *rpcParams) {}
-void ScrHideMenu(RPCParameters *rpcParams) {}
+void ScrShowMenu(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	BYTE byteMenuID;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(!pNetGame) return;
+
+	bsData.Read(byteMenuID);
+	pNetGame->GetMenuPool()->ShowMenu(byteMenuID);
+}
+void ScrHideMenu(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	BYTE byteMenuID;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(!pNetGame) return;
+
+	bsData.Read(byteMenuID);
+	pNetGame->GetMenuPool()->HideMenu(byteMenuID);
+}
 
 //----------------------------------------------------
 
