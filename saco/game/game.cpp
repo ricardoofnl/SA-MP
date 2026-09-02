@@ -478,6 +478,13 @@ void CGame::sub_100A1C10()
 	// TODO: CGame::sub_100A1C10() .text:100A1C10
 }
 
+//-----------------------------------------------------------
+
+BOOL CGame::sub_100A0920()
+{
+	return *(PDWORD)0xBA67A4 != 0;
+}
+
 
 
 
