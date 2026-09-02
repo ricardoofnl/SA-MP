@@ -277,8 +277,13 @@ void CGame::ToggleKeyInputsDisabled(int a2, BOOL a3)
 		memset((PVOID)0x541DF5,0x90,5);	// disable call
 
 		DisableMouseProcess();
-		DIResetMouse();
-		UpdatePads();
+		*(DWORD*)0xB73424 = 0;
+		*(DWORD*)0xB73428 = 0;
+		_asm mov edx, 0x541BD0
+		_asm call edx
+
+		_asm mov edx, 0x541DD0
+		_asm call edx
 
 		UnFuck(0x6194A0u,1);
 		*(BYTE*)0x6194A0 = 0xC3;
@@ -301,8 +306,13 @@ void CGame::ToggleKeyInputsDisabled(int a2, BOOL a3)
 		if(field_61 != 3)
 		{
 			DisableMouseProcess();
-			DIResetMouse();
-			UpdatePads();
+			*(DWORD*)0xB73424 = 0;
+			*(DWORD*)0xB73428 = 0;
+			_asm mov edx, 0x541BD0
+			_asm call edx
+
+			_asm mov edx, 0x541DD0
+			_asm call edx
 
 			UnFuck(0x6194A0,1);
 			*(BYTE*)0x6194A0 = 0xC3;
@@ -316,8 +326,13 @@ void CGame::ToggleKeyInputsDisabled(int a2, BOOL a3)
 		if(field_61 != 4)
 		{
 			DisableMousePositionUpdate();
-			DIResetMouse();
-			UpdatePads();
+			*(DWORD*)0xB73424 = 0;
+			*(DWORD*)0xB73428 = 0;
+			_asm mov edx, 0x541BD0
+			_asm call edx
+
+			_asm mov edx, 0x541DD0
+			_asm call edx
 
 			UnFuck(0x6194A0,1);
 			*(BYTE*)0x6194A0 = 0xC3;
