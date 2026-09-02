@@ -98,7 +98,48 @@ void ScrUnk7D(RPCParameters *rpcParams)
 void ScrUnk7E(RPCParameters *rpcParams) {}
 void ScrUnk7F(RPCParameters *rpcParams) {}
 void ScrUnk39(RPCParameters *rpcParams) {}
-void ScrUnk4B(RPCParameters *rpcParams) {}
+void ScrUnk4B(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD objectId;
+	PLAYERID playerId;
+	float fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ;
+	CPlayerPed *pPlayerPed;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(objectId);
+	bsData.Read(playerId);
+	bsData.Read(fOffsetX);
+	bsData.Read(fOffsetY);
+	bsData.Read(fOffsetZ);
+	bsData.Read(fRotX);
+	bsData.Read(fRotY);
+	bsData.Read(fRotZ);
+
+	CObjectPool *pObjectPool = pNetGame->FUNC_10002E10();
+	if(objectId > MAX_OBJECTS) return;
+	if(!pObjectPool->field_4[objectId]) return;
+	CObject *pObject = (CObject *)pObjectPool->field_FA4[objectId];
+	if(!pObject) return;
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+
+	if(playerId == pPlayerPool->GetLocalPlayerID()) {
+		pPlayerPed = pPlayerPool->GetLocalPlayer()->GetPlayerPed();
+	} else {
+		if(playerId > MAX_PLAYERS) return;
+		if(!pPlayerPool->m_pPlayers[playerId]) return;
+		if(!pPlayerPool->m_pPlayers[playerId]->m_pRemotePlayer) return;
+		pPlayerPed = pPlayerPool->m_pPlayers[playerId]->m_pRemotePlayer->m_pPlayerPed;
+	}
+
+	ScriptCommand(&attach_object_to_player, pObject->field_44, pPlayerPed->m_dwGTAId,
+		fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
+}
 void ScrUnk85(RPCParameters *rpcParams) {}
 void ScrUnk86(RPCParameters *rpcParams) {}
 void ScrUnk87(RPCParameters *rpcParams) {}

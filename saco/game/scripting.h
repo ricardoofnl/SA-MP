@@ -168,6 +168,7 @@ const SCRIPT_COMMAND is_line_of_sight_clear = { 0x06BD, "ffffffiiiii" };
 const SCRIPT_COMMAND set_widescreen = { 0x02A3, "i" };
 // the fifth argument is declared "i" but samp passes a float
 const SCRIPT_COMMAND script_command_0948 = { 0x0948, "fffii" };
+const SCRIPT_COMMAND attach_object_to_player = { 0x069B, "iiffffff" }; // object, char, offset xyz, rot xyz
 
 
 
