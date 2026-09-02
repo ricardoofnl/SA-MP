@@ -956,10 +956,10 @@ void CGame::ResetLocalMoney()
 	int iMoney = *(int *)0xB7CE50;
 	if(!iMoney) return;
 
-	if(iMoney >= 0) {
-		ScriptCommand(&add_to_player_money,0,-(iMoney));
-	} else {
+	if(iMoney < 0) {
 		ScriptCommand(&add_to_player_money,0,abs(iMoney));
+	} else {
+		ScriptCommand(&add_to_player_money,0,-(iMoney));
 	}
 }
 
