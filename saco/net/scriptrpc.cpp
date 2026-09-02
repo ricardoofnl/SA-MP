@@ -377,10 +377,12 @@ void ScrUnk21(RPCParameters *rpcParams)
 	int iBitLength = rpcParams->numberOfBitsOfData;
 	PlayerID sender = rpcParams->sender;
 
-	char szName[33] = {0};
 	int iLen;
 
 	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	char szName[33] = {0};
+
 	bsData.Read(szName, 32);
 
 	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
