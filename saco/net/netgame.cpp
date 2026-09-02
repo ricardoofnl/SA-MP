@@ -134,13 +134,14 @@ void CNetGame::SetMapIcon(BYTE byteIndex, float fX, float fY, float fZ, BYTE byt
 //----------------------------------------------------
 
 // MATCH
+// MATCH
 void CNetGame::ResetMapIcons()
 {
 	BYTE i;
 	for (i = 0; i < 100; i++)
 	{
 		if (m_dwMapIcon[i] != NULL) {
-			if (i >= 100) return;
+			if (i >= 100) continue;
 			ScriptCommand(&disable_marker, m_dwMapIcon[i]);
 			m_dwMapIcon[i] = NULL;
 		}
