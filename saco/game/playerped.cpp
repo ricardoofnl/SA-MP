@@ -1267,9 +1267,6 @@ BOOL CPlayerPed::IsDancing()
 
 //-----------------------------------------------------------
 
-BOOL __stdcall IsValidPedModel(unsigned int uiModel); // .text:100B3DD0
-BOOL Unprotect(LPVOID lpAddress, SIZE_T dwSize); // .text:100AA4C0
-
 void CPlayerPed::SetSkin(int iSkin)
 {
 	DWORD dwPedPtr = (DWORD)m_pPed;
@@ -1280,7 +1277,7 @@ void CPlayerPed::SetSkin(int iSkin)
 
 	if(dwPedPtr) {
 		// the skin swap trips an assert inside the streamer, so ret it out first
-		Unprotect((LPVOID)0x5A82C0, 1);
+		UnFuck(0x5A82C0, 1);
 		*(BYTE *)0x5A82C0 = 0xC3;
 
 		DestroyFollowPedTask();
