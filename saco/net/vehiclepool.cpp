@@ -65,3 +65,12 @@ void CVehiclePool::FUNC_1001F060()
 }
 
 //----------------------------------------------------
+
+void CVehiclePool::FUNC_1001EDE0()
+{
+	for(VEHICLEID VehicleID = 0; VehicleID <= field_0; VehicleID++) {
+		if(field_3074[VehicleID]) ((CVehicle *)field_1134[VehicleID])->FUNC_100B81F0();
+	}
+}
+
+//----------------------------------------------------

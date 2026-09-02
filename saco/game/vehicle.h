@@ -76,6 +76,9 @@ public:
 
 	BOOL	FUNC_100B8330(); // .text:100B8330
 
+	void	FUNC_100B81A0(); // .text:100B81A0
+	void	FUNC_100B81F0(); // .text:100B81F0
+
 
 };
 

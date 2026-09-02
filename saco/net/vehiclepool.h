@@ -41,6 +41,8 @@ public:
 
 	void FUNC_1001F060(); // .text:1001F060
 
+	void FUNC_1001EDE0(); // .text:1001EDE0
+
 	short FUNC_1001EB90(int a1); // .text:1001EB90
 
 	int FindGtaIDFromID(int VehicleID); // .text:1001EBC0
