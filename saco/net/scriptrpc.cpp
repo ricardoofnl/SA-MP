@@ -371,7 +371,30 @@ void ScrUnk42(RPCParameters *rpcParams)
 	pLocalPlayer->GetPlayerPed()->SetArmour(fArmour);
 }
 void ScrUnk37(RPCParameters *rpcParams) {}
-void ScrUnk21(RPCParameters *rpcParams) {}
+void ScrUnk21(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	char szName[33] = {0};
+	int iLen;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(szName, 32);
+
+	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+	if(pPlayerPed) {
+		iLen = strlen(szName);
+		if(iLen) {
+			pPlayerPed->SetShopName(szName);
+			pPlayerPed->LoadShoppingDataSubsection(szName);
+		} else {
+			pPlayerPed->SetShopName(NULL);
+			pPlayerPed->LoadShoppingDataSubsection("");
+		}
+	}
+}
 void ScrUnk23(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
