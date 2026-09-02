@@ -85,7 +85,29 @@ void ScrUnk85(RPCParameters *rpcParams) {}
 void ScrUnk86(RPCParameters *rpcParams) {}
 void ScrUnk87(RPCParameters *rpcParams) {}
 void ScrUnk69(RPCParameters *rpcParams) {}
-void ScrAddGangZone(RPCParameters *rpcParams) {}
+void ScrAddGangZone(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD wZone;
+	float fMinX, fMinY, fMaxX, fMaxY;
+	DWORD dwColor;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CGangZonePool *pGangZonePool = pNetGame->GetGangZonePool();
+	if(pGangZonePool) {
+		bsData.Read(wZone);
+		bsData.Read(fMinX);
+		bsData.Read(fMinY);
+		bsData.Read(fMaxX);
+		bsData.Read(fMaxY);
+		bsData.Read(dwColor);
+		pGangZonePool->New(wZone, fMinX, fMinY, fMaxX, fMaxY, dwColor);
+	}
+}
 void ScrRemoveGangZone(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -102,7 +124,24 @@ void ScrRemoveGangZone(RPCParameters *rpcParams)
 		pGangZonePool->Delete(wZone);
 	}
 }
-void ScrFlashGangZone(RPCParameters *rpcParams) {}
+void ScrFlashGangZone(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD wZone;
+	DWORD dwColor;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CGangZonePool *pGangZonePool = pNetGame->GetGangZonePool();
+	if(pGangZonePool) {
+		bsData.Read(wZone);
+		bsData.Read(dwColor);
+		pGangZonePool->Flash(wZone, dwColor);
+	}
+}
 void ScrStopFlashGangZone(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
