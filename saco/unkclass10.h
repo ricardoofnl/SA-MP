@@ -27,4 +27,6 @@ private:
 public:
 	CUnkClass10(IDirect3DDevice9 *pD3DDevice);
 
+	PCHAR FUNC_10071FA0(int nIndex);
+
 };

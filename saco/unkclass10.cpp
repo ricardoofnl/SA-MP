@@ -24,3 +24,29 @@ CUnkClass10::CUnkClass10(IDirect3DDevice9 *pD3DDevice)
 	D3DXCreateFont(pD3DDevice, 28, 0, FW_NORMAL, 1, FALSE,
 		SYMBOL_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "SAMPAUX3", &m_pD3DFont2);
 }
+
+
+// SAMPAUX3 glyph for the marker style in field_7C
+PCHAR CUnkClass10::FUNC_10071FA0(int nIndex)
+{
+	if(nIndex == 0)
+	{
+		if(field_7C == 0) return "6";
+		if(field_7C == 1) return "3";
+		if(field_7C == 2) return "9";
+	}
+	else if(nIndex == 1)
+	{
+		if(field_7C == 0) return "7";
+		if(field_7C == 1) return "4";
+		if(field_7C == 2) return "A";
+	}
+	else if(nIndex == 2)
+	{
+		if(field_7C == 0) return "8";
+		if(field_7C == 1) return "5";
+		if(field_7C == 2) return "B";
+	}
+
+	return "0";
+}
