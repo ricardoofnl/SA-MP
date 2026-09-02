@@ -4,6 +4,24 @@
 extern CNetGame*	pNetGame;
 extern CGame * pGame;
 
+// MATCH
+BYTE Checksum(BYTE *pData, WORD wLen)
+{
+	BYTE byteSum = 0;
+
+	for(DWORD i = 0; i != wLen; i++)
+		byteSum ^= pData[i] & 0xCC;
+
+	return byteSum;
+}
+
+// MATCH
+void LoadModelsThread(void *pParam)
+{
+	pGame->LoadRequestedModels();
+	_endthread();
+}
+
 // TODO: these RPCs
 void Unk22(RPCParameters *rpcParams) {}
 void Unk24(RPCParameters *rpcParams) {}
