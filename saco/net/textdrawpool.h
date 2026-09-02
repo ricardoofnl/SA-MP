@@ -21,6 +21,13 @@ private:
 	int field_0[MAX_TEXT_DRAWS];
 	int field_2400[MAX_TEXT_DRAWS];
 public:
+	int GetAt(unsigned short TextDrawID)
+	{
+		if(TextDrawID >= MAX_TEXT_DRAWS) return 0;
+		if(!field_0[TextDrawID]) return 0;
+		return field_2400[TextDrawID];
+	}
+
 	CTextDrawPool();
 
 	void FUNC_1001E7F0(unsigned short TextDrawID); // .text:1001E7F0
