@@ -67,3 +67,26 @@ void CScoreBoard::ResetDialogControls(CDXUTDialog *pDialog)
 		FUNC_1006E930();
 	}
 }
+
+void CScoreBoard::GetRect(RECT *pRect)
+{
+	pRect->left = (int)field_8;
+	pRect->right = pRect->left + (int)field_14;
+	pRect->top = (int)field_C;
+	pRect->bottom = pRect->top + (int)field_18;
+}
+
+void CScoreBoard::Hide(bool bResetInput)
+{
+	if(!field_0) return;
+	if(!m_pDialog) return;
+
+	m_pDialog->SetVisible(false);
+	m_pListBox->SetEnabled(false);
+	m_pListBox->SetVisible(false);
+
+	if(bResetInput)
+		pGame->ToggleKeyInputsDisabled(0, FALSE);
+
+	field_0 = 0;
+}

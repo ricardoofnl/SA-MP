@@ -27,4 +27,6 @@ public:
 
 	void FUNC_1006E930();
 	void ResetDialogControls(CDXUTDialog *pDialog);
+	void GetRect(RECT *pRect);
+	void Hide(bool bResetInput);
 };
