@@ -28,7 +28,18 @@ void GameModeRestart(RPCParameters *rpcParams)
 }
 void ConnectionRejected(RPCParameters *rpcParams) {}
 void ClientMessage(RPCParameters *rpcParams) {}
-void WorldTime(RPCParameters *rpcParams) {}
+void WorldTime(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	BYTE byteWorldTime;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(byteWorldTime);
+
+	pNetGame->SetWorldTime(byteWorldTime);
+}
 void Pickup(RPCParameters *rpcParams) {}
 void DestroyPickup(RPCParameters *rpcParams) {}
 void DestroyWeaponPickup(RPCParameters *rpcParams)

@@ -80,6 +80,7 @@ public:
 	char GetField232() { return field_232; };
 	BOOL GetWalkStyle() { return field_3D5->bUseCJWalk; };
 	struc_41 * GetSettings() { return field_3D5; };
+	void SetWorldTime(BYTE byteHour) { field_3D5->field_2C = byteHour; };
 
 	CVehiclePool * GetVehiclePool() { return m_pPools->pVehiclePool; };
 	CVehiclePool * FUNC_10001180(); // .text:10001180, out of line copy of GetVehiclePool
