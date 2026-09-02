@@ -331,6 +331,12 @@
 				RelativePath=".\net\actorpool.h">
 			</File>
 			<File
+				RelativePath=".\net\downloader.cpp">
+			</File>
+			<File
+				RelativePath=".\net\downloader.h">
+			</File>
+			<File
 				RelativePath=".\net\gangzonepool.cpp">
 			</File>
 			<File
