@@ -73,7 +73,7 @@ void CGame::sub_100A0010()
 	}
 }
 
-void unnamed_100A0060(float a1)
+void __stdcall unnamed_100A0060(float a1)
 {
   *(float*)0xB7CB5C = a1;
   *(float*)0xB7CB58 = a1;
@@ -685,7 +685,7 @@ int CGame::IsAnimationLoaded(char *szAnimFile)
 
 void CGame::ReleaseAnimation(char *szAnimFile)
 {
-	if (IsAnimationLoaded(szAnimFile))
+	if (ScriptCommand(&is_animation_loaded,szAnimFile))
 		ScriptCommand(&release_animation,szAnimFile);
 }
 
