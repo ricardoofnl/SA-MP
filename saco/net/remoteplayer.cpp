@@ -185,6 +185,18 @@ void CRemotePlayer::FUNC_100155E0(int a1, VECTOR *pPos, VECTOR *pMoveSpeed)
 
 //----------------------------------------------------
 
+float CRemotePlayer::FUNC_10016120()
+{
+	CEntity *pEntity = m_pPlayerPed;
+	if(!pEntity) return 10000.0f;
+
+	if(field_10A == 19 && field_1E1) pEntity = field_1E1;
+
+	return pEntity->FUNC_1009F0C0();
+}
+
+//----------------------------------------------------
+
 BOOL CRemotePlayer::FUNC_100145F0()
 {
 	if(field_10A == 17 && field_C5.wVehicleID && field_C5.wVehicleID != INVALID_VEHICLE_ID &&
