@@ -141,7 +141,35 @@ void ScrUnk4B(RPCParameters *rpcParams)
 		fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
 }
 void ScrUnk85(RPCParameters *rpcParams) {}
-void ScrUnk86(RPCParameters *rpcParams) {}
+void ScrUnk86(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD wTextDrawId;
+	WORD wTextLen;
+	char szTransmit[64];
+	char szText[800];
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	wTextLen = 0;
+
+	CTextDrawPool *pTextDrawPool = pNetGame->GetTextDrawPool();
+	if(pTextDrawPool) {
+		bsData.Read(wTextDrawId);
+		bsData.Read(szTransmit, 63);
+		bsData.Read(wTextLen);
+		if(wTextLen >= 800) {
+			if(pChatWindow) pChatWindow->AddDebugMessage("Warning: ignoring large TextDraw size=%u", wTextLen);
+		} else {
+			bsData.Read(szText, wTextLen);
+			szText[wTextLen] = 0;
+			pTextDrawPool->FUNC_1001E910(wTextDrawId, szTransmit, szText);
+		}
+	}
+}
 void ScrUnk87(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
