@@ -31,6 +31,7 @@ public:
 	BYTE m_bSlotsReady;
 	DOWNLOAD_SLOT m_Slots[MAX_DOWNLOAD_SLOTS];
 
+	bool FUNC_1000C010(); // .text:1000C010
 	void FUNC_1000C0C0(); // .text:1000C0C0
 };
 
