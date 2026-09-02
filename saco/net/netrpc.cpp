@@ -77,7 +77,40 @@ void DisableCheckpoint(RPCParameters *rpcParams)
 {
 	pGame->m_bCheckpointsEnabled = FALSE;
 }
-void SetRaceCheckpoint(RPCParameters *rpcParams) {}
+// MATCH
+void SetRaceCheckpoint(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	BYTE byteType;
+	float fX, fY, fZ;
+	VECTOR vecPos, vecNext;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(byteType);
+
+	bsData.Read(fX);
+	bsData.Read(fY);
+	bsData.Read(fZ);
+
+	vecPos.X = fX;
+	vecPos.Y = fY;
+	vecPos.Z = fZ;
+
+	bsData.Read(fX);
+	bsData.Read(fY);
+	bsData.Read(fZ);
+
+	vecNext.X = fX;
+	vecNext.Y = fY;
+	vecNext.Z = fZ;
+
+	bsData.Read(fX);
+
+	pGame->SetRaceCheckpointInformation(byteType,&vecPos,&vecNext,fX);
+	pGame->m_bRaceCheckpointsEnabled = TRUE;
+}
 // MATCH
 void DisableRaceCheckpoint(RPCParameters *rpcParams)
 {
