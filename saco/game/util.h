@@ -69,6 +69,9 @@ OBJECT_TYPE * GamePool_GetObject();
 void ReplaceBuildingModel(ENTITY_TYPE *pEntity, int iModelID);
 int GetInvalidModelInfoCount();
 
+DWORD * __stdcall GetModelInfo(unsigned int uiModel); // .text:100A7A40
+BOOL __stdcall IsValidPedModel(int iModel); // .text:100B3DD0
+
 bool HasCollisionLoaded(VECTOR *vec);
 BOOL __stdcall IsATrainPart(ENTITY_TYPE *pEntity);
 BOOL __stdcall FUNC_100B4860(VEHICLE_TYPE *pVehicle); // .text:100B4860

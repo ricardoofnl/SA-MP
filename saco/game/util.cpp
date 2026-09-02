@@ -191,6 +191,21 @@ void ReplaceBuildingModel(ENTITY_TYPE *pEntity, int iModelID)
 
 //-----------------------------------------------------------
 
+BOOL __stdcall IsValidPedModel(int iModel)
+{
+	DWORD *pModelInfo;
+
+	if(iModel >= 0 && iModel <= 30000 &&
+		(pModelInfo = GetModelInfo(iModel)) != NULL &&
+		*pModelInfo == 0x85BDC0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+//-----------------------------------------------------------
+
 int GetInvalidModelInfoCount()
 {
 	DWORD *dwModelInfos = (DWORD *)0xA9C068;
