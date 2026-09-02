@@ -48,6 +48,11 @@ float CUnkClass10::FUNC_10071C20(D3DXVECTOR3 *pPos, D3DXVECTOR2 *pOut)
 }
 
 
+PCHAR CUnkClass10::FUNC_10071F90()
+{
+	return "C";
+}
+
 // SAMPAUX3 glyph for the marker style in field_7C
 PCHAR CUnkClass10::FUNC_10071FA0(int nIndex)
 {

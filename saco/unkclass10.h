@@ -32,6 +32,7 @@ public:
 	CUnkClass10(IDirect3DDevice9 *pD3DDevice);
 
 	float FUNC_10071C20(D3DXVECTOR3 *pPos, D3DXVECTOR2 *pOut);
+	PCHAR FUNC_10071F90();
 	PCHAR FUNC_10071FA0(int nIndex);
 	void FUNC_10072040(RECT *pRect, POINT *pPoint);
 	void FUNC_100720A0();
