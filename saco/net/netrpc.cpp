@@ -31,7 +31,18 @@ void ClientMessage(RPCParameters *rpcParams) {}
 void WorldTime(RPCParameters *rpcParams) {}
 void Pickup(RPCParameters *rpcParams) {}
 void DestroyPickup(RPCParameters *rpcParams) {}
-void DestroyWeaponPickup(RPCParameters *rpcParams) {}
+void DestroyWeaponPickup(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	BYTE bytePickupIndex;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(bytePickupIndex);
+
+	pNetGame->GetPickupPool()->sub_10013380(bytePickupIndex);
+}
 void ScmEvent(RPCParameters *rpcParams) {}
 void Weather(RPCParameters *rpcParams) {}
 void SetTimeEx(RPCParameters *rpcParams) {}
