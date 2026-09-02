@@ -46,7 +46,32 @@ void Unk3A(RPCParameters *rpcParams)
 }
 void Unk3B(RPCParameters *rpcParams) {}
 void Unk3D(RPCParameters *rpcParams) {}
-void SetCheckpoint(RPCParameters *rpcParams) {}
+// MATCH
+void SetCheckpoint(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	float fX, fY, fZ, fSize;
+	VECTOR vecPos, vecExtent;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(fX);
+	bsData.Read(fY);
+	bsData.Read(fZ);
+	bsData.Read(fSize);
+
+	vecPos.X = fX;
+	vecPos.Y = fY;
+	vecPos.Z = fZ;
+
+	vecExtent.X = fSize;
+	vecExtent.Y = fSize;
+	vecExtent.Z = fSize;
+
+	pGame->SetCheckpointInformation(&vecPos,&vecExtent);
+	pGame->m_bCheckpointsEnabled = TRUE;
+}
 // MATCH
 void DisableCheckpoint(RPCParameters *rpcParams)
 {
