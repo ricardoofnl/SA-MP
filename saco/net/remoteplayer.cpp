@@ -113,6 +113,18 @@ void CRemotePlayer::FUNC_10017530()
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10017570()
+{
+	if(m_pPlayerPed) {
+		m_pPlayerPed->SetKeys(0,0,0);
+		m_pPlayerPed->FUNC_100AFFD0();
+	}
+	if(field_10A != 32) field_10A = 32;
+	ResetAllSyncAttributes();
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::ExitVehicle()
 {
 	if(m_pPlayerPed && m_pPlayerPed->IsInVehicle()) {

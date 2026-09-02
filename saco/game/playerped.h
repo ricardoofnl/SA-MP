@@ -144,6 +144,7 @@ public:
 	VECTOR*		GetTransformedBonePosition(int iBone, VECTOR *vecOffset);
 
 	BOOL		FUNC_100AFA70(); // .text:100AFA70
+	void		FUNC_100AFFD0(); // .text:100AFFD0
 
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
