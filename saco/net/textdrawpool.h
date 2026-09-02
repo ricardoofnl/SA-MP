@@ -7,6 +7,9 @@ class CTextDraw
 {
 public:
 	~CTextDraw(); // .text:100B2F50
+
+	void FUNC_100B34A0(); // .text:100B34A0
+	void FUNC_100B36B0(); // .text:100B36B0
 };
 
 //----------------------------------------------------
@@ -24,6 +27,8 @@ public:
 	void FUNC_1001E870(); // .text:1001E870
 
 	void FUNC_1001E8D0(); // .text:1001E8D0
+
+	void FUNC_1001E8A0(); // .text:1001E8A0
 };
 
 //----------------------------------------------------

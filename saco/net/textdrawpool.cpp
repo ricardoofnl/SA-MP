@@ -43,3 +43,21 @@ void CTextDrawPool::FUNC_1001E8D0()
 }
 
 //----------------------------------------------------
+
+void CTextDrawPool::FUNC_1001E870()
+{
+	for(int i = 0; i != MAX_TEXT_DRAWS; i++) {
+		if(field_0[i]) ((CTextDraw *)field_2400[i])->FUNC_100B34A0();
+	}
+}
+
+//----------------------------------------------------
+
+void CTextDrawPool::FUNC_1001E8A0()
+{
+	for(int i = 0; i != MAX_TEXT_DRAWS; i++) {
+		if(field_0[i]) ((CTextDraw *)field_2400[i])->FUNC_100B36B0();
+	}
+}
+
+//----------------------------------------------------
