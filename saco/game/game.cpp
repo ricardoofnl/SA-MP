@@ -797,7 +797,12 @@ void CGame::SetRaceCheckpointInformation(BYTE byteType, VECTOR *pos, VECTOR *nex
 
 void CGame::MakeRaceCheckpoint()
 {
-	DisableRaceCheckpoint();
+	if (m_dwRaceCheckpointHandle)
+	{
+		ScriptCommand(&destroy_racing_checkpoint, m_dwRaceCheckpointHandle);
+		m_dwRaceCheckpointHandle = NULL;
+	}
+	m_bRaceCheckpointsEnabled = false;
 
 	ScriptCommand(&create_racing_checkpoint, (int)m_byteRaceType,
 				m_vecRaceCheckpointPos.X, m_vecRaceCheckpointPos.Y, m_vecRaceCheckpointPos.Z,
