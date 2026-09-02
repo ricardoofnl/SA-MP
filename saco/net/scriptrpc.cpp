@@ -108,7 +108,17 @@ void ScrSetPlayerFacingAngle(RPCParameters *rpcParams)
 	pGame->FindPlayerPed()->ForceTargetRotation(fAngle);
 }
 void ScrUnk16(RPCParameters *rpcParams) {}
-void ScrUnk40(RPCParameters *rpcParams) {}
+void ScrUnk40(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	PLAYERID playerId;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(playerId);
+}
 void ScrUnk41(RPCParameters *rpcParams) {}
 void ScrUnk42(RPCParameters *rpcParams) {}
 void ScrUnk37(RPCParameters *rpcParams) {}
