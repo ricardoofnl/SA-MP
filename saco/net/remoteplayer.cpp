@@ -212,6 +212,19 @@ float CRemotePlayer::FUNC_10016120()
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10014500(int a1)
+{
+	if(!a1) {
+		if(field_1F9) {
+			pGame->DisableMarker(field_1F9);
+			field_1F9 = a1;
+		}
+	}
+	field_1E9 = a1;
+}
+
+//----------------------------------------------------
+
 BOOL CRemotePlayer::FUNC_100145F0()
 {
 	if(field_10A == 17 && field_C5.wVehicleID && field_C5.wVehicleID != INVALID_VEHICLE_ID &&
