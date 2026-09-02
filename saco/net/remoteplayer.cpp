@@ -212,6 +212,16 @@ float CRemotePlayer::FUNC_10016120()
 
 //----------------------------------------------------
 
+int CRemotePlayer::FUNC_10016330()
+{
+	if(m_pPlayerPed && m_pPlayerPed->IsAdded() && !m_pPlayerPed->FUNC_100AC5D0() &&
+		!m_pPlayerPed->FUNC_100AC640()) return field_1C5;
+
+	return 0;
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_10014500(int a1)
 {
 	if(!a1) {
