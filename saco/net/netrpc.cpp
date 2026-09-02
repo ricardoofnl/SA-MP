@@ -162,7 +162,25 @@ void WorldPlayerDeath(RPCParameters *rpcParams)
 			pRemotePlayer->FUNC_10017570();
 	}
 }
-void WorldPlayerRemove(RPCParameters *rpcParams) {}
+void WorldPlayerRemove(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	PLAYERID playerId = 0;
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+
+	bsData.Read(playerId);
+
+	if(pPlayerPool)
+	{
+		CRemotePlayer *pRemotePlayer = pNetGame->GetPlayerPool()->GetAt(playerId);
+		if(pRemotePlayer)
+			pRemotePlayer->FUNC_10017530();
+	}
+}
 void WorldVehicleAdd(RPCParameters *rpcParams) {}
 void WorldVehicleRemove(RPCParameters *rpcParams) {}
 void DamageVehicle(RPCParameters *rpcParams) {}
