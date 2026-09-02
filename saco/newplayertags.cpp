@@ -26,6 +26,8 @@ HealthBarVertices1_s HealthBarVertices1[4] =
 };
 
 extern D3DXMATRIX matView, matProj;
+extern CFontRender *pDefaultFont;
+extern CDeathWindow *pDeathWindow;
 
 CNewPlayerTags::CNewPlayerTags(IDirect3DDevice9* pDevice)
 {
@@ -87,6 +89,78 @@ void CNewPlayerTags::FUNC_1006CD90()
 {
 	if(m_pSprite)
 		m_pSprite->End();
+}
+
+
+void CNewPlayerTags::Draw(D3DXVECTOR3* pPlayerPos, PCHAR szName, DWORD dwColor, float fDistanceFromLocalPlayer,
+	BYTE bNameTagStatus, int nStatusStyle)
+{
+	D3DXVECTOR3 TagPos = *pPlayerPos;
+	TagPos.z += 0.2f + (fDistanceFromLocalPlayer * 0.0475f);
+
+	D3DVIEWPORT9 Viewport;
+	m_pDevice->GetViewport(&Viewport);
+
+	D3DXVECTOR3 Out;
+	D3DXMATRIX matIdent;
+	D3DXMatrixIdentity(&matIdent);
+	D3DXVec3Project(&Out, &TagPos, &Viewport, &matProj, &matView, &matIdent);
+
+	if(Out.z > 1.0f)
+		return;
+
+	int iX = (int)Out.x;
+	int iY = (int)Out.y;
+
+	RECT rectStatus;
+	rectStatus.left = iX;
+	rectStatus.top = iY;
+	rectStatus.right = iX;
+	rectStatus.bottom = iY;
+
+	SIZE size = pDefaultFont->MeasureText2(szName, 0);
+
+	RECT rectText;
+	rectText.left = iX - size.cx / 2;
+	rectText.top = iY + 17 - size.cy;
+	rectText.right = iX + size.cx / 2;
+	rectText.bottom = iY;
+	pDefaultFont->RenderText(m_pSprite, szName, rectText, 256, dwColor, 1);
+
+	if(bNameTagStatus)
+	{
+		if(pDeathWindow)
+		{
+			if(!pDeathWindow->field_14B)
+				pDeathWindow->CreateAuxFonts();
+
+			ID3DXFont *pFont1 = pDeathWindow->field_14F;
+			ID3DXFont *pFont2 = pDeathWindow->field_153;
+
+			if(pFont1 && pFont2)
+			{
+				RECT rectCalc;
+				rectCalc.left = 0;
+				rectCalc.top = 0;
+				rectCalc.right = 0;
+				rectCalc.bottom = 0;
+				pFont2->DrawText(NULL, "C", 1, &rectCalc, DT_CALCRECT|DT_NOCLIP|DT_VCENTER|DT_CENTER, 0);
+
+				rectStatus.top += (rectCalc.bottom - rectCalc.top) / 2 + 17;
+				rectStatus.bottom = rectStatus.top + 2;
+				rectStatus.left += -22 - (rectCalc.right - rectCalc.left) / 2;
+				rectStatus.right = rectStatus.left + 1;
+
+				if(nStatusStyle == 2)
+				{
+					pFont2->DrawText(NULL, "C", 1, &rectStatus, DT_NOCLIP|DT_VCENTER|DT_CENTER, 0xFF000000);
+					rectStatus.top -= 2;
+					rectStatus.left--;
+					pFont1->DrawText(NULL, "E", 1, &rectStatus, DT_NOCLIP|DT_VCENTER|DT_CENTER, 0xFFE3E3E3);
+				}
+			}
+		}
+	}
 }
 
 void CNewPlayerTags::DeleteDeviceObjects()
