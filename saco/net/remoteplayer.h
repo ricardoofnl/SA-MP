@@ -91,6 +91,7 @@ public:
 	void FUNC_10016660(); // .text:10016660
 	float FUNC_100160A0(CRemotePlayer *pOther); // .text:100160A0
 	float FUNC_10016120(); // .text:10016120
+	void sub_10017610(PCHAR szText); // .text:10017610
 	void FUNC_10017530(); // .text:10017530
 	void FUNC_10017570(); // .text:10017570
 	int FUNC_10016330(); // .text:10016330

@@ -389,7 +389,41 @@ void ServerQuit(RPCParameters *rpcParams)
 	pPlayerPool->sub_10014090(playerId,byteReason);
 }
 void InitGame(RPCParameters *rpcParams) {}
-void Chat(RPCParameters *rpcParams) {}
+// MATCH
+void Chat(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	PLAYERID playerId;
+	BYTE byteTextLen;
+	char szText[256];
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(pNetGame->GetGameState() != GAMESTATE_CONNECTED) return;
+
+	memset(szText,0,sizeof(szText));
+
+	bsData.Read(playerId);
+	bsData.Read(byteTextLen);
+	bsData.Read(szText,byteTextLen);
+	szText[byteTextLen] = '\0';
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+
+	if(playerId == pPlayerPool->GetLocalPlayerID())
+	{
+		pChatWindow->AddChatMessage(pPlayerPool->GetLocalPlayerName(),
+			pPlayerPool->GetLocalPlayer()->GetPlayerColorAsARGB(),szText);
+	}
+	else
+	{
+		CRemotePlayer *pRemotePlayer = pPlayerPool->GetAt(playerId);
+		if(pRemotePlayer)
+			pRemotePlayer->sub_10017610(szText);
+	}
+}
 void RequestClass(RPCParameters *rpcParams) {}
 // MATCH
 void RequestSpawn(RPCParameters *rpcParams)

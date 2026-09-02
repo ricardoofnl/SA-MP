@@ -59,6 +59,8 @@ public:
 
 	int sub_10067BE0(int a1, char *a2, int a3, int a4, int a5); // .text:10067BE0
 
+	void AddChatMessage(PCHAR szName, DWORD dwColor, PCHAR szText); // .text:10068020
+
 	int AddDebugMessage(CHAR *szFormat, ...);
 
 	int FUNC_10068020(char *szName, int iColor, char *szText); // .text:10068020
