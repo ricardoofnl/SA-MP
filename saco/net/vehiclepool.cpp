@@ -46,3 +46,13 @@ int __stdcall FUNC_1001EBE0(VEHICLE_TYPE *pVehicle)
 }
 
 //----------------------------------------------------
+
+short CVehiclePool::FUNC_1001EB90(int a1)
+{
+	for(int i = 1; i <= field_0; i++) {
+		if(a1 == field_4FB4[i]) return i;
+	}
+	return -1;
+}
+
+//----------------------------------------------------
