@@ -35,7 +35,7 @@ CPlayerPed::CPlayerPed()
 	field_2AC = 1;
 	m_dwArrow = 0;
 	field_2B9 = 0;
-	m_iPissingState = 0;
+	field_2F2 = 0;
 	m_iDanceState = 0;
 	field_2DE = 0;
 	field_2E2 = 0;
@@ -795,7 +795,7 @@ void CPlayerPed::PutDirectlyInVehicle(int iVehicleID, int iSeat)
 	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
 
 	if(GetCurrentWeapon() == WEAPON_PARACHUTE) {
-		SetArmedWeapon(0);
+		SetArmedWeapon(0, false);
 	}
 
 	VEHICLE_TYPE *pVehicle = GamePool_Vehicle_GetAt(iVehicleID);
@@ -826,10 +826,10 @@ void CPlayerPed::PutDirectlyInVehicle(int iVehicleID, int iSeat)
 
 	if(pNetGame) {
 		CVehiclePool* pVehiclePool = pNetGame->GetVehiclePool();
-		VEHICLEID TrainVehicleId = pVehiclePool->FindIDFromGtaPtr(pVehicle);
-		if(TrainVehicleId == INVALID_VEHICLE_ID || TrainVehicleId > MAX_VEHICLES) return;
+		VEHICLEID TrainVehicleId = pVehiclePool->FUNC_1001EB90((int)pVehicle);
+		if(TrainVehicleId > MAX_VEHICLES) return;
 
-		CVehicle* pTrain = pVehiclePool->GetAt(TrainVehicleId);
+		CVehicle* pTrain = (CVehicle *)pVehiclePool->FUNC_10001120(TrainVehicleId);
 		if ( pTrain && pTrain->IsATrainPart() && m_pPed == GamePool_FindPlayerPed() ) {
 			ScriptCommand(&camera_on_vehicle, pTrain->m_dwGTAId, 3, 2);
 		}
@@ -848,7 +848,7 @@ void CPlayerPed::EnterVehicle(int iVehicleID, BOOL bPassenger)
 	bIgnoreNextEntry = TRUE;
 
 	if(GetCurrentWeapon() == WEAPON_PARACHUTE) {
-		SetArmedWeapon(0);
+		SetArmedWeapon(0, false);
 	}
 
 	if(bPassenger) {

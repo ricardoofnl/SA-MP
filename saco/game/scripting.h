@@ -53,6 +53,8 @@ const SCRIPT_COMMAND set_marker_color					= { 0x0165, "ii" };		// var_marker, co
 const SCRIPT_COMMAND enable_zone_names					= { 0x09BA, "i" };
 const SCRIPT_COMMAND create_radar_marker_without_sphere	= { 0x04CE, "fffiv" };	// x, y, z, marker_type, var_marker
 const SCRIPT_COMMAND show_on_radar						= { 0x0168, "ii" };		// var_marker, size
+const SCRIPT_COMMAND create_arrow_above_actor			= { 0x0187, "iv" };		// var_actor, var_marker
+const SCRIPT_COMMAND show_on_radar2						= { 0x018B, "ii" };		// var_marker, size
 
 const SCRIPT_COMMAND create_icon_marker_sphere			= { 0x02A7, "fffiv" };
 
