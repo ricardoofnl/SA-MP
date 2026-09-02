@@ -124,6 +124,7 @@ public:
 	BOOL IsPerformingAnimation(char *szAnimName);
 
 	CPlayerPed();
+	~CPlayerPed();
 
 	int			sub_100ADFA0(); // .text:100ADFA0
 	void		FUNC_100ADFB0(int iLevel); // .text:100ADFB0

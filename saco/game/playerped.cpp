@@ -1293,6 +1293,50 @@ void CPlayerPed::SetSkin(int iSkin)
 
 //-----------------------------------------------------------
 
+CPlayerPed::~CPlayerPed()
+{
+	Destroy();
+}
+
+//-----------------------------------------------------------
+
+void CPlayerPed::Destroy()
+{
+	DWORD dwPedPtr = (DWORD)m_pPed;
+
+	GameResetPlayerKeys(m_bytePlayerNumber);
+	SetPlayerPedPtrRecord(m_bytePlayerNumber, 0);
+
+	if(m_pPed && GamePool_Ped_GetAt(m_dwGTAId) && m_pPed->entity.vtable != 0x863C40) {
+		if(field_2B9) {
+			ScriptCommand(&disassociate_object, field_2B9, 0.0f, 0.0f, 0.0f, 0);
+			ScriptCommand(&destroy_object_with_fade, field_2B9);
+			field_2B9 = 0;
+		}
+
+		if(HasObjectAttached()) RemoveAllAttachedObjects();
+		if(field_2C1) StopCarrying();
+
+		if(IN_VEHICLE(m_pPed)) RemoveFromVehicleAndPutAt(100.0f, 100.0f, 10.0f);
+
+		*(DWORD *)(*(DWORD *)(dwPedPtr + 1152) + 76) = 0;
+
+		_asm mov ecx, dwPedPtr
+		_asm push 1
+		_asm mov eax, [ecx]
+		_asm call dword ptr [eax]
+
+		m_pPed = NULL;
+		m_pEntity = NULL;
+	} else {
+		m_pPed = NULL;
+		m_pEntity = NULL;
+		m_dwGTAId = 0;
+	}
+}
+
+//-----------------------------------------------------------
+
 void CPlayerPed::RemoveAllAttachedObjects()
 {
 	// retail spells the RemoveAttachedObject body out here
