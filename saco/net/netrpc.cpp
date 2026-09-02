@@ -216,7 +216,37 @@ void WorldPlayerRemove(RPCParameters *rpcParams)
 }
 void WorldVehicleAdd(RPCParameters *rpcParams) {}
 void WorldVehicleRemove(RPCParameters *rpcParams) {}
-void DamageVehicle(RPCParameters *rpcParams) {}
+// MATCH
+void DamageVehicle(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	VEHICLEID VehicleID;
+	int iPanelDamage;
+	int iDoorDamage;
+	BYTE byteLightDamage;
+	BYTE byteTyreDamage;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(VehicleID);
+	bsData.Read(iPanelDamage);
+	bsData.Read(iDoorDamage);
+	bsData.Read(byteLightDamage);
+	bsData.Read(byteTyreDamage);
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+
+	if(pVehiclePool->GetSlotState(VehicleID))
+	{
+		CVehicle *pVehicle = (CVehicle *)pVehiclePool->GetAt(VehicleID);
+		if(pVehicle)
+		{
+			pVehicle->sub_100B7AC0(iPanelDamage,iDoorDamage,byteLightDamage);
+			pVehicle->sub_100B7940(byteTyreDamage);
+		}
+	}
+}
 void Unk18(RPCParameters *rpcParams) {}
 // MATCH
 void EnterVehicle(RPCParameters *rpcParams)

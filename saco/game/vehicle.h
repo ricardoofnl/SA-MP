@@ -51,6 +51,9 @@ public:
 	BOOL  HasTurret();
 	BOOL  HasADriver();
 
+	void  sub_100B7AC0(int iPanelDamage, int iDoorDamage, BYTE byteLightDamage); // .text:100B7AC0
+	void  sub_100B7940(BYTE byteTyreDamage); // .text:100B7940
+
 	void  SetHydraThrusters(DWORD dwDirection);
 	DWORD GetHydraThrusters();
 
