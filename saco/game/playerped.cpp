@@ -911,7 +911,8 @@ void CPlayerPed::TogglePlayerControllable(int iControllable)
 	} else {
 		ScriptCommand(&toggle_player_controllable,m_bytePlayerNumber,1);
 		ScriptCommand(&lock_actor,m_dwGTAId,0);
-		if(!IsInVehicle()) {
+		// retail writes the IsInVehicle test out inline
+		if(!(m_pPed && IN_VEHICLE(m_pPed))) {
 			GetMatrix(&mat);
 			TeleportTo(mat.pos.X,mat.pos.Y,mat.pos.Z);
 		}
