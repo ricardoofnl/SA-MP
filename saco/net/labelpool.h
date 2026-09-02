@@ -9,7 +9,7 @@ typedef struct _LABEL
 
 class CLabelPool
 {
-private:
+public:
 	LABEL m_Labels[MAX_LABELS];
 	BOOL m_bLabelSlotState[MAX_LABELS];
 public:

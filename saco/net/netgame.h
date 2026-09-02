@@ -24,8 +24,8 @@ struct struc_41
 	int field_23;
 	float field_27;
 	char _gap2B;
-	char field_2C;
-	char field_2D;
+	BYTE field_2C;
+	BYTE field_2D;
 	char field_2E;
 	char field_2F;
 	char _gap30[10];

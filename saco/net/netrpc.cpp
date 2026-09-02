@@ -7,7 +7,23 @@ extern CGame * pGame;
 // TODO: these RPCs
 void Unk22(RPCParameters *rpcParams) {}
 void Unk24(RPCParameters *rpcParams) {}
-void Unk3A(RPCParameters *rpcParams) {}
+void Unk3A(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	WORD wLabelID;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CLabelPool *pLabelPool = pNetGame->GetLabelPool();
+	if(!pLabelPool) return;
+
+	bsData.Read(wLabelID);
+
+	if(wLabelID < MAX_LABELS && pLabelPool->m_bLabelSlotState[wLabelID])
+		pLabelPool->Delete(wLabelID);
+}
 void Unk3B(RPCParameters *rpcParams) {}
 void Unk3D(RPCParameters *rpcParams) {}
 void SetCheckpoint(RPCParameters *rpcParams) {}
