@@ -49,9 +49,9 @@ CUnkClass5::CUnkClass5(IDirect3DDevice9 *pD3DDevice)
 	field_240 = 220;
 	field_24C = 0;
 	field_250 = -1;
+	field_254 = RakNet::GetTime();
 	field_25C = 0;
 	field_258 = 0;
-	field_254 = RakNet::GetTime();
 }
 
 void CUnkClass5::ResetDialogControls(CDXUTDialog *pDialog)
