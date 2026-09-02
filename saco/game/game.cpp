@@ -243,9 +243,18 @@ void CGame::ProcessInputDisabling()
 		*(BYTE*)0x53F421 = 0x0F;
 		*(BYTE*)0x53F422 = 0x8C;
 
-		DIResetMouse();
-		UpdatePads();
-		DIResetMouse();
+		*(DWORD*)0xB73424 = 0;
+		*(DWORD*)0xB73428 = 0;
+		_asm mov edx, 0x541BD0
+		_asm call edx
+
+		_asm mov edx, 0x541DD0
+		_asm call edx
+
+		*(DWORD*)0xB73424 = 0;
+		*(DWORD*)0xB73428 = 0;
+		_asm mov edx, 0x541BD0
+		_asm call edx
 
 		UnFuck(0x6194A0,1);
 		*(BYTE*)0x6194A0 = 0xE9;
@@ -253,9 +262,8 @@ void CGame::ProcessInputDisabling()
 		pD3DDevice->ShowCursor(FALSE);
 		field_65--;
 	} else {
-		if(field_65 <= 0)
-			return;
-		field_65 -= 1;
+		if(field_65 > 0)
+			field_65--;
 	}
 }
 
