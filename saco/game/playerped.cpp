@@ -1300,6 +1300,35 @@ CPlayerPed::~CPlayerPed()
 
 //-----------------------------------------------------------
 
+int GetTaskType(DWORD *pTask); // .text:100B40A0
+
+// 2 = entering as driver, 1 = entering as passenger, 0 = not entering
+BOOL CPlayerPed::FUNC_100AC5D0()
+{
+	if(GamePool_Ped_GetAt(m_dwGTAId) && m_pPed && m_pPed->Tasks &&
+		m_pPed->Tasks->pdwJumpJetPack)
+	{
+		int iTask = GetTaskType(m_pPed->Tasks->pdwJumpJetPack);
+		if(iTask == 700 || iTask == 712) return 2;
+		if(iTask == 701 || iTask == 713) return 1;
+	}
+	return 0;
+}
+
+//-----------------------------------------------------------
+
+// TRUE while the ped is running the leave-car task
+BOOL CPlayerPed::FUNC_100AC640()
+{
+	if(GamePool_Ped_GetAt(m_dwGTAId) && m_pPed && m_pPed->Tasks &&
+		m_pPed->Tasks->pdwJumpJetPack &&
+		GetTaskType(m_pPed->Tasks->pdwJumpJetPack) == 704) return TRUE;
+
+	return FALSE;
+}
+
+//-----------------------------------------------------------
+
 void CPlayerPed::SetWeaponAmmo(BYTE byteWeapon, WORD wAmmo)
 {
 	if(!m_pPed) return;
