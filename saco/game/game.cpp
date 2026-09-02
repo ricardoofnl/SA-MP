@@ -1155,12 +1155,16 @@ void CGame::EnableClock(BYTE byteClock)
 	UnFuck(0x859A6C,10);
 	if (byteClock)
 	{
-		ToggleThePassingOfTime(1);
+		UnFuck(0x52CF10,1);
+		*(PBYTE)0x52CF10 = 0x56; // push esi
+		field_69 = TRUE;
 		memcpy((PVOID)0x859A6C, byteClockData, 10);
 	}
 	else
 	{
-		ToggleThePassingOfTime(0);
+		UnFuck(0x52CF10,1);
+		*(PBYTE)0x52CF10 = 0xC3; // ret
+		field_69 = FALSE;
 		memset((PVOID)0x859A6C,0,10);
 	}
 }
