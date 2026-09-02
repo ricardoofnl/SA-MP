@@ -87,7 +87,7 @@ DWORD CRemotePlayer::GetPlayerColorAsARGB()
 void CRemotePlayer::EnterVehicle(VEHICLEID VehicleID, BOOL bPassenger)
 {
 	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
-	CVehicle *pVehicle = pVehiclePool->GetAt(VehicleID);
+	CVehicle *pVehicle = (CVehicle *)pVehiclePool->GetAt(VehicleID);
 
 	if(m_pPlayerPed && pVehicle && !m_pPlayerPed->IsInVehicle()) {
 		int iGtaVehicleID = pVehiclePool->FindGtaIDFromID(VehicleID);
