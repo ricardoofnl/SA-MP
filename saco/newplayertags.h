@@ -25,6 +25,8 @@ public:
 
 	void Begin();
 	void End();
+	void FUNC_1006CD80();
+	void FUNC_1006CD90();
 	void Draw(D3DXVECTOR3* pPlayerPos, float fHealth, float fArmor, float fDistanceFromLocalPlayer);
 
 	void DeleteDeviceObjects();

@@ -76,6 +76,19 @@ void CNewPlayerTags::End()
 		m_pStates->Apply();
 }
 
+// the nametag pass brackets its batch with these two instead of Begin/End
+void CNewPlayerTags::FUNC_1006CD80()
+{
+	if(m_pSprite)
+		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+}
+
+void CNewPlayerTags::FUNC_1006CD90()
+{
+	if(m_pSprite)
+		m_pSprite->End();
+}
+
 void CNewPlayerTags::DeleteDeviceObjects()
 {
 	SAFE_RELEASE(m_pStates);
