@@ -1300,6 +1300,33 @@ CPlayerPed::~CPlayerPed()
 
 //-----------------------------------------------------------
 
+// kills the ped after unwinding the jetpack and the attach slots
+void CPlayerPed::FUNC_100AFFD0()
+{
+	MATRIX4X4 mat;
+
+	if(!m_dwGTAId) return;
+	if(!m_pPed) return;
+
+	if(!IN_VEHICLE(m_pPed)) {
+		DWORD *pTask = m_pPed->Tasks->pdwJumpJetPack;
+		if(pTask && pTask[0] == 0x8705C4) StopJetpack();
+	}
+
+	FUNC_100AD0F0();
+
+	GetMatrix(&mat);
+	TeleportTo(mat.pos.X, mat.pos.Y, mat.pos.Z);
+
+	*(DWORD *)((DWORD)m_pPed + 0x540) = 0;
+
+	*pbyteCurrentPlayer = m_bytePlayerNumber;
+	ScriptCommand(&kill_actor, m_dwGTAId);
+	*pbyteCurrentPlayer = 0;
+}
+
+//-----------------------------------------------------------
+
 void CPlayerPed::FUNC_100AD0F0()
 {
 	if(!m_pPed) return;
