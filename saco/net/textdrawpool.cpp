@@ -17,3 +17,15 @@ CTextDrawPool::CTextDrawPool()
 }
 
 //----------------------------------------------------
+
+void CTextDrawPool::FUNC_1001E7F0(unsigned short TextDrawID)
+{
+	CTextDraw *pTextDraw = (CTextDraw *)field_2400[TextDrawID];
+	if(pTextDraw) {
+		delete pTextDraw;
+		field_2400[TextDrawID] = 0;
+		field_0[TextDrawID] = 0;
+	}
+}
+
+//----------------------------------------------------
