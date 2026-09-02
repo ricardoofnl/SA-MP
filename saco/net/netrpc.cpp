@@ -98,7 +98,26 @@ void DestroyWeaponPickup(RPCParameters *rpcParams)
 
 	pNetGame->GetPickupPool()->sub_10013380(bytePickupIndex);
 }
-void ScmEvent(RPCParameters *rpcParams) {}
+void ScmEvent(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	PLAYERID playerId;
+	int iEvent;
+	int iVehicle;
+	int iArg1;
+	int iArg2;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(playerId);
+	bsData.Read(iEvent);
+	bsData.Read(iVehicle);
+	bsData.Read(iArg1);
+	bsData.Read(iArg2);
+
+	sub_10001A60(playerId,iEvent,iVehicle,iArg1,iArg2);
+}
 void Weather(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
