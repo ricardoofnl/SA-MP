@@ -151,7 +151,7 @@ void ProcessHudScaleFix()
 	}
 }
 
-void FUNC_100A24C0()
+inline void FUNC_100A24C0()
 {
 	if(bSomeHudScaleFixFlag == true)
 	{
