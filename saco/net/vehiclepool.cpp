@@ -1,5 +1,6 @@
 
 #include "../main.h"
+#include "../game/util.h"
 
 //----------------------------------------------------
 
@@ -15,6 +16,14 @@ CVehiclePool::CVehiclePool()
 	memset(field_FA4, 0, sizeof(field_FA4));
 	field_0 = 0;
 	field_17894 = 1;
+}
+
+//----------------------------------------------------
+
+int CVehiclePool::FindGtaIDFromID(int VehicleID)
+{
+	if(field_4FB4[VehicleID]) return GamePool_Vehicle_GetIndex((VEHICLE_TYPE *)field_4FB4[VehicleID]);
+	return INVALID_VEHICLE_ID;
 }
 
 //----------------------------------------------------
