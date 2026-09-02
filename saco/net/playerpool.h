@@ -32,7 +32,7 @@ public:
 		if(playerId > MAX_PLAYERS) return;
 		CNetPlayer* pPlayer = m_pPlayers[playerId];
 		if(!pPlayer) return;
-		pPlayer->m_PlayerName = szName;
+		pPlayer->SetPlayerName(szName);
 	}
 
 	CLocalPlayer * GetLocalPlayer() { return m_pLocalPlayer; };

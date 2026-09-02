@@ -16,6 +16,8 @@ public:
 	CRemotePlayer	*m_pRemotePlayer;
 	std::string		m_PlayerName;
 
+	void SetPlayerName(PCHAR szName) { m_PlayerName = szName; };
+
 	CNetPlayer(PCHAR szPlayerName, BOOL bIsNPC);
 	~CNetPlayer();
 };
