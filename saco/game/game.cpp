@@ -496,8 +496,8 @@ BOOL CGame::SetModelDeletable(int iModelID)
 {
 	BYTE * pStreamingModelInfo = (BYTE*)(iModelID * 20);
 
-	if(IsModelLoaded(iModelID))
-		return TRUE;
+	if(iModelID > 20000 || iModelID < 0) return TRUE;
+	if(ScriptCommand(&is_model_available,iModelID)) return TRUE;
 
 	_asm push 2
 	_asm push iModelID
