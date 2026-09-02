@@ -5,6 +5,7 @@ using namespace RakNet;
 extern CNetGame*	pNetGame;
 extern CGame * pGame;
 extern CAudioStream * pAudioStream;
+extern CChatWindow * pChatWindow;
 
 //----------------------------------------------------
 
@@ -63,7 +64,20 @@ void ScrUnk58(RPCParameters *rpcParams) {}
 void ScrUnk59(RPCParameters *rpcParams) {}
 void ScrUnk5A(RPCParameters *rpcParams) {}
 void ScrUnk5B(RPCParameters *rpcParams) {}
-void ScrUnk6F(RPCParameters *rpcParams) {}
+void ScrUnk6F(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	BYTE byteEnable;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(byteEnable);
+
+	pChatWindow->AddDebugMessage("Widescreen = %i", byteEnable);
+	ScriptCommand(&set_widescreen, byteEnable);
+}
 void ScrUnk62(RPCParameters *rpcParams) {}
 void ScrUnk70(RPCParameters *rpcParams) {}
 void ScrSetSpawnInfo(RPCParameters *rpcParams) {}
