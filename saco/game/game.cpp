@@ -620,10 +620,10 @@ void CGame::DisplayHud(BOOL bDisp)
 {
 	if(bDisp) {
 		*(BYTE*)ADDR_ENABLE_HUD = 1;
-		ToggleRadar(1);
+		*(PBYTE)0xBAA3FB = 0;
 	} else {
 		*(BYTE*)ADDR_ENABLE_HUD = 0;
-		ToggleRadar(0);
+		*(PBYTE)0xBAA3FB = 1;
 	}
 }
 
@@ -953,13 +953,13 @@ void CGame::AddToLocalMoney(int iAmount)
 
 void CGame::ResetLocalMoney()
 {
-	int iMoney = GetLocalMoney();
+	int iMoney = *(int *)0xB7CE50;
 	if(!iMoney) return;
 
-	if(iMoney < 0) {
-		AddToLocalMoney(abs(iMoney));
+	if(iMoney >= 0) {
+		ScriptCommand(&add_to_player_money,0,-(iMoney));
 	} else {
-		AddToLocalMoney(-(iMoney));
+		ScriptCommand(&add_to_player_money,0,abs(iMoney));
 	}
 }
 
