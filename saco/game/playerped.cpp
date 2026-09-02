@@ -432,7 +432,10 @@ int CPlayerPed::GetCurrentVehicleID()
 
 void CPlayerPed::ShowMarker(int iMarkerColorID)
 {
-	if (m_dwArrow) HideMarker();
+	if (m_dwArrow) {
+		ScriptCommand(&disable_marker, m_dwArrow);
+		m_dwArrow = 0;
+	}
 	ScriptCommand(&create_arrow_above_actor, m_dwGTAId, &m_dwArrow);
 	ScriptCommand(&set_marker_color, m_dwArrow, iMarkerColorID);
 	ScriptCommand(&show_on_radar2, m_dwArrow, 2);
