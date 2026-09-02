@@ -346,25 +346,30 @@ WORD CPlayerPed::GetKeys(WORD * lrAnalog, WORD * udAnalog)
 	if(pInternalKeys->wKeys1[19]) wRet |= 1; // submission
 	wRet <<= 1;
 
-	if(IsInVehicle() && pInternalKeys->wKeys1[5]) wRet |= 1; // incar look left
+	if((m_pPed && IN_VEHICLE(m_pPed)) && pInternalKeys->wKeys1[5]) wRet |= 1; // incar look left
 	wRet <<= 1;
 
 	if(pInternalKeys->wKeys1[6]) wRet |= 1; // incar handbrake / target
 	wRet <<= 1;
 
-	if(IsInVehicle() && pInternalKeys->wKeys1[7]) wRet |= 1; // incar look right
+	if((m_pPed && IN_VEHICLE(m_pPed)) && pInternalKeys->wKeys1[7]) wRet |= 1; // incar look right
 	wRet <<= 1;
 
 	if(pInternalKeys->wKeys1[14]) wRet |= 1; // jump
 	wRet <<= 1;
 
-	if(!IsInJetpackMode() && pInternalKeys->wKeys1[15]) wRet |= 1; // secondary onfoot attack
+	if((!m_pPed || IN_VEHICLE(m_pPed) || m_pPed->Tasks->pdwJumpJetPack == NULL ||
+		m_pPed->Tasks->pdwJumpJetPack[0] != 0x8705C4) && pInternalKeys->wKeys1[15]) wRet |= 1; // secondary onfoot attack
 	wRet <<= 1;
 
 	if(pInternalKeys->wKeys1[16]) wRet |= 1; // sprint
 	wRet <<= 1;
 
-	if(HasAmmoForCurrentWeapon() && pInternalKeys->wKeys1[17]) wRet |= 1; // fire
+	WEAPON_SLOT_TYPE *pFireSlot;
+	if((!m_pPed || (pFireSlot = &m_pPed->WeaponSlots[m_pPed->byteCurWeaponSlot]) == NULL ||
+		pFireSlot->dwType <= WEAPON_CANE ||
+		pFireSlot->dwType == WEAPON_PARACHUTE ||
+		pFireSlot->dwAmmo) && pInternalKeys->wKeys1[17]) wRet |= 1; // fire
 	wRet <<= 1;
 
 	if(pInternalKeys->wKeys1[18]) wRet |= 1; // crouch
