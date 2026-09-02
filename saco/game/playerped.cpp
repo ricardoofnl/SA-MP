@@ -1070,13 +1070,16 @@ void CPlayerPed::StartGoggles()
 
 void CPlayerPed::StopGoggles()
 {
-	if (!m_pPed || !HasGoggles()) return;
+	if (!m_pPed) return;
 
-	m_bGoggleState = FALSE;
-	DWORD dwPedPointer = (DWORD)m_pPed;
-	_asm mov ecx, dwPedPointer
-	_asm mov eax, 0x5E6010
-	_asm call eax
+	// retail writes the HasGoggles test out inline
+	if (m_pPed->dwActiveVision != 0 || m_bGoggleState) {
+		m_bGoggleState = FALSE;
+		DWORD dwPedPointer = (DWORD)m_pPed;
+		_asm mov ecx, dwPedPointer
+		_asm mov eax, 0x5E6010
+		_asm call eax
+	}
 }
 
 //-----------------------------------------------------------
