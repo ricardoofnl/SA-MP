@@ -68,7 +68,22 @@ void Weather(RPCParameters *rpcParams)
 	pNetGame->SetWeather(byteWeather);
 	pGame->SetWorldWeather(byteWeather);
 }
-void SetTimeEx(RPCParameters *rpcParams) {}
+void SetTimeEx(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	BYTE byteHour;
+	BYTE byteMinute;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(byteHour);
+	bsData.Read(byteMinute);
+
+	pGame->SetWorldTime(byteHour,byteMinute);
+	pNetGame->SetWorldTime(byteHour);
+	pNetGame->SetWorldMinute(byteMinute);
+}
 void ToggleClock(RPCParameters *rpcParams) {}
 void Unk3C(RPCParameters *rpcParams) {}
 void WorldPlayerAdd(RPCParameters *rpcParams) {}
