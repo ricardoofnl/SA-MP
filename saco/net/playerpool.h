@@ -56,6 +56,26 @@ public:
 
 	PCHAR FUNC_100175C0(int iPlayerId); // .text:100175C0
 
+	BOOL IsPlayerNPC(PLAYERID playerId) {
+		if(playerId > MAX_PLAYERS) return FALSE;
+		CNetPlayer *pPlayer = m_pPlayers[playerId];
+		if(!pPlayer) return FALSE;
+		return pPlayer->m_bIsNPC;
+	}
+	int GetPlayerScore(PLAYERID playerId) {
+		if(playerId > MAX_PLAYERS) return 0;
+		CNetPlayer *pPlayer = m_pPlayers[playerId];
+		if(!pPlayer) return 0;
+		return pPlayer->GetScore();
+	}
+	int GetPlayerPing(PLAYERID playerId) {
+		if(playerId > MAX_PLAYERS) return 0;
+		CNetPlayer *pPlayer = m_pPlayers[playerId];
+		if(!pPlayer) return 0;
+		return pPlayer->GetPing();
+	}
+	int GetPlayerCount(BOOL bIncludeNPCs); // .text:100139F0, todo: implement
+
 	class CObject *FUNC_10013B70(ENTITY_TYPE *pEntity); // todo: implement
 
 	void sub_10013C90(); // todo: implement

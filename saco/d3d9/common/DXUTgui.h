@@ -637,6 +637,7 @@ public:
     int GetSelectedIndex( int nPreviousSelected = -1 );
     DXUTListBoxItem *GetSelectedItem( int nPreviousSelected = -1 ) { return GetItem( GetSelectedIndex( nPreviousSelected ) ); }
     void SelectItem( int nNewIndex );
+    CDXUTScrollBar *GetScrollBar() { return &m_ScrollBar; }
 
     enum STYLE { MULTISELECTION = 1 };
 

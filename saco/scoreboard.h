@@ -1,6 +1,15 @@
 
 #pragma once
 
+struct SCOREBOARD_ROW
+{
+	D3DCOLOR Color;
+	char szName[29];
+	int iPlayerId;
+	int iScore;
+	int iPing;
+};
+
 class CScoreBoard
 {
 private:

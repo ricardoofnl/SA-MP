@@ -17,6 +17,8 @@ public:
 	std::string		m_PlayerName;
 
 	void SetPlayerName(PCHAR szName) { m_PlayerName = szName; };
+	int GetScore() { return field_4; };
+	int GetPing() { return field_C; };
 
 	CNetPlayer(PCHAR szPlayerName, BOOL bIsNPC);
 	~CNetPlayer();

@@ -92,9 +92,91 @@ void CScoreBoard::Hide(bool bResetInput)
 	field_0 = 0;
 }
 
-// stub: rebuilds the three player columns from the pool, not reconstructed yet
+// swapping rows through a temp is what retail inlines at both sort sites
+inline void SwapScoreboardRows(SCOREBOARD_ROW *pA, SCOREBOARD_ROW *pB)
+{
+	SCOREBOARD_ROW tmp = *pA;
+	*pA = *pB;
+	*pB = tmp;
+}
+
 void CScoreBoard::FUNC_1006ED30()
 {
+	if(!pNetGame) return;
+	if(!pNetGame->GetPlayerPool()) return;
+	if(!field_0) return;
+	if(!m_pDialog) return;
+
+	int nSelected = m_pListBox->GetSelectedIndex();
+	CDXUTScrollBar *pScrollBar = m_pListBox->GetScrollBar();
+	int nTrackPos = pScrollBar->GetTrackPos();
+	m_pListBox->RemoveAllItems();
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	int nRows = pPlayerPool->GetPlayerCount(0) + 1;
+	int localPlayerId = pPlayerPool->GetLocalPlayerID();
+	SCOREBOARD_ROW *pRows = (SCOREBOARD_ROW *)calloc(nRows, sizeof(SCOREBOARD_ROW));
+
+	strcpy(pRows->szName, pPlayerPool->GetLocalPlayerName());
+	pRows->Color = pPlayerPool->GetLocalPlayer()->GetPlayerColorAsARGB();
+	pRows->iScore = pPlayerPool->field_0;
+	pRows->iPing = pPlayerPool->field_22;
+	pRows->iPlayerId = pPlayerPool->GetLocalPlayerID();
+
+	SCOREBOARD_ROW *pRow = pRows + 1;
+	for(int playerId = 0; playerId < MAX_PLAYERS; playerId++)
+	{
+		if(pPlayerPool->GetSlotState((PLAYERID)playerId) != 1) continue;
+		if(playerId == localPlayerId) continue;
+		if(pPlayerPool->IsPlayerNPC((PLAYERID)playerId)) continue;
+
+		pRow->iPing = pPlayerPool->GetPlayerPing((PLAYERID)playerId);
+		strcpy(pRow->szName, pPlayerPool->FUNC_100175C0(playerId));
+		pRow->iScore = pPlayerPool->GetPlayerScore((PLAYERID)playerId);
+		pRow->Color = pPlayerPool->GetAt((PLAYERID)playerId)->GetPlayerColorAsARGB();
+		pRow->iPlayerId = playerId;
+		pRow++;
+	}
+
+	if(field_40 == 1)
+	{
+		for(int i = nRows - 1; i > 0; i--)
+			for(int j = 0; j < i; j++)
+				if(strcmp(pRows[j + 1].szName, pRows[j].szName) < 0)
+					SwapScoreboardRows(&pRows[j], &pRows[j + 1]);
+	}
+	else if(field_40 == 2)
+	{
+		for(int i = nRows - 1; i > 0; i--)
+			for(int j = 0; j < i; j++)
+				if(pRows[j + 1].iScore > pRows[j].iScore)
+					SwapScoreboardRows(&pRows[j], &pRows[j + 1]);
+	}
+
+	char szText[260];
+	for(int i = 0; i < nRows; i++)
+	{
+		sprintf(szText, "%u", pRows[i].iPlayerId);
+		m_pListBox->AddItem(szText, (void *)pRows[i].iPlayerId, pRows[i].Color);
+
+		if(m_pListBox->GetItem(i) && pRows[i].szName[0])
+		{
+			m_pListBox->SetItemColumnText(i, 0, pRows[i].szName);
+			sprintf(szText, "%d", pRows[i].iScore);
+			m_pListBox->SetItemColumnText(i, 1, szText);
+			sprintf(szText, "%u", pRows[i].iPing);
+			m_pListBox->SetItemColumnText(i, 2, szText);
+		}
+	}
+
+	if(nSelected < 0)
+		m_pListBox->SelectItem(-1);
+	else
+		m_pListBox->SelectItem(nSelected);
+
+	free(pRows);
+
+	pScrollBar->SetTrackPos(nTrackPos);
 }
 
 void CScoreBoard::Show()
