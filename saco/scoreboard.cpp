@@ -2,6 +2,7 @@
 #include "main.h"
 
 extern CGame* pGame;
+extern CNetGame *pNetGame;
 
 CScoreBoard::CScoreBoard(IDirect3DDevice9 *pD3DDevice)
 {
@@ -110,4 +111,30 @@ void CScoreBoard::Show()
 	pGame->ToggleKeyInputsDisabled(3, FALSE);
 
 	field_0 = 1;
+}
+
+void CScoreBoard::ClickPlayer()
+{
+	if(!field_0) return;
+	if(!m_pDialog) return;
+
+	DXUTListBoxItem *pItem = m_pListBox->GetSelectedItem();
+	if(pItem)
+	{
+		PLAYERID playerId = (PLAYERID)atoi(pItem->strText);
+		RakNet::BitStream bsSend;
+		bsSend.Write(playerId);
+		bsSend.Write((BYTE)0);
+		pNetGame->GetRakClient()->RPC(RPC_ClickPlayer, &bsSend, HIGH_PRIORITY, RELIABLE_ORDERED, 0, FALSE);
+	}
+
+	if(!field_0) return;
+	if(!m_pDialog) return;
+
+	m_pDialog->SetVisible(false);
+	m_pListBox->SetEnabled(false);
+	m_pListBox->SetVisible(false);
+	pGame->ToggleKeyInputsDisabled(0, FALSE);
+
+	field_0 = 0;
 }

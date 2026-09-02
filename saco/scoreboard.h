@@ -30,5 +30,6 @@ public:
 	void GetRect(RECT *pRect);
 	void FUNC_1006ED30();
 	void Show();
+	void ClickPlayer();
 	void Hide(bool bResetInput);
 };
