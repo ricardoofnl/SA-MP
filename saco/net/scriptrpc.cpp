@@ -359,7 +359,23 @@ void ScrUnk23(RPCParameters *rpcParams)
 	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
 	if(pPlayerPed) pPlayerPed->FUNC_100ADFB0(iLevel);
 }
-void ScrUnk43(RPCParameters *rpcParams) {}
+void ScrUnk43(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	int iWeapon;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+	if(!pPlayerPed) return;
+
+	bsData.Read(iWeapon);
+
+	if(iWeapon >= 0 && iWeapon <= 46) pPlayerPed->SetArmedWeapon(iWeapon, false);
+}
 void ScrUnk71(RPCParameters *rpcParams) {}
 void ScrUnk29(RPCParameters *rpcParams) {}
 void ScrUnk2A(RPCParameters *rpcParams)
