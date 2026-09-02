@@ -412,8 +412,46 @@ BYTE PedHeadingCode2[] = {0xD9,0x96,0x5C,0x05,0x00,0x00};
 // `call 0x5E1B10` at 0x5E92F4, nopped out while a remote ped processes
 BYTE RemotePedProcessCode[] = {0xE8,0x17,0x88,0xFF,0xFF};
 
-// runs the original CPlayerPed::ProcessControl for a remote ped under SEH
-void ProcessControlRemotePed(); // .text:100A27C0
+CPlayerPool *pRemotePedPlayerPool;
+PLAYERID remotePedPlayerId;
+CRemotePlayer *pRemotePedPlayer;
+
+// runs the original CPlayerPed::ProcessControl for a remote ped under SEH; a fault
+// there kicks the player rather than taking the whole client down
+void ProcessControlRemotePed()
+{
+	__try
+	{
+		_asm mov ecx, dwProcessControlPed
+		_asm mov edx, 0x60EA90
+		_asm call edx
+	}
+	__except(exc_filter(GetExceptionCode(), GetExceptionInformation(), "playerped"))
+	{
+		if(*pbyteCurrentPlayer)
+		{
+			if(pNetGame)
+			{
+				pRemotePedPlayerPool = pNetGame->GetPlayerPool();
+
+				if(pRemotePedPlayerPool)
+				{
+					remotePedPlayerId = pRemotePedPlayerPool->FUNC_100138C0(dwProcessControlPed);
+
+					if(remotePedPlayerId != 0xFFFF)
+					{
+						pRemotePedPlayer = pRemotePedPlayerPool->GetAt(remotePedPlayerId);
+
+						if(pRemotePedPlayer) pRemotePedPlayer->FUNC_10017530();
+
+						if(pChatWindow)
+							pChatWindow->AddDebugMessage("Removed player %u due to error.", remotePedPlayerId);
+					}
+				}
+			}
+		}
+	}
+}
 
 NUDE CPlayerPed_ProcessControl_Hook()
 {

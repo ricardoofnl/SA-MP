@@ -41,6 +41,8 @@ public:
 
 	BOOL sub_10014090(PLAYERID playerId, BYTE byteReason); // .text:10014090
 
+	PLAYERID FUNC_100138C0(DWORD dwPedPtr); // .text:100138C0
+
 	CRemotePlayer* GetAt(PLAYERID playerId) {
 		if(playerId > MAX_PLAYERS) { return NULL; }
 		CNetPlayer *pNetPlayer = m_pPlayers[playerId];
