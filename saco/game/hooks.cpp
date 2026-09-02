@@ -2830,6 +2830,39 @@ DWORD	dwDamageWeapon = 0;
 BOOL	bIgnoreVehicleDamage = 0;
 DWORD	dwInflictDamageRetAddr = 0;
 
+PLAYERID wInflictDamageDriver;
+CPlayerPool *pInflictDamagePool;
+
+// true when the local player drives dwVehicle and dwPed belongs to a team mate
+BOOL FUNC_100A5240(DWORD dwVehicle, DWORD dwPed)
+{
+	if(!pNetGame || !pGame || !pGame->FindPlayerPed()
+		|| !pGame->FindPlayerPed()->IsInVehicle()
+		|| pGame->FindPlayerPed()->sub_100ABFC0()
+		|| pGame->FindPlayerPed()->FUNC_100AC000() != (int)dwVehicle)
+		return FALSE;
+
+	wInflictDamageDriver = FUNC_100A3AE0(dwPed);
+	if(wInflictDamageDriver == 0xFFFF) return FALSE;
+
+	pInflictDamagePool = pNetGame->GetPlayerPool();
+	if(!pInflictDamagePool) return FALSE;
+
+	if(pNetGame->GetSettings()->field_22)
+	{
+		BYTE byteTeam = pInflictDamagePool->m_pLocalPlayer->m_byteTeam;
+
+		if(byteTeam == 0xFF) return FALSE;
+
+		if((BYTE)pNetGame->GetPlayerPool()->GetAt(wInflictDamageDriver)->field_109 == byteTeam)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+//-----------------------------------------------------------
+
 NUDE CVehicle__InflictDamage_Hook()
 {
 	_asm mov dwDamagedVehicle, ecx
