@@ -7,6 +7,7 @@ extern CChatWindow   *pChatWindow;
 
 //----------------------------------------------------
 
+// MATCH
 BYTE __stdcall GetPacketID(Packet *p)
 {
 	if (p==0) return 255;
@@ -22,6 +23,7 @@ BYTE __stdcall GetPacketID(Packet *p)
 
 //----------------------------------------------------
 
+// MATCH
 bool __stdcall HasTimestamps(Packet *p)
 {
 	if (p==0) return 0;
@@ -86,6 +88,7 @@ void CNetGame::UpdateNetwork()
 	// TODO: CNetGame::UpdateNetwork()
 }
 
+// MATCH
 void CNetGame::InitPools()
 {
 	m_pPools = (NETGAME_POOLS *)calloc(1, sizeof(NETGAME_POOLS));
@@ -101,6 +104,7 @@ void CNetGame::InitPools()
 	m_pPools->pActorPool	= new CActorPool();
 }
 
+// MATCH
 DWORD CNetGame::GetTime()
 {
 	return (DWORD)RakNet::GetTime();
@@ -120,6 +124,7 @@ void CNetGame::SetMapIcon(BYTE byteIndex, float fX, float fY, float fZ, BYTE byt
 //-----------------------------------------------------------
 // Removes the Map Icon
 
+// MATCH
 void CNetGame::DisableMapIcon(BYTE byteIndex)
 {
 	if (byteIndex >= 100) return;

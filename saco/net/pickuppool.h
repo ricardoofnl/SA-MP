@@ -29,6 +29,7 @@ private:
 
 public:
 
+	// MATCH
 	CPickupPool() {
 		memset(field_F004, 0, sizeof(field_F004));
 		field_0 = 0;
