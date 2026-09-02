@@ -276,6 +276,7 @@ void EnterVehicle(RPCParameters *rpcParams)
 	}
 }
 // MATCH
+void EnterVehicle(RPCParameters *rpcParams) {}
 void ExitVehicle(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
