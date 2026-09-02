@@ -8,6 +8,7 @@ class CTextDraw
 public:
 	~CTextDraw(); // .text:100B2F50
 
+	void FUNC_100B3480(); // .text:100B3480
 	void FUNC_100B34A0(); // .text:100B34A0
 	void FUNC_100B36B0(); // .text:100B36B0
 };
@@ -23,6 +24,8 @@ public:
 	CTextDrawPool();
 
 	void FUNC_1001E7F0(unsigned short TextDrawID); // .text:1001E7F0
+
+	void FUNC_1001E830(); // .text:1001E830
 
 	void FUNC_1001E870(); // .text:1001E870
 
