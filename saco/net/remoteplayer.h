@@ -21,7 +21,12 @@ public:
 
 	char field_8E[31];
 	char field_AD[24];
-	char field_C5[68];
+	// one 68-byte block: ResetAllSyncAttributes memsets it whole
+	struct {
+		char _pad0[62];
+		WORD wVehicleID; // 0x103
+		char _pad1[4];
+	} field_C5;
 	char field_109;
 	BYTE field_10A;
 	char field_10B;
@@ -64,6 +69,8 @@ public:
 	void EnterVehicle(VEHICLEID VehicleID, BOOL bPassenger);
 	void ExitVehicle();
 
+	BOOL FUNC_100145F0(); // .text:100145F0
+	BOOL FUNC_10014620(); // .text:10014620
 	void FUNC_10016660(); // .text:10016660
 	float FUNC_10016120(); // .text:10016120
 	void FUNC_10017530(); // .text:10017530

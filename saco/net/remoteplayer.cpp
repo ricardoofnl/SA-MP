@@ -46,7 +46,7 @@ void CRemotePlayer::ResetAllSyncAttributes()
 	field_C = 0;
 	field_1B4 = 0;
 	field_1C5 = 2;
-	memset(field_C5, 0, sizeof(field_C5));
+	memset(&field_C5, 0, sizeof(field_C5));
 	memset(field_19, 0, sizeof(field_19));
 	memset(field_AD, 0, sizeof(field_AD));
 	memset(field_8E, 0, sizeof(field_8E));
@@ -121,6 +121,26 @@ void CRemotePlayer::FUNC_10017570()
 	}
 	if(field_10A != 32) field_10A = 32;
 	ResetAllSyncAttributes();
+}
+
+//----------------------------------------------------
+
+BOOL CRemotePlayer::FUNC_100145F0()
+{
+	if(field_10A == 17 && field_C5.wVehicleID && field_C5.wVehicleID != INVALID_VEHICLE_ID &&
+		field_C5.wVehicleID < (MAX_VEHICLES + 1000)) return TRUE;
+
+	return FALSE;
+}
+
+//----------------------------------------------------
+
+BOOL CRemotePlayer::FUNC_10014620()
+{
+	if(field_10A == 17 && field_C5.wVehicleID && field_C5.wVehicleID != INVALID_VEHICLE_ID &&
+		field_C5.wVehicleID >= MAX_VEHICLES && field_C5.wVehicleID < (MAX_VEHICLES + 1000)) return TRUE;
+
+	return FALSE;
 }
 
 //----------------------------------------------------
