@@ -251,6 +251,54 @@ void CRemotePlayer::FUNC_10014540(short a1, short a2, short a3)
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10014650()
+{
+	if(field_10A != 17) return;
+	if(!field_C5.wVehicleID) return;
+	if(field_C5.wVehicleID == INVALID_VEHICLE_ID) return;
+	if(field_C5.wVehicleID >= (MAX_VEHICLES + 1000)) return;
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+	CObjectPool *pObjectPool = pNetGame->GetObjectPool();
+	CEntity *pEntity;
+
+	if(field_C5.wVehicleID < MAX_VEHICLES) {
+		if(!pVehiclePool->field_3074[field_C5.wVehicleID]) return;
+		pEntity = (CEntity *)pVehiclePool->field_1134[field_C5.wVehicleID];
+	} else {
+		WORD wObjectID = field_C5.wVehicleID - MAX_VEHICLES;
+		if(wObjectID > MAX_OBJECTS) return;
+		if(!pObjectPool->field_4[wObjectID]) return;
+		pEntity = (CEntity *)pObjectPool->field_FA4[wObjectID];
+	}
+
+	if(!pEntity) return;
+
+	if(field_C5.vecOffset.X > 100.0f) return;
+	if(field_C5.vecOffset.X < -100.0f) return;
+	if(field_C5.vecOffset.Y > 100.0f) return;
+	if(field_C5.vecOffset.Y < -100.0f) return;
+	if(field_C5.vecOffset.Z > 100.0f) return;
+	if(field_C5.vecOffset.Z < -100.0f) return;
+
+	MATRIX4X4 matEntity;
+	MATRIX4X4 matPed;
+	VECTOR vecMove;
+	VECTOR vecTurn;
+	VECTOR vecOut;
+
+	pEntity->GetMatrix(&matEntity);
+	pEntity->GetMoveSpeedVector(&vecMove);
+	pEntity->GetTurnSpeedVector(&vecTurn);
+	m_pPlayerPed->GetMatrix(&matPed);
+
+	FUNC_100B4D10(&vecOut, &matEntity, &field_C5.vecOffset);
+	matPed.pos = vecOut;
+	m_pPlayerPed->SetMatrix(matPed);
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_10014500(int a1)
 {
 	if(!a1) {

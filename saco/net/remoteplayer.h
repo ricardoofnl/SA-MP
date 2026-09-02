@@ -23,7 +23,8 @@ public:
 	char field_AD[24];
 	// one 68-byte block: ResetAllSyncAttributes memsets it whole
 	struct {
-		char _pad0[62];
+		char _pad0[50];
+		VECTOR vecOffset; // 0xF7
 		WORD wVehicleID; // 0x103
 		char _pad1[4];
 	} field_C5;
@@ -79,6 +80,7 @@ public:
 	void FUNC_100143A0(); // .text:100143A0
 	void FUNC_10014500(int a1); // .text:10014500
 	void FUNC_10014540(short a1, short a2, short a3); // .text:10014540
+	void FUNC_10014650(); // .text:10014650
 	void FUNC_10017610(char *szText); // .text:10017610
 	void FUNC_100150D0(VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100150D0
 	void FUNC_100155E0(int a1, VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100155E0
