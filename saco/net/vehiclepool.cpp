@@ -56,3 +56,12 @@ short CVehiclePool::FUNC_1001EB90(int a1)
 }
 
 //----------------------------------------------------
+
+void CVehiclePool::FUNC_1001F060()
+{
+	for(VEHICLEID VehicleID = 0; VehicleID < MAX_VEHICLES; VehicleID++) {
+		FUNC_1001EA80(VehicleID);
+	}
+}
+
+//----------------------------------------------------
