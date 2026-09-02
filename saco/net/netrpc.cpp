@@ -3,6 +3,7 @@
 
 extern CNetGame*	pNetGame;
 extern CGame * pGame;
+extern CChatWindow *pChatWindow;
 
 // MATCH
 BYTE Checksum(BYTE *pData, WORD wLen)
@@ -65,7 +66,30 @@ void GameModeRestart(RPCParameters *rpcParams)
 	pNetGame->sub_1000A540();
 }
 void ConnectionRejected(RPCParameters *rpcParams) {}
-void ClientMessage(RPCParameters *rpcParams) {}
+// MATCH
+void ClientMessage(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	DWORD dwColor;
+	DWORD dwStrLen;
+	char szMessage[256];
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	memset(szMessage,0,sizeof(szMessage));
+
+	bsData.Read(dwColor);
+	bsData.Read(dwStrLen);
+
+	if(dwStrLen > 255) return;
+
+	bsData.Read(szMessage,dwStrLen);
+	szMessage[dwStrLen] = '\0';
+
+	pChatWindow->AddClientMessage(dwColor,szMessage);
+}
 // MATCH
 void WorldTime(RPCParameters *rpcParams)
 {
