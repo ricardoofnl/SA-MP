@@ -8,6 +8,8 @@ extern CGame * pGame;
 extern CAudioStream * pAudioStream;
 extern CChatWindow * pChatWindow;
 
+char pText[257];
+
 //----------------------------------------------------
 
 // TODO: These script RPCs
@@ -419,7 +421,76 @@ void ScrUnkAF(RPCParameters *rpcParams) {}
 void ScrUnkB0(RPCParameters *rpcParams) {}
 void ScrUnkB2(RPCParameters *rpcParams) {}
 void ScrUnk30(RPCParameters *rpcParams) {}
-void ScrInitMenu(RPCParameters *rpcParams) {}
+void ScrInitMenu(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	BYTE byteMenuID;
+	int iColumns;
+	float fX, fY, fCol1Width, fCol2Width;
+	MENU_INT MenuInteraction;
+	BYTE byteRows, byteRow;
+	int i;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(!pNetGame) return;
+
+	CMenuPool *pMenuPool = pNetGame->GetMenuPool();
+
+	fCol2Width = 0.0f;
+
+	bsData.Read(byteMenuID);
+	bsData.Read(iColumns);
+
+	memset(pText, 0, sizeof(pText));
+	bsData.Read(pText, 32);
+
+	bsData.Read(fX);
+	bsData.Read(fY);
+	bsData.Read(fCol1Width);
+	if(iColumns) bsData.Read(fCol2Width);
+
+	bsData.Read(MenuInteraction.bMenu);
+	for(i = 0; i < MAX_MENU_ITEMS; i++) bsData.Read(MenuInteraction.bRow[i]);
+
+	if(byteMenuID <= MAX_MENUS && pMenuPool->m_bMenuSlotState[byteMenuID]) pMenuPool->Delete(byteMenuID);
+
+	CMenu *pMenu = pMenuPool->New(byteMenuID, fX, fY, iColumns + 1, fCol1Width, fCol2Width, &MenuInteraction);
+	if(!pMenu) return;
+
+	pMenu->SetTitle(pText);
+
+	memset(pText, 0, sizeof(pText));
+	bsData.Read(pText, 32);
+	pMenu->SetColumnTitle(0, pText);
+
+	bsData.Read(byteRows);
+	if(byteRows > MAX_MENU_ITEMS) return;
+
+	for(byteRow = 0; byteRow < byteRows; byteRow++) {
+		memset(pText, 0, sizeof(pText));
+		bsData.Read(pText, 32);
+		pMenu->AddMenuItem(0, byteRow, pText);
+	}
+
+	if(!iColumns) return;
+
+	memset(pText, 0, sizeof(pText));
+	bsData.Read(pText, 32);
+	pMenu->SetColumnTitle(1, pText);
+
+	bsData.Read(byteRows);
+	if(byteRows > MAX_MENU_ITEMS) return;
+
+	for(byteRow = 0; byteRow < byteRows; byteRow++) {
+		memset(pText, 0, sizeof(pText));
+		bsData.Read(pText, 32);
+		pMenu->AddMenuItem(1, byteRow, pText);
+	}
+}
 void ScrShowMenu(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);

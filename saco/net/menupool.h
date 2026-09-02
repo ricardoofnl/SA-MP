@@ -5,7 +5,7 @@
 
 class CMenuPool
 {
-private:
+public:
 
 	CMenu *m_pMenus[MAX_MENUS];
 	BOOL m_bMenuSlotState[MAX_MENUS];
