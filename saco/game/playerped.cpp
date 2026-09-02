@@ -735,7 +735,7 @@ WEAPON_SLOT_TYPE * CPlayerPed::GetCurrentWeaponSlot()
 BOOL CPlayerPed::HasAmmoForCurrentWeapon()
 {
 	if(m_pPed) {
-		WEAPON_SLOT_TYPE * WeaponSlot = GetCurrentWeaponSlot();
+		WEAPON_SLOT_TYPE * WeaponSlot = &m_pPed->WeaponSlots[m_pPed->byteCurWeaponSlot];
 
 		if(!WeaponSlot) return TRUE;
 
@@ -1089,7 +1089,7 @@ BOOL CPlayerPed::HasGoggles()
 WORD CPlayerPed::GetAmmo()
 {
 	if(m_pPed) {
-		WEAPON_SLOT_TYPE * WeaponSlot = GetCurrentWeaponSlot();
+		WEAPON_SLOT_TYPE * WeaponSlot = &m_pPed->WeaponSlots[m_pPed->byteCurWeaponSlot];
 
 		if(!WeaponSlot) return -1;
 
