@@ -85,7 +85,18 @@ void SetTimeEx(RPCParameters *rpcParams)
 	pNetGame->SetWorldMinute(byteMinute);
 }
 void ToggleClock(RPCParameters *rpcParams) {}
-void Unk3C(RPCParameters *rpcParams) {}
+void Unk3C(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	DWORD dwTime = 0;
+	bsData.Read(dwTime);
+
+	pGame->SetTimeInMilliseconds(dwTime);
+}
 void WorldPlayerAdd(RPCParameters *rpcParams) {}
 void WorldPlayerDeath(RPCParameters *rpcParams) {}
 void WorldPlayerRemove(RPCParameters *rpcParams) {}
