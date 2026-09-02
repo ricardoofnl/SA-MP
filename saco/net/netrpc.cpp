@@ -65,7 +65,39 @@ void GameModeRestart(RPCParameters *rpcParams)
 {
 	pNetGame->sub_1000A540();
 }
-void ConnectionRejected(RPCParameters *rpcParams) {}
+// MATCH
+void ConnectionRejected(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	BYTE byteRejectReason;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(byteRejectReason);
+
+	if(byteRejectReason == 1)
+	{
+		pChatWindow->AddInfoMessage("CONNECTION REJECTED: Incorrect Version.");
+	}
+	else if(byteRejectReason == 2)
+	{
+		pChatWindow->AddInfoMessage("CONNECTION REJECTED: Unacceptable NickName");
+		pChatWindow->AddInfoMessage("Please choose another nick between and 3-20 characters");
+		pChatWindow->AddInfoMessage("Please use only a-z, A-Z, 0-9");
+		pChatWindow->AddInfoMessage("Use /quit to exit or press ESC and select Quit Game");
+	}
+	else if(byteRejectReason == 3)
+	{
+		pChatWindow->AddInfoMessage("CONNECTION REJECTED: Bad mod version.");
+	}
+	else if(byteRejectReason == 4)
+	{
+		pChatWindow->AddInfoMessage("CONNECTION REJECTED: Unable to allocate a player slot.");
+	}
+
+	pNetGame->GetRakClient()->Disconnect(500,0);
+}
 // MATCH
 void ClientMessage(RPCParameters *rpcParams)
 {
