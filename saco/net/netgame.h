@@ -5,6 +5,8 @@
 
 #define GAMESTATE_WAIT_CONNECT	1
 
+#define GAMESTATE_CONNECTING	2
+
 struct struc_41
 {
 	bool bUseCJWalk;
@@ -111,6 +113,8 @@ public:
 	};
 
 	CMenuPool * GetMenuPool() { return m_pPools->pMenuPool; }; // .text:100084F0
+	void AttemptConnect(); // .text:10008940
+
 	void Packet_NoFreeIncomingConnections(Packet *p); // .text:10008DB0
 	void Packet_InvalidPassword(Packet *p); // .text:10008E20
 	void Packet_ConnectionAttemptFailed(Packet *p); // .text:10008E60

@@ -186,3 +186,20 @@ void CNetGame::ToggleNameTagStatus()
 		field_234 = 0;
 	}
 }
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::AttemptConnect()
+{
+	if(GetTickCount() - field_3D1 > 3000)
+	{
+		if(pChatWindow)
+			pChatWindow->AddDebugMessage("Connecting to %s:%d...",m_szHostOrIp,m_iPort);
+
+		m_pRakClient->Connect(m_szHostOrIp,m_iPort,0,0,2);
+
+		field_3D1 = GetTickCount();
+		m_iGameState = GAMESTATE_CONNECTING;
+	}
+}
