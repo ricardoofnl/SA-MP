@@ -26,6 +26,7 @@ public:
 	void  GetBoundCentre(PVECTOR Vector);
 	void  GetBoundRect(PFRECT Rect); // unused
 	UINT  GetModelIndex();
+	int   SetModelIndex(int iModel); // .text:1009EF50
 	void  TeleportTo(float x, float y, float z);
 	float GetDistanceFromLocalPlayerPed();
 	float GetDistanceFromCamera();

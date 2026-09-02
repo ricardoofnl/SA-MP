@@ -1246,6 +1246,35 @@ BOOL CPlayerPed::IsDancing()
 }
 
 //-----------------------------------------------------------
+
+BOOL __stdcall IsValidPedModel(unsigned int uiModel); // .text:100B3DD0
+BOOL Unprotect(LPVOID lpAddress, SIZE_T dwSize); // .text:100AA4C0
+
+void CPlayerPed::SetSkin(int iSkin)
+{
+	DWORD dwPedPtr = (DWORD)m_pPed;
+
+	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
+
+	if(!IsValidPedModel(iSkin)) iSkin = 0;
+
+	if(dwPedPtr) {
+		// the skin swap trips an assert inside the streamer, so ret it out first
+		Unprotect((LPVOID)0x5A82C0, 1);
+		*(BYTE *)0x5A82C0 = 0xC3;
+
+		DestroyFollowPedTask();
+		SetModelIndex(iSkin);
+
+		_asm mov eax, dwPedPtr
+		_asm lea ecx, [eax+0x294]
+		_asm push eax
+		_asm mov ebx, 0x4E68D0
+		_asm call ebx
+	}
+}
+
+//-----------------------------------------------------------
 // drunk level, driven from the net layer and read by the blur overlay
 
 int CPlayerPed::sub_100ADFA0()
