@@ -125,6 +125,21 @@ void CRemotePlayer::FUNC_10017570()
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10016660()
+{
+	if(field_1F9) {
+		pGame->DisableMarker(field_1F9);
+		field_1F9 = 0;
+	}
+	field_1E9 = 0;
+	if(m_pPlayerPed) {
+		pGame->DeletePlayerPed((int)m_pPlayerPed);
+		m_pPlayerPed = NULL;
+	}
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::ExitVehicle()
 {
 	if(m_pPlayerPed && m_pPlayerPed->IsInVehicle()) {
