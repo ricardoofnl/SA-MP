@@ -4,6 +4,7 @@
 extern CNetGame*	pNetGame;
 extern CGame * pGame;
 extern CChatWindow *pChatWindow;
+extern RakNetStatisticsStruct RakServerStats;
 
 // MATCH
 BYTE Checksum(BYTE *pData, WORD wLen)
@@ -117,7 +118,15 @@ void DisableRaceCheckpoint(RPCParameters *rpcParams)
 	pGame->m_bRaceCheckpointsEnabled = FALSE;
 }
 void UpdateScoresPingsIPs(RPCParameters *rpcParams) {}
-void SvrStats(RPCParameters *rpcParams) {}
+// MATCH
+void SvrStats(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read((PCHAR)&RakServerStats,sizeof(RakNetStatisticsStruct));
+}
 // MATCH
 void GameModeRestart(RPCParameters *rpcParams)
 {
