@@ -103,7 +103,12 @@ public:
 
 	void  ResetMapIcons();
 	void  SetMapIcon(BYTE byteIndex, float fX, float fY, float fZ, BYTE byteIcon, DWORD dwColor, int iStyle);
-	void  DisableMapIcon(BYTE byteIndex); // .text:10008FB0
+	// MATCH
+	inline void DisableMapIcon(BYTE byteIndex) { // .text:10008FB0
+		if (byteIndex >= 100) return;
+		ScriptCommand(&disable_marker, m_dwMapIcon[byteIndex]);
+		m_dwMapIcon[byteIndex] = NULL;
+	};
 
 	CMenuPool * GetMenuPool() { return m_pPools->pMenuPool; }; // .text:100084F0
 	void Packet_NoFreeIncomingConnections(Packet *p); // .text:10008DB0

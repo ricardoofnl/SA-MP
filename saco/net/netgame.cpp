@@ -114,6 +114,7 @@ DWORD CNetGame::GetTime()
 //-----------------------------------------------------------
 // Puts a personal marker using any of the radar icons on the map
 
+// MATCH
 void CNetGame::SetMapIcon(BYTE byteIndex, float fX, float fY, float fZ, BYTE byteIcon, DWORD dwColor, int iStyle)
 {
 	if (byteIndex >= 100) return;
@@ -125,16 +126,10 @@ void CNetGame::SetMapIcon(BYTE byteIndex, float fX, float fY, float fZ, BYTE byt
 //-----------------------------------------------------------
 // Removes the Map Icon
 
-// MATCH
-void CNetGame::DisableMapIcon(BYTE byteIndex)
-{
-	if (byteIndex >= 100) return;
-	ScriptCommand(&disable_marker, m_dwMapIcon[byteIndex]);
-	m_dwMapIcon[byteIndex] = NULL;
-}
 
 //----------------------------------------------------
 
+// MATCH
 void CNetGame::ResetMapIcons()
 {
 	BYTE i;
