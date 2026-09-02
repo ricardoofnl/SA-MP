@@ -35,6 +35,18 @@ public:
 		pPlayer->SetPlayerName(szName);
 	}
 
+	PCHAR GetPlayerName(PLAYERID playerId) { // .text:100175C0
+		PCHAR szName;
+		if(playerId == m_LocalPlayerID) szName = (PCHAR)field_6.c_str();
+		else if(playerId > MAX_PLAYERS) szName = NULL;
+		else {
+			CNetPlayer *pPlayer = m_pPlayers[playerId];
+			if(!pPlayer) szName = NULL;
+			else szName = (PCHAR)pPlayer->m_PlayerName.c_str();
+		}
+		return szName;
+	};
+
 	CLocalPlayer * GetLocalPlayer() { return m_pLocalPlayer; };
 
 	void FUNC_10013960(); // .text:10013960

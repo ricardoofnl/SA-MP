@@ -6,6 +6,7 @@ extern CGame		 *pGame;
 
 using namespace RakNet;
 extern CNetGame* pNetGame;
+extern CChatWindow *pChatWindow;
 
 //----------------------------------------------------
 
@@ -218,6 +219,15 @@ int CRemotePlayer::FUNC_10016330()
 		!m_pPlayerPed->FUNC_100AC640()) return field_1C5;
 
 	return 0;
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_10017610(char *szText)
+{
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	pChatWindow->FUNC_10068020(pPlayerPool->GetPlayerName(m_PlayerID),
+		(TranslateColorCodeToRGBA(m_PlayerID) >> 8) | 0xFF000000, szText);
 }
 
 //----------------------------------------------------

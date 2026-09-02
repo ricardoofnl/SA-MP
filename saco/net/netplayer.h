@@ -20,6 +20,8 @@ public:
 	int GetScore() { return field_4; };
 	int GetPing() { return field_C; };
 
+	PCHAR GetName() { return (PCHAR)m_PlayerName.c_str(); }; // .text:100175B0
+
 	CNetPlayer(PCHAR szPlayerName, BOOL bIsNPC);
 	~CNetPlayer();
 };
