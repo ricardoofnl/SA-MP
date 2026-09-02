@@ -80,7 +80,37 @@ void ScrUnk57(RPCParameters *rpcParams) {}
 void ScrUnk58(RPCParameters *rpcParams) {}
 void ScrUnk59(RPCParameters *rpcParams) {}
 void ScrUnk5A(RPCParameters *rpcParams) {}
-void ScrUnk5B(RPCParameters *rpcParams) {}
+void ScrUnk5B(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	BYTE byteType;
+	VECTOR vecVelocity;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	byteType = 0;
+	bsData.Read(byteType);
+	bsData.Read(vecVelocity.X);
+	bsData.Read(vecVelocity.Y);
+	bsData.Read(vecVelocity.Z);
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+
+	if(pPlayerPed && pPlayerPed->IsInVehicle()) {
+		VEHICLEID vehicleId = pVehiclePool->FUNC_1001EB90((int)pPlayerPed->GetGtaVehicle());
+		if(vehicleId != INVALID_VEHICLE_ID) {
+			CEntity *pVehicle = (CEntity *)pVehiclePool->GetAt(vehicleId);
+			if(pVehicle) {
+				if(byteType == 0) pVehicle->SetMoveSpeedVector(vecVelocity);
+				else if(byteType == 1) pVehicle->SetTurnSpeedVector(vecVelocity);
+			}
+		}
+	}
+}
 void ScrUnk6F(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
