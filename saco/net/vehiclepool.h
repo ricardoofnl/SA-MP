@@ -21,7 +21,10 @@ public:
 
 	DWORD field_9DD4[MAX_VEHICLES];
 
-	char _gapBD14[48000];
+	int field_BD14[MAX_VEHICLES];
+	int field_DC54[MAX_VEHICLES];
+	int field_FB94[MAX_VEHICLES];
+	VECTOR field_11AD4[MAX_VEHICLES];
 
 	int field_17894;
 
