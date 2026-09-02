@@ -4,6 +4,7 @@
 
 extern CGame		 *pGame;
 extern CChatWindow   *pChatWindow;
+extern CConfig       *pConfig;
 
 //----------------------------------------------------
 
@@ -170,4 +171,23 @@ void CNetGame::Packet_ConnectionAttemptFailed(Packet *p)
 {
 	pChatWindow->AddDebugMessage("The server didn't respond. Retrying..");
 	m_iGameState = GAMESTATE_WAIT_CONNECT;
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ToggleNameTagStatus()
+{
+	if(!field_234)
+	{
+		pChatWindow->AddInfoMessage("NameTag Player Status: ON");
+		if(pConfig) pConfig->SetIntVariable("nonametagstatus",0);
+		field_234 = 1;
+	}
+	else
+	{
+		pChatWindow->AddInfoMessage("NameTag Player Status: OFF");
+		if(pConfig) pConfig->SetIntVariable("nonametagstatus",1);
+		field_234 = 0;
+	}
 }

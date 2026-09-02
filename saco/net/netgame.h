@@ -110,6 +110,6 @@ public:
 	void Packet_InvalidPassword(Packet *p); // .text:10008E20
 	void Packet_ConnectionAttemptFailed(Packet *p); // .text:10008E60
 
-	int ToggleNameTagStatus(); // .text:10008E90
+	void ToggleNameTagStatus(); // .text:10008E90
 	void sub_1000A540(); // .text:1000A540
 };
