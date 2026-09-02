@@ -1300,6 +1300,32 @@ CPlayerPed::~CPlayerPed()
 
 //-----------------------------------------------------------
 
+void CPlayerPed::FUNC_100AD0F0()
+{
+	if(!m_pPed) return;
+
+	DWORD dwPtr = *(DWORD *)((DWORD)m_pPed + 0x730);
+	if(dwPtr) {
+		_asm mov ecx, dwPtr
+		_asm mov eax, 0x5393F0
+		_asm call eax
+	}
+
+	if(IN_VEHICLE(m_pPed)) {
+		VEHICLE_TYPE *pVehicle = (VEHICLE_TYPE *)m_pPed->pVehicle;
+		if(pVehicle) {
+			dwPtr = *(DWORD *)((DWORD)pVehicle + 0x490);
+			if(dwPtr) {
+				_asm mov ecx, dwPtr
+				_asm mov eax, 0x5393F0
+				_asm call eax
+			}
+		}
+	}
+}
+
+//-----------------------------------------------------------
+
 int GetTaskType(DWORD *pTask); // .text:100B40A0
 
 // 2 = entering as driver, 1 = entering as passenger, 0 = not entering
