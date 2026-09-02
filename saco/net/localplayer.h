@@ -108,6 +108,7 @@ public:
 	BOOL IsInRCMode() { return m_bInRCMode; };
 
 	void FUNC_10005BF0(WORD a1); // .text:10005BF0
+	void FUNC_10003570(); // .text:10003570
 
 	DWORD GetField_F0() { return field_F0; };
 };

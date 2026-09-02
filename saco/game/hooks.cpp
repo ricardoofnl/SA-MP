@@ -684,9 +684,60 @@ NUDE WeaponRender__GetWeaponSkill_Hook()
 
 //-----------------------------------------------------------
 
+DWORD dwAttachedEntitiesPlayer;
+CRemotePlayer *pAttachedEntitiesRemotePlayer;
+
+void FUNC_10014650(); // .text:10014650
+
 NUDE CWorld__ProcessAttachedEntities_Hook()
 {
-	// TODO: CWorld__ProcessAttachedEntities_Hook
+	__asm
+	{
+		// call original CWorld::ProcessAttachedEntities
+		mov edx, 0x5647F0
+		call edx
+
+		pushad
+	}
+
+	if(pNetGame)
+	{
+		if(pNetGame->GetPlayerPool())
+			pNetGame->GetPlayerPool()->m_pLocalPlayer->FUNC_10003570();
+
+		if(pNetGame && pNetGame->GetPlayerPool())
+		{
+			for(dwAttachedEntitiesPlayer = 0; dwAttachedEntitiesPlayer != MAX_PLAYERS; dwAttachedEntitiesPlayer++)
+			{
+				// GetAt's bound check and body, written out; the PLAYERID cast is what truncates to a word
+				PLAYERID playerId = (PLAYERID)dwAttachedEntitiesPlayer;
+				if(playerId < MAX_PLAYERS)
+				{
+					if(pNetGame->GetPlayerPool()->field_2A[playerId])
+					{
+						CNetPlayer *pNetPlayer = pNetGame->GetPlayerPool()->m_pPlayers[playerId];
+						CRemotePlayer *pRemotePlayer;
+
+						if(pNetPlayer) pRemotePlayer = pNetPlayer->m_pRemotePlayer;
+						else pRemotePlayer = NULL;
+
+						pAttachedEntitiesRemotePlayer = pRemotePlayer;
+
+						if(pRemotePlayer && pRemotePlayer->m_pPlayerPed && pRemotePlayer->field_10A)
+						{
+							FUNC_10014650();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	__asm
+	{
+		popad
+		retn
+	}
 }
 
 //-----------------------------------------------------------
