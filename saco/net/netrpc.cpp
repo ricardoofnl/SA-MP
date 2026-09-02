@@ -362,6 +362,7 @@ void UnkAC(RPCParameters *rpcParams)
 
 //----------------------------------------------------
 
+// MATCH
 void RegisterRPCs(RakClientInterface * pRakClient)
 {
 	REGISTER_STATIC_RPC(pRakClient,Unk22);
@@ -414,6 +415,7 @@ void RegisterRPCs(RakClientInterface * pRakClient)
 
 //----------------------------------------------------
 
+// MATCH
 void UnRegisterRPCs(RakClientInterface * pRakClient)
 {
 	UNREGISTER_STATIC_RPC(pRakClient,Unk3C);
