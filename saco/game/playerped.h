@@ -164,6 +164,7 @@ public:
 	void		SetShopName(char *szNewShopName);
 
 	void		SetWeaponSkillLevel(int iSkill, WORD wLevel);
+	void		SetWeaponAmmo(BYTE byteWeapon, WORD wAmmo); // .text:100B0080
 
 	VECTOR*		GetBonePosition(int iBone, VECTOR *vecPos);
 	VECTOR*		GetTransformedBonePosition(int iBone, VECTOR *vecOffset);

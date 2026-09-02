@@ -1300,6 +1300,16 @@ CPlayerPed::~CPlayerPed()
 
 //-----------------------------------------------------------
 
+void CPlayerPed::SetWeaponAmmo(BYTE byteWeapon, WORD wAmmo)
+{
+	if(!m_pPed) return;
+
+	WEAPON_SLOT_TYPE *pSlot = FindWeaponSlot(byteWeapon);
+	if(pSlot) pSlot->dwAmmo = wAmmo;
+}
+
+//-----------------------------------------------------------
+
 void CPlayerPed::Destroy()
 {
 	DWORD dwPedPtr = (DWORD)m_pPed;
