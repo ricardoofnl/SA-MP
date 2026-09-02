@@ -145,6 +145,26 @@ BOOL CRemotePlayer::FUNC_10014620()
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10016270(BYTE byteNewState, BYTE byteOldState)
+{
+	if(byteNewState != 19 || byteOldState != 17) return;
+
+	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+	if(!pPlayerPed) return;
+	if(!pPlayerPed->IsInVehicle()) return;
+	if(pPlayerPed->sub_100ABFC0()) return;
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+	if((WORD)pVehiclePool->FUNC_1001EB90(pPlayerPed->FUNC_100AC000()) == field_1E7) {
+		MATRIX4X4 mat;
+		pPlayerPed->GetMatrix(&mat);
+		pPlayerPed->RemoveFromVehicleAndPutAt(mat.pos.X, mat.pos.Y, mat.pos.Z + 1.0f);
+		pGame->DisplayGameText("~r~Car Jacked~w~!", 1000, 5);
+	}
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_10016660()
 {
 	if(field_1F9) {

@@ -70,6 +70,7 @@ public:
 	void ExitVehicle();
 
 	BOOL FUNC_100145F0(); // .text:100145F0
+	void FUNC_10016270(BYTE byteNewState, BYTE byteOldState); // .text:10016270
 	BOOL FUNC_10014620(); // .text:10014620
 	void FUNC_10016660(); // .text:10016660
 	float FUNC_10016120(); // .text:10016120

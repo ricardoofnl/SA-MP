@@ -56,6 +56,7 @@ public:
 	BOOL  IsDead();
 	BOOL  IsInVehicle();
 	BOOL  sub_100ABFC0(); // .text:100ABFC0
+	int   FUNC_100AC000(); // .text:100AC000
 	BYTE  GetActionTrigger();
 	void  SetActionTrigger(BYTE byteTrigger);
 
