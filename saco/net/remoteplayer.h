@@ -30,7 +30,7 @@ public:
 	} field_C5;
 	char field_109;
 	BYTE field_10A;
-	char field_10B;
+	BYTE field_10B;
 	int field_10C;
 	int field_110;
 
@@ -81,6 +81,7 @@ public:
 	void FUNC_10014500(int a1); // .text:10014500
 	void FUNC_10014540(short a1, short a2, short a3); // .text:10014540
 	void FUNC_10014650(); // .text:10014650
+	void FUNC_10014800(); // .text:10014800
 	void FUNC_10017610(char *szText); // .text:10017610
 	void FUNC_100150D0(VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100150D0
 	void FUNC_100155E0(int a1, VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100155E0

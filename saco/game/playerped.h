@@ -80,6 +80,7 @@ public:
 
 	void GiveWeapon(int iWeaponID, int iAmmo);
 	void SetArmedWeapon(int iWeaponType, bool bUnk);
+	void FUNC_100AC290(int iGtaVehicleID, int iSeat); // .text:100AC290
 	void ClearAllWeapons();
 	void RemoveWeaponWhenEnteringVehicle();
 	WEAPON_SLOT_TYPE * GetCurrentWeaponSlot();

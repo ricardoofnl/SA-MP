@@ -299,6 +299,35 @@ void CRemotePlayer::FUNC_10014650()
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10014800()
+{
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+
+	if(!m_pPlayerPed) return;
+	if(m_pPlayerPed->IsInVehicle()) return;
+	if(field_1E7 >= MAX_VEHICLES) return;
+	if(!pVehiclePool->field_3074[field_1E7]) return;
+	if(!pVehiclePool->field_1134[field_1E7]) return;
+
+	BYTE byteWeapon;
+	if(field_10B) byteWeapon = field_AD[3];
+	else byteWeapon = field_19[54];
+	byteWeapon &= 0x3F;
+
+	if(m_pPlayerPed->GetCurrentWeapon() != byteWeapon) {
+		m_pPlayerPed->SetArmedWeapon(byteWeapon, false);
+		if(m_pPlayerPed->GetCurrentWeapon() != byteWeapon) {
+			m_pPlayerPed->GiveWeapon(byteWeapon, 9999);
+			m_pPlayerPed->SetArmedWeapon(byteWeapon, false);
+		}
+	}
+
+	int iGtaVehicleID = pVehiclePool->FindGtaIDFromID(field_1E7);
+	m_pPlayerPed->FUNC_100AC290(iGtaVehicleID, field_10B);
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_10014500(int a1)
 {
 	if(!a1) {
