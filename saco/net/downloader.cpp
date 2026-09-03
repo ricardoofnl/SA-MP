@@ -5,6 +5,8 @@ extern CConfig *pConfig;
 
 CDownloadManager *dword_10118A24;
 
+int __stdcall sub_1000C770(DWORD a1, DWORD dwCrc, DWORD a3, DWORD a4); // .text:1000C770
+
 //----------------------------------------------------
 
 // retail spawns the workers on an empty body
@@ -82,6 +84,35 @@ char CDownloadList::FUNC_1000D190(DWORD dwCrc)
 		DOWNLOAD_ENTRY *pEntry = GetAt(i);
 		if(pEntry->dwCrc == dwCrc)
 			return pEntry->field_58;
+	}
+
+	return 0;
+}
+
+//----------------------------------------------------
+
+// promotes a staged entry once its file checks out; any failed check gives up
+// on the whole lookup rather than scanning on
+int CDownloadList::FUNC_1000D320(DWORD dwCrc)
+{
+	for(DWORD i = 0; i != m_dwCount; i++)
+	{
+		DOWNLOAD_ENTRY *pEntry = GetAt(i);
+		if(!pEntry)
+			continue;
+		if(pEntry->dwCrc != dwCrc || pEntry->field_7 != 2)
+			continue;
+
+		if(!pEntry->field_0)
+			return 0;
+		if(!pEntry->field_1)
+			return 0;
+		if(!sub_1000C770(pEntry->field_C, pEntry->dwCrc, pEntry->field_46, pEntry->field_4A))
+			return 0;
+
+		pEntry->field_59 = 0;
+		pEntry->field_58 = 1;
+		return 1;
 	}
 
 	return 0;

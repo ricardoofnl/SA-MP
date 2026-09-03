@@ -36,12 +36,19 @@ struct DOWNLOAD_SLOT
 // the record the lookups below match on; only the touched fields are known
 struct DOWNLOAD_ENTRY
 {
-	char  _gap0[7];
+	char  field_0;
+	char  field_1;
+	char  _gap2[5];
 	char  field_7;
-	char  _gap8[8];
+	char  _gap8[4];
+	DWORD field_C;
 	DWORD dwCrc;
-	char  _gap14[0x44];
+	char  _gap14[0x32];
+	DWORD field_46;
+	DWORD field_4A;
+	char  _gap4E[0xA];
 	char  field_58;
+	char  field_59;
 };
 
 //----------------------------------------------------
@@ -60,6 +67,7 @@ public:
 	bool FUNC_1000D110(DWORD dwCrc); // .text:1000D110
 	bool FUNC_1000D150(DWORD dwCrc); // .text:1000D150
 	char FUNC_1000D190(DWORD dwCrc); // .text:1000D190
+	int  FUNC_1000D320(DWORD dwCrc); // .text:1000D320
 };
 
 //----------------------------------------------------
