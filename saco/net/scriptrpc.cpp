@@ -152,7 +152,21 @@ void ScrUnk4B(RPCParameters *rpcParams)
 	ScriptCommand(&attach_object_to_player, pObject->field_44, pPlayerPed->m_dwGTAId,
 		fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
 }
-void ScrUnk85(RPCParameters *rpcParams) {}
+void ScrUnk85(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	BYTE byteLevel;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(!pGame) return;
+
+	bsData.Read(byteLevel);
+	pGame->SetWantedLevel(byteLevel);
+}
 void ScrUnk86(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
