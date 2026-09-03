@@ -74,3 +74,10 @@ void CVehiclePool::FUNC_1001EDE0()
 }
 
 //----------------------------------------------------
+
+void CVehiclePool::FUNC_1001EB00(unsigned short VehicleID, int a2)
+{
+	if(field_3074[VehicleID]) ((CVehicle *)field_1134[VehicleID])->FUNC_100B7090(a2);
+}
+
+//----------------------------------------------------
