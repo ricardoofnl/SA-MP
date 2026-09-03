@@ -204,7 +204,8 @@ public:
 	char field_2F7;
 	char field_2F8;
 	int field_2F9;
-	char _gap2FD[48];
+	char field_2FD[44];
+	int field_329;
 
 };
 
