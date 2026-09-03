@@ -81,3 +81,19 @@ void CVehiclePool::FUNC_1001EB00(unsigned short VehicleID, int a2)
 }
 
 //----------------------------------------------------
+
+int CVehiclePool::FUNC_1001EA80(unsigned short VehicleID)
+{
+	if(VehicleID < MAX_VEHICLES && field_3074[VehicleID] && field_1134[VehicleID]) {
+		((CVehicle *)field_1134[VehicleID])->FUNC_100B81F0();
+		field_3074[VehicleID] = 0;
+		delete (CVehicle *)field_1134[VehicleID];
+		field_1134[VehicleID] = 0;
+		field_4FB4[VehicleID] = 0;
+		FUNC_1001E9B0();
+		return 1;
+	}
+	return 0;
+}
+
+//----------------------------------------------------
