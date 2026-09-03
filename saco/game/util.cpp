@@ -191,6 +191,22 @@ void ReplaceBuildingModel(ENTITY_TYPE *pEntity, int iModelID)
 
 //-----------------------------------------------------------
 
+// set by the base-model-info relocation hack; the setter is not implemented yet
+BOOL bBaseModelInfoRelocated;
+DWORD **ppRelocatedModelInfo;
+
+DWORD * __stdcall GetModelInfo(int iModel)
+{
+	if(bBaseModelInfoRelocated)
+		return (DWORD *)ppRelocatedModelInfo[iModel];
+
+	if(iModel < 0 || iModel > 20000) return NULL;
+
+	return ((DWORD **)0xA9B0C8)[iModel];
+}
+
+//-----------------------------------------------------------
+
 BOOL __stdcall IsValidPedModel(int iModel)
 {
 	DWORD *pModelInfo;

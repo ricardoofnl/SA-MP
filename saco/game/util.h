@@ -70,7 +70,7 @@ OBJECT_TYPE * GamePool_GetObject();
 void ReplaceBuildingModel(ENTITY_TYPE *pEntity, int iModelID);
 int GetInvalidModelInfoCount();
 
-DWORD * __stdcall GetModelInfo(unsigned int uiModel); // .text:100A7A40
+DWORD * __stdcall GetModelInfo(int iModel); // .text:100A7A40
 BOOL __stdcall IsValidPedModel(int iModel); // .text:100B3DD0
 
 bool HasCollisionLoaded(VECTOR *vec);
