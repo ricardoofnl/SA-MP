@@ -47,6 +47,48 @@ bool CDownloadManager::FUNC_1000C010()
 
 //----------------------------------------------------
 
+bool CDownloadList::FUNC_1000D110(DWORD dwCrc)
+{
+	for(DWORD i = 0; i != m_dwCount; i++)
+	{
+		DOWNLOAD_ENTRY *pEntry = GetAt(i);
+		if(pEntry->dwCrc == dwCrc && pEntry->field_7 == 1)
+			return true;
+	}
+
+	return false;
+}
+
+//----------------------------------------------------
+
+bool CDownloadList::FUNC_1000D150(DWORD dwCrc)
+{
+	for(DWORD i = 0; i != m_dwCount; i++)
+	{
+		DOWNLOAD_ENTRY *pEntry = GetAt(i);
+		if(pEntry->dwCrc == dwCrc && pEntry->field_7 == 2)
+			return true;
+	}
+
+	return false;
+}
+
+//----------------------------------------------------
+
+char CDownloadList::FUNC_1000D190(DWORD dwCrc)
+{
+	for(DWORD i = 0; i != m_dwCount; i++)
+	{
+		DOWNLOAD_ENTRY *pEntry = GetAt(i);
+		if(pEntry->dwCrc == dwCrc)
+			return pEntry->field_58;
+	}
+
+	return 0;
+}
+
+//----------------------------------------------------
+
 // parks a request in the first live idle slot; the workers pick it up from there
 void CDownloadManager::AddURLRequest(DOWNLOAD_REQUEST *pRequest, char *szUrl)
 {

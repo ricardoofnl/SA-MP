@@ -33,6 +33,37 @@ struct DOWNLOAD_SLOT
 
 //----------------------------------------------------
 
+// the record the lookups below match on; only the touched fields are known
+struct DOWNLOAD_ENTRY
+{
+	char  _gap0[7];
+	char  field_7;
+	char  _gap8[8];
+	DWORD dwCrc;
+	char  _gap14[0x44];
+	char  field_58;
+};
+
+//----------------------------------------------------
+
+// the list the game side queries; whether it is embedded in CDownloadManager
+// at +0 is still open, the offsets are the same either way
+class CDownloadList
+{
+public:
+
+	DOWNLOAD_ENTRY **m_pEntries;
+	DWORD m_dwCount;
+
+	DOWNLOAD_ENTRY *GetAt(DWORD dwIndex) { if(dwIndex >= m_dwCount) return NULL; return m_pEntries[dwIndex]; }
+
+	bool FUNC_1000D110(DWORD dwCrc); // .text:1000D110
+	bool FUNC_1000D150(DWORD dwCrc); // .text:1000D150
+	char FUNC_1000D190(DWORD dwCrc); // .text:1000D190
+};
+
+//----------------------------------------------------
+
 class CDownloadManager
 {
 public:
