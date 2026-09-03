@@ -1326,6 +1326,57 @@ void CPlayerPed::FUNC_100AFFD0()
 }
 
 //-----------------------------------------------------------
+// only referenced by ProcessDrunkCamera; rate limits the steering drift
+DWORD dwLastDrunkTick;
+
+void CPlayerPed::ProcessDrunkCamera()
+{
+	float fDrift = 0.0f;
+
+	if(field_2C9 > 2000 && !m_bytePlayerNumber) {
+		int iSeverity = (int)(field_2C9 * 0.02f);
+		if(iSeverity > 250) iSeverity = 250;
+		else if(iSeverity < 5) iSeverity = 0;
+
+		ScriptCommand(&set_player_drunk_visuals, 0, iSeverity);
+
+		if(field_2C9 > 2000 && m_pPed && IN_VEHICLE(m_pPed) && !IsAPassenger()) {
+			VEHICLE_TYPE *pVehicle = (VEHICLE_TYPE *)m_pPed->pVehicle;
+			if(pVehicle) {
+				if(!dwLastDrunkTick || (GetTickCount() - dwLastDrunkTick) > 200) {
+					int iRand = rand() % 40;
+					if(iRand >= 20) {
+						if(iRand > 30) {
+							if(field_2C9 < 5000) fDrift = 0.012f;
+							else fDrift = 0.015f;
+						} else {
+							fDrift = -0.012f;
+							if(field_2C9 >= 5000) fDrift = -0.015f;
+						}
+					}
+
+					if(FloatOffset(pVehicle->entity.vecMoveSpeed.X, 0.0f) > 0.05f ||
+						FloatOffset(pVehicle->entity.vecMoveSpeed.Y, 0.0f) > 0.05f)
+					{
+						pVehicle->entity.vecTurnSpeed.Z += fDrift;
+					}
+
+					dwLastDrunkTick = GetTickCount();
+				}
+			}
+		}
+
+		field_2C9--;
+		return;
+	}
+
+	if(field_2C9 <= 2000 && !m_bytePlayerNumber) {
+		if(field_2C9 > 0) field_2C9--;
+		ScriptCommand(&set_player_drunk_visuals, 0, 0);
+	}
+}
+
+//-----------------------------------------------------------
 
 void CPlayerPed::FUNC_100AD0F0()
 {

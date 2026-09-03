@@ -172,6 +172,7 @@ public:
 	void		RemoveAllAttachedObjects(); // .text:100B0AB0
 	void		StopCarrying(); // .text:100ADC00
 	void		Destroy(); // .text:100B0FA0
+	void		ProcessDrunkCamera(); // .text:100ADDF0
 	void		FUNC_100AD0F0(); // .text:100AD0F0
 	void		FUNC_100AFFD0(); // .text:100AFFD0
 
