@@ -153,20 +153,23 @@ void CScoreBoard::FUNC_1006ED30()
 					SwapScoreboardRows(&pRows[j], &pRows[j + 1]);
 	}
 
-	char szText[260];
+	char szText[256];
+	SCOREBOARD_ROW *pFill = pRows;
 	for(int i = 0; i < nRows; i++)
 	{
-		sprintf(szText, "%u", pRows[i].iPlayerId);
-		m_pListBox->AddItem(szText, (void *)pRows[i].iPlayerId, pRows[i].Color);
+		sprintf(szText, "%u", pFill->iPlayerId);
+		m_pListBox->AddItem(szText, (void *)pFill->iPlayerId, pFill->Color);
 
-		if(m_pListBox->GetItem(i) && pRows[i].szName[0])
+		if(m_pListBox->GetItem(i) && pFill->szName[0])
 		{
-			m_pListBox->SetItemColumnText(i, 0, pRows[i].szName);
-			sprintf(szText, "%d", pRows[i].iScore);
+			m_pListBox->SetItemColumnText(i, 0, pFill->szName);
+			sprintf(szText, "%d", pFill->iScore);
 			m_pListBox->SetItemColumnText(i, 1, szText);
-			sprintf(szText, "%u", pRows[i].iPing);
+			sprintf(szText, "%u", pFill->iPing);
 			m_pListBox->SetItemColumnText(i, 2, szText);
 		}
+
+		pFill++;
 	}
 
 	if(nSelected < 0)
