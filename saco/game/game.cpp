@@ -429,6 +429,14 @@ CVehicle *CGame::sub_100A0250(int a2, float a3, float a4, float a5, float a6, in
 	return pVehicle->m_pVehicle ? pVehicle : 0;
 }
 
+char szUnk_10113968[8];
+
+void sub_100A4170(const char *a1)
+{
+	memset(szUnk_10113968, 0, sizeof(szUnk_10113968));
+	strcpy(szUnk_10113968, a1);
+}
+
 void __stdcall sub_100A02E0(const char *a1)
 {
 	if(a1 && *a1 && strlen(a1) <= 8)
