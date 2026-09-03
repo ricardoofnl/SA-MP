@@ -17,7 +17,7 @@ BOOL ProcessLineOfSight(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR *colPoint,
 float GetNormalisation(VECTOR *vec);
 
 float FloatDifference(float f1, float f2);
-float FloatOffset(float f1, float f2);
+float FloatOffset(float f1, float f2); // .text:100B48B0
 float NormalizeAngle(float fAngle);
 
 void __stdcall WorldRemoveEntity(DWORD *dwEnt);

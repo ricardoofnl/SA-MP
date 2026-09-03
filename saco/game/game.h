@@ -62,17 +62,17 @@ public:
 	BOOL	IsModelLoaded(int iModelID);
 	BOOL	SetModelDeletable(int iModelID);
 
-	void	SetWorldTime(int iHour, int iMinute);
+	void	SetWorldTime(int iHour, int iMinute);   // .text:100A0AB0
 	void	GetWorldTime(BYTE* byteHour, BYTE* byteMinute);
 	void	ToggleThePassingOfTime(BYTE byteOnOff);
-	void	SetWorldWeather(int iWeatherID);
+	void	SetWorldWeather(int iWeatherID);      // .text:100A0B40
 	int		GetWorldWeather();
 	void	DisplayHud(BOOL bDisp);
 	BYTE	IsHudEnabled();
 	void	SetFrameLimiterOn(BOOL bLimiter);
 	BOOL	IsFrameLimiterEnabled();
 	void	EnableFrameLimiter();
-	void	SetFrameLimit(DWORD dwLimit);
+	void	SetFrameLimit(DWORD dwLimit);         // .text:100A0BB0
 	void	SetMaxStats();
 	void	DisableTrainTraffic();
 	void	RefreshStreamingAt(float x, float y);
@@ -80,12 +80,12 @@ public:
 	int		IsAnimationLoaded(char *szAnimFile);
 	void	ReleaseAnimation(char *szAnimFile);
 	void	ToggleRadar(int iToggle);
-	void	DisplayGameText(char *szStr,int iTime,int iSize);
+	void	DisplayGameText(char *szStr,int iTime,int iSize); // .text:100A0CE0
 	DWORD	FUNC_100A0D90(int a1, float fX, float fY, float fZ, int a5, int a6); // .text:100A0D90
 	void	SetGravity(float fGravity);
 	void	EnableClock(BYTE byteClock);
 	void	EnableZoneNames(BYTE byteEnable);
-	void	SetWantedLevel(BYTE byteLevel);
+	void	SetWantedLevel(BYTE byteLevel);       // .text:100A1420
 	void	SetGameTextCount(WORD wCount);
 	void	DrawGangZone(float* fPos, DWORD dwColor);
 	void    EnableStuntBonus(bool bEnable);
