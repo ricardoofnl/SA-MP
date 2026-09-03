@@ -1,5 +1,10 @@
 #include "../main.h"
 
+extern CChatWindow *pChatWindow;
+extern CConfig *pConfig;
+
+CDownloadManager *dword_10118A24;
+
 //----------------------------------------------------
 
 // retail spawns the workers on an empty body
@@ -33,11 +38,40 @@ bool CDownloadManager::FUNC_1000C010()
 		m_Slots[i].field_4 = 0;
 		m_Slots[i].field_10D = 0;
 		memset(m_Slots[i].szPath, 0, sizeof(m_Slots[i].szPath));
-		memset(m_Slots[i].Request, 0, sizeof(m_Slots[i].Request));
+		memset(&m_Slots[i].Request, 0, sizeof(m_Slots[i].Request));
 	}
 
 	m_bSlotsReady = 1;
 	return true;
+}
+
+//----------------------------------------------------
+
+// parks a request in the first live idle slot; the workers pick it up from there
+void CDownloadManager::AddURLRequest(DOWNLOAD_REQUEST *pRequest, char *szUrl)
+{
+	if(pChatWindow && pConfig && pConfig->GetIntVariable("logurls"))
+		pChatWindow->AddInfoMessage("[url 0x%X]: %s", pRequest->dwCrc, szUrl);
+
+	dword_10118A24 = this;
+
+	if(!m_bSlotsReady)
+		FUNC_1000C010();
+
+	for(int i = 0; i < MAX_DOWNLOAD_SLOTS; i++)
+	{
+		if(m_Slots[i].field_6 && !m_Slots[i].field_4)
+		{
+			memcpy(&m_Slots[i].Request, pRequest, sizeof(DOWNLOAD_REQUEST));
+			strncpy(m_Slots[i].szPath, szUrl, sizeof(m_Slots[i].szPath) - 1);
+			m_Slots[i].field_4 = 1;
+			m_Slots[i].field_5 = 0;
+			return;
+		}
+	}
+
+	if(pChatWindow)
+		pChatWindow->AddDebugMessage("[error] AddURLRequest: No free slots!");
 }
 
 //----------------------------------------------------
