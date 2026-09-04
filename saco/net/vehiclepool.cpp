@@ -2,6 +2,19 @@
 #include "../main.h"
 #include "../game/util.h"
 
+// layout locks: these fail to compile if a field offset or the size moves
+typedef char chk_CVehiclePool_size[sizeof(CVehiclePool) == 0x17898 ? 1 : -1];
+typedef char chk_field_FA4[offsetof(CVehiclePool, field_FA4) == 0xFA4 ? 1 : -1];
+typedef char chk_field_1134[offsetof(CVehiclePool, field_1134) == 0x1134 ? 1 : -1];
+typedef char chk_field_3074[offsetof(CVehiclePool, field_3074) == 0x3074 ? 1 : -1];
+typedef char chk_field_4FB4[offsetof(CVehiclePool, field_4FB4) == 0x4FB4 ? 1 : -1];
+typedef char chk_field_9DD4[offsetof(CVehiclePool, field_9DD4) == 0x9DD4 ? 1 : -1];
+typedef char chk_field_BD14[offsetof(CVehiclePool, field_BD14) == 0xBD14 ? 1 : -1];
+typedef char chk_field_DC54[offsetof(CVehiclePool, field_DC54) == 0xDC54 ? 1 : -1];
+typedef char chk_field_FB94[offsetof(CVehiclePool, field_FB94) == 0xFB94 ? 1 : -1];
+typedef char chk_field_11AD4[offsetof(CVehiclePool, field_11AD4) == 0x11AD4 ? 1 : -1];
+typedef char chk_field_17894[offsetof(CVehiclePool, field_17894) == 0x17894 ? 1 : -1];
+
 //----------------------------------------------------
 
 CVehiclePool::CVehiclePool()
