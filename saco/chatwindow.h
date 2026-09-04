@@ -42,12 +42,12 @@ public:
 	int m_bRedraw;
 	int field_63DE;
 	int field_63E2;
-	char _gap63E6[4];
+	int field_63E6;
 
 
 	void CreateFonts(); // .text:100681D0
 
-	int FUNC_10067120();
+	void FUNC_10067120(); // .text:10067120
 
 	void FUNC_10067200();
 

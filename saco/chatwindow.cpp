@@ -6,6 +6,9 @@ extern CConfig *pConfig;
 extern CCmdWindow *pCmdWindow;
 extern CGame *pGame;
 
+typedef char AssertChatWindowSize[sizeof(CChatWindow) == 25578 ? 1 : -1];
+typedef char AssertTimestampWidth[offsetof(CChatWindow, field_63E6) == 0x63E6 ? 1 : -1];
+
 //----------------------------------------------------
 
 CChatWindow::CChatWindow(IDirect3DDevice9 *pD3DDevice, CFontRender *pFontRender, CHAR *szChatLogFile)
@@ -327,4 +330,18 @@ void CChatWindow::ReleaseTextures()
 void CChatWindow::FUNC_10067410()
 {
 	ReleaseTextures();
+}
+
+//----------------------------------------------------
+// measures the line height and the width of a timestamp with DT_CALCRECT
+
+void CChatWindow::FUNC_10067120()
+{
+	RECT rect;
+
+	m_pFontRender->field_0->DrawTextA(NULL,"Y",-1,&rect,DT_CALCRECT|DT_SINGLELINE,0xFF000000);
+	field_63E2 = rect.bottom-rect.top;
+
+	m_pFontRender->field_0->DrawTextA(NULL,"[19:58:34]",-1,&rect,DT_CALCRECT|DT_SINGLELINE,0xFF000000);
+	field_63E6 = rect.right-rect.left;
 }
