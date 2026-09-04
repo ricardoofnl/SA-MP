@@ -222,3 +222,57 @@ void CNetGame::AttemptConnect()
 		m_iGameState = GAMESTATE_CONNECTING;
 	}
 }
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ResetPlayerPool()
+{
+	delete m_pPools->pPlayerPool;
+	m_pPools->pPlayerPool = new CPlayerPool();
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ResetGangZonePool()
+{
+	delete m_pPools->pGangZonePool;
+	m_pPools->pGangZonePool = new CGangZonePool();
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ResetPickupPool()
+{
+	delete m_pPools->pPickupPool;
+	m_pPools->pPickupPool = new CPickupPool();
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ResetMenuPool()
+{
+	delete m_pPools->pMenuPool;
+	m_pPools->pMenuPool = new CMenuPool();
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ResetLabelPool()
+{
+	delete m_pPools->pLabelPool;
+	m_pPools->pLabelPool = new CLabelPool();
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ResetActorPool()
+{
+	delete m_pPools->pActorPool;
+	m_pPools->pActorPool = new CActorPool();
+}

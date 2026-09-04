@@ -94,6 +94,7 @@ public:
 	void sub_10013D10(); // todo: implement
 
 	CPlayerPool();
+	~CPlayerPool(); // .text:10014120
 };
 
 //----------------------------------------------------

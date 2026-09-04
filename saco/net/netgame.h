@@ -109,6 +109,13 @@ public:
 	void  DisableMapIcon(BYTE byteIndex); // .text:10008FB0
 
 	CMenuPool * GetMenuPool() { return m_pPools->pMenuPool; }; // .text:100084F0
+	void ResetPlayerPool(); // .text:10008FE0
+	void ResetGangZonePool(); // .text:10009250
+	void ResetPickupPool(); // .text:100092F0
+	void ResetMenuPool(); // .text:10009350
+	void ResetLabelPool(); // .text:100093F0
+	void ResetActorPool(); // .text:10009490
+
 	void AttemptConnect(); // .text:10008940
 
 	void Packet_NoFreeIncomingConnections(Packet *p); // .text:10008DB0

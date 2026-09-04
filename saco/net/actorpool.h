@@ -16,6 +16,7 @@ public:
 public:
 
 	CActorPool();
+	~CActorPool(); // .text:100018E0
 
 	void sub_100016F0(ACTORID ActorID); // .text:100016F0
 	ACTORID FUNC_100018B0(DWORD dwPtr); // .text:100018B0
