@@ -5,6 +5,7 @@
 extern CGame		 *pGame;
 extern CChatWindow   *pChatWindow;
 extern CConfig       *pConfig;
+extern CAudioStream  *pAudioStream;
 
 //----------------------------------------------------
 
@@ -302,4 +303,16 @@ void CNetGame::ResetObjectPool()
 {
 	delete m_pPools->pObjectPool;
 	m_pPools->pObjectPool = new CObjectPool();
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::Packet_DisconnectionNotification(Packet *p)
+{
+	pChatWindow->AddDebugMessage("Server closed the connection.");
+
+	if(pAudioStream) pAudioStream->Stop(1);
+
+	GetRakClient()->Disconnect(2000,0);
 }

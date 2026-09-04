@@ -122,6 +122,7 @@ public:
 	void AttemptConnect(); // .text:10008940
 
 	void Packet_NoFreeIncomingConnections(Packet *p); // .text:10008DB0
+	void Packet_DisconnectionNotification(Packet *p); // .text:10008DE0
 	void Packet_InvalidPassword(Packet *p); // .text:10008E20
 	void Packet_ConnectionAttemptFailed(Packet *p); // .text:10008E60
 
