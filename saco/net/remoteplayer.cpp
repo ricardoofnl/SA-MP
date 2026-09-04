@@ -9,6 +9,36 @@ extern CNetGame* pNetGame;
 extern CChatWindow *pChatWindow;
 
 //----------------------------------------------------
+// layout locks: a negative array size fails the build if any offset moves
+
+typedef char CRemotePlayer_offsets[(
+	offsetof(CRemotePlayer, field_C5) == 0xC5 &&
+	offsetof(CRemotePlayer, field_C5.vecOffset) == 0xF7 &&
+	offsetof(CRemotePlayer, field_C5.wVehicleID) == 0x103 &&
+	sizeof(((CRemotePlayer *)0)->field_C5) == 68 &&
+	offsetof(CRemotePlayer, field_109) == 0x109 &&
+	offsetof(CRemotePlayer, field_10A) == 0x10A &&
+	offsetof(CRemotePlayer, field_10B) == 0x10B &&
+	offsetof(CRemotePlayer, field_10C) == 0x10C &&
+	offsetof(CRemotePlayer, field_17C) == 0x17C &&
+	offsetof(CRemotePlayer, field_188) == 0x188 &&
+	offsetof(CRemotePlayer, field_194) == 0x194 &&
+	offsetof(CRemotePlayer, field_1A0) == 0x1A0 &&
+	offsetof(CRemotePlayer, field_1AC) == 0x1AC &&
+	offsetof(CRemotePlayer, field_1C5) == 0x1C5 &&
+	offsetof(CRemotePlayer, field_1C9) == 0x1C9 &&
+	offsetof(CRemotePlayer, m_pPlayerPed) == 0x1DD &&
+	offsetof(CRemotePlayer, field_1E1) == 0x1E1 &&
+	offsetof(CRemotePlayer, m_PlayerID) == 0x1E5 &&
+	offsetof(CRemotePlayer, field_1E7) == 0x1E7 &&
+	offsetof(CRemotePlayer, field_1F9) == 0x1F9) ? 1 : -1];
+
+typedef char CNetPlayer_offsets[(offsetof(CNetPlayer, m_PlayerName) == 0x14) ? 1 : -1];
+typedef char CPlayerPool_offsets[(offsetof(CPlayerPool, field_6) == 6 &&
+	sizeof(std::string) == 0x1C) ? 1 : -1];
+
+
+//----------------------------------------------------
 
 CRemotePlayer::CRemotePlayer()
 {
