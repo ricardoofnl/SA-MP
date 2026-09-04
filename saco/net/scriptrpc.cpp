@@ -212,7 +212,32 @@ void ScrUnk87(RPCParameters *rpcParams)
 		pTextDrawPool->FUNC_1001E7F0(wTextDrawId);
 	}
 }
-void ScrUnk69(RPCParameters *rpcParams) {}
+void ScrUnk69(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD wTextDrawId;
+	WORD wTextLen;
+	char szText[800];
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	wTextLen = 0;
+
+	CTextDrawPool *pTextDrawPool = pNetGame->GetTextDrawPool();
+	if(pTextDrawPool) {
+		bsData.Read(wTextDrawId);
+		bsData.Read(wTextLen);
+		if(wTextLen <= 800) {
+			bsData.Read(szText, wTextLen);
+			szText[wTextLen] = 0;
+			CTextDraw *pTextDraw = (CTextDraw *)pTextDrawPool->GetAt(wTextDrawId);
+			if(pTextDraw) pTextDraw->FUNC_100B2F60(szText);
+		}
+	}
+}
 void ScrAddGangZone(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -517,7 +542,29 @@ void ScrRemovePlayerFromVehicle(RPCParameters *rpcParams)
 
 	pNetGame->GetPlayerPool()->GetLocalPlayer()->GetPlayerPed()->ExitCurrentVehicle();
 }
-void ScrDisplayGameText(RPCParameters *rpcParams) {}
+void ScrDisplayGameText(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	int iStyle, iTime, iLength;
+	char szText[256];
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	memset(szText, 0, sizeof(szText));
+
+	bsData.Read(iStyle);
+	bsData.Read(iTime);
+	bsData.Read(iLength);
+
+	if(iLength >= 1 && iLength <= 200) {
+		bsData.Read(szText, iLength);
+		szText[iLength] = 0;
+		pGame->DisplayGameText(szText, iTime, iStyle);
+	}
+}
 void ScrSetInterior(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);

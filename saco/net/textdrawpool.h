@@ -11,6 +11,7 @@ public:
 	void FUNC_100B3480(); // .text:100B3480
 	void FUNC_100B34A0(); // .text:100B34A0
 	void FUNC_100B36B0(); // .text:100B36B0
+	void FUNC_100B2F60(char *szText); // .text:100B2F60
 };
 
 //----------------------------------------------------
