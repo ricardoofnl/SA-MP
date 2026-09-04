@@ -1,4 +1,5 @@
 
+#include <time.h>
 #include "main.h"
 #include "game/util.h"
 
@@ -371,6 +372,37 @@ void CChatWindow::FUNC_10067E00()
 				FUNC_10067940();
 				field_63A6->End();
 			}
+		}
+	}
+}
+
+//----------------------------------------------------
+
+void CChatWindow::WriteChatLog(int iType, char *szText, char *szName)
+{
+	time_t curTime = time(NULL);
+
+	if(field_D)
+	{
+		FILE *f = fopen(field_11,"a");
+		if(f)
+		{
+			// the frame reserves 68 bytes for this, strftime is still capped at 64
+			char szTimestamp[68];
+			strftime(szTimestamp,64,"[%H:%M:%S]",localtime(&curTime));
+
+			switch(iType)
+			{
+			case 2:
+				fprintf(f,"%s <%s> %s\r\n",szTimestamp,szName,szText);
+				break;
+			case 4:
+			case 8:
+				fprintf(f,"%s %s\r\n",szTimestamp,szText);
+				break;
+			}
+
+			fclose(f);
 		}
 	}
 }
