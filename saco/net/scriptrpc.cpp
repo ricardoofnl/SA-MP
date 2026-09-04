@@ -707,7 +707,7 @@ void ScrInitMenu(RPCParameters *rpcParams)
 	bsData.Read(MenuInteraction.bMenu);
 	for(i = 0; i < MAX_MENU_ITEMS; i++) bsData.Read(MenuInteraction.bRow[i]);
 
-	if(byteMenuID <= MAX_MENUS && pMenuPool->m_bMenuSlotState[byteMenuID]) pMenuPool->Delete(byteMenuID);
+	if(pMenuPool->GetSlotState(byteMenuID)) pMenuPool->Delete(byteMenuID);
 
 	CMenu *pMenu = pMenuPool->New(byteMenuID, fX, fY, iColumns + 1, fCol1Width, fCol2Width, &MenuInteraction);
 	if(!pMenu) return;

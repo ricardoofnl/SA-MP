@@ -13,6 +13,8 @@ public:
 	BYTE m_byteExited;
 
 public:
+	int GetSlotState(BYTE byteMenuID) { if(byteMenuID > MAX_MENUS) return 0; return m_bMenuSlotState[byteMenuID]; }
+
 	CMenuPool();
 	~CMenuPool();
 
