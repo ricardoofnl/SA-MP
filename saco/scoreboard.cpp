@@ -4,6 +4,13 @@
 extern CGame* pGame;
 extern CNetGame *pNetGame;
 
+// retail walks these rows with calloc(n, 45); lock the layout so a field edit cannot drift it
+typedef char SCOREBOARD_ROW_size_probe[sizeof(SCOREBOARD_ROW) == 45 ? 1 : -1];
+typedef char SCOREBOARD_ROW_name_probe[offsetof(SCOREBOARD_ROW, szName) == 4 ? 1 : -1];
+typedef char SCOREBOARD_ROW_id_probe[offsetof(SCOREBOARD_ROW, iPlayerId) == 0x21 ? 1 : -1];
+typedef char SCOREBOARD_ROW_score_probe[offsetof(SCOREBOARD_ROW, iScore) == 0x25 ? 1 : -1];
+typedef char SCOREBOARD_ROW_ping_probe[offsetof(SCOREBOARD_ROW, iPing) == 0x29 ? 1 : -1];
+
 CScoreBoard::CScoreBoard(IDirect3DDevice9 *pD3DDevice)
 {
 	m_pD3DDevice = pD3DDevice;
