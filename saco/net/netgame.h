@@ -123,6 +123,9 @@ public:
 
 	void ResetWorldBounds(); // .text:100088F0
 
+	void Packet_AimSync(Packet *p); // .text:10009C40
+	void Packet_PassengerSync(Packet *p); // .text:10009D30
+	void Packet_TrailerSync(Packet *p); // .text:10009E20
 	void Packet_RSAPublicKeyMismatch(Packet *p); // .text:10008D50
 	void Packet_ConnectionBanned(Packet *p); // .text:10008D70
 	void Packet_ConnectionSucceeded(Packet *p); // .text:10008D90

@@ -367,3 +367,80 @@ void CNetGame::Packet_DisconnectionNotification(Packet *p)
 
 	GetRakClient()->Disconnect(2000,0);
 }
+
+//----------------------------------------------------
+
+void CNetGame::Packet_AimSync(Packet *p)
+{
+	RakNet::BitStream bsAimSync((char *)p->data, p->length, false);
+	char aimSync[31];
+	WORD wPlayerID;
+	BYTE bytePacketID = 0;
+
+	if(m_iGameState != GAMESTATE_CONNECTED) return;
+
+	bsAimSync.Read(bytePacketID);
+	bsAimSync.Read(wPlayerID);
+	bsAimSync.Read(aimSync, sizeof(aimSync));
+
+	CPlayerPool *pPlayerPool = GetPlayerPool();
+
+	if(wPlayerID <= MAX_PLAYERS)
+	{
+		CNetPlayer *pPlayer = pPlayerPool->m_pPlayers[wPlayerID];
+		if(pPlayer && pPlayer->m_pRemotePlayer)
+			pPlayer->m_pRemotePlayer->FUNC_10015760(aimSync);
+	}
+}
+
+//----------------------------------------------------
+
+void CNetGame::Packet_PassengerSync(Packet *p)
+{
+	RakNet::BitStream bsPassengerSync((char *)p->data, p->length, false);
+	char passengerSync[24];
+	WORD wPlayerID;
+	BYTE bytePacketID = 0;
+
+	if(m_iGameState != GAMESTATE_CONNECTED) return;
+
+	bsPassengerSync.Read(bytePacketID);
+	bsPassengerSync.Read(wPlayerID);
+	bsPassengerSync.Read(passengerSync, sizeof(passengerSync));
+
+	CPlayerPool *pPlayerPool = GetPlayerPool();
+
+	if(wPlayerID <= MAX_PLAYERS)
+	{
+		CNetPlayer *pPlayer = pPlayerPool->m_pPlayers[wPlayerID];
+		if(pPlayer && pPlayer->m_pRemotePlayer)
+			pPlayer->m_pRemotePlayer->FUNC_10017440(passengerSync);
+	}
+}
+
+//----------------------------------------------------
+
+void CNetGame::Packet_TrailerSync(Packet *p)
+{
+	RakNet::BitStream bsTrailerSync((char *)p->data, p->length, false);
+	char trailerSync[54];
+	WORD wPlayerID;
+	BYTE bytePacketID;
+
+	if(m_iGameState != GAMESTATE_CONNECTED) return;
+
+	bytePacketID = 0;
+
+	bsTrailerSync.Read(bytePacketID);
+	bsTrailerSync.Read(wPlayerID);
+	bsTrailerSync.Read(trailerSync, sizeof(trailerSync));
+
+	CPlayerPool *pPlayerPool = GetPlayerPool();
+
+	if(wPlayerID <= MAX_PLAYERS)
+	{
+		CNetPlayer *pPlayer = pPlayerPool->m_pPlayers[wPlayerID];
+		if(pPlayer && pPlayer->m_pRemotePlayer)
+			pPlayer->m_pRemotePlayer->FUNC_10015C90(trailerSync);
+	}
+}

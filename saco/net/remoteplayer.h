@@ -85,6 +85,9 @@ public:
 	void FUNC_10017610(char *szText); // .text:10017610
 	void FUNC_100150D0(VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100150D0
 	void FUNC_100155E0(int a1, VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100155E0
+	void FUNC_10015760(char *pAimSync); // .text:10015760
+	void FUNC_10015C90(char *pTrailerSync); // .text:10015C90
+	void FUNC_10017440(char *pPassengerSync); // .text:10017440
 	BOOL FUNC_100145F0(); // .text:100145F0
 	void FUNC_10016270(BYTE byteNewState, BYTE byteOldState); // .text:10016270
 	void FUNC_100165B0(BYTE byteNewState); // .text:100165B0
