@@ -92,6 +92,8 @@ public:
 	bool FUNC_1000C010(); // .text:1000C010
 	void AddURLRequest(DOWNLOAD_REQUEST *pRequest, char *szUrl); // .text:1000C380
 	void FUNC_1000C0C0(); // .text:1000C0C0
+	bool FUNC_1000C0F0(); // .text:1000C0F0
+	void FUNC_1000C140(); // .text:1000C140
 };
 
 //----------------------------------------------------

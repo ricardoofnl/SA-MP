@@ -267,4 +267,41 @@ void CDownloadManager::FUNC_1000C0C0()
 }
 
 //----------------------------------------------------
+
+// claims the first idle slot; field_5 is the hold flag FUNC_1000C140 releases
+bool CDownloadManager::FUNC_1000C0F0()
+{
+	if(!m_bSlotsReady)
+		return false;
+
+	for(int i = 0; i < MAX_DOWNLOAD_SLOTS; i++)
+	{
+		if(m_Slots[i].field_6 && !m_Slots[i].field_4 && !m_Slots[i].field_5)
+		{
+			m_Slots[i].field_5 = 1;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//----------------------------------------------------
+
+void CDownloadManager::FUNC_1000C140()
+{
+	if(!m_bSlotsReady)
+		return;
+
+	for(int i = 0; i < MAX_DOWNLOAD_SLOTS; i++)
+	{
+		if(m_Slots[i].field_6 && !m_Slots[i].field_4 && m_Slots[i].field_5)
+		{
+			m_Slots[i].field_5 = 0;
+			return;
+		}
+	}
+}
+
+//----------------------------------------------------
 // EOF
