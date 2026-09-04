@@ -128,3 +128,22 @@ void CVehiclePool::FUNC_1001EB30(unsigned short VehicleID, char a2, BYTE a3)
 }
 
 //----------------------------------------------------
+
+int CVehiclePool::FUNC_1001EC00()
+{
+	float fClosestDistance = 10000.0f;
+	VEHICLEID ClosestVehicleID = INVALID_VEHICLE_ID;
+
+	for(VEHICLEID VehicleID = 0; VehicleID <= field_0; VehicleID++) {
+		if(VehicleID < MAX_VEHICLES && field_3074[VehicleID] && field_BD14[VehicleID]) {
+			float fDistance = ((CVehicle *)field_1134[VehicleID])->FUNC_1009F0C0();
+			if(fDistance < fClosestDistance) {
+				fClosestDistance = fDistance;
+				ClosestVehicleID = VehicleID;
+			}
+		}
+	}
+	return ClosestVehicleID;
+}
+
+//----------------------------------------------------
