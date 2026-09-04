@@ -179,6 +179,40 @@ OBJECT_TYPE * GamePool_GetObject()
 	return pObjectRet;
 }
 
+// the pool slot in CPools; the used-slot count walks the byte map that starts
+// four bytes into the pool itself
+struct GAME_POOL_HOLDER
+{
+	BYTE *pPool;
+
+	int CountUsedSlots()
+	{
+		int iCount = 0;
+		int iSize = *(int *)(pPool + 8);
+
+		for(int i = 0; i < iSize; i++)
+		{
+			if(pPool[i + 4] > 0)
+				iCount++;
+		}
+		return iCount;
+	}
+};
+
+//-----------------------------------------------------------
+
+int FUNC_100B3CD0()
+{
+	return ((GAME_POOL_HOLDER *)0xB7449C)->CountUsedSlots();
+}
+
+//-----------------------------------------------------------
+
+int FUNC_100B3D00()
+{
+	return ((GAME_POOL_HOLDER *)0xC8800C)->CountUsedSlots();
+}
+
 //-----------------------------------------------------------
 
 void ReplaceBuildingModel(ENTITY_TYPE *pEntity, int iModelID)
