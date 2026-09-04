@@ -7,6 +7,7 @@ CDownloadManager *dword_10118A24;
 
 int sub_100B5DC0(char *szPath); // .text:100B5DC0
 int sub_100A7C30(DWORD a1, DWORD a2, char *a3, char *a4, char *a5); // .text:100A7C30
+int sub_100A7BD0(DWORD a1, DWORD a2, char *a3, char *a4, char *a5); // .text:100A7BD0
 int sub_100B2040(DWORD dwCrc); // .text:100B2040
 
 //----------------------------------------------------
@@ -190,6 +191,58 @@ DWORD CDownloadList::FUNC_1000D280(DWORD dwCrc)
 	}
 
 	return 0;
+}
+
+//----------------------------------------------------
+
+// the FUNC_1000D320 twin for entries still in state 1
+int CDownloadList::FUNC_1000D2C0(DWORD dwCrc)
+{
+	for(DWORD i = 0; i != m_dwCount; i++)
+	{
+		DOWNLOAD_ENTRY *pEntry = GetAt(i);
+		if(pEntry->dwCrc != dwCrc || pEntry->field_7 != 1)
+			continue;
+
+		if(!FUNC_1000C650(pEntry->field_C, pEntry->dwCrc, pEntry->field_46, pEntry->field_4A))
+			return 0;
+
+		pEntry->field_59 = 0;
+		pEntry->field_58 = 1;
+		return 1;
+	}
+
+	return 0;
+}
+
+//----------------------------------------------------
+
+// same two-dir probe as FUNC_1000C770, only the handoff differs
+int CDownloadList::FUNC_1000C650(DWORD a1, DWORD dwCrc, DWORD a3, DWORD a4)
+{
+	char szCrc[28];
+	char szDff[261];
+	char szTxd[261];
+
+	sprintf(szCrc, "%X", a4);
+
+	sprintf(szDff, "%s\\0x%X.dff", szDir1, a3);
+	if(!sub_100B5DC0(szDff))
+	{
+		sprintf(szDff, "%s\\0x%X.dff", szDir2, a3);
+		if(!sub_100B5DC0(szDff))
+			return 0;
+	}
+
+	sprintf(szTxd, "%s\\0x%X.txd", szDir1, a4);
+	if(!sub_100B5DC0(szTxd))
+	{
+		sprintf(szTxd, "%s\\0x%X.txd", szDir2, a4);
+		if(!sub_100B5DC0(szTxd))
+			return 0;
+	}
+
+	return sub_100A7BD0(a1, dwCrc, szCrc, szDff, szTxd) != 0;
 }
 
 //----------------------------------------------------
