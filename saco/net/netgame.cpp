@@ -9,6 +9,8 @@ extern CAudioStream  *pAudioStream;
 
 void FUNC_100AABE0(); // .text:100AABE0
 
+DWORD dword_10118A18;
+
 //----------------------------------------------------
 
 // MATCH
@@ -244,6 +246,20 @@ void CNetGame::AttemptConnect()
 
 		field_3D1 = GetTickCount();
 		m_iGameState = GAMESTATE_CONNECTING;
+	}
+}
+
+//----------------------------------------------------
+
+void CNetGame::UpdateScoresPingsIPs()
+{
+	if(GetTickCount() - dword_10118A18 > 3000)
+	{
+		dword_10118A18 = GetTickCount();
+
+		RakNet::BitStream bsSend;
+		if(GetRakClient())
+			GetRakClient()->RPC(RPC_UpdateScoresPingsIPs, &bsSend, HIGH_PRIORITY, RELIABLE, 0, FALSE);
 	}
 }
 
