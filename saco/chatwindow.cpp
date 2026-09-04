@@ -173,3 +173,14 @@ void CChatWindow::FUNC_10067200()
 	}
 }
 
+
+//----------------------------------------------------
+
+void CChatWindow::SetPageSize(int iPageSize)
+{
+	if(iPageSize >= 10 && iPageSize <= MAX_MESSAGES) {
+		field_0 = iPageSize;
+		FUNC_10067200();
+		m_bRedraw = 1;
+	}
+}

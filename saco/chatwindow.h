@@ -69,7 +69,7 @@ public:
 
 	void AddClientMessage(DWORD dwColor, CHAR *szMessage); // .text:10068170
 
-	int SetPageSize(int iPageSize); // .text:100672A0
+	void SetPageSize(int iPageSize); // .text:100672A0
 
 	void ResetDialogControls(CDXUTDialog *pGameUI);
 
