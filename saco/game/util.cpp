@@ -590,6 +590,31 @@ bool FUNC_100B4B50(VECTOR *vecPos)
 	return false;
 }
 
+//-----------------------------------------------------------
+
+int FUNC_100B4BE0(int a1, int a2, int a3)
+{
+	_asm push a3
+	_asm push a2
+	_asm push a1
+	_asm mov edx, 0x59C790
+	_asm call edx
+}
+
+//-----------------------------------------------------------
+
+int FUNC_100B4C00(int a1, int a2, int a3)
+{
+	_asm push a3
+	_asm push a2
+	_asm push a1
+	_asm mov edx, 0x59C810
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+}
+
 
 
 

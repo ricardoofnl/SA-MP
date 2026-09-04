@@ -62,6 +62,8 @@ int FUNC_100B61D0(int a1); // .text:100B61D0
 
 bool FUNC_100B4B50(VECTOR *vecPos);
 void FUNC_100B4D10(VECTOR *vecOut, MATRIX4X4 *pMatrix, VECTOR *vecOffset);
+int FUNC_100B4BE0(int a1, int a2, int a3); // .text:100B4BE0
+int FUNC_100B4C00(int a1, int a2, int a3); // .text:100B4C00
 
 BUILDING_TYPE * GamePool_GetBuilding();
 DUMMY_TYPE * GamePool_GetDummy();
