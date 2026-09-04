@@ -1,5 +1,6 @@
 
 #include "main.h"
+#include "game/util.h"
 
 extern CConfig *pConfig;
 extern CCmdWindow *pCmdWindow;
@@ -263,4 +264,16 @@ void CChatWindow::AddChatMessage(PCHAR szName, DWORD dwColor, PCHAR szText)
 	}
 
 	sub_10067BE0(2, szText, szName, m_dwChatTextColor, dwColor);
+}
+
+//----------------------------------------------------
+
+void CChatWindow::AddClientMessage(DWORD dwColor, CHAR *szMessage)
+{
+	if(strlen(szMessage) <= 144)
+	{
+		unnamed_100B6100(szMessage,255);
+		ReplaceControlChars(szMessage);
+		sub_10067BE0(4, szMessage, 0, (dwColor >> 8)|0xFF000000, 0);
+	}
 }
