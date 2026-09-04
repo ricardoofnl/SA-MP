@@ -301,3 +301,30 @@ void CChatWindow::AddInfoMessage(CHAR * szFormat, ...)
 
 	sub_10067BE0(4, szBuffer, 0, m_dwChatInfoColor, 0);
 }
+
+//----------------------------------------------------
+
+void CChatWindow::ReleaseTextures()
+{
+	if(field_63BE) {
+		field_63BE->Release();
+		field_63BE = NULL;
+	}
+
+	if(field_63BA) {
+		field_63BA->Release();
+		field_63BA = NULL;
+	}
+
+	if(field_63B6) {
+		field_63B6->Release();
+		field_63B6 = NULL;
+	}
+}
+
+//----------------------------------------------------
+
+void CChatWindow::FUNC_10067410()
+{
+	ReleaseTextures();
+}

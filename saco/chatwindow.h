@@ -61,6 +61,10 @@ public:
 
 	void ReplaceControlChars(char *szString); // .text:10067420
 
+	void ReleaseTextures(); // .text:100671A0
+
+	void FUNC_10067410(); // .text:10067410
+
 	void FUNC_10067E00(); // .text:10067E00
 
 	void FUNC_10067ED0(); // .text:10067ED0
