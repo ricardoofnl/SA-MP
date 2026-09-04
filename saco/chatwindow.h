@@ -67,7 +67,7 @@ public:
 
 public:
 
-	int sub_10067BE0(int a1, char *a2, int a3, int a4, int a5); // .text:10067BE0
+	int sub_10067BE0(int a1, char *a2, char *a3, DWORD a4, DWORD a5); // .text:10067BE0
 
 	void AddChatMessage(PCHAR szName, DWORD dwColor, PCHAR szText); // .text:10068020
 

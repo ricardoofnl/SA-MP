@@ -246,3 +246,21 @@ void CChatWindow::OnMouseWheel(int nDelta)
 		m_pScrollBar->Scroll(-(nDelta*nScrollLines));
 	}
 }
+
+//----------------------------------------------------
+
+void CChatWindow::AddChatMessage(PCHAR szName, DWORD dwColor, PCHAR szText)
+{
+	char *p = szText;
+	if(szText[0])
+	{
+		do
+		{
+			if(*p > 0 && *p < 32)
+				*p = 32;
+		}
+		while(*++p);
+	}
+
+	sub_10067BE0(2, szText, szName, m_dwChatTextColor, dwColor);
+}
