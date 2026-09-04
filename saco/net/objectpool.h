@@ -30,6 +30,9 @@ public:
 	char FUNC_10012DE0(VECTOR *vecStart, VECTOR *vecEnd); // .text:10012DE0
 
 	CObjectPool();
+	~CObjectPool(); // .text:10013160
+
+	void FUNC_10012850(int iObject); // .text:10012850
 
 	void FUNC_10012A50(); // .text:10012A50
 	void FUNC_10012B10(); // .text:10012B10

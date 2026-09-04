@@ -112,6 +112,7 @@ public:
 	void ResetPlayerPool(); // .text:10008FE0
 	void ResetVehiclePool(); // .text:10009080
 	void ResetTextDrawPool(); // .text:10009110
+	void ResetObjectPool(); // .text:100091B0
 	void ResetGangZonePool(); // .text:10009250
 	void ResetPickupPool(); // .text:100092F0
 	void ResetMenuPool(); // .text:10009350

@@ -294,3 +294,12 @@ void CNetGame::ResetTextDrawPool()
 	delete m_pPools->pTextDrawPool;
 	m_pPools->pTextDrawPool = new CTextDrawPool();
 }
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ResetObjectPool()
+{
+	delete m_pPools->pObjectPool;
+	m_pPools->pObjectPool = new CObjectPool();
+}
