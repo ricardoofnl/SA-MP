@@ -96,7 +96,24 @@ void ScrUnk4F(RPCParameters *rpcParams)
 
 	ScriptCommand(&script_command_0948, fX, fY, fZ, iUnk, fUnk);
 }
-void ScrUnk50(RPCParameters *rpcParams) {}
+void ScrUnk50(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	PLAYERID playerId;
+	BYTE byteUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(playerId);
+	bsData.Read(byteUnk);
+
+	if(pNetGame->GetPlayerPool()->GetSlotState(playerId)) {
+		pNetGame->GetPlayerPool()->GetAt(playerId)->field_4 = (byteUnk != 0);
+	}
+}
 void ScrUnk63(RPCParameters *rpcParams) {}
 void ScrUnk7A(RPCParameters *rpcParams) {}
 void ScrUnk7B(RPCParameters *rpcParams) {}
@@ -531,7 +548,27 @@ void ScrUnk0D(RPCParameters *rpcParams)
 	pLocalPlayer->sub_10003710(0, 0);
 	pLocalPlayer->GetPlayerPed()->TeleportTo(vecPos.X, vecPos.Y, vecPos.Z);
 }
-void ScrPutPlayerInVehicle(RPCParameters *rpcParams) {}
+void ScrPutPlayerInVehicle(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VEHICLEID vehicleId;
+	BYTE byteSeatId;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(vehicleId);
+	bsData.Read(byteSeatId);
+
+	int iGtaVehicleId = pNetGame->GetVehiclePool()->FindGtaIDFromID(vehicleId);
+	int iVehicle = pNetGame->GetVehiclePool()->GetAt(vehicleId);
+
+	if(iGtaVehicleId && iVehicle) {
+		pGame->FindPlayerPed()->FUNC_100AC290(iGtaVehicleId, byteSeatId);
+	}
+}
 void ScrRemovePlayerFromVehicle(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -578,7 +615,29 @@ void ScrSetInterior(RPCParameters *rpcParams)
 
 	pGame->FindPlayerPed()->SetInterior(byteInterior, TRUE);
 }
-void ScrUnk9F(RPCParameters *rpcParams) {}
+void ScrUnk9F(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VEHICLEID vehicleId;
+	float fX, fY, fZ;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(vehicleId);
+	bsData.Read(fX);
+	bsData.Read(fY);
+	bsData.Read(fZ);
+
+	if(!pNetGame) return;
+	if(!pNetGame->GetVehiclePool()) return;
+
+	if(pNetGame->GetVehiclePool()->GetSlotState(vehicleId)) {
+		((CEntity *)pNetGame->GetVehiclePool()->GetAt(vehicleId))->TeleportTo(fX, fY, fZ);
+	}
+}
 void ScrUnkA0(RPCParameters *rpcParams) {}
 void ScrUnkA1(RPCParameters *rpcParams) {}
 void ScrUnk0F(RPCParameters *rpcParams)
