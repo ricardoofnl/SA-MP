@@ -109,22 +109,19 @@ void CNewPlayerTags::Draw(D3DXVECTOR3* pPlayerPos, PCHAR szName, DWORD dwColor, 
 	if(Out.z > 1.0f)
 		return;
 
-	int iX = (int)Out.x;
-	int iY = (int)Out.y;
-
 	RECT rectStatus;
-	rectStatus.left = iX;
-	rectStatus.top = iY;
-	rectStatus.right = iX;
-	rectStatus.bottom = iY;
+	rectStatus.left = (int)Out.x;
+	rectStatus.top = (int)Out.y;
+	rectStatus.right = (int)Out.x;
+	rectStatus.bottom = (int)Out.y;
+
+	RECT rectText = rectStatus;
 
 	SIZE size = pDefaultFont->MeasureText2(szName, 0);
 
-	RECT rectText;
-	rectText.left = iX - size.cx / 2;
-	rectText.top = iY + 17 - size.cy;
-	rectText.right = iX + size.cx / 2;
-	rectText.bottom = iY;
+	rectText.left -= size.cx / 2;
+	rectText.right += size.cx / 2;
+	rectText.top += 17 - size.cy;
 	pDefaultFont->RenderText(m_pSprite, szName, rectText, 256, dwColor, 1);
 
 	if(bNameTagStatus)
@@ -156,7 +153,7 @@ void CNewPlayerTags::Draw(D3DXVECTOR3* pPlayerPos, PCHAR szName, DWORD dwColor, 
 					pFont2->DrawText(NULL, "C", 1, &rectStatus, DT_NOCLIP|DT_VCENTER|DT_CENTER, 0xFF000000);
 					rectStatus.top -= 2;
 					rectStatus.left--;
-					pFont1->DrawText(NULL, "E", 1, &rectStatus, DT_NOCLIP|DT_VCENTER|DT_CENTER, 0xFFE3E3E3);
+					pFont1->DrawText(NULL, "E", 1, &rectStatus, DT_NOCLIP|DT_VCENTER|DT_CENTER, 0xFFE3E1E3);
 				}
 			}
 		}
