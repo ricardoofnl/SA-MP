@@ -170,3 +170,22 @@ void CVehiclePool::FUNC_1001ED70()
 }
 
 //----------------------------------------------------
+
+short CVehiclePool::FUNC_1001EEB0(int a1, VECTOR *vecOrigin, VECTOR *vecLine)
+{
+	char colPoint[52];
+	DWORD dwHitEntity = 0;
+
+	ProcessLineOfSight(vecOrigin, vecLine, (VECTOR *)colPoint, &dwHitEntity, 0, 1, 0, 0, 0, 0, 0, 0);
+	if(!dwHitEntity) return -1;
+
+	// the sentinel has to stay on the loop exit path, folding it into the return narrows it to 16 bits
+	int iVehicleID;
+	for(int i = 1; ; i++) {
+		if(i > field_0) { iVehicleID = INVALID_VEHICLE_ID; break; }
+		if(dwHitEntity == field_4FB4[i]) { iVehicleID = i; break; }
+	}
+	return iVehicleID;
+}
+
+//----------------------------------------------------
