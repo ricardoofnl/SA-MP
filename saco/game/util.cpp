@@ -774,6 +774,24 @@ void _VectorNormalise(VECTOR *vec)
 	_asm call edx
 }
 
+//----------------------------------------------------
+
+void VectorCrossProduct(VECTOR *vecOut, VECTOR *vec1, VECTOR *vec2)
+{
+	float f1, f2;
+
+	// each product needs its own statement; in one expression MSVC canonicalises
+	// the commutative operands and picks the other side to fld
+	f1 = vec2->Z * vec1->Y;
+	f2 = vec2->Y * vec1->Z;
+	vecOut->X = f1 - f2;
+	f1 = vec2->X * vec1->Z;
+	f2 = vec2->Z * vec1->X;
+	vecOut->Y = f1 - f2;
+	f1 = vec2->Y * vec1->X;
+	f2 = vec2->X * vec1->Y;
+	vecOut->Z = f1 - f2;
+}
 
 
 //----------------------------------------------------
