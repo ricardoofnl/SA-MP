@@ -113,6 +113,7 @@ public:
 	DWORD GetPlayerColorAsRGBA();
 	DWORD GetPlayerColorAsARGB();
 	BOOL IsSpectating() { return m_bIsSpectating; };
+	void SetTeam(BYTE byteTeam) { m_byteTeam = byteTeam; };
 
 	void ReturnToClassSelection() { m_bWantsAnotherClass = TRUE; };
 

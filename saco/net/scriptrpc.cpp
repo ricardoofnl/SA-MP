@@ -408,7 +408,29 @@ void ScrSetSpawnInfo(RPCParameters *rpcParams)
 
 	pPlayerPool->GetLocalPlayer()->sub_10003BE0(&SpawnInfo);
 }
-void ScrUnk45(RPCParameters *rpcParams) {}
+void ScrUnk45(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	PLAYERID playerId;
+	BYTE byteTeam;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+
+	bsData.Read(playerId);
+	bsData.Read(byteTeam);
+
+	if(playerId == pPlayerPool->GetLocalPlayerID()) {
+		pPlayerPool->GetLocalPlayer()->SetTeam(byteTeam);
+	} else {
+		CRemotePlayer *pRemotePlayer = pPlayerPool->GetAt(playerId);
+		if(pRemotePlayer) pRemotePlayer->field_109 = byteTeam;
+	}
+}
 void ScrUnk99(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
