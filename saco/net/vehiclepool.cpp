@@ -2,6 +2,7 @@
 #include "../main.h"
 #include "../game/util.h"
 
+extern CChatWindow *pChatWindow;
 extern int dword_1026EBA0;
 
 // same layout as the camera collision points that game/hooks.cpp passes around
@@ -24,6 +25,8 @@ public:
 
 // layout locks: these fail to compile if a field offset or the size moves
 typedef char chk_CVehiclePool_size[sizeof(CVehiclePool) == 0x17898 ? 1 : -1];
+typedef char chk_VEHICLE_WAITING_size[sizeof(VEHICLE_WAITING) == 40 ? 1 : -1];
+typedef char chk_field_4[offsetof(CVehiclePool, field_4) == 4 ? 1 : -1];
 typedef char chk_field_FA4[offsetof(CVehiclePool, field_FA4) == 0xFA4 ? 1 : -1];
 typedef char chk_field_1134[offsetof(CVehiclePool, field_1134) == 0x1134 ? 1 : -1];
 typedef char chk_field_3074[offsetof(CVehiclePool, field_3074) == 0x3074 ? 1 : -1];
@@ -270,6 +273,24 @@ short CVehiclePool::FUNC_1001EF30(float fMaxDistance, VECTOR *vecStart, VECTOR *
 		}
 	}
 	return ClosestVehicleID;
+}
+
+//----------------------------------------------------
+
+int CVehiclePool::FUNC_1001ED10(VEHICLE_WAITING *pWaiting)
+{
+	// do/while with a `!=` bound, a for or while here gets unrolled or rotated
+	int i = 0;
+	do {
+		if(!field_FA4[i]) break;
+		i++;
+	} while(i != MAX_WAITING_VEHICLES);
+	if(i == MAX_WAITING_VEHICLES)
+		return pChatWindow->AddDebugMessage("All vehicle waiting slots are consumed!");
+
+	field_FA4[i] = 1;
+	field_4[i] = *pWaiting;
+	return i;
 }
 
 //----------------------------------------------------

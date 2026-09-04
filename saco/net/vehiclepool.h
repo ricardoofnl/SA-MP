@@ -2,6 +2,15 @@
 #pragma once
 
 #define INVALID_VEHICLE_ID 0xFFFF
+#define MAX_WAITING_VEHICLES 100
+
+//----------------------------------------------------
+
+// a vehicle the pool cannot create yet is parked in one of these; the payload layout is unresolved
+struct VEHICLE_WAITING
+{
+	char field_0[40];
+};
 
 //----------------------------------------------------
 
@@ -10,9 +19,9 @@ class CVehiclePool
 public:
 	int field_0;
 
-	char _gap4[4000];
+	VEHICLE_WAITING field_4[MAX_WAITING_VEHICLES];
 
-	char field_FA4[400];
+	int field_FA4[MAX_WAITING_VEHICLES];
 	int field_1134[MAX_VEHICLES];
 	int field_3074[MAX_VEHICLES];
 	int field_4FB4[MAX_VEHICLES];
@@ -54,6 +63,8 @@ public:
 	int FUNC_10001120(unsigned short a1); // .text:10001120
 
 	int FUNC_1001EC00(); // .text:1001EC00
+
+	int FUNC_1001ED10(VEHICLE_WAITING *pWaiting); // .text:1001ED10
 
 	int FUNC_1001EC70(float fX, float fY, float fZ); // .text:1001EC70
 
