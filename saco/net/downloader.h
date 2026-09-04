@@ -67,6 +67,9 @@ public:
 
 	DOWNLOAD_ENTRY *GetAt(DWORD dwIndex) { if(dwIndex >= m_dwCount) return NULL; return m_pEntries[dwIndex]; }
 
+	BOOL FUNC_1000C590(DWORD dwId); // .text:1000C590
+	BOOL FUNC_1000C5D0(DWORD dwId); // .text:1000C5D0
+	BOOL FUNC_1000C610(char *szName); // .text:1000C610
 	bool FUNC_1000D110(DWORD dwCrc); // .text:1000D110
 	bool FUNC_1000D150(DWORD dwCrc); // .text:1000D150
 	char FUNC_1000D190(DWORD dwCrc); // .text:1000D190

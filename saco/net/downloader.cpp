@@ -67,6 +67,37 @@ bool CDownloadManager::FUNC_1000C010()
 
 //----------------------------------------------------
 
+// the three removal helpers below only ever look in the first search dir
+BOOL CDownloadList::FUNC_1000C590(DWORD dwId)
+{
+	char szPath[261];
+
+	_snprintf(szPath, sizeof(szPath) - 1, "%s\\0x%X.dff", szDir1, dwId);
+	return DeleteFile(szPath);
+}
+
+//----------------------------------------------------
+
+BOOL CDownloadList::FUNC_1000C5D0(DWORD dwId)
+{
+	char szPath[261];
+
+	_snprintf(szPath, sizeof(szPath) - 1, "%s\\0x%X.txd", szDir1, dwId);
+	return DeleteFile(szPath);
+}
+
+//----------------------------------------------------
+
+BOOL CDownloadList::FUNC_1000C610(char *szName)
+{
+	char szPath[261];
+
+	_snprintf(szPath, sizeof(szPath) - 1, "%s\\%s", szDir1, szName);
+	return DeleteFile(szPath);
+}
+
+//----------------------------------------------------
+
 bool CDownloadList::FUNC_1000D110(DWORD dwCrc)
 {
 	for(DWORD i = 0; i != m_dwCount; i++)
