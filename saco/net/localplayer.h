@@ -120,6 +120,11 @@ public:
 
 	void FUNC_10005BF0(WORD a1); // .text:10005BF0
 	void FUNC_10003570(); // .text:10003570
+
+	// the three ped-damage reports; all take `this` in ecx but never read it
+	void FUNC_100068A0(WORD a1, float a2, int a3, int a4); // .text:100068A0
+	void FUNC_100069B0(WORD a1, float a2, int a3, int a4); // .text:100069B0
+	void FUNC_10006AC0(WORD a1, float a2, int a3, int a4); // .text:10006AC0
 	void sub_10003C20(); // .text:10003C20
 	void sub_10003BE0(SPAWN_INFO *pSpawnInfo); // .text:10003BE0
 	void sub_100040E0(BOOL bSpawn); // .text:100040E0

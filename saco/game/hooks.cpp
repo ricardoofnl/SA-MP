@@ -1421,6 +1421,75 @@ ACTORID FUNC_100A3B80(DWORD dwPed)
 
 //-----------------------------------------------------------
 
+// 0x100A3BB0 : decides whether a ped damage event gets reported to the server
+BOOL __stdcall FUNC_100A3BB0(DWORD *pEvent, PED_TYPE *pPed)
+{
+	PED_TYPE *pPlayerPed = GamePool_FindPlayerPed();
+	bool bLocalTarget = false;
+
+	if(!pNetGame) return FALSE;
+
+	if((PED_TYPE *)pEvent[0] != pPlayerPed && pPed && *(DWORD *)pPed == 0x86C0A8) return TRUE;
+
+	if(pPed != pPlayerPed)
+	{
+		if((PED_TYPE *)pEvent[0] != pPlayerPed) return FALSE;
+	}
+	else bLocalTarget = true;
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	PLAYERID playerId;
+
+	if(bLocalTarget)
+	{
+		DWORD dwTask = pPlayerPool->m_pLocalPlayer->field_2DA;
+
+		if(dwTask)
+		{
+			if(*(DWORD *)(dwTask + 0x40) == pEvent[0]) return TRUE;
+			if(pEvent[3] == 0x36) return TRUE;
+		}
+
+		playerId = FUNC_100A3AE0(pEvent[0]);
+		pPlayerPool->m_pLocalPlayer->FUNC_100068A0(playerId, *(float *)&pEvent[1], pEvent[3], pEvent[2]);
+	}
+	else
+	{
+		playerId = FUNC_100A3AE0((DWORD)pPed);
+
+		if(playerId != 0xFFFF)
+		{
+			pPlayerPool->m_pLocalPlayer->FUNC_100069B0(playerId, *(float *)&pEvent[1], pEvent[3], pEvent[2]);
+
+			if(pPlayerPool->GetAt(playerId)->field_10C) return TRUE;
+		}
+		else
+		{
+			ACTORID actorId = FUNC_100A3B80((DWORD)pPed);
+
+			if(actorId != 0xFFFF)
+			{
+				pPlayerPool->m_pLocalPlayer->FUNC_10006AC0(actorId, *(float *)&pEvent[1], pEvent[3], pEvent[2]);
+				return TRUE;
+			}
+		}
+	}
+
+	if(pNetGame->GetSettings()->field_22)
+	{
+		BYTE byteTeam = pPlayerPool->m_pLocalPlayer->m_byteTeam;
+
+		if(byteTeam == 0xFF) return FALSE;
+		if(playerId == 0xFFFF) return FALSE;
+
+		if((BYTE)pNetGame->GetPlayerPool()->GetAt(playerId)->field_109 == byteTeam) return TRUE;
+	}
+
+	return FALSE;
+}
+
+//-----------------------------------------------------------
+
 NUDE PedDamage_Hook()
 {
 	__asm
