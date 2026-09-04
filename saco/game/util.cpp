@@ -241,6 +241,13 @@ DWORD * __stdcall GetModelInfo(int iModel)
 
 //-----------------------------------------------------------
 
+BOOL __stdcall IsValidModel(int iModel)
+{
+	return GetModelInfo(iModel) != NULL;
+}
+
+//-----------------------------------------------------------
+
 BOOL __stdcall IsValidPedModel(int iModel)
 {
 	DWORD *pModelInfo;
