@@ -2,6 +2,8 @@
 #include "main.h"
 
 extern CConfig *pConfig;
+extern CCmdWindow *pCmdWindow;
+extern CGame *pGame;
 
 //----------------------------------------------------
 
@@ -197,5 +199,50 @@ void CChatWindow::ReplaceControlChars(char *szString)
 				*szString = 32;
 		}
 		while(*++szString);
+	}
+}
+
+//----------------------------------------------------
+
+void CChatWindow::PageUp()
+{
+	if(field_8 && m_pScrollBar && !pGame->sub_100A0920() && !pCmdWindow->IsImeActive()) {
+		int iPos = m_pScrollBar->GetTrackPos()-field_0;
+		if(iPos < 1) iPos = 1;
+		m_pScrollBar->SetTrackPos(iPos);
+	}
+}
+
+//----------------------------------------------------
+
+void CChatWindow::PageDown()
+{
+	if(field_8 && m_pScrollBar && !pGame->sub_100A0920() && !pCmdWindow->IsImeActive()) {
+		int iPos = m_pScrollBar->GetTrackPos();
+		if(iPos == 1)
+			iPos = field_0;
+		else
+			iPos += field_0;
+		if(iPos > MAX_MESSAGES) iPos = MAX_MESSAGES;
+		m_pScrollBar->SetTrackPos(iPos);
+	}
+}
+
+//----------------------------------------------------
+
+void CChatWindow::FUNC_10067390()
+{
+	if(m_pScrollBar)
+		m_pScrollBar->SetTrackPos(MAX_MESSAGES-10);
+}
+
+//----------------------------------------------------
+
+void CChatWindow::OnMouseWheel(int nDelta)
+{
+	if(field_8 && m_pScrollBar) {
+		int nScrollLines;
+		SystemParametersInfo(SPI_GETWHEELSCROLLLINES,0,&nScrollLines,0);
+		m_pScrollBar->Scroll(-(nDelta*nScrollLines));
 	}
 }

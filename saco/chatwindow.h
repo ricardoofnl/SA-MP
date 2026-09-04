@@ -51,6 +51,14 @@ public:
 
 	void FUNC_10067200();
 
+	void FUNC_10067390(); // .text:10067390
+
+	void OnMouseWheel(int nDelta); // .text:100673C0
+
+	void PageUp(); // .text:100672D0
+
+	void PageDown(); // .text:10067330
+
 	void ReplaceControlChars(char *szString); // .text:10067420
 
 	void FUNC_10067E00(); // .text:10067E00

@@ -35,6 +35,8 @@ public:
 
 	void GetDialogSize(RECT *pRect);
 
+	bool IsImeActive(); // .text:10069810
+
 	void Enable();
 	void Disable();
 
