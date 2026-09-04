@@ -1002,6 +1002,16 @@ BOOL IsFileOrDirectoryExists(char * szPath)
 //----------------------------------------------------
 
 
+void ReplaceUnprintableChars(char *szString)
+{
+	while(*szString)
+	{
+		if((BYTE)*szString > 0x7F || (BYTE)*szString < ' ')
+			*szString = ' ';
+		szString++;
+	}
+}
+
 BOOL IsHexChar(char c)
 {
 	return c >= '0' && c <= '9' || c >= 'A' && c <= 'F' || c >= 'a' && c <= 'f';

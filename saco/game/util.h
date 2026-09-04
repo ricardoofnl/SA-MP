@@ -89,6 +89,7 @@ BOOL IsHexChar(char c);
 BOOL IsHexChar(wchar_t c);
 DWORD GetColorFromEmbedCode(char *szString);
 DWORD GetColorFromEmbedCode(wchar_t *szString);
+void ReplaceUnprintableChars(char *szString); // .text:100B5DE0
 void RemoveColorEmbedsFromString(char *szString);
 
 UINT GetVehicleSubtypeFromVehiclePtr(VEHICLE_TYPE *pVehicle);
