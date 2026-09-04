@@ -406,3 +406,36 @@ void CChatWindow::WriteChatLog(int iType, char *szText, char *szName)
 		}
 	}
 }
+
+//----------------------------------------------------
+// redraws the chat into the render target texture when it is dirty
+
+void CChatWindow::FUNC_10067ED0()
+{
+	if(field_63B2 && m_pD3DDevice && field_63B6 && field_63BA && field_63BE && m_pFontRender->field_0)
+	{
+		if(pGame->sub_100A0920())
+		{
+			field_63D6 = 0;
+			m_bRedraw = 1;
+		}
+		else if(field_8)
+		{
+			if(m_bRedraw || field_63DE != m_pScrollBar->GetTrackPos())
+			{
+				field_63B6->BeginScene(field_63BE,NULL);
+				m_pD3DDevice->Clear(0,NULL,D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER,0,0,0);
+				field_63A6->Begin(D3DXSPRITE_ALPHABLEND);
+				m_pD3DDevice->SetRenderState(D3DRS_DESTBLEND,D3DBLEND_BLENDFACTOR);
+				FUNC_10067940();
+				field_63A6->End();
+				field_63B6->EndScene(0);
+
+				m_bRedraw = 0;
+				field_63D6 = 1;
+				field_63D2 = GetTickCount();
+				field_63DE = m_pScrollBar->GetTrackPos();
+			}
+		}
+	}
+}
