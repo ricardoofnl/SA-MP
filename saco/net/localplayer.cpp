@@ -185,3 +185,46 @@ void CLocalPlayer::SendStatsUpdate()
 	bsSend.Write(iDrunkLevel);
 	pNetGame->GetRakClient()->Send(&bsSend, HIGH_PRIORITY, UNRELIABLE, 0);
 }
+
+//----------------------------------------------------
+
+// class selection cycles field_2FE and re-requests on every step
+void CLocalPlayer::SelectNextClass()
+{
+	if(!field_306)
+		return;
+
+	MATRIX4X4 mat;
+
+	field_143 = 0;
+	m_pPlayerPed->GetMatrix(&mat);
+
+	if(field_2FE == pNetGame->GetSettings()->field_23 - 1)
+		field_2FE = 0;
+	else
+		field_2FE++;
+
+	pGame->m_pGameAudio->PlaySound(1052, mat.pos.X, mat.pos.Y, mat.pos.Z);
+	RequestClass(field_2FE);
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::SelectPreviousClass()
+{
+	if(!field_306)
+		return;
+
+	MATRIX4X4 mat;
+
+	field_143 = 0;
+	m_pPlayerPed->GetMatrix(&mat);
+
+	DWORD dwClass = field_2FE;
+	if(!dwClass)
+		dwClass = pNetGame->GetSettings()->field_23;
+
+	field_2FE = dwClass - 1;
+	pGame->m_pGameAudio->PlaySound(1053, mat.pos.X, mat.pos.Y, mat.pos.Z);
+	RequestClass(field_2FE);
+}

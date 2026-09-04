@@ -54,7 +54,7 @@ public:
 	DWORD field_13B;
 	DWORD field_13F;
 
-	BYTE _pad143[4];
+	DWORD field_143;
 
 	DWORD field_147;
 
@@ -118,6 +118,8 @@ public:
 
 	BOOL IsInRCMode() { return m_bInRCMode; };
 
+	void SelectNextClass(); // .text:10005FF0
+	void SelectPreviousClass(); // .text:10006080
 	void RequestClass(int iClass); // .text:100058D0
 	void SendStatsUpdate(); // .text:10005D00
 	void FUNC_10005BF0(WORD a1); // .text:10005BF0
