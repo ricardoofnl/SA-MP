@@ -102,6 +102,7 @@ int FUNC_100B4BC0(int a1, int a2, int a3); // .text:100B4BC0
 float FastSqrt(float x); // .text:100B5A60
 void VectorCrossProduct(VECTOR *vecOut, VECTOR *vec1, VECTOR *vec2); // .text:100B4C20
 void VectorNormaliseTo(VECTOR *vecOut, VECTOR *vecIn); // .text:100B4CC0
+bool FUNC_100B4A70(VECTOR *vec); // .text:100B4A70
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 

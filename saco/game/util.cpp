@@ -584,6 +584,17 @@ DWORD __stdcall CRC32FromUpcaseString(char *szString)
 
 
 
+bool FUNC_100B4A70(VECTOR *vec)
+{
+	if( vec->X <= 1.0f && vec->X >= -1.0f &&
+		vec->Y <= 1.0f && vec->Y >= -1.0f &&
+		vec->Z <= 1.0f && vec->Z >= -1.0f )
+	{
+		return true;
+	}
+	return false;
+}
+
 //-----------------------------------------------------------
 
 bool FUNC_100B4B50(VECTOR *vecPos)
