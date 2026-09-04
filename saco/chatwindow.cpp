@@ -345,3 +345,32 @@ void CChatWindow::FUNC_10067120()
 	m_pFontRender->field_0->DrawTextA(NULL,"[19:58:34]",-1,&rect,DT_CALCRECT|DT_SINGLELINE,0xFF000000);
 	field_63E6 = rect.right-rect.left;
 }
+
+//----------------------------------------------------
+
+void CChatWindow::FUNC_10067E00()
+{
+	if(m_pScrollBar)
+	{
+		if(field_8 && (m_pScrollBar->GetTrackPos() != MAX_MESSAGES-field_0 || pCmdWindow->m_bEnabled))
+			m_pScrollBar->SetVisible(true);
+		else
+			m_pScrollBar->SetVisible(false);
+
+		if(field_8)
+		{
+			if(field_63B2 && field_63D6)
+			{
+				field_63AA->Begin(D3DXSPRITE_ALPHABLEND);
+				field_63AA->Draw(field_63BA,NULL,NULL,NULL,0xFFFFFFFF);
+				field_63AA->End();
+			}
+			else
+			{
+				field_63A6->Begin(D3DXSPRITE_ALPHABLEND);
+				FUNC_10067940();
+				field_63A6->End();
+			}
+		}
+	}
+}
