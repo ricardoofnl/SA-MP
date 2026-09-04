@@ -163,6 +163,27 @@ void CNetGame::DisableMapIcon(BYTE byteIndex)
 
 //----------------------------------------------------
 
+void CNetGame::Packet_RSAPublicKeyMismatch(Packet *p)
+{
+	pChatWindow->AddDebugMessage("Failed to initialize encryption.");
+}
+
+//----------------------------------------------------
+
+void CNetGame::Packet_ConnectionBanned(Packet *p)
+{
+	pChatWindow->AddDebugMessage("You are banned from this server.");
+}
+
+//----------------------------------------------------
+
+void CNetGame::Packet_ConnectionSucceeded(Packet *p)
+{
+	pChatWindow->AddDebugMessage("Server has accepted the connection.");
+}
+
+//----------------------------------------------------
+
 // MATCH
 void CNetGame::Packet_NoFreeIncomingConnections(Packet *p)
 {
