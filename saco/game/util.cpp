@@ -783,6 +783,20 @@ float GetNormalisation(VECTOR *vec)
 	return ((vec->X * vec->X) + (vec->Y * vec->Y) + (vec->Z * vec->Z));
 }
 
+//----------------------------------------------------
+// newton step on the 0x5F3759D5 inverse-sqrt seed, scaled back up by x
+
+float FastSqrt(float x)
+{
+	float fOrig = x;
+	float fHalf = x * 0.5f;
+	int i = *(int *)&x;
+
+	i = 0x5F3759D5 - (i >> 1);
+	x = *(float *)&i;
+
+	return fOrig * (x * (1.5f - fHalf * x * x));
+}
 
 //----------------------------------------------------
 
