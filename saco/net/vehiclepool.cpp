@@ -2,6 +2,15 @@
 #include "../main.h"
 #include "../game/util.h"
 
+extern int dword_1026EBA0;
+
+// the number plate renderer lives on a global, only its texture builder is needed here
+class CPlateRenderer
+{
+public:
+	int FUNC_1006D880(char *szPlate); // .text:1006D880
+};
+
 // layout locks: these fail to compile if a field offset or the size moves
 typedef char chk_CVehiclePool_size[sizeof(CVehiclePool) == 0x17898 ? 1 : -1];
 typedef char chk_field_FA4[offsetof(CVehiclePool, field_FA4) == 0xFA4 ? 1 : -1];
@@ -144,6 +153,20 @@ int CVehiclePool::FUNC_1001EC00()
 		}
 	}
 	return ClosestVehicleID;
+}
+
+//----------------------------------------------------
+
+void CVehiclePool::FUNC_1001ED70()
+{
+	if(!field_17894) return;
+
+	if(dword_1026EBA0 && !*(DWORD *)(dword_1026EBA0 + 0x20))
+		*(DWORD *)(dword_1026EBA0 + 0x20) = ((CPlateRenderer *)dword_1026EBA0)->FUNC_1006D880("XYZSR998");
+
+	for(VEHICLEID VehicleID = 0; VehicleID <= field_0; VehicleID++) {
+		if(field_3074[VehicleID]) ((CVehicle *)field_1134[VehicleID])->FUNC_100B81A0();
+	}
 }
 
 //----------------------------------------------------
