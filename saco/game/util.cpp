@@ -793,6 +793,17 @@ void VectorCrossProduct(VECTOR *vecOut, VECTOR *vec1, VECTOR *vec2)
 	vecOut->Z = f1 - f2;
 }
 
+//----------------------------------------------------
+
+void VectorNormaliseTo(VECTOR *vecOut, VECTOR *vecIn)
+{
+	float fInv = 1.0f / (float)sqrt((double)(vecIn->X * vecIn->X + vecIn->Y * vecIn->Y +
+		vecIn->Z * vecIn->Z));
+
+	vecOut->X = fInv * vecIn->X;
+	vecOut->Y = fInv * vecIn->Y;
+	vecOut->Z = fInv * vecIn->Z;
+}
 
 //----------------------------------------------------
 
