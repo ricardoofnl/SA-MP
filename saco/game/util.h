@@ -104,6 +104,8 @@ void VectorCrossProduct(VECTOR *vecOut, VECTOR *vec1, VECTOR *vec2); // .text:10
 void VectorNormaliseTo(VECTOR *vecOut, VECTOR *vecIn); // .text:100B4CC0
 bool FUNC_100B4A70(VECTOR *vec); // .text:100B4A70
 bool FUNC_100B3D30(int nModelIndex); // .text:100B3D30
+int FUNC_100B41F0(void *pData); // .text:100B41F0
+int __stdcall FUNC_100B4240(DWORD *pdwIn, DWORD dwParam); // .text:100B4240
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 

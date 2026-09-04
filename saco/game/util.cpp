@@ -5,6 +5,8 @@
 #include "util.h"
 #include <sys/stat.h>
 
+extern int iGtaVersion;
+
 DWORD dwPlayerPedPtrs[PLAYER_PED_SLOTS];
 
 struc_13 VAR_1026C258[PLAYER_PED_SLOTS];
@@ -285,7 +287,61 @@ BOOL __stdcall IsValidPedModel(int iModel)
 	return FALSE;
 }
 
+//-----------------------------------------------------------
 
+int FUNC_100B41F0(void *pData)
+{
+	int iRet = 0;
+	DWORD dwFunc;
+	DWORD dwCamera = *(DWORD *)0xC1703C;
+
+	if(!dwCamera) return iRet;
+
+	dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7EE310 : 0x7EE2D0;
+
+	_asm push pData
+	_asm push dwCamera
+	_asm mov edx, dwFunc
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm mov iRet, eax
+
+	return iRet;
+}
+
+//-----------------------------------------------------------
+
+int __stdcall FUNC_100B4240(DWORD *pdwIn, DWORD dwParam)
+{
+	DWORD dwCamera;
+	DWORD dwFunc;
+	DWORD *pData;
+	DWORD data[4];
+	int iRet;
+
+	data[0] = pdwIn[0];
+	data[1] = pdwIn[1];
+	data[2] = pdwIn[2];
+	data[3] = dwParam;
+	pData = data;
+	iRet = 0;
+
+	dwCamera = *(DWORD *)0xC1703C;
+	if(!dwCamera) return iRet;
+
+	dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7EE310 : 0x7EE2D0;
+
+	_asm push pData
+	_asm push dwCamera
+	_asm mov edx, dwFunc
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm mov iRet, eax
+
+	return iRet;
+}
 
 
 
