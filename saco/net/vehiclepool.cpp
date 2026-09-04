@@ -14,6 +14,9 @@ typedef char chk_field_DC54[offsetof(CVehiclePool, field_DC54) == 0xDC54 ? 1 : -
 typedef char chk_field_FB94[offsetof(CVehiclePool, field_FB94) == 0xFB94 ? 1 : -1];
 typedef char chk_field_11AD4[offsetof(CVehiclePool, field_11AD4) == 0x11AD4 ? 1 : -1];
 typedef char chk_field_17894[offsetof(CVehiclePool, field_17894) == 0x17894 ? 1 : -1];
+typedef char chk_CVehicle_field_64[offsetof(CVehicle, field_64) == 0x64 ? 1 : -1];
+typedef char chk_CVehicle_field_65[offsetof(CVehicle, field_65) == 0x65 ? 1 : -1];
+typedef char chk_CVehicle_field_71[offsetof(CVehicle, field_71) == 0x71 ? 1 : -1];
 
 //----------------------------------------------------
 
@@ -107,6 +110,20 @@ int CVehiclePool::FUNC_1001EA80(unsigned short VehicleID)
 		return 1;
 	}
 	return 0;
+}
+
+//----------------------------------------------------
+
+void CVehiclePool::FUNC_1001EB30(unsigned short VehicleID, char a2, BYTE a3)
+{
+	if(VehicleID < MAX_VEHICLES && field_3074[VehicleID] && field_1134[VehicleID] && field_BD14[VehicleID]) {
+		CVehicle *pVehicle = (CVehicle *)field_1134[VehicleID];
+		if(a2) {
+			pVehicle->field_64 = 1;
+			pVehicle->field_65 = 0;
+		}
+		pVehicle->FUNC_100B7840(a3);
+	}
 }
 
 //----------------------------------------------------

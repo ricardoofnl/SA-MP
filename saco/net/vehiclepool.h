@@ -43,6 +43,8 @@ public:
 
 	void FUNC_1001EB00(unsigned short VehicleID, int a2); // .text:1001EB00
 
+	void FUNC_1001EB30(unsigned short VehicleID, char a2, BYTE a3); // .text:1001EB30
+
 	void FUNC_1001EDE0(); // .text:1001EDE0
 
 	short FUNC_1001EB90(int a1); // .text:1001EB90
