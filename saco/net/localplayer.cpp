@@ -5,6 +5,8 @@
 extern CGame		 *pGame;
 extern CNetGame		 *pNetGame;
 
+DWORD dword_100FE0A4;
+
 //----------------------------------------------------------
 
 CLocalPlayer::CLocalPlayer()
@@ -254,6 +256,37 @@ void CLocalPlayer::FUNC_10005BF0(WORD a1)
 				bsSend.Write(a1);
 				pNetGame->GetRakClient()->RPC(RPC_ExitVehicle, &bsSend, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, FALSE);
 			}
+		}
+	}
+}
+
+//----------------------------------------------------
+
+// entering a vehicle; the camera hand-off only runs for the vehicles that ask
+void CLocalPlayer::FUNC_10005AD0(WORD a1, int a2)
+{
+	RakNet::BitStream bsSend;
+
+	BYTE byteFlag = 0;
+
+	if(a2)
+		byteFlag = 1;
+
+	bsSend.Write(a1);
+	bsSend.Write(byteFlag);
+	pNetGame->GetRakClient()->RPC(RPC_EnterVehicle, &bsSend, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, FALSE);
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+
+	if(a1 < MAX_VEHICLES && pVehiclePool->field_3074[a1])
+	{
+		CVehicle *pVehicle = (CVehicle *)pVehiclePool->field_1134[a1];
+		if(pVehicle && pVehicle->FUNC_100B7460())
+		{
+			DWORD dwGtaId = pVehicle->m_dwGTAId;
+
+			ScriptCommand(&camera_on_vehicle, dwGtaId, 3, 2);
+			dword_100FE0A4 = GetTickCount();
 		}
 	}
 }

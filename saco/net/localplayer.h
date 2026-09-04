@@ -122,6 +122,7 @@ public:
 	void SelectPreviousClass(); // .text:10006080
 	void RequestClass(int iClass); // .text:100058D0
 	void SendStatsUpdate(); // .text:10005D00
+	void FUNC_10005AD0(WORD a1, int a2); // .text:10005AD0
 	void FUNC_10005BF0(WORD a1); // .text:10005BF0
 	void FUNC_10003570(); // .text:10003570
 
