@@ -125,6 +125,8 @@ public:
 
 	int			sub_100ADFA0(); // .text:100ADFA0
 	BOOL		FUNC_100ABFC0(); // .text:100ABFC0
+	BYTE		FUNC_100ABC50(); // .text:100ABC50
+	void		FUNC_100AC410(DWORD dwGtaId, int a2); // .text:100AC410
 	void		FUNC_100ADFB0(int iLevel); // .text:100ADFB0
 	int			FUNC_100ADC90(); // .text:100ADC90
 

@@ -1,6 +1,7 @@
 
 #include "../main.h"
 #include "../game/util.h"
+#include "../game/keystuff.h"
 
 extern CGame		 *pGame;
 extern CNetGame		 *pNetGame;
@@ -287,6 +288,32 @@ void CLocalPlayer::FUNC_10005AD0(WORD a1, int a2)
 
 			ScriptCommand(&camera_on_vehicle, dwGtaId, 3, 2);
 			dword_100FE0A4 = GetTickCount();
+		}
+	}
+}
+
+//----------------------------------------------------
+
+// the enter-vehicle key handler; 46 is the parachute, which has to be put away
+void CLocalPlayer::FUNC_10006FE0()
+{
+	GTA_CONTROLSET *pKeys = GameGetInternalKeys();
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+
+	if(pKeys->wKeys1[8] && !pKeys->wKeys2[8])
+	{
+		WORD wVehicleId = pVehiclePool->FUNC_1001EC00();
+		if(wVehicleId < MAX_VEHICLES && pVehiclePool->field_3074[wVehicleId])
+		{
+			CVehicle *pVehicle = (CVehicle *)pVehiclePool->FUNC_10001120(wVehicleId);
+			if(pVehicle->FUNC_1009F0C0() < 8.0f)
+			{
+				if(m_pPlayerPed->FUNC_100ABC50() == 46)
+					m_pPlayerPed->SetArmedWeapon(0, 0);
+
+				m_pPlayerPed->FUNC_100AC410(pVehicle->m_dwGTAId, 1);
+				FUNC_10005AD0(wVehicleId, 1);
+			}
 		}
 	}
 }
