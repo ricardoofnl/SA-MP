@@ -20,7 +20,12 @@ public:
 
 	VEHICLE_TYPE	*m_pVehicle;
 
-	char _gap50[33];
+	char _gap50[20];
+
+	BYTE		field_64;
+	int			field_65;
+
+	char _gap69[8];
 	
 	int			field_71;
 
@@ -77,6 +82,7 @@ public:
 	BOOL	FUNC_100B8330(); // .text:100B8330
 
 	void	FUNC_100B7090(int a1); // .text:100B7090
+	void	FUNC_100B7840(int a1); // .text:100B7840
 	void	FUNC_100B81A0(); // .text:100B81A0
 	void	FUNC_100B81F0(); // .text:100B81F0
 
