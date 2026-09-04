@@ -59,8 +59,8 @@ private:
 	char m_szHostOrIp[257];
 	char m_szHostName[257];
 	char field_232;
-	char field_233;
 public:
+	char field_233;
 	BYTE field_234;
 private:
 	int m_iPort;

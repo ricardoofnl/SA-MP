@@ -539,7 +539,18 @@ void EditAttachedObject(RPCParameters *rpcParams) {}
 void EditObject(RPCParameters *rpcParams) {}
 void SelectObject(RPCParameters *rpcParams) {}
 void Unk1C(RPCParameters *rpcParams) {}
-void UnkAA(RPCParameters *rpcParams) {}
+void UnkAA(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bool bValue = false;
+	bsData.Read(bValue);
+
+	if(pNetGame) pNetGame->field_233 = bValue;
+}
 void ClientCheck(RPCParameters *rpcParams) {}
 void UnkAB(RPCParameters *rpcParams) {}
 // MATCH
