@@ -94,6 +94,9 @@ public:
 	void FUNC_1000C0C0(); // .text:1000C0C0
 	bool FUNC_1000C0F0(); // .text:1000C0F0
 	void FUNC_1000C140(); // .text:1000C140
+	int  FUNC_1000C190(); // .text:1000C190
+	int  FUNC_1000C260(); // .text:1000C260
+	int  FUNC_1000C2F0(); // .text:1000C2F0
 };
 
 //----------------------------------------------------

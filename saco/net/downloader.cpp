@@ -304,4 +304,50 @@ void CDownloadManager::FUNC_1000C140()
 }
 
 //----------------------------------------------------
+
+// the three counters below are 6-way unrolled by the compiler
+int CDownloadManager::FUNC_1000C190()
+{
+	int iCount = 0;
+
+	for(int i = 0; i < MAX_DOWNLOAD_SLOTS; i++)
+	{
+		if(m_Slots[i].field_6 && !m_Slots[i].field_4 && !m_Slots[i].field_5)
+			iCount++;
+	}
+
+	return iCount;
+}
+
+//----------------------------------------------------
+
+int CDownloadManager::FUNC_1000C260()
+{
+	int iCount = 0;
+
+	for(int i = 0; i < MAX_DOWNLOAD_SLOTS; i++)
+	{
+		if(m_Slots[i].field_6 && m_Slots[i].field_4)
+			iCount++;
+	}
+
+	return iCount;
+}
+
+//----------------------------------------------------
+
+int CDownloadManager::FUNC_1000C2F0()
+{
+	int iCount = 0;
+
+	for(int i = 0; i < MAX_DOWNLOAD_SLOTS; i++)
+	{
+		if(m_Slots[i].field_6 && m_Slots[i].field_5)
+			iCount++;
+	}
+
+	return iCount;
+}
+
+//----------------------------------------------------
 // EOF
