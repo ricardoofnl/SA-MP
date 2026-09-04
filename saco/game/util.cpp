@@ -213,6 +213,7 @@ int FUNC_100B3D00()
 	return ((GAME_POOL_HOLDER *)0xC8800C)->CountUsedSlots();
 }
 
+
 //-----------------------------------------------------------
 
 void ReplaceBuildingModel(ENTITY_TYPE *pEntity, int iModelID)
@@ -260,6 +261,10 @@ BOOL __stdcall IsValidPedModel(int iModel)
 	}
 	return FALSE;
 }
+
+
+
+
 
 //-----------------------------------------------------------
 
@@ -579,6 +584,8 @@ DWORD __stdcall CRC32FromUpcaseString(char *szString)
 
 
 
+//-----------------------------------------------------------
+
 bool FUNC_100B4B50(VECTOR *vecPos)
 {
 	if( vecPos->X < 20000.0f && vecPos->X > -20000.0f &&
@@ -588,6 +595,20 @@ bool FUNC_100B4B50(VECTOR *vecPos)
 		return true;
 	}
 	return false;
+}
+
+//-----------------------------------------------------------
+
+int FUNC_100B4BC0(int a1, int a2, int a3)
+{
+	_asm push a3
+	_asm push a2
+	_asm push a1
+	_asm mov edx, 0x59C730
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
 }
 
 //-----------------------------------------------------------
@@ -753,12 +774,15 @@ void _VectorNormalise(VECTOR *vec)
 	_asm call edx
 }
 
+
+
 //----------------------------------------------------
 
 float GetNormalisation(VECTOR *vec)
 {
 	return ((vec->X * vec->X) + (vec->Y * vec->Y) + (vec->Z * vec->Z));
 }
+
 
 //----------------------------------------------------
 
@@ -971,6 +995,7 @@ void CreateCameraRaster()
 	_asm mov CamZBuffer2, eax
 	_asm add esp, 16
 }
+
 
 //----------------------------------------------------
 
