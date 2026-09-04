@@ -343,6 +343,26 @@ int __stdcall FUNC_100B4240(DWORD *pdwIn, DWORD dwParam)
 	return iRet;
 }
 
+//-----------------------------------------------------------
+
+void __stdcall FUNC_100B42B0(DWORD *pdwEntity)
+{
+	if(pdwEntity && pdwEntity[0x118])
+	{
+		DWORD dwState = ((DWORD *)pdwEntity[0x118])[0x166];
+		if(dwState != 0 && dwState != 1)
+		{
+			DWORD *pdwObject = (DWORD *)pdwEntity[0x118];
+
+			_asm mov ecx, pdwObject
+			_asm mov ebx, [ecx]
+			_asm push 1
+			_asm call dword ptr [ebx]
+
+			pdwEntity[0x118] = 0;
+		}
+	}
+}
 
 
 //-----------------------------------------------------------
