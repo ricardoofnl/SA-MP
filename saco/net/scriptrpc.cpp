@@ -76,8 +76,54 @@ void ScrUnk94(RPCParameters *rpcParams) {}
 void ScrUnk95(RPCParameters *rpcParams) {}
 void ScrUnk2C(RPCParameters *rpcParams) {}
 void ScrUnk2D(RPCParameters *rpcParams) {}
-void ScrUnk2E(RPCParameters *rpcParams) {}
-void ScrUnk2F(RPCParameters *rpcParams) {}
+void ScrUnk2E(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD objectId;
+	VECTOR vecPos;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(objectId);
+	bsData.Read(vecPos.X);
+	bsData.Read(vecPos.Y);
+	bsData.Read(vecPos.Z);
+
+	CObjectPool *pObjectPool = pNetGame->GetObjectPool();
+	if(pObjectPool && objectId <= MAX_OBJECTS && pObjectPool->field_4[objectId]
+		&& pObjectPool->field_FA4[objectId]) {
+		((CObject *)pObjectPool->field_FA4[objectId])->FUNC_100A80A0(&vecPos);
+	}
+}
+void ScrUnk2F(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD objectId;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(objectId);
+
+	CObjectPool *pObjectPool = pNetGame->GetObjectPool();
+	CLocalPlayer *pLocalPlayer = pNetGame->GetPlayerPool()->GetLocalPlayer();
+
+	if(objectId <= MAX_OBJECTS && pObjectPool->field_4[objectId]) {
+		int iObject = pObjectPool->field_FA4[objectId];
+		if(iObject) {
+			if(pLocalPlayer && pLocalPlayer->field_2DA == (DWORD)iObject) {
+				pLocalPlayer->field_2DA = 0;
+				pLocalPlayer->field_2E2 = 0;
+			}
+			pObjectPool->FUNC_10012850(objectId);
+		}
+	}
+}
 void ScrUnk4F(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -785,7 +831,31 @@ void ScrUnk2A(RPCParameters *rpcParams)
 {
 	if(pAudioStream) pAudioStream->Stop(0);
 }
-void ScrUnk2B(RPCParameters *rpcParams) {}
+void ScrUnk2B(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	int iModel;
+	float fX, fY, fZ, fRadius;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	iModel = 0;
+	fX = 0.0f;
+	fY = 0.0f;
+	fZ = 0.0f;
+	fRadius = 0.0f;
+
+	bsData.Read(iModel);
+	bsData.Read(fX);
+	bsData.Read(fY);
+	bsData.Read(fZ);
+	bsData.Read(fRadius);
+
+	FUNC_1009D3D0(iModel, fX, fY, fZ, fRadius);
+}
 void ScrUnk51(RPCParameters *rpcParams) {}
 void ScrUnk52(RPCParameters *rpcParams) {}
 void ScrUnk53(RPCParameters *rpcParams) {}

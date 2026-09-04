@@ -18,6 +18,7 @@ public:
 	void FUNC_100A7E20();
 	void FUNC_100A9E30();
 	void FUNC_100A9E70();
+	void FUNC_100A80A0(VECTOR *pPos); // .text:100A80A0
 };
 
 class CObjectPool
@@ -32,7 +33,7 @@ public:
 	CObjectPool();
 	~CObjectPool(); // .text:10013160
 
-	void FUNC_10012850(int iObject); // .text:10012850
+	void FUNC_10012850(WORD wObject); // .text:10012850
 
 	void FUNC_10012A50(); // .text:10012A50
 	void FUNC_10012B10(); // .text:10012B10

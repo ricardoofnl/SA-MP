@@ -21,7 +21,7 @@ CObjectPool::~CObjectPool()
 
 //----------------------------------------------------
 
-void CObjectPool::FUNC_10012850(int iObject)
+void CObjectPool::FUNC_10012850(WORD wObject)
 {
 	// TODO: CObjectPool::FUNC_10012850() .text:10012850
 }
