@@ -228,3 +228,32 @@ void CLocalPlayer::SelectPreviousClass()
 	pGame->m_pGameAudio->PlaySound(1053, mat.pos.X, mat.pos.Y, mat.pos.Z);
 	RequestClass(field_2FE);
 }
+
+//----------------------------------------------------
+
+// leaving a vehicle; every guard shares one exit so the nesting has to stay
+void CLocalPlayer::FUNC_10005BF0(WORD a1)
+{
+	RakNet::BitStream bsSend;
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+
+	if(a1 < MAX_VEHICLES && pVehiclePool->field_3074[a1])
+	{
+		int pVehicle = pVehiclePool->field_1134[a1];
+		if(pVehicle)
+		{
+			if(!m_pPlayerPed->FUNC_100ABFC0())
+				field_FA = a1;
+
+			if(((CVehicle *)pVehicle)->FUNC_100B7460())
+				pGame->m_pGameCamera->FUNC_1009D740();
+
+			if(!((CVehicle *)pVehicle)->FUNC_100B7E00())
+			{
+				bsSend.Write(a1);
+				pNetGame->GetRakClient()->RPC(RPC_ExitVehicle, &bsSend, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, FALSE);
+			}
+		}
+	}
+}

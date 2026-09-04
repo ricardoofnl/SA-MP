@@ -87,6 +87,9 @@ public:
 	void	FUNC_100B81A0(); // .text:100B81A0
 	void	FUNC_100B81F0(); // .text:100B81F0
 
+	BOOL	FUNC_100B7460(); // .text:100B7460
+	BOOL	FUNC_100B7E00(); // .text:100B7E00
+
 
 };
 
