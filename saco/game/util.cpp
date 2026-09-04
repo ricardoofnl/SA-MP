@@ -213,6 +213,29 @@ int FUNC_100B3D00()
 	return ((GAME_POOL_HOLDER *)0xC8800C)->CountUsedSlots();
 }
 
+//-----------------------------------------------------------
+
+bool FUNC_100B3D30(int nModelIndex)
+{
+	OBJECT_TYPE *pPoolStart;
+
+	_asm mov eax, 0xB7449C
+	_asm mov edx, [eax]
+	_asm mov eax, [edx]
+	_asm mov pPoolStart, eax
+
+	OBJECT_TYPE *pObject = pPoolStart;
+
+	for(int i = 0; i != 3000; i++, pObject++)
+	{
+		if(pObject && pObject->vtable && pObject->vtable != 0x863C40 &&
+			pObject->nModelIndex == nModelIndex)
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
 //-----------------------------------------------------------
 
