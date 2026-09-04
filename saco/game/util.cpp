@@ -1173,6 +1173,49 @@ void CreateCameraRaster()
 	_asm add esp, 16
 }
 
+//----------------------------------------------------
+
+DWORD CamFrameBufferSave;
+DWORD CamZBufferSave;
+
+DWORD *pRwSceneCamera = (DWORD *)0xC1703C;
+
+void FUNC_100B5D20()
+{
+	DWORD dwCamera;
+
+	_asm pushad
+
+	CreateCameraRaster();
+
+	dwCamera = *pRwSceneCamera;
+	*(DWORD *)0xC9BCC0 = dwCamera;
+
+	_asm mov ebx, dwCamera
+	_asm mov edx, [ebx+0x60]
+	_asm mov CamFrameBufferSave, edx
+	_asm mov edx, [ebx+0x64]
+	_asm mov CamZBufferSave, edx
+	_asm mov edx, CamFrameBuffer2
+	_asm mov [ebx+0x60], edx
+	_asm mov edx, CamZBuffer2
+	_asm mov [ebx+0x64], edx
+
+	_asm mov edx, 0x734650
+	_asm call edx
+	_asm mov edx, 0x53DF40
+	_asm call edx
+	_asm mov edx, 0x732F30
+	_asm call edx
+
+	_asm mov ebx, dwCamera
+	_asm mov edx, CamFrameBufferSave
+	_asm mov [ebx+0x60], edx
+	_asm mov edx, CamZBufferSave
+	_asm mov [ebx+0x64], edx
+
+	_asm popad
+}
 
 //----------------------------------------------------
 
