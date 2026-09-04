@@ -9,6 +9,23 @@ int __stdcall sub_1000C770(DWORD a1, DWORD dwCrc, DWORD a3, DWORD a4); // .text:
 
 //----------------------------------------------------
 
+// layout locks: every offset below came out of the disassembly, so a wrong one
+// fails to compile instead of quietly mismatching
+typedef char AssertSlotSize[sizeof(DOWNLOAD_SLOT) == 0x230 ? 1 : -1];
+typedef char AssertSlotPath[offsetof(DOWNLOAD_SLOT, szPath) == 0xC ? 1 : -1];
+typedef char AssertSlotRequest[offsetof(DOWNLOAD_SLOT, Request) == 0x112 ? 1 : -1];
+typedef char AssertRequestSize[sizeof(DOWNLOAD_REQUEST) == 0x11E ? 1 : -1];
+typedef char AssertRequestCrc[offsetof(DOWNLOAD_REQUEST, dwCrc) == 0x11 ? 1 : -1];
+typedef char AssertReadyFlag[offsetof(CDownloadManager, m_bSlotsReady) == 0x1344 ? 1 : -1];
+typedef char AssertSlotArray[offsetof(CDownloadManager, m_Slots) == 0x1345 ? 1 : -1];
+typedef char AssertEntryCount[offsetof(CDownloadList, m_dwCount) == 4 ? 1 : -1];
+typedef char AssertEntryState[offsetof(DOWNLOAD_ENTRY, field_7) == 7 ? 1 : -1];
+typedef char AssertEntryCrc[offsetof(DOWNLOAD_ENTRY, dwCrc) == 0x10 ? 1 : -1];
+typedef char AssertEntry46[offsetof(DOWNLOAD_ENTRY, field_46) == 0x46 ? 1 : -1];
+typedef char AssertEntry58[offsetof(DOWNLOAD_ENTRY, field_58) == 0x58 ? 1 : -1];
+
+//----------------------------------------------------
+
 // retail spawns the workers on an empty body
 void __cdecl DownloadThreadProc(void *pParam)
 {
