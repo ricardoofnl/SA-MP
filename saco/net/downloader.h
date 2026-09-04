@@ -49,6 +49,7 @@ struct DOWNLOAD_ENTRY
 	char  _gap4E[0xA];
 	char  field_58;
 	char  field_59;
+	DWORD field_5A;              // retry countdown
 };
 
 //----------------------------------------------------
@@ -73,6 +74,7 @@ public:
 	bool FUNC_1000D110(DWORD dwCrc); // .text:1000D110
 	bool FUNC_1000D150(DWORD dwCrc); // .text:1000D150
 	char FUNC_1000D190(DWORD dwCrc); // .text:1000D190
+	void FUNC_1000D1E0(); // .text:1000D1E0
 	DWORD FUNC_1000D240(DWORD dwCrc); // .text:1000D240
 	DWORD FUNC_1000D280(DWORD dwCrc); // .text:1000D280
 	int  FUNC_1000C770(DWORD a1, DWORD dwCrc, DWORD a3, DWORD a4); // .text:1000C770

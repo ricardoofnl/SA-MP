@@ -7,6 +7,7 @@ CDownloadManager *dword_10118A24;
 
 int sub_100B5DC0(char *szPath); // .text:100B5DC0
 int sub_100A7C30(DWORD a1, DWORD a2, char *a3, char *a4, char *a5); // .text:100A7C30
+int sub_100B2040(DWORD dwCrc); // .text:100B2040
 
 //----------------------------------------------------
 
@@ -24,6 +25,7 @@ typedef char AssertEntryState[offsetof(DOWNLOAD_ENTRY, field_7) == 7 ? 1 : -1];
 typedef char AssertEntryCrc[offsetof(DOWNLOAD_ENTRY, dwCrc) == 0x10 ? 1 : -1];
 typedef char AssertEntry46[offsetof(DOWNLOAD_ENTRY, field_46) == 0x46 ? 1 : -1];
 typedef char AssertEntry58[offsetof(DOWNLOAD_ENTRY, field_58) == 0x58 ? 1 : -1];
+typedef char AssertEntry5A[offsetof(DOWNLOAD_ENTRY, field_5A) == 0x5A ? 1 : -1];
 
 //----------------------------------------------------
 
@@ -136,6 +138,30 @@ char CDownloadList::FUNC_1000D190(DWORD dwCrc)
 	}
 
 	return 0;
+}
+
+//----------------------------------------------------
+
+// ticks the retry countdown on every finished entry and retires it at zero
+void CDownloadList::FUNC_1000D1E0()
+{
+	for(DWORD i = 0; i != m_dwCount; i++)
+	{
+		DOWNLOAD_ENTRY *pEntry = GetAt(i);
+		if(pEntry->field_58 && pEntry->field_59)
+		{
+			if(!pEntry->field_5A)
+			{
+				sub_100B2040(pEntry->dwCrc);
+				pEntry->field_59 = 0;
+				pEntry->field_58 = 0;
+			}
+			else
+			{
+				pEntry->field_5A--;
+			}
+		}
+	}
 }
 
 //----------------------------------------------------
