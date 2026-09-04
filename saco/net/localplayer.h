@@ -135,6 +135,7 @@ public:
 	void sub_10003C20(); // .text:10003C20
 	void sub_10003BE0(SPAWN_INFO *pSpawnInfo); // .text:10003BE0
 	void sub_100040E0(BOOL bSpawn); // .text:100040E0
+	void sub_10003710(int a1, int a2); // .text:10003710
 
 	DWORD GetField_F0() { return field_F0; };
 };

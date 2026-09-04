@@ -460,8 +460,52 @@ void ScrUnk99(RPCParameters *rpcParams)
 		pPlayerPool->GetAt(iPlayerId)->m_pPlayerPed->SetSkin(iSkin);
 	}
 }
-void ScrSetPlayerPos(RPCParameters *rpcParams) {}
-void ScrUnk0D(RPCParameters *rpcParams) {}
+void ScrSetPlayerPos(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VECTOR vecPos;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	if(!pPlayerPool) return;
+
+	CLocalPlayer *pLocalPlayer = pPlayerPool->GetLocalPlayer();
+	if(!pLocalPlayer) return;
+
+	bsData.Read(vecPos.X);
+	bsData.Read(vecPos.Y);
+	bsData.Read(vecPos.Z);
+
+	pLocalPlayer->field_2E2 = 0;
+	pLocalPlayer->sub_10003710(0, 0);
+	pLocalPlayer->GetPlayerPed()->TeleportTo(vecPos.X, vecPos.Y, vecPos.Z);
+}
+void ScrUnk0D(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VECTOR vecPos;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CLocalPlayer *pLocalPlayer = pNetGame->GetPlayerPool()->GetLocalPlayer();
+
+	bsData.Read(vecPos.X);
+	bsData.Read(vecPos.Y);
+	bsData.Read(vecPos.Z);
+
+	vecPos.Z = pGame->FindGroundZForCoord(vecPos.X, vecPos.Y, vecPos.Z) + 1.5f;
+
+	pLocalPlayer->field_2E2 = 0;
+	pLocalPlayer->sub_10003710(0, 0);
+	pLocalPlayer->GetPlayerPed()->TeleportTo(vecPos.X, vecPos.Y, vecPos.Z);
+}
 void ScrPutPlayerInVehicle(RPCParameters *rpcParams) {}
 void ScrRemovePlayerFromVehicle(RPCParameters *rpcParams)
 {
