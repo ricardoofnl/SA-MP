@@ -160,3 +160,28 @@ void CLocalPlayer::FUNC_10006AC0(WORD a1, float a2, int a3, int a4)
 	bsSend.Write(a4);
 	pNetGame->GetRakClient()->RPC(RPC_ActorDamage, &bsSend, HIGH_PRIORITY, RELIABLE_ORDERED, 0, FALSE);
 }
+
+//----------------------------------------------------
+
+void CLocalPlayer::RequestClass(int iClass)
+{
+	RakNet::BitStream bsSend;
+
+	bsSend.Write(iClass);
+	pNetGame->GetRakClient()->RPC(RPC_RequestClass, &bsSend, HIGH_PRIORITY, RELIABLE, 0, FALSE);
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::SendStatsUpdate()
+{
+	RakNet::BitStream bsSend;
+
+	int iMoney = pGame->FUNC_100A0F90();
+	int iDrunkLevel = m_pPlayerPed->sub_100ADFA0();
+
+	bsSend.Write((BYTE)ID_STATS_UPDATE);
+	bsSend.Write(iMoney);
+	bsSend.Write(iDrunkLevel);
+	pNetGame->GetRakClient()->Send(&bsSend, HIGH_PRIORITY, UNRELIABLE, 0);
+}

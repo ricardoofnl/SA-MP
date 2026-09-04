@@ -154,6 +154,8 @@ public:
 	void sub_100A1C10();
 	void sub_100A1DB0(int a1);
 
+	int  FUNC_100A0F90(); // .text:100A0F90
+
 	void LoadScene(char* szScene);
 	int GetMemoryUsedForStreaming();
 	int GetMemoryAvailableForStreaming();

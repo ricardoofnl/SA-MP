@@ -118,6 +118,8 @@ public:
 
 	BOOL IsInRCMode() { return m_bInRCMode; };
 
+	void RequestClass(int iClass); // .text:100058D0
+	void SendStatsUpdate(); // .text:10005D00
 	void FUNC_10005BF0(WORD a1); // .text:10005BF0
 	void FUNC_10003570(); // .text:10003570
 
