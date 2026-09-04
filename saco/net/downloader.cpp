@@ -140,6 +140,34 @@ char CDownloadList::FUNC_1000D190(DWORD dwCrc)
 
 //----------------------------------------------------
 
+DWORD CDownloadList::FUNC_1000D240(DWORD dwCrc)
+{
+	for(DWORD i = 0; i != m_dwCount; i++)
+	{
+		DOWNLOAD_ENTRY *pEntry = GetAt(i);
+		if(pEntry && pEntry->dwCrc == dwCrc && pEntry->field_7 == 2)
+			return pEntry->field_46;
+	}
+
+	return 0;
+}
+
+//----------------------------------------------------
+
+DWORD CDownloadList::FUNC_1000D280(DWORD dwCrc)
+{
+	for(DWORD i = 0; i != m_dwCount; i++)
+	{
+		DOWNLOAD_ENTRY *pEntry = GetAt(i);
+		if(pEntry && pEntry->dwCrc == dwCrc && pEntry->field_7 == 2)
+			return pEntry->field_4A;
+	}
+
+	return 0;
+}
+
+//----------------------------------------------------
+
 // both model files have to be present in one of the two search dirs
 int CDownloadList::FUNC_1000C770(DWORD a1, DWORD dwCrc, DWORD a3, DWORD a4)
 {

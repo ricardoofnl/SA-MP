@@ -73,6 +73,8 @@ public:
 	bool FUNC_1000D110(DWORD dwCrc); // .text:1000D110
 	bool FUNC_1000D150(DWORD dwCrc); // .text:1000D150
 	char FUNC_1000D190(DWORD dwCrc); // .text:1000D190
+	DWORD FUNC_1000D240(DWORD dwCrc); // .text:1000D240
+	DWORD FUNC_1000D280(DWORD dwCrc); // .text:1000D280
 	int  FUNC_1000C770(DWORD a1, DWORD dwCrc, DWORD a3, DWORD a4); // .text:1000C770
 	int  FUNC_1000D320(DWORD dwCrc); // .text:1000D320
 };
