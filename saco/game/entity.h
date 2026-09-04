@@ -58,6 +58,8 @@ public:
 
 	float FUNC_1009F0C0(); // .text:1009F0C0
 	float FUNC_1009F190(); // .text:1009F190
+	char  FUNC_1009FC00(VECTOR *vecStart, VECTOR *vecEnd, char a3); // .text:1009FC00
+	char  FUNC_1009FCE0(); // .text:1009FCE0
 	BYTE  FUNC_100B8340(); // .text:100B8340
 	float FUNC_100B72A0(); // .text:100B72A0
 	int   FUNC_100B7390(); // .text:100B7390

@@ -189,3 +189,18 @@ short CVehiclePool::FUNC_1001EEB0(int a1, VECTOR *vecOrigin, VECTOR *vecLine)
 }
 
 //----------------------------------------------------
+
+char CVehiclePool::FUNC_1001EE20(VECTOR *vecStart, VECTOR *vecEnd)
+{
+	for(int i = 0; i <= field_0; i++) {
+		if(field_3074[i] && field_1134[i]) {
+			CVehicle *pVehicle = (CVehicle *)field_1134[i];
+			if(pVehicle->IsAdded() && pVehicle->FUNC_1009F190() < 300.0f
+				&& !pVehicle->FUNC_1009FCE0()
+				&& pVehicle->FUNC_1009FC00(vecStart, vecEnd, 1)) return 1;
+		}
+	}
+	return 0;
+}
+
+//----------------------------------------------------
