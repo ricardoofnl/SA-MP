@@ -114,3 +114,49 @@ DWORD CLocalPlayer::GetPlayerColorAsARGB()
 
 //----------------------------------------------------
 
+//----------------------------------------------------
+
+// the damage reports scale the amount down to a third before sending
+void CLocalPlayer::FUNC_100068A0(WORD a1, float a2, int a3, int a4)
+{
+	a2 *= 0.33f;
+
+	RakNet::BitStream bsSend;
+
+	bsSend.Write1();
+	bsSend.Write(a1);
+	bsSend.Write(a2);
+	bsSend.Write(a3);
+	bsSend.Write(a4);
+	pNetGame->GetRakClient()->RPC(RPC_PlayerDamage, &bsSend, HIGH_PRIORITY, RELIABLE_ORDERED, 0, FALSE);
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::FUNC_100069B0(WORD a1, float a2, int a3, int a4)
+{
+	a2 *= 0.33f;
+
+	RakNet::BitStream bsSend;
+
+	bsSend.Write0();
+	bsSend.Write(a1);
+	bsSend.Write(a2);
+	bsSend.Write(a3);
+	bsSend.Write(a4);
+	pNetGame->GetRakClient()->RPC(RPC_PlayerDamage, &bsSend, HIGH_PRIORITY, RELIABLE_ORDERED, 0, FALSE);
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::FUNC_10006AC0(WORD a1, float a2, int a3, int a4)
+{
+	RakNet::BitStream bsSend;
+
+	bsSend.Write0();
+	bsSend.Write(a1);
+	bsSend.Write(a2);
+	bsSend.Write(a3);
+	bsSend.Write(a4);
+	pNetGame->GetRakClient()->RPC(RPC_ActorDamage, &bsSend, HIGH_PRIORITY, RELIABLE_ORDERED, 0, FALSE);
+}
