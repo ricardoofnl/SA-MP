@@ -77,6 +77,8 @@ bool HasCollisionLoaded(VECTOR *vec);
 BOOL __stdcall IsATrainPart(ENTITY_TYPE *pEntity);
 BOOL __stdcall FUNC_100B4860(VEHICLE_TYPE *pVehicle); // .text:100B4860
 BOOL __stdcall FUNC_100B6950(VEHICLE_TYPE *pVehicle); // .text:100B6950
+int __stdcall FUNC_100B64E0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9); // .text:100B64E0
+int __stdcall FUNC_100B6510(int a1, int a2); // .text:100B6510
 
 BOOL IsHexChar(char c);
 BOOL IsHexChar(wchar_t c);

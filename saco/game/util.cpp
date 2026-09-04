@@ -1031,6 +1031,35 @@ int FUNC_100B61D0(int a1)
 	_asm pop edx
 }
 
+int __stdcall FUNC_100B64E0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
+{
+	_asm push a9
+	_asm push a8
+	_asm push a7
+	_asm push a6
+	_asm push a5
+	_asm push a4
+	_asm push a3
+	_asm push a2
+	_asm mov ecx, a1
+	_asm mov edx, 0x73FB10
+	_asm call edx
+}
+
+//-----------------------------------------------------------
+
+int __stdcall FUNC_100B6510(int a1, int a2)
+{
+	_asm push 0
+	_asm push 0
+	_asm push a2
+	_asm mov ecx, a1
+	_asm mov edx, 0x73AAC0
+	_asm call edx
+}
+
+//-----------------------------------------------------------
+
 UINT GetVehicleSubtypeFromVehiclePtr(VEHICLE_TYPE *pVehicle)
 {
 	if(!pVehicle) return 0;
