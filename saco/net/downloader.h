@@ -61,12 +61,16 @@ public:
 
 	DOWNLOAD_ENTRY **m_pEntries;
 	DWORD m_dwCount;
+	char  field_8;
+	char  szDir1[0x105];
+	char  szDir2[0x105];
 
 	DOWNLOAD_ENTRY *GetAt(DWORD dwIndex) { if(dwIndex >= m_dwCount) return NULL; return m_pEntries[dwIndex]; }
 
 	bool FUNC_1000D110(DWORD dwCrc); // .text:1000D110
 	bool FUNC_1000D150(DWORD dwCrc); // .text:1000D150
 	char FUNC_1000D190(DWORD dwCrc); // .text:1000D190
+	int  FUNC_1000C770(DWORD a1, DWORD dwCrc, DWORD a3, DWORD a4); // .text:1000C770
 	int  FUNC_1000D320(DWORD dwCrc); // .text:1000D320
 };
 

@@ -5,7 +5,8 @@ extern CConfig *pConfig;
 
 CDownloadManager *dword_10118A24;
 
-int __stdcall sub_1000C770(DWORD a1, DWORD dwCrc, DWORD a3, DWORD a4); // .text:1000C770
+int sub_100B5DC0(char *szPath); // .text:100B5DC0
+int sub_100A7C30(DWORD a1, DWORD a2, char *a3, char *a4, char *a5); // .text:100A7C30
 
 //----------------------------------------------------
 
@@ -108,6 +109,36 @@ char CDownloadList::FUNC_1000D190(DWORD dwCrc)
 
 //----------------------------------------------------
 
+// both model files have to be present in one of the two search dirs
+int CDownloadList::FUNC_1000C770(DWORD a1, DWORD dwCrc, DWORD a3, DWORD a4)
+{
+	char szCrc[28];
+	char szDff[261];
+	char szTxd[261];
+
+	sprintf(szCrc, "%X", a4);
+
+	sprintf(szDff, "%s\\0x%X.dff", szDir1, a3);
+	if(!sub_100B5DC0(szDff))
+	{
+		sprintf(szDff, "%s\\0x%X.dff", szDir2, a3);
+		if(!sub_100B5DC0(szDff))
+			return 0;
+	}
+
+	sprintf(szTxd, "%s\\0x%X.txd", szDir1, a4);
+	if(!sub_100B5DC0(szTxd))
+	{
+		sprintf(szTxd, "%s\\0x%X.txd", szDir2, a4);
+		if(!sub_100B5DC0(szTxd))
+			return 0;
+	}
+
+	return sub_100A7C30(a1, dwCrc, szCrc, szDff, szTxd) != 0;
+}
+
+//----------------------------------------------------
+
 // promotes a staged entry once its file checks out; any failed check gives up
 // on the whole lookup rather than scanning on
 int CDownloadList::FUNC_1000D320(DWORD dwCrc)
@@ -124,7 +155,7 @@ int CDownloadList::FUNC_1000D320(DWORD dwCrc)
 			return 0;
 		if(!pEntry->field_1)
 			return 0;
-		if(!sub_1000C770(pEntry->field_C, pEntry->dwCrc, pEntry->field_46, pEntry->field_4A))
+		if(!FUNC_1000C770(pEntry->field_C, pEntry->dwCrc, pEntry->field_46, pEntry->field_4A))
 			return 0;
 
 		pEntry->field_59 = 0;
