@@ -4,6 +4,17 @@
 
 extern int dword_1026EBA0;
 
+// same layout as the camera collision points that game/hooks.cpp passes around
+typedef struct
+{
+	VECTOR	vecPos;
+	float	field_C;
+	float	field_10;
+} CAMCOL_POINT;
+
+char __stdcall FUNC_100B65D0(CAMCOL_POINT *pStart, CAMCOL_POINT *pEnd, ENTITY_TYPE *pEntity,
+		VECTOR *vecBoundCentre, float fScale, int a6); // .text:100B65D0
+
 // the number plate renderer lives on a global, only its texture builder is needed here
 class CPlateRenderer
 {
@@ -216,6 +227,45 @@ int CVehiclePool::FUNC_1001EC70(float fX, float fY, float fZ)
 			if(fDistance < fClosestDistance) {
 				fClosestDistance = fDistance;
 				ClosestVehicleID = VehicleID;
+			}
+		}
+	}
+	return ClosestVehicleID;
+}
+
+//----------------------------------------------------
+
+short CVehiclePool::FUNC_1001EF30(float fMaxDistance, VECTOR *vecStart, VECTOR *vecEnd, float fRadius)
+{
+	CAMCOL_POINT colStart;
+	CAMCOL_POINT colEnd;
+	VECTOR vecBoundCentre;
+
+	// copying the points field by field is what keeps `vecStart` in a register over the walk
+	colStart.vecPos.X = vecStart->X;
+	colStart.vecPos.Y = vecStart->Y;
+	colStart.vecPos.Z = vecStart->Z;
+	colStart.field_C = fRadius;
+	colEnd.vecPos.X = vecEnd->X;
+	colEnd.vecPos.Y = vecEnd->Y;
+	colEnd.vecPos.Z = vecEnd->Z;
+	colEnd.field_C = fRadius;
+
+	float fClosestDistance = 100000.0f;
+	VEHICLEID ClosestVehicleID = INVALID_VEHICLE_ID;
+
+	for(int i = 0; i <= field_0; i++) {
+		if(field_3074[i] && field_1134[i]) {
+			CVehicle *pVehicle = (CVehicle *)field_1134[i];
+			if(pVehicle->IsAdded() && pVehicle->FUNC_1009F190() < fMaxDistance && !pVehicle->FUNC_100B7420()) {
+				pVehicle->GetBoundCentre(&vecBoundCentre);
+				if(FUNC_100B65D0(&colStart, &colEnd, pVehicle->m_pEntity, &vecBoundCentre, 1.0f, 1)) {
+					float fDistance = pVehicle->GetDistanceFromPoint(vecStart->X, vecStart->Y, vecStart->Z);
+					if(fDistance < fClosestDistance) {
+						fClosestDistance = fDistance;
+						ClosestVehicleID = i;
+					}
+				}
 			}
 		}
 	}

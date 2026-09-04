@@ -57,6 +57,8 @@ public:
 
 	int FUNC_1001EC70(float fX, float fY, float fZ); // .text:1001EC70
 
+	short FUNC_1001EF30(float fMaxDistance, VECTOR *vecStart, VECTOR *vecEnd, float fRadius); // .text:1001EF30
+
 	short FUNC_1001EEB0(int a1, VECTOR *vecOrigin, VECTOR *vecLine); // .text:1001EEB0
 
 	void FUNC_1001ED70(); // .text:1001ED70

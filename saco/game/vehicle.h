@@ -80,6 +80,7 @@ public:
 	BOOL	IsOccupied();
 
 	BOOL	FUNC_100B8330(); // .text:100B8330
+	BOOL	FUNC_100B7420(); // .text:100B7420
 
 	void	FUNC_100B7090(int a1); // .text:100B7090
 	void	FUNC_100B7840(int a1); // .text:100B7840
