@@ -7,6 +7,8 @@ extern CChatWindow   *pChatWindow;
 extern CConfig       *pConfig;
 extern CAudioStream  *pAudioStream;
 
+void FUNC_100AABE0(); // .text:100AABE0
+
 //----------------------------------------------------
 
 // MATCH
@@ -243,6 +245,18 @@ void CNetGame::AttemptConnect()
 		field_3D1 = GetTickCount();
 		m_iGameState = GAMESTATE_CONNECTING;
 	}
+}
+
+//----------------------------------------------------
+
+void CNetGame::ResetWorldBounds()
+{
+	if(field_3D5->field_2B) FUNC_100AABE0();
+
+	field_3D5->fWorldBoundryPX = 20000.0f;
+	field_3D5->fWorldBoundryZX = -20000.0f;
+	field_3D5->fWorldBoundryPY = 20000.0f;
+	field_3D5->fWorldBoundryNY = -20000.0f;
 }
 
 //----------------------------------------------------

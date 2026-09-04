@@ -25,7 +25,7 @@ struct struc_41
 	char field_22;
 	int field_23;
 	float field_27;
-	char _gap2B;
+	char field_2B;
 	BYTE field_2C;
 	BYTE field_2D;
 	char field_2E;
@@ -120,6 +120,8 @@ public:
 	void ResetActorPool(); // .text:10009490
 
 	void AttemptConnect(); // .text:10008940
+
+	void ResetWorldBounds(); // .text:100088F0
 
 	void Packet_RSAPublicKeyMismatch(Packet *p); // .text:10008D50
 	void Packet_ConnectionBanned(Packet *p); // .text:10008D70
