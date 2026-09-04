@@ -204,3 +204,22 @@ char CVehiclePool::FUNC_1001EE20(VECTOR *vecStart, VECTOR *vecEnd)
 }
 
 //----------------------------------------------------
+
+int CVehiclePool::FUNC_1001EC70(float fX, float fY, float fZ)
+{
+	float fClosestDistance = 20000.0f;
+	VEHICLEID ClosestVehicleID = INVALID_VEHICLE_ID;
+
+	for(VEHICLEID VehicleID = 0; VehicleID <= field_0; VehicleID++) {
+		if(field_3074[VehicleID] && field_BD14[VehicleID]) {
+			float fDistance = ((CVehicle *)field_1134[VehicleID])->GetDistanceFromPoint(fX, fY, fZ);
+			if(fDistance < fClosestDistance) {
+				fClosestDistance = fDistance;
+				ClosestVehicleID = VehicleID;
+			}
+		}
+	}
+	return ClosestVehicleID;
+}
+
+//----------------------------------------------------
