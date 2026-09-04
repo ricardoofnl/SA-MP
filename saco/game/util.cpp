@@ -364,6 +364,30 @@ void __stdcall FUNC_100B42B0(DWORD *pdwEntity)
 	}
 }
 
+//-----------------------------------------------------------
+
+DWORD __stdcall FUNC_100B4430(int a1, int a2)
+{
+	DWORD *pFound = NULL;
+	DWORD dwResult = 0;
+
+	_asm push a2
+	_asm push a1
+	_asm mov edx, 0x4D3A60
+	_asm call edx
+	_asm mov pFound, eax
+	_asm pop edx
+	_asm pop edx
+
+	if(pFound)
+	{
+		_asm mov edx, [eax+0x10]
+		_asm mov eax, [edx]
+		_asm mov dwResult, eax
+	}
+
+	return dwResult;
+}
 
 //-----------------------------------------------------------
 

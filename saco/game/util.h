@@ -107,6 +107,7 @@ bool FUNC_100B3D30(int nModelIndex); // .text:100B3D30
 int FUNC_100B41F0(void *pData); // .text:100B41F0
 int __stdcall FUNC_100B4240(DWORD *pdwIn, DWORD dwParam); // .text:100B4240
 void __stdcall FUNC_100B42B0(DWORD *pdwEntity); // .text:100B42B0
+DWORD __stdcall FUNC_100B4430(int a1, int a2); // .text:100B4430
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 
