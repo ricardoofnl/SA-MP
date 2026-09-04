@@ -110,6 +110,8 @@ public:
 
 	CMenuPool * GetMenuPool() { return m_pPools->pMenuPool; }; // .text:100084F0
 	void ResetPlayerPool(); // .text:10008FE0
+	void ResetVehiclePool(); // .text:10009080
+	void ResetTextDrawPool(); // .text:10009110
 	void ResetGangZonePool(); // .text:10009250
 	void ResetPickupPool(); // .text:100092F0
 	void ResetMenuPool(); // .text:10009350

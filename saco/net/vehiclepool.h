@@ -39,7 +39,7 @@ public:
 
 	int FUNC_1001EA80(unsigned short VehicleID); // .text:1001EA80
 
-	void FUNC_1001F060(); // .text:1001F060
+	~CVehiclePool(); // .text:1001F060
 
 	void FUNC_1001EB00(unsigned short VehicleID, int a2); // .text:1001EB00
 

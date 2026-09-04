@@ -31,7 +31,8 @@ void CTextDrawPool::FUNC_1001E7F0(unsigned short TextDrawID)
 
 //----------------------------------------------------
 
-void CTextDrawPool::FUNC_1001E8D0()
+// MATCH
+CTextDrawPool::~CTextDrawPool()
 {
 	for(int i = 0; i < MAX_TEXT_DRAWS; i++) {
 		CTextDraw *pTextDraw = (CTextDraw *)field_2400[i];

@@ -36,7 +36,7 @@ public:
 
 	void FUNC_1001E870(); // .text:1001E870
 
-	void FUNC_1001E8D0(); // .text:1001E8D0
+	~CTextDrawPool(); // .text:1001E8D0
 
 	void FUNC_1001E8A0(); // .text:1001E8A0
 

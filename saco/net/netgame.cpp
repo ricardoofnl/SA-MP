@@ -276,3 +276,21 @@ void CNetGame::ResetActorPool()
 	delete m_pPools->pActorPool;
 	m_pPools->pActorPool = new CActorPool();
 }
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ResetVehiclePool()
+{
+	delete m_pPools->pVehiclePool;
+	m_pPools->pVehiclePool = new CVehiclePool();
+}
+
+//----------------------------------------------------
+
+// MATCH
+void CNetGame::ResetTextDrawPool()
+{
+	delete m_pPools->pTextDrawPool;
+	m_pPools->pTextDrawPool = new CTextDrawPool();
+}
