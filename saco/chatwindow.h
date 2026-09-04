@@ -51,6 +51,8 @@ public:
 
 	void FUNC_10067200();
 
+	void ReplaceControlChars(char *szString); // .text:10067420
+
 	void FUNC_10067E00(); // .text:10067E00
 
 	void FUNC_10067ED0(); // .text:10067ED0

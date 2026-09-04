@@ -184,3 +184,18 @@ void CChatWindow::SetPageSize(int iPageSize)
 		m_bRedraw = 1;
 	}
 }
+
+//----------------------------------------------------
+
+void CChatWindow::ReplaceControlChars(char *szString)
+{
+	if(*szString)
+	{
+		do
+		{
+			if(*szString > 0 && *szString < 32)
+				*szString = 32;
+		}
+		while(*++szString);
+	}
+}
