@@ -453,6 +453,33 @@ void ProcessControlRemotePed()
 	}
 }
 
+// .text:100A28C0 : nop the two ped heading writes back out
+void FUNC_100A28C0()
+{
+	memset((void *)0x6884C4, 0x90, 6);
+	memset((void *)0x688200, 0x90, 6);
+}
+
+// .text:100A28E0 : put the two ped heading writes back
+void FUNC_100A28E0()
+{
+	memcpy((void *)0x6884C4, PedHeadingCode1, 6);
+	memcpy((void *)0x688200, PedHeadingCode2, 6);
+}
+
+// .text:100A2920 : nop the remote ped process call out
+void FUNC_100A2920()
+{
+	UnFuck(0x5E92F4, 5);
+	memset((void *)0x5E92F4, 0x90, 5);
+}
+
+// .text:100A2940 : put the remote ped process call back
+void FUNC_100A2940()
+{
+	memcpy((void *)0x5E92F4, RemotePedProcessCode, 5);
+}
+
 NUDE CPlayerPed_ProcessControl_Hook()
 {
 	_asm mov dwProcessControlPed, ecx
