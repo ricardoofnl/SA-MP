@@ -277,3 +277,27 @@ void CChatWindow::AddClientMessage(DWORD dwColor, CHAR *szMessage)
 		sub_10067BE0(4, szMessage, 0, (dwColor >> 8)|0xFF000000, 0);
 	}
 }
+
+//----------------------------------------------------
+
+void CChatWindow::AddInfoMessage(CHAR * szFormat, ...)
+{
+	char szBuffer[512];
+	va_list va;
+	va_start(va, szFormat);
+	memset(szBuffer, 0, sizeof(szBuffer));
+	vsprintf(szBuffer, szFormat, va);
+
+	char *p = szBuffer;
+	if(szBuffer[0])
+	{
+		do
+		{
+			if(*p > 0 && *p < 32)
+				*p = 32;
+		}
+		while(*++p);
+	}
+
+	sub_10067BE0(4, szBuffer, 0, m_dwChatInfoColor, 0);
+}
