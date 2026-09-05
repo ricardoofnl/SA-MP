@@ -30,12 +30,14 @@ public:
 	char  _gap4[0x7C];
 	DWORD field_80;
 
+	void FUNC_10071520(); // .text:10071520
 	void FUNC_1006DB80(BOOL bEnable); // .text:1006DB80
 	void FUNC_10072BC0(BOOL bEnable); // .text:10072BC0
 };
 
 extern int dword_1026EB60;
 extern int dword_1026EB64;
+extern int dword_1026EB68;
 
 // MATCH
 BYTE Checksum(BYTE *pData, WORD wLen)
@@ -568,7 +570,22 @@ void RequestSpawn(RPCParameters *rpcParams)
 }
 void EditAttachedObject(RPCParameters *rpcParams) {}
 void EditObject(RPCParameters *rpcParams) {}
-void SelectObject(RPCParameters *rpcParams) {}
+void SelectObject(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(dword_1026EB68 && ((CEditDispatch *)dword_1026EB68)->field_0)
+		((CEditDispatch *)dword_1026EB68)->FUNC_10071520();
+
+	if(dword_1026EB60 && ((CEditDispatch *)dword_1026EB60)->field_80)
+		((CEditDispatch *)dword_1026EB60)->FUNC_10072BC0(FALSE);
+
+	if(dword_1026EB64)
+		((CEditDispatch *)dword_1026EB64)->FUNC_1006DB80(TRUE);
+}
 void Unk1C(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
