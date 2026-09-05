@@ -358,6 +358,18 @@ void CRemotePlayer::FUNC_10014800()
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_100148F0()
+{
+	if(m_pPlayerPed && m_pPlayerPed->IsInVehicle()) {
+		MATRIX4X4 mat;
+		m_pPlayerPed->GetMatrix(&mat);
+		m_pPlayerPed->RemoveFromVehicleAndPutAt(mat.pos.X, mat.pos.Y, mat.pos.Z);
+		field_1E1 = NULL;
+	}
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_10014500(int a1)
 {
 	if(!a1) {
