@@ -1768,6 +1768,66 @@ callOriginal:
 
 //-----------------------------------------------------------
 
+DWORD unnamed_101516CC;
+
+// .text:100A4470 : caches the d3d texture the plate raster carries at +0x34
+DWORD FUNC_100A4470()
+{
+	if(unnamed_101516C8)
+	{
+		_asm mov eax, unnamed_101516C8
+		_asm mov edx, 0x34
+		_asm lea esi, [edx+eax]
+		_asm mov eax, [esi]
+		_asm mov unnamed_101516CC, eax
+
+		return unnamed_101516CC;
+	}
+
+	return 0;
+}
+
+//-----------------------------------------------------------
+
+// .text:100A44A0 : drops the cached plate raster
+void FUNC_100A44A0()
+{
+	DWORD dwRasterDestroy = 0x7FB060;
+	if(iGtaVersion == GTASA_VERSION_USA10) dwRasterDestroy = 0x7FB020;
+
+	if(unnamed_101516C8)
+	{
+		_asm push unnamed_101516C8
+		_asm mov edx, dwRasterDestroy
+		_asm call edx
+		_asm pop edx
+	}
+
+	unnamed_101516C8 = 0;
+}
+
+//-----------------------------------------------------------
+
+// .text:100A44E0 : creates the plate raster, unconditionally
+void FUNC_100A44E0()
+{
+	if(iGtaVersion == GTASA_VERSION_USA10) unnamed_10113ADC = 0x7FB230;
+
+	_asm push 0x604
+	_asm push 0x20
+	_asm push 0x10
+	_asm push 0x40
+	_asm mov ebx, unnamed_10113ADC
+	_asm call ebx
+	_asm mov unnamed_101516C8, eax
+	_asm pop ebx
+	_asm pop ebx
+	_asm pop ebx
+	_asm pop ebx
+}
+
+//-----------------------------------------------------------
+
 NUDE CCustomCarPlateMgr__CreatePlateTexture__RwRasterCreate_Hook()
 {
 	__asm
