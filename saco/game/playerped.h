@@ -147,6 +147,7 @@ public:
 	void		FUNC_100AC410(DWORD dwGtaId, int a2); // .text:100AC410
 	void		FUNC_100ADFB0(int iLevel); // .text:100ADFB0
 	int			FUNC_100ADC90(); // .text:100ADC90
+	void		FUNC_100ADFD0(char *szName, int a2, int a3, int a4, VECTOR *pvecPos, int a6, float a7, int a8, int a9, int a10); // .text:100ADFD0
 	void		FUNC_100ABF10(float fAngle); // .text:100ABF10
 
 

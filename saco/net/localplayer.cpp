@@ -2,11 +2,13 @@
 #include "../main.h"
 #include "../game/util.h"
 #include "../game/keystuff.h"
+#include "../game/aimstuff.h"
 
 extern CGame		 *pGame;
 extern CNetGame		 *pNetGame;
 extern CCmdWindow	 *pCmdWindow;
 extern CUnkClass3	 *pUnkClass3;
+extern CUnkClass10	 *pUnkClass10;
 extern CDXUTDialog	 *pClassSelectDialog;
 
 DWORD dword_100FE0A4 = -1;
@@ -737,5 +739,47 @@ void CLocalPlayer::FUNC_10006100()
 	{
 		field_147 = GetTickCount();
 		SelectNextClass();
+	}
+}
+
+//----------------------------------------------------
+
+// keeps the FollowPedSA marker on the aim point, refreshed five times a second
+void CLocalPlayer::FUNC_10002FA0()
+{
+	if(m_pPlayerPed && (!pGame || pGame->m_bHeadMove) && !m_pPlayerPed->FUNC_100ADC90()
+		&& (!pUnkClass10 || !pUnkClass10->GetField80()))
+	{
+		MATRIX4X4 mat;
+
+		m_pPlayerPed->GetMatrix(&mat);
+
+		DWORD dwTick = GetTickCount();
+
+		if(dwTick - field_137 > 1000)
+		{
+			CAMERA_AIM *pAim = GameGetInternalAim();
+
+			float fX = pAim->f1x * 20.0f + mat.pos.X;
+			float fY = pAim->f1y * 20.0f + mat.pos.Y;
+			float fZ = pAim->f1z * 20.0f + mat.pos.Z;
+
+			field_137 = dwTick;
+			*(float *)&field_12B[0] = fX - mat.pos.X;
+			*(float *)&field_12B[4] = fY - mat.pos.Y;
+			*(float *)&field_12B[8] = fZ - mat.pos.Z;
+		}
+
+		if(dwTick - field_13B > 200)
+		{
+			VECTOR vecTarget;
+
+			vecTarget.X = mat.pos.X + *(float *)&field_12B[0];
+			vecTarget.Y = mat.pos.Y + *(float *)&field_12B[4];
+			vecTarget.Z = mat.pos.Z + *(float *)&field_12B[8];
+
+			m_pPlayerPed->FUNC_100ADFD0("FollowPedSA", 0, 2000, -1, &vecTarget, 0, 0.1f, 500, 3, 0);
+			field_13B = dwTick;
+		}
 	}
 }

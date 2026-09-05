@@ -29,6 +29,9 @@ private:
 	int field_113;
 
 public:
+
+	int GetField80() { return field_80; }; // .text:10002E70, out of line copy
+
 	CUnkClass10(IDirect3DDevice9 *pD3DDevice);
 
 	float FUNC_10071C20(D3DXVECTOR3 *pPos, D3DXVECTOR2 *pOut);
