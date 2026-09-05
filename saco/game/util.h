@@ -168,6 +168,7 @@ void FUNC_100B57E0(int a1, int nIndex, int a3, int a4); // .text:100B57E0
 void FUNC_100B5790(int a1, int nIndex, int a3); // .text:100B5790
 void FUNC_100B5740(int a1, int a2); // .text:100B5740
 void FUNC_100B5830(int a1, int nIndex, float *pfOut); // .text:100B5830
+void FUNC_100B5620(float *pQuat, float *pEuler); // .text:100B5620
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 

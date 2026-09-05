@@ -2041,3 +2041,19 @@ void FUNC_100B5480(float *pQuatOut, float *pQuatFrom, float *pQuatTo, float fT)
 	pQuatOut[2] = qOut.y;
 	pQuatOut[3] = qOut.z;
 }
+
+//-----------------------------------------------------------
+
+void FUNC_100B5620(float *pQuat, float *pEuler)
+{
+	float f0 = pQuat[0] * pQuat[0];
+	float f1 = pQuat[1] * pQuat[1];
+	float f2 = pQuat[2] * pQuat[2];
+	float f3 = pQuat[3] * pQuat[3];
+
+	pEuler[0] = (float)atan2((pQuat[2] * pQuat[1] + pQuat[3] * pQuat[0]) * 2.0f,
+		f1 - f2 - f3 + f0);
+	pEuler[1] = (float)asin((pQuat[3] * pQuat[1] - pQuat[2] * pQuat[0]) * -2.0f);
+	pEuler[2] = (float)atan2((pQuat[3] * pQuat[2] + pQuat[1] * pQuat[0]) * 2.0f,
+		f3 - (f2 + f1) + f0);
+}
