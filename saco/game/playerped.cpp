@@ -1826,3 +1826,11 @@ void CPlayerPed::FUNC_100ACF00(int a1)
 }
 
 //-----------------------------------------------------------
+
+BOOL CPlayerPed::FUNC_100AD860()
+{
+	if(m_pPed && (m_pPed->dwStateFlags & 3)) return TRUE;
+	return FALSE;
+}
+
+//-----------------------------------------------------------
