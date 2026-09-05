@@ -86,6 +86,8 @@ public:
 	void FUNC_100148F0(); // .text:100148F0
 	void FUNC_10014FF0(); // .text:10014FF0
 	void FUNC_10017260(BYTE *pSync, int iTime); // .text:10017260
+	BOOL FUNC_10017130(int a1, int iSkin, int a3, VECTOR *pPos, float fRotation,
+		DWORD dwColor, BYTE byteStyle); // .text:10017130
 	void FUNC_10015650(MATRIX4X4 *pMat, VECTOR *pMoveSpeed, float fT); // .text:10015650
 	void FUNC_10017340(BYTE *pSync, int iTime); // .text:10017340
 	void FUNC_10017440(BYTE *pSync); // .text:10017440

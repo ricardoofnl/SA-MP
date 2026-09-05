@@ -30,7 +30,8 @@ struct struc_41
 	BYTE field_2D;
 	char field_2E;
 	char field_2F;
-	char _gap30[8];
+	int field_30;
+	char _gap34[4];
 	BYTE field_38;
 	char _gap39;
 };

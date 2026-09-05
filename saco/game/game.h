@@ -142,7 +142,7 @@ public:
 	void sub_100A0010();
 	void sub_100A0090(int a1, int a2);
 	BYTE sub_100A00C0();
-	void sub_100A0110();
+	CPlayerPed *sub_100A0110(int a1, float fX, float fY, float fZ, float fRotation, int a6, int a7); // .text:100A0110
 	int DeletePlayerPed(int pPlayerPed); // .text:100A0210
 	CVehicle *sub_100A0250(int a2, float a3, float a4, float a5, float a6, int a7);
 	void sub_100A0330();

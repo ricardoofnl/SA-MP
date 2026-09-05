@@ -35,6 +35,7 @@ typedef char CRemotePlayer_offsets[(
 	offsetof(CRemotePlayer, field_1F9) == 0x1F9) ? 1 : -1];
 
 typedef char CNetPlayer_offsets[(offsetof(CNetPlayer, m_PlayerName) == 0x14) ? 1 : -1];
+typedef char struc_41_offsets[(offsetof(struc_41, field_30) == 0x30) ? 1 : -1];
 typedef char CPlayerPool_offsets[(offsetof(CPlayerPool, field_6) == 6 &&
 	sizeof(std::string) == 0x1C) ? 1 : -1];
 
@@ -400,6 +401,44 @@ void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
 		!m_pPlayerPed->FUNC_100AC640()) FUNC_100148F0();
 
 	if(field_10A != 17) field_10A = 17;
+}
+
+//----------------------------------------------------
+
+BOOL CRemotePlayer::FUNC_10017130(int a1, int iSkin, int a3, VECTOR *pPos, float fRotation,
+	DWORD dwColor, BYTE byteStyle)
+{
+	if(!pGame->IsGameLoaded()) return FALSE;
+
+	if(m_pPlayerPed) {
+		pGame->DeletePlayerPed((int)m_pPlayerPed);
+		m_pPlayerPed = NULL;
+	}
+
+	CPlayerPed *pPlayerPed = pGame->sub_100A0110(iSkin, pPos->X, pPos->Y, pPos->Z,
+		fRotation, 1, field_10C);
+	if(pPlayerPed) {
+		if(dwColor) SetRadarColor(m_PlayerID, dwColor);
+
+		if(field_1F9) {
+			pGame->DisableMarker(field_1F9);
+			field_1F9 = 0;
+		}
+
+		if(pNetGame->GetSettings()->field_30) pPlayerPed->ShowMarker(m_PlayerID);
+
+		m_pPlayerPed = pPlayerPed;
+		field_1B0 = 100.0f;
+		pPlayerPed->SetKeys(0, 0, 0);
+
+		if(byteStyle != 4) pPlayerPed->SetFightingStyle(byteStyle);
+
+		if(field_10A != 33) field_10A = 33;
+		return TRUE;
+	}
+
+	if(field_10A) field_10A = 0;
+	return FALSE;
 }
 
 //----------------------------------------------------

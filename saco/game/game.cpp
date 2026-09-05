@@ -403,9 +403,10 @@ void CGame::StartGame()
 
 
 
-void CGame::sub_100A0110()
+CPlayerPed *CGame::sub_100A0110(int a1, float fX, float fY, float fZ, float fRotation, int a6, int a7)
 {
 	// TODO: CGame::sub_100A0110() .text:100A0110
+	return NULL;
 }
 
 int CGame::DeletePlayerPed(int pPlayerPed)
