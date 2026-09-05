@@ -1093,10 +1093,13 @@ DWORD CGame::CreateWeaponPickup(int iModel, DWORD dwAmmo, float fX, float fY, fl
 {
 	DWORD hnd;
 
-	if(!IsModelLoaded(iModel)) {
-		RequestModel(iModel);
-		LoadRequestedModels();
-		while(!IsModelLoaded(iModel)) Sleep(5);
+	// the model wait is spelled out, none of the model helpers are inline here
+	if(iModel <= 20000 && iModel >= 0 && !ScriptCommand(&is_model_available, iModel))
+	{
+		ScriptCommand(&request_model, iModel);
+		ScriptCommand(&load_requested_models);
+
+		while(!ScriptCommand(&is_model_available, iModel)) Sleep(5);
 	}
 
 	ScriptCommand(&create_pickup_with_ammo, iModel, 4, dwAmmo, fX, fY, fZ, &hnd);
