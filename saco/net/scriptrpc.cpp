@@ -195,12 +195,13 @@ void ScrUnk7B(RPCParameters *rpcParams)
 
 	VEHICLEID vehicleId;
 	BYTE byteLen;
+	char szText[33];
 
 	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
 
-	char szText[33] = {0};
-
 	byteLen = 0;
+
+	memset(szText, 0, sizeof(szText));
 
 	bsData.Read(vehicleId);
 	bsData.Read(byteLen);
