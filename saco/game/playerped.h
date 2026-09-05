@@ -173,6 +173,7 @@ public:
 
 	BOOL		FUNC_100AFA70(); // .text:100AFA70
 	void		FUNC_100AFC70(VECTOR *vecIn, VECTOR *vecOut); // .text:100AFC70
+	BOOL		FUNC_100ACEF0(); // .text:100ACEF0
 
 	BOOL		HasObjectAttached(); // .text:100AEE30
 	void		RemoveAttachedObject(int iIndex); // .text:100AEE50

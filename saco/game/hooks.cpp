@@ -3414,6 +3414,158 @@ int FUNC_100A5EB0(DWORD dwFrame, DWORD dwNameLen, DWORD a3)
 }
 
 //-----------------------------------------------------------
+
+DWORD unnamed_101515F4;
+BYTE unnamed_10151614;
+BYTE unnamed_1015161C;
+
+// .text:100A3070 : runs the game call with the remote player's weapon skills in place
+NUDE FUNC_100A3070()
+{
+	_asm mov eax, [esp+4]
+	_asm mov unnamed_10151618, eax
+	_asm mov unnamed_101515F4, ecx
+
+	unnamed_10151614 = *pbyteCurrentPlayer;
+	unnamed_1015161C = FindPlayerNumFromPedPtr(unnamed_10151618);
+
+	if(unnamed_10151618 && unnamed_1015161C && !unnamed_10151614)
+	{
+		GameStoreLocalPlayerWeaponSkills();
+		GameSetRemotePlayerWeaponSkills(unnamed_1015161C);
+
+		_asm push unnamed_10151618
+		_asm mov ecx, unnamed_101515F4
+		_asm mov edx, 0x688810
+		_asm call edx
+
+		GameSetLocalPlayerWeaponSkills();
+	}
+	else
+	{
+		_asm push unnamed_10151618
+		_asm mov ecx, unnamed_101515F4
+		_asm mov edx, 0x688810
+		_asm call edx
+	}
+
+	_asm retn 4
+}
+
+//-----------------------------------------------------------
+
+DWORD unnamed_10150C10;
+PED_TYPE *unnamed_101516FC;
+DWORD unnamed_10150CE0;
+DWORD unnamed_1015072C;
+DWORD unnamed_10150740;
+DWORD unnamed_101514BC;
+
+// .text:100A4670 : the local player only keeps the game behaviour while the flag is set
+NUDE FUNC_100A4670()
+{
+	_asm mov eax, [esp]
+	_asm mov unnamed_10150C10, eax
+	_asm mov eax, [esp+4]
+	_asm mov unnamed_101516FC, eax
+	_asm mov eax, [esp+8]
+	_asm mov unnamed_10150CE0, eax
+	_asm mov eax, [esp+12]
+	_asm mov unnamed_1015072C, eax
+	_asm mov eax, [esp+16]
+	_asm mov unnamed_10150740, eax
+	_asm mov eax, [esp+20]
+	_asm mov unnamed_101514BC, eax
+	_asm pushad
+
+	if(unnamed_101516FC == GamePool_FindPlayerPed() && pNetGame &&
+		pNetGame->GetPlayerPool()->GetLocalPlayer()->GetPlayerPed()->FUNC_100ACEF0())
+	{
+		_asm popad
+		_asm retn 0x14
+	}
+
+	_asm popad
+	_asm mov eax, 0x6A6AE0
+	_asm jmp eax
+}
+
+//-----------------------------------------------------------
+
+DWORD unnamed_10150A3C;
+DWORD unnamed_101514B4;
+DWORD unnamed_101509D4;
+DWORD unnamed_101514D0;
+
+// .text:100A4E20
+NUDE FUNC_100A4E20()
+{
+	_asm mov ebx, [esp+4]
+	_asm mov unnamed_1015174C, ebx
+	_asm mov ebx, [esp+8]
+	_asm mov unnamed_101506CC, ebx
+	_asm mov ebx, [esp+12]
+	_asm mov unnamed_1015097C, ebx
+	_asm mov ebx, [esp+16]
+	_asm mov unnamed_10150A3C, ebx
+	_asm mov ebx, [esp+20]
+	_asm mov unnamed_101514B4, ebx
+	_asm mov ebx, [esp+24]
+	_asm mov unnamed_101509D4, ebx
+	_asm mov ebx, [esp+28]
+	_asm mov unnamed_101514D0, ebx
+	_asm pushad
+
+	if(pGame && pGame->FindPlayerPed())
+		pGame->FindPlayerPed()->FUNC_100AFC70(&unnamed_10150BA8, &unnamed_10150968);
+
+	_asm popad
+	_asm mov ebx, 0x73FB10
+	_asm jmp ebx
+}
+
+//-----------------------------------------------------------
+
+BYTE unnamed_1015181C;
+void *unnamed_10151820;
+
+int FUNC_100B1E40(int a1, void *a2, size_t a3);	// .text:100B1E40, lives in another translation unit
+void FUNC_100B6AD0(void *a1, size_t a2, int a3);	// .text:100B6AD0, lives in another translation unit
+
+// .text:100A5F30 : reads the stream into a scratch block first when the flag is set
+int FUNC_100A5F30(int a1, size_t a2, int a3)
+{
+	DWORD dwRet = 0;
+
+	if(unnamed_1015181C)
+	{
+		unnamed_10151820 = calloc(1, a2);
+		FUNC_100B1E40(a1, unnamed_10151820, a2);
+		FUNC_100B6AD0(unnamed_10151820, a2, a3);
+
+		if(unnamed_10151820)
+		{
+			free(unnamed_10151820);
+			unnamed_10151820 = NULL;
+		}
+
+		return a1;
+	}
+
+	_asm push a3
+	_asm push a2
+	_asm push a1
+	_asm mov eax, 0x6F9FD0
+	_asm call eax
+	_asm mov dwRet, eax
+	_asm pop eax
+	_asm pop eax
+	_asm pop eax
+
+	return dwRet;
+}
+
+//-----------------------------------------------------------
 // trampolines that only snapshot the caller's arguments before handing the
 // call on to GTA
 
