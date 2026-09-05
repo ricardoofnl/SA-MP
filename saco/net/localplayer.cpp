@@ -342,7 +342,7 @@ void CLocalPlayer::sub_10004060()
 {
 	if(field_306)
 	{
-		FUNC_10003B60();
+		RequestSpawn();
 		field_302 = 1;
 	}
 }
@@ -528,4 +528,46 @@ void CLocalPlayer::FUNC_10004230(WORD a1)
 		field_310 = a1;
 		field_314 = 0;
 	}
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::RequestSpawn()
+{
+	RakNet::BitStream bsSend;
+
+	pNetGame->GetRakClient()->RPC(RPC_RequestSpawn, &bsSend, HIGH_PRIORITY, RELIABLE, 0, FALSE);
+}
+
+//----------------------------------------------------
+
+// straying outside the server boundary disarms and nags
+void CLocalPlayer::FUNC_10003F50()
+{
+	if(!pGame->FUNC_100A0EE0() && m_pPlayerPed->FUNC_1009F420(pNetGame->GetSettings()->fWorldBoundryPX,
+		pNetGame->GetSettings()->fWorldBoundryZX, pNetGame->GetSettings()->fWorldBoundryPY,
+		pNetGame->GetSettings()->fWorldBoundryNY))
+	{
+		m_pPlayerPed->SetArmedWeapon(0, 0);
+		pGame->DisplayGameText("Stay within the ~r~world boundries", 1000, 5);
+	}
+}
+
+//----------------------------------------------------
+
+// leaving spectate only resets the spawn state when another class is pending
+void CLocalPlayer::FUNC_100041C0(BOOL bSpectating)
+{
+	if(m_bIsSpectating && !m_bWantsAnotherClass && !bSpectating)
+		sub_10003C20();
+	else if(m_bWantsAnotherClass && !bSpectating)
+	{
+		field_F0 = 0;
+		field_17D = 0;
+	}
+
+	m_bIsSpectating = bSpectating;
+	field_30F = 0;
+	field_314 = 0;
+	field_310 = -1;
 }

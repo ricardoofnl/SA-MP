@@ -143,7 +143,7 @@ public:
 	int  FUNC_10003AB0(); // .text:10003AB0
 	int  FUNC_10003AF0(); // .text:10003AF0
 	int  FUNC_10003B30(); // .text:10003B30
-	void FUNC_10003B60(); // .text:10003B60
+	void RequestSpawn(); // .text:10003B60
 	BOOL FUNC_10004340(WORD a1, WORD a2, WORD a3); // .text:10004340
 	BOOL FUNC_10004300(WORD a1, WORD a2, WORD a3); // .text:10004300
 	PLAYERID FUNC_10004B70(); // .text:10004B70
@@ -151,6 +151,8 @@ public:
 	BOOL FUNC_10003A60(void *a2, void *a3, unsigned int a4); // .text:10003A60
 	void FUNC_10004080(); // .text:10004080
 	void FUNC_10004230(WORD a1); // .text:10004230
+	void FUNC_10003F50(); // .text:10003F50
+	void FUNC_100041C0(BOOL bSpectating); // .text:100041C0
 
 	DWORD GetField_F0() { return field_F0; };
 };

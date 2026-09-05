@@ -57,6 +57,7 @@ public:
 	BOOL  IsAdded();
 
 	float FUNC_1009F0C0(); // .text:1009F0C0
+	BOOL  FUNC_1009F420(float a1, float a2, float a3, float a4); // .text:1009F420
 	float FUNC_1009F190(); // .text:1009F190
 	char  FUNC_1009FC00(VECTOR *vecStart, VECTOR *vecEnd, char a3); // .text:1009FC00
 	char  FUNC_1009FCE0(); // .text:1009FCE0

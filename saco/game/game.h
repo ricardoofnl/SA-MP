@@ -155,6 +155,7 @@ public:
 	void sub_100A1C10();
 	void sub_100A1DB0(int a1);
 
+	BYTE FUNC_100A0EE0(); // .text:100A0EE0
 	int  FUNC_100A0F90(); // .text:100A0F90
 
 	void LoadScene(char* szScene);
