@@ -94,6 +94,9 @@ public:
 	void	FUNC_100B8150(char *szText); // .text:100B8150
 	void	FUNC_100B7C10(); // .text:100B7C10
 	void	FUNC_100B7C80(int a1); // .text:100B7C80
+	CVehicle *FUNC_100B7C90(); // .text:100B7C90
+	BOOL	FUNC_100B7D70(); // .text:100B7D70
+	BOOL	FUNC_100B7DD0(); // .text:100B7DD0
 
 	BOOL	FUNC_100B7460(); // .text:100B7460
 	BOOL	FUNC_100B7E00(); // .text:100B7E00

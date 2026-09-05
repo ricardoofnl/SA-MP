@@ -41,6 +41,8 @@ typedef char CRemotePlayer_offsets[(
 typedef char CNetPlayer_offsets[(offsetof(CNetPlayer, m_PlayerName) == 0x14) ? 1 : -1];
 typedef char BULLET_SYNC_offsets[(offsetof(BULLET_SYNC_DATA, byteWeaponID) == 0x27 &&
 	sizeof(BULLET_SYNC_DATA) == 0x28) ? 1 : -1];
+typedef char TRAILER_SYNC_offsets[(offsetof(TRAILER_SYNC_DATA, vecTurnSpeed) == 0x2A &&
+	sizeof(TRAILER_SYNC_DATA) == 0x36) ? 1 : -1];
 typedef char struc_41_offsets[(offsetof(struc_41, field_30) == 0x30) ? 1 : -1];
 typedef char WEAPON_SLOT_offsets[(offsetof(WEAPON_SLOT_TYPE, field_8) == 8 &&
 	sizeof(WEAPON_SLOT_TYPE) == 28) ? 1 : -1];
@@ -471,6 +473,65 @@ void CRemotePlayer::FUNC_10016370(BULLET_SYNC_DATA *pSync)
 
 	m_pPlayerPed->FUNC_100AF280(&shotSync);
 	m_pPlayerPed->FUNC_100AFA70();
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_10015C90(TRAILER_SYNC_DATA *pTrailer)
+{
+	if(!pTrailer->TrailerID) return;
+	if(pTrailer->TrailerID == INVALID_VEHICLE_ID) return;
+
+	MATRIX4X4 mat;
+	VECTOR vecMove;
+
+	CVehicle *pTrailerVeh = (CVehicle *)pNetGame->GetVehiclePool()->GetAt(pTrailer->TrailerID);
+	CVehicle *pVehicle = field_1E1;
+	if(!pVehicle) return;
+	if(!pTrailerVeh) return;
+
+	if(!pTrailerVeh->FUNC_100B7D70() && !pVehicle->FUNC_100B7DD0()) return;
+
+	if(pVehicle->FUNC_100B7C90() != pTrailerVeh) {
+		pVehicle->FUNC_100B7C80((int)pTrailerVeh);
+		pVehicle->FUNC_100B7C10();
+	}
+
+	pTrailerVeh->GetMatrix(&mat);
+	FUNC_100B6A80(pTrailer->quat, &mat);
+
+	if(FloatOffset(pTrailer->vecPos.X, mat.pos.X) <= 0.5f &&
+		FloatOffset(pTrailer->vecPos.Y, mat.pos.Y) <= 0.5f &&
+		FloatOffset(pTrailer->vecPos.Z, mat.pos.Z) <= 0.5f) return;
+
+	if(FloatOffset(pTrailer->vecPos.X, mat.pos.X) > 6.0f ||
+		FloatOffset(pTrailer->vecPos.Y, mat.pos.Y) > 6.0f ||
+		FloatOffset(pTrailer->vecPos.Z, mat.pos.Z) > 3.0f) {
+		mat.pos.X = pTrailer->vecPos.X;
+		mat.pos.Y = pTrailer->vecPos.Y;
+		mat.pos.Z = pTrailer->vecPos.Z;
+		pTrailerVeh->SetMatrix(mat);
+		pTrailerVeh->SetMoveSpeedVector(pTrailer->vecMoveSpeed);
+		pTrailerVeh->SetTurnSpeedVector(pTrailer->vecTurnSpeed);
+		return;
+	}
+
+	pTrailerVeh->SetMatrix(mat);
+	pTrailerVeh->SetTurnSpeedVector(pTrailer->vecTurnSpeed);
+
+	vecMove.X = 0.0f;
+	vecMove.Y = 0.0f;
+	vecMove.Z = 0.0f;
+	pTrailerVeh->GetMoveSpeedVector(&vecMove);
+
+	if(FloatOffset(pTrailer->vecPos.X, mat.pos.X) > 0.05f)
+		vecMove.X = (pTrailer->vecPos.X - mat.pos.X) * 0.025f + vecMove.X;
+	if(FloatOffset(pTrailer->vecPos.Y, mat.pos.Y) > 0.05f)
+		vecMove.Y = (pTrailer->vecPos.Y - mat.pos.Y) * 0.025f + vecMove.Y;
+	if(FloatOffset(pTrailer->vecPos.Z, mat.pos.Z) > 0.05f)
+		vecMove.Z = (pTrailer->vecPos.Z - mat.pos.Z) * 0.025f + vecMove.Z;
+
+	pTrailerVeh->SetMoveSpeedVector(vecMove);
 }
 
 //----------------------------------------------------
