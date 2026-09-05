@@ -5,6 +5,7 @@ extern CNetGame*	pNetGame;
 extern CGame * pGame;
 extern CChatWindow *pChatWindow;
 extern RakNetStatisticsStruct RakServerStats;
+extern CScoreBoard *pScoreBoard;
 
 // the download list global lives in main.cpp's data; only the touched fields are known
 class CDownloadListDispatch
@@ -193,7 +194,54 @@ void DisableRaceCheckpoint(RPCParameters *rpcParams)
 {
 	pGame->m_bRaceCheckpointsEnabled = FALSE;
 }
-void UpdateScoresPingsIPs(RPCParameters *rpcParams) {}
+void UpdateScoresPingsIPs(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	PLAYERID playerId;
+	int iScore;
+	int iPing;
+
+	DWORD dwBytes = iBitLength/8;
+
+	RakNet::BitStream bsData(Data,dwBytes+1,false);
+
+	if(dwBytes)
+	{
+		DWORD dwCount = dwBytes/10;
+		CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+
+		for(WORD i = 0; i < dwCount; i++)
+		{
+			bsData.Read(playerId);
+			bsData.Read(iScore);
+			bsData.Read(iPing);
+
+			if(playerId < MAX_PLAYERS)
+			{
+				if(playerId == pPlayerPool->GetLocalPlayerID())
+					pPlayerPool->field_0 = iScore;
+				else
+				{
+					CNetPlayer *pPlayer = pPlayerPool->m_pPlayers[playerId];
+					if(pPlayer) pPlayer->field_4 = iScore;
+				}
+
+				if(playerId == pPlayerPool->GetLocalPlayerID())
+					pPlayerPool->field_22 = iPing;
+				else if(playerId <= MAX_PLAYERS)
+				{
+					CNetPlayer *pPlayer = pPlayerPool->m_pPlayers[playerId];
+					if(pPlayer) pPlayer->field_C = iPing;
+				}
+			}
+		}
+
+		if(pScoreBoard)
+			pScoreBoard->FUNC_1006ED30();
+	}
+}
 // MATCH
 void SvrStats(RPCParameters *rpcParams)
 {
