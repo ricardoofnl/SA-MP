@@ -45,6 +45,12 @@ public:
 	void FUNC_1000DAE0(DWORD dwUnk, DOWNLOAD_INFO *pInfo); // .text:1000DAE0
 	void FUNC_1000DB30(DWORD dwIndex); // .text:1000DB30
 	void FUNC_1000C0C0(); // .text:1000C0C0
+	void FUNC_1000C140(); // .text:1000C140
+	void FUNC_1000CBF0(int a1, int a2, int a3); // .text:1000CBF0
+	void FUNC_1000D500(BYTE byteUnk, DWORD dwUnk, PCHAR pData, int iLength); // .text:1000D500
+	void FUNC_1000D650(BYTE byteUnk, DWORD dwUnk, PCHAR szName); // .text:1000D650
+	void FUNC_1000D750(BYTE byteUnk, DWORD dwUnk); // .text:1000D750
+	void FUNC_1000E160(int a1); // .text:1000E160
 };
 
 extern CDownloadListDispatch *dword_1026EB98;
@@ -1120,6 +1126,69 @@ void FUNC_10011EB0(RPCParameters *rpcParams)
 
 		dword_1026EB98->FUNC_1000DAE0(dwUnk1,&Info);
 		dword_1026EB98->FUNC_1000D4C0(dwUnk2);
+	}
+}
+// not registered either
+void FUNC_100120B0(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	char szName[257];
+	char szData[4096];
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	memset(szName,0,sizeof(szName));
+
+	BYTE byteType = 0;
+	BYTE byteUnk1 = 0;
+	int iLength = 0;
+	DWORD dwUnk2 = 0;
+	BYTE byteNameLen = 0;
+	BYTE byteUnk3 = 0;
+	DWORD dwUnk4 = 0;
+
+	bsData.Read(byteType);
+
+	if(byteType == 0)
+	{
+		dword_1026EB98->FUNC_1000C140();
+		dword_1026EB98->FUNC_1000CBF0(0,6001,0);
+	}
+	else if(byteType == 2)
+	{
+		dword_1026EB98->FUNC_1000E160(0);
+	}
+	else if(byteType == 6)
+	{
+		bsData.Read(byteUnk3);
+		bsData.Read(dwUnk4);
+		bsData.Read(byteNameLen);
+		bsData.Read(szName,byteNameLen);
+
+		dword_1026EB98->FUNC_1000C140();
+		dword_1026EB98->FUNC_1000D650(byteUnk3,dwUnk4,szName);
+	}
+	else if(byteType == 5)
+	{
+		bsData.Read(byteUnk3);
+		bsData.Read(dwUnk4);
+
+		dword_1026EB98->FUNC_1000C140();
+		dword_1026EB98->FUNC_1000D750(byteUnk3,dwUnk4);
+	}
+	else if(byteType == 1)
+	{
+		bsData.Read(byteUnk1);
+		bsData.Read(dwUnk2);
+		bsData.Read(iLength);
+
+		if(iLength >= 0 && iLength <= 4096)
+		{
+			bsData.Read(szData,iLength);
+			dword_1026EB98->FUNC_1000D500(byteUnk1,dwUnk2,szData,iLength);
+		}
 	}
 }
 // not registered either
