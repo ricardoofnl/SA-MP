@@ -2129,3 +2129,20 @@ DWORD CPlayerPed::FUNC_100AEA30()
 	return dwResult;
 }
 //-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100AC6C0()
+{
+	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
+	if(!m_pPed) return;
+	if(IN_VEHICLE(m_pPed)) return;
+	if(FUNC_100AC690()) return;
+
+	DWORD dwTasks = (DWORD)m_pPed->Tasks;
+	if(!dwTasks) return;
+
+	_asm push 0
+	_asm mov ecx, dwTasks
+	_asm mov edx, 0x601230
+	_asm call edx
+}
+//-----------------------------------------------------------
