@@ -165,6 +165,90 @@ void ScrUnk94(RPCParameters *rpcParams)
 	}
 }
 void ScrUnk95(RPCParameters *rpcParams) {}
+// the object at 0x10053C30; only the bitstream string reader this file needs
+class CScrStringReader
+{
+public:
+	bool FUNC_100542D0(char *szBuffer, int iMaxLen, RakNet::BitStream *pData, int a4); // .text:100542D0
+};
+
+CScrStringReader * FUNC_10053C30(); // .text:10053C30
+
+// walks byteCount material entries off the wire and applies them to pObject
+void FUNC_1001B070(BYTE byteCount, CObject *pObject, RakNet::BitStream *pData)
+{
+	BYTE byteLen;
+	BYTE byteIndex;
+	BYTE byteType;
+	WORD wModel;
+	DWORD dwColour;
+	int iCount;
+	DWORD dwFontColour;
+	BYTE byteSize;
+	BYTE byteAlign;
+	BYTE byteBold;
+	BYTE byteUnk;
+	DWORD dwBackColour;
+	int iTextLen;
+	char szTxd[257];
+	char szFont[257];
+	char szTexture[257];
+	char szText[2049];
+
+	int iEntries = byteCount;
+
+	dwColour = 0;
+	byteLen = 0;
+
+	if(iEntries) {
+		iCount = iEntries;
+
+		do {
+			memset(szTxd, 0, sizeof(szTxd));
+			memset(szTexture, 0, sizeof(szTexture));
+			memset(szFont, 0, sizeof(szFont));
+			memset(szText, 0, sizeof(szText));
+
+			pData->Read(byteType);
+
+			if(byteType == 1) {
+				pData->Read(byteIndex);
+				pData->Read(wModel);
+				pData->Read(byteLen);
+				pData->Read(szTxd, byteLen);
+				pData->Read(byteLen);
+				pData->Read(szTexture, byteLen);
+				pData->Read(dwColour);
+
+				if(strlen(szTxd) < 32 && strlen(szTexture) < 32) {
+					int iModel = wModel;
+					if(iModel == 0xFFFF || iModel > 20000) iModel = -1;
+					if(pObject) pObject->FUNC_100A8530(iModel, byteIndex, szTxd, szTexture, dwColour);
+				}
+			} else if(byteType == 2) {
+				pData->Read(byteIndex);
+				pData->Read(byteSize);
+				pData->Read(byteLen);
+				pData->Read(szFont, byteLen);
+				pData->Read(byteBold);
+				pData->Read(byteAlign);
+				pData->Read(dwFontColour);
+				pData->Read(dwBackColour);
+				pData->Read(byteUnk);
+
+				FUNC_10053C30()->FUNC_100542D0(szText, 2048, pData, 0);
+
+				if(strlen(szFont) < 32) {
+					iTextLen = strlen(szText);
+					if(iTextLen) {
+						if(pObject) pObject->FUNC_100A86B0(byteIndex, szText, byteSize, szFont,
+							byteBold, byteAlign, dwFontColour, dwBackColour, byteUnk);
+					}
+				}
+			}
+		} while(--iCount);
+	}
+}
 void ScrUnk2C(RPCParameters *rpcParams) {}
 void ScrUnk2D(RPCParameters *rpcParams)
 {

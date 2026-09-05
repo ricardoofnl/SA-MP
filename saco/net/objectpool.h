@@ -21,6 +21,9 @@ public:
 	void FUNC_100A9E70();
 	void FUNC_100A80A0(VECTOR *pPos); // .text:100A80A0
 	void FUNC_100A8030(); // .text:100A8030
+	void FUNC_100A8530(int iModel, int iIndex, char *szTxd, char *szTexture, DWORD dwColour); // .text:100A8530
+	void FUNC_100A86B0(int iIndex, char *szText, BYTE byteSize, char *szFont, BYTE byteBold,
+		BYTE byteAlign, DWORD dwFontColour, DWORD dwBackColour, BYTE byteUnk); // .text:100A86B0
 };
 
 class CObjectPool
