@@ -1894,6 +1894,17 @@ int CPlayerPed::FUNC_100AC690()
 }
 //-----------------------------------------------------------
 
+BOOL CPlayerPed::FUNC_100ADA00()
+{
+	if(!m_pPed) {
+		return FALSE;
+	} else {
+		if(!IsAdded()) return FALSE;
+		return m_pPed->Tasks->pdwJumpJetPack != 0;
+	}
+}
+//-----------------------------------------------------------
+
 int CPlayerPed::FUNC_100AE960(int a1)
 {
 	int iResult;
