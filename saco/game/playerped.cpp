@@ -2185,3 +2185,18 @@ void CPlayerPed::FUNC_100AEC10(MATRIX4X4 *pMatrix, int iBone)
 	FUNC_100AEA80(pMatrix, iFrame);
 }
 //-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100AEC50(MATRIX4X4 *pMatrix, int iBone)
+{
+	int iFrame;
+	DWORD dwPedPtr = (DWORD)m_pPed;
+
+	_asm mov edi, dwPedPtr
+	_asm mov eax, iBone
+	_asm mov edx, [edi+eax*4+0x488]
+	_asm mov eax, [edx+0x14]
+	_asm mov iFrame, eax
+
+	FUNC_100AEB10(pMatrix, iFrame);
+}
+//-----------------------------------------------------------
