@@ -65,6 +65,19 @@ public:
 	char  field_8;
 	char  szDir1[0x105];
 	char  szDir2[0x105];
+	char  _gap213[4];
+	DWORD field_217;
+	char  _gap21B[5];
+	BYTE  field_220;
+	BYTE  field_221;
+
+	void FUNC_10017D10(int a1) { // .text:10017D10
+		if(field_217 != a1) {
+			field_217 = a1;
+			field_221 = 0;
+			field_220 = 0;
+		}
+	};
 
 	DOWNLOAD_ENTRY *GetAt(DWORD dwIndex) { if(dwIndex >= m_dwCount) return NULL; return m_pEntries[dwIndex]; }
 

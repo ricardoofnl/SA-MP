@@ -7,6 +7,7 @@ extern CNetGame*	pNetGame;
 extern CGame * pGame;
 extern CAudioStream * pAudioStream;
 extern CChatWindow * pChatWindow;
+extern CDownloadList * dword_1026EB98;
 
 char pText[257];
 
@@ -320,7 +321,7 @@ void ScrUnk7C(RPCParameters *rpcParams)
 
 	bsData.Read(iUnk);
 
-	pPlayerPool->GetLocalPlayer()->sub_100041C0(iUnk);
+	pPlayerPool->GetLocalPlayer()->FUNC_100041C0(iUnk);
 }
 
 void ScrUnk7D(RPCParameters *rpcParams)
@@ -1310,7 +1311,21 @@ void ScrUnkB0(RPCParameters *rpcParams)
 	}
 }
 void ScrUnkB2(RPCParameters *rpcParams) {}
-void ScrUnk30(RPCParameters *rpcParams) {}
+void ScrUnk30(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	int iUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	iUnk = 0;
+	bsData.Read(iUnk);
+
+	if(dword_1026EB98) dword_1026EB98->FUNC_10017D10(iUnk);
+}
 void ScrInitMenu(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
