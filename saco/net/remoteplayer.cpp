@@ -8,6 +8,8 @@ using namespace RakNet;
 extern CNetGame* pNetGame;
 extern CChatWindow *pChatWindow;
 
+int bClampVehicleTurnSpeed = 1;
+
 //----------------------------------------------------
 // layout locks: a negative array size fails the build if any offset moves
 
@@ -212,7 +214,7 @@ void CRemotePlayer::FUNC_100150D0(VECTOR *pPos, VECTOR *pMoveSpeed)
 
 void CRemotePlayer::FUNC_100155E0(int a1, VECTOR *pPos, VECTOR *pMoveSpeed)
 {
-	FUNC_100B5210(a1, &_gap16C);
+	FUNC_100B5210(a1, quat16C);
 	field_194 = *pPos;
 	field_1A0 = *pMoveSpeed;
 	field_1E1->SetMoveSpeedVector(*pMoveSpeed);
@@ -403,6 +405,42 @@ void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
 		!m_pPlayerPed->FUNC_100AC640()) FUNC_100148F0();
 
 	if(field_10A != 17) field_10A = 17;
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_10015460()
+{
+	MATRIX4X4 mat;
+	float quatCur[4];
+	float quatBlend[4];
+	VECTOR vecTurn;
+
+	vecTurn.X = 0.0f;
+	vecTurn.Y = 0.0f;
+	vecTurn.Z = 0.0f;
+
+	if(!field_1E1) return;
+
+	if(bClampVehicleTurnSpeed) {
+		field_1E1->GetTurnSpeedVector(&vecTurn);
+
+		if(vecTurn.X > 0.02f) vecTurn.X = 0.02f;
+		else if(vecTurn.X < -0.02f) vecTurn.X = -0.02f;
+		if(vecTurn.Y > 0.02f) vecTurn.Y = 0.02f;
+		else if(vecTurn.Y < -0.02f) vecTurn.Y = -0.02f;
+		if(vecTurn.Z > 0.02f) vecTurn.Z = 0.02f;
+		else if(vecTurn.Z < -0.02f) vecTurn.Z = -0.02f;
+
+		field_1E1->SetTurnSpeedVector(vecTurn);
+	}
+
+	field_1E1->GetMatrix(&mat);
+	FUNC_100B5210((int)&mat, quatCur);
+	FUNC_100B5480(quatBlend, quat16C, quatCur, 0.75f);
+	FUNC_100B5500(quatBlend);
+	FUNC_100B5470(quatBlend, &mat);
+	field_1E1->SetMatrix(mat);
 }
 
 //----------------------------------------------------
