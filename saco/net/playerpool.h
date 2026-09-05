@@ -36,15 +36,10 @@ public:
 	}
 
 	PCHAR GetPlayerName(PLAYERID playerId) { // .text:100175C0
-		PCHAR szName;
-		if(playerId == m_LocalPlayerID) szName = (PCHAR)field_6.c_str();
-		else if(playerId > MAX_PLAYERS) szName = NULL;
-		else {
-			CNetPlayer *pPlayer = m_pPlayers[playerId];
-			if(!pPlayer) szName = NULL;
-			else szName = pPlayer->GetName();
-		}
-		return szName;
+		if(playerId == m_LocalPlayerID) return (PCHAR)field_6.c_str();
+		CNetPlayer *pPlayer = playerId > MAX_PLAYERS ? NULL : m_pPlayers[playerId];
+		if(!pPlayer) return NULL;
+		return pPlayer->GetName();
 	};
 
 	CLocalPlayer * GetLocalPlayer() { return m_pLocalPlayer; };
