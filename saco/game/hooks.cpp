@@ -3566,6 +3566,91 @@ int FUNC_100A5F30(int a1, size_t a2, int a3)
 }
 
 //-----------------------------------------------------------
+
+DWORD unnamed_101506B0;
+DWORD unnamed_101514CC;
+
+// .text:100A2FC0 : runs the game call with the remote player's weapon skills in place
+NUDE FUNC_100A2FC0()
+{
+	_asm mov unnamed_101515F4, ecx
+	_asm mov eax, [esp+4]
+	_asm mov unnamed_10151618, eax
+	_asm mov eax, [esp+8]
+	_asm mov unnamed_101506B0, eax
+	_asm mov eax, [esp+12]
+	_asm mov unnamed_101514CC, eax
+
+	unnamed_10151614 = *pbyteCurrentPlayer;
+	unnamed_1015161C = FindPlayerNumFromPedPtr(unnamed_10151618);
+
+	if(unnamed_10151618 && unnamed_1015161C && !unnamed_10151614)
+	{
+		GameStoreLocalPlayerWeaponSkills();
+		GameSetRemotePlayerWeaponSkills(unnamed_1015161C);
+
+		_asm push unnamed_101514CC
+		_asm push unnamed_101506B0
+		_asm push unnamed_10151618
+		_asm mov ecx, unnamed_101515F4
+		_asm mov edx, 0x6857E0
+		_asm call edx
+
+		GameSetLocalPlayerWeaponSkills();
+	}
+	else
+	{
+		_asm push unnamed_101514CC
+		_asm push unnamed_101506B0
+		_asm push unnamed_10151618
+		_asm mov ecx, unnamed_101515F4
+		_asm mov edx, 0x6857E0
+		_asm call edx
+	}
+
+	_asm retn 0xC
+}
+
+//-----------------------------------------------------------
+
+DWORD unnamed_10151700;
+CVehiclePool *unnamed_10151704;
+CVehicle *unnamed_10151708;
+WORD unnamed_10113AE4;
+
+// .text:100A46F0 : mirrors our own siren state into the game's vehicle flags
+NUDE FUNC_100A46F0()
+{
+	_asm mov unnamed_10151700, esi
+	_asm pushad
+
+	if(pNetGame)
+	{
+		unnamed_10151704 = pNetGame->GetVehiclePool();
+		unnamed_10113AE4 = unnamed_10151704->FUNC_1001EB90(unnamed_10151700);
+
+		if(unnamed_10113AE4 != 0xFFFF)
+		{
+			unnamed_10151708 = (CVehicle *)unnamed_10151704->FUNC_10001120(unnamed_10113AE4);
+
+			if(unnamed_10151708)
+			{
+				if(unnamed_10151708->FUNC_100B8240())
+					*(BYTE *)(unnamed_10151700 + 0x428) |= 0x40;
+				else
+					*(BYTE *)(unnamed_10151700 + 0x428) &= 0xBF;
+			}
+		}
+	}
+
+	_asm popad
+	_asm mov eax, 0x6D55C0
+	_asm jmp eax
+}
+
+//-----------------------------------------------------------
+
+//-----------------------------------------------------------
 // trampolines that only snapshot the caller's arguments before handing the
 // call on to GTA
 
