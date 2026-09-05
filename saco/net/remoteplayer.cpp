@@ -13,6 +13,7 @@ extern CChatWindow *pChatWindow;
 
 typedef char CRemotePlayer_offsets[(
 	offsetof(CRemotePlayer, field_C5) == 0xC5 &&
+	offsetof(CRemotePlayer, field_C5.quat) == 0xD7 &&
 	offsetof(CRemotePlayer, field_C5.vecOffset) == 0xF7 &&
 	offsetof(CRemotePlayer, field_C5.wVehicleID) == 0x103 &&
 	sizeof(((CRemotePlayer *)0)->field_C5) == 68 &&
@@ -354,6 +355,28 @@ void CRemotePlayer::FUNC_10014800()
 
 	int iGtaVehicleID = pVehiclePool->FindGtaIDFromID(field_1E7);
 	m_pPlayerPed->FUNC_100AC290(iGtaVehicleID, field_10B);
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_10014FF0()
+{
+	if(!m_pPlayerPed) return;
+
+	MATRIX4X4 mat;
+	float quatBlend[4];
+	float quatCur[4];
+
+	m_pPlayerPed->GetMatrix(&mat);
+	FUNC_100B52B0(&mat, quatCur);
+	FUNC_100B5480(quatBlend, field_C5.quat, quatCur, 0.75f);
+	FUNC_100B6A80(quatBlend, &mat);
+	m_pPlayerPed->SetMatrix(mat);
+
+	float fAngle = atan2(-mat.up.X, mat.up.Y) * 57.2957764f;
+	if(fAngle < 0.0f) fAngle += 360.0f;
+	else if(fAngle >= 360.0f) fAngle -= 360.0f;
+	m_pPlayerPed->FUNC_100ABF10(fAngle);
 }
 
 //----------------------------------------------------

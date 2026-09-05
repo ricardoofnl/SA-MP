@@ -109,6 +109,9 @@ int __stdcall FUNC_100B4240(DWORD *pdwIn, DWORD dwParam); // .text:100B4240
 void __stdcall FUNC_100B42B0(DWORD *pdwEntity); // .text:100B42B0
 DWORD __stdcall FUNC_100B4430(int a1, int a2); // .text:100B4430
 void FUNC_100B5D20(); // .text:100B5D20
+void FUNC_100B52B0(MATRIX4X4 *pMatrix, float *pQuatOut); // .text:100B52B0
+void FUNC_100B5480(float *pQuatOut, float *pQuatFrom, float *pQuatTo, float fT); // .text:100B5480
+void FUNC_100B6A80(float *pQuat, MATRIX4X4 *pMatrix); // .text:100B6A80
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 

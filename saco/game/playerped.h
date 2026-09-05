@@ -132,6 +132,7 @@ public:
 	void		FUNC_100AC410(DWORD dwGtaId, int a2); // .text:100AC410
 	void		FUNC_100ADFB0(int iLevel); // .text:100ADFB0
 	int			FUNC_100ADC90(); // .text:100ADC90
+	void		FUNC_100ABF10(float fAngle); // .text:100ABF10
 
 
 	void		ProcessVehicleHorn();
