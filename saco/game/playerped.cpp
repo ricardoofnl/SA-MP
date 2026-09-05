@@ -16,6 +16,7 @@ extern BOOL	bIgnoreNextEntry;
 extern BOOL	bIgnoreNextExit;
 
 extern BYTE	*pbyteCurrentPlayer;
+extern int	iGtaVersion;
 
 typedef char CPlayerPed_size_probe[sizeof(CPlayerPed) == 0x32D ? 1 : -1];
 typedef char CPlayerPed_2BD_probe[offsetof(CPlayerPed, field_2BD) == 0x2BD ? 1 : -1];
@@ -2167,5 +2168,20 @@ void CPlayerPed::FUNC_100AE1E0()
 	TeleportTo(mat.pos.X, mat.pos.Y, mat.pos.Z);
 
 	field_2F2 = 0;
+}
+//-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100AEC10(MATRIX4X4 *pMatrix, int iBone)
+{
+	int iFrame;
+	DWORD dwPedPtr = (DWORD)m_pPed;
+
+	_asm mov edi, dwPedPtr
+	_asm mov eax, iBone
+	_asm mov edx, [edi+eax*4+0x488]
+	_asm mov eax, [edx+0x14]
+	_asm mov iFrame, eax
+
+	FUNC_100AEA80(pMatrix, iFrame);
 }
 //-----------------------------------------------------------
