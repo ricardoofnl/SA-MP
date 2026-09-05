@@ -1544,3 +1544,114 @@ void FUNC_100B5720()
 	_asm pop edx
 	_asm popad
 }
+
+//-----------------------------------------------------------
+
+BOOL __stdcall FUNC_100B4570(int iModel)
+{
+	DWORD *pModelInfo = GetModelInfo(iModel);
+
+	// retail tests the sum, so a compare against -20 emits the wrong shape
+	if(pModelInfo && *pModelInfo + 20 != 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+//-----------------------------------------------------------
+
+DWORD __stdcall FUNC_100B45A0(int iModel)
+{
+	DWORD *pModelInfo = GetModelInfo(iModel);
+	DWORD dwRet = 0;
+
+	_asm mov eax, pModelInfo
+	_asm mov edx, [eax+0x1C]
+	_asm mov dwRet, edx
+
+	return dwRet;
+}
+
+//-----------------------------------------------------------
+
+void __stdcall FUNC_100B45D0(int iModel, int a2)
+{
+	DWORD *pModelInfo = GetModelInfo(iModel);
+
+	_asm mov ecx, pModelInfo
+	_asm mov edx, a2
+	_asm mov [ecx+0x1C], edx
+	_asm push a2
+	_asm mov edx, [ecx]
+	_asm call dword ptr [edx+0x40]
+}
+
+//-----------------------------------------------------------
+
+void __stdcall FUNC_100B4600(int iModel, int a2)
+{
+	DWORD *pModelInfo = GetModelInfo(iModel);
+
+	_asm mov ecx, pModelInfo
+	_asm mov edx, a2
+	_asm mov [ecx+0x1C], edx
+	_asm push a2
+	_asm mov edx, [ecx]
+	_asm call dword ptr [edx+0x3C]
+}
+
+//-----------------------------------------------------------
+
+void __stdcall FUNC_100B4630(int iModel, int a2)
+{
+	DWORD *pModelInfo = GetModelInfo(iModel);
+
+	_asm mov ecx, pModelInfo
+	_asm push 0
+	_asm push a2
+	_asm mov edx, 0x4C4BC0
+	_asm call edx
+}
+
+//-----------------------------------------------------------
+
+DWORD __stdcall FUNC_100B46D0(int iModel)
+{
+	DWORD *pModelInfo = GetModelInfo(iModel);
+	DWORD dwRet = 0;
+
+	_asm mov eax, pModelInfo
+	_asm mov edx, [eax+0x14]
+	_asm mov dwRet, edx
+
+	return dwRet;
+}
+
+//-----------------------------------------------------------
+
+WORD __stdcall FUNC_100B4700(int iModel)
+{
+	DWORD *pModelInfo = GetModelInfo(iModel);
+	WORD wRet = 0;
+
+	_asm mov edx, pModelInfo
+	_asm mov bx, [edx+8]
+	_asm mov wRet, bx
+
+	return wRet;
+}
+
+//-----------------------------------------------------------
+
+void __stdcall FUNC_100B4730(int iModel, WORD wValue)
+{
+	DWORD *pModelInfo = GetModelInfo(iModel);
+
+	if(pModelInfo)
+	{
+		_asm mov edx, pModelInfo
+		_asm mov bx, wValue
+		_asm mov [edx+8], bx
+	}
+}

@@ -132,6 +132,14 @@ void FUNC_100B46C0(DWORD dwValue); // .text:100B46C0
 float FUNC_100B4FE0(float x, float y, float z); // .text:100B4FE0
 int FUNC_100B56D0(int a1, int a2, int a3); // .text:100B56D0
 void FUNC_100B5720(); // .text:100B5720
+BOOL __stdcall FUNC_100B4570(int iModel); // .text:100B4570
+DWORD __stdcall FUNC_100B45A0(int iModel); // .text:100B45A0
+void __stdcall FUNC_100B45D0(int iModel, int a2); // .text:100B45D0
+void __stdcall FUNC_100B4600(int iModel, int a2); // .text:100B4600
+void __stdcall FUNC_100B4630(int iModel, int a2); // .text:100B4630
+DWORD __stdcall FUNC_100B46D0(int iModel); // .text:100B46D0
+WORD __stdcall FUNC_100B4700(int iModel); // .text:100B4700
+void __stdcall FUNC_100B4730(int iModel, WORD wValue); // .text:100B4730
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 
