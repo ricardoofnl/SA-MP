@@ -2275,6 +2275,31 @@ float CPlayerPed::FUNC_100AF220()
 }
 //-----------------------------------------------------------
 
+void CPlayerPed::FUNC_100AEEE0(MATRIX4X4 *pMatrix)
+{
+	int iFrame;
+	DWORD dwPedPtr;
+	int iBone;
+
+	iBone = 2;
+	dwPedPtr = (DWORD)m_pPed;
+
+	_asm mov edi, dwPedPtr
+	_asm mov eax, iBone
+	_asm mov edx, [edi+eax*4+0x488]
+	_asm mov eax, [edx+0x14]
+	_asm mov iFrame, eax
+
+	FUNC_100AEA80(pMatrix, iFrame);
+
+	CAMERA_AIM *pAim = GameGetInternalAim();
+
+	pMatrix->pos.X = pAim->f1x * 0.04f + pMatrix->pos.X;
+	pMatrix->pos.Y = pAim->f1y * 0.04f + pMatrix->pos.Y;
+	pMatrix->pos.Z = pMatrix->pos.Z + 0.08f;
+}
+//-----------------------------------------------------------
+
 DWORD CPlayerPed::FUNC_100AE790()
 {
 	if(!m_pPed) return 0;
