@@ -78,6 +78,9 @@ public:
 
 	BOOL FUNC_10001080() { return m_pPlayerPed && field_10A; }; // .text:10001080
 
+	char FUNC_10014380() { return field_C; }; // .text:10014380
+	int FUNC_10014390() { return field_10C; }; // .text:10014390
+
 	void EnterVehicle(VEHICLEID VehicleID, BOOL bPassenger);
 	void ExitVehicle();
 

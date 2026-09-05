@@ -166,7 +166,7 @@ void CRemotePlayer::FUNC_100143A0()
 {
 	if(!m_pPlayerPed) return;
 	if(!m_pPlayerPed->IsAdded()) return;
-	if(field_10C) return;
+	if(FUNC_10014390()) return;
 	if(pGame && !pGame->m_bHeadMove) return;
 	if(m_pPlayerPed->FUNC_100ADC90()) return;
 
@@ -401,7 +401,7 @@ void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
 	// the sign-bit mask is what emits jns; '< 0' emits jge
 	if(field_C5.iAnimation & 0x80000000) field_C5.iAnimation = 0;
 
-	if(m_pPlayerPed && m_pPlayerPed->IsInVehicle() && field_C != 3 && field_C != 4 &&
+	if(m_pPlayerPed && m_pPlayerPed->IsInVehicle() && FUNC_10014380() != 3 && FUNC_10014380() != 4 &&
 		!m_pPlayerPed->FUNC_100AC640()) FUNC_100148F0();
 
 	if(field_10A != 17) field_10A = 17;
