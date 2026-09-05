@@ -95,7 +95,34 @@ void ScrSetGravity(RPCParameters *rpcParams)
 	pGame->SetGravity(fGravity);
 }
 void ScrUnk93(RPCParameters *rpcParams) {}
-void ScrUnk94(RPCParameters *rpcParams) {}
+void ScrUnk94(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VEHICLEID vehicleId;
+	VEHICLEID trailerId;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(!pNetGame->GetVehiclePool()) return;
+
+	bsData.Read(vehicleId);
+	bsData.Read(trailerId);
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+
+	int iVehicle = pVehiclePool->GetAt(vehicleId);
+	CVehicle *pTrailer = (CVehicle *)pVehiclePool->GetAt(trailerId);
+
+	if(iVehicle) {
+		if(pTrailer) {
+			pTrailer->FUNC_100B7C80(iVehicle);
+			pTrailer->FUNC_100B7C10();
+		}
+	}
+}
 void ScrUnk95(RPCParameters *rpcParams) {}
 void ScrUnk2C(RPCParameters *rpcParams) {}
 void ScrUnk2D(RPCParameters *rpcParams)
