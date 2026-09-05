@@ -5,6 +5,9 @@
 
 extern CGame		 *pGame;
 extern CNetGame		 *pNetGame;
+extern CCmdWindow	 *pCmdWindow;
+extern CUnkClass3	 *pUnkClass3;
+extern CDXUTDialog	 *pClassSelectDialog;
 
 DWORD dword_100FE0A4 = -1;
 DWORD dword_100FE0A8 = 30;
@@ -673,4 +676,66 @@ void CLocalPlayer::SetInteriorId(BYTE byteInteriorId)
 
 	bsSend.Write(byteInteriorId);
 	pNetGame->GetRakClient()->RPC(RPC_SetInteriorId, &bsSend, HIGH_PRIORITY, RELIABLE, 0, FALSE);
+}
+
+//----------------------------------------------------
+
+// drives class selection: centres the dialog on entry, then steps on the arrows
+void CLocalPlayer::FUNC_10006100()
+{
+	if(!pGame->sub_100A0920())
+	{
+		pGame->sub_100A1DB0(0);
+		pGame->ToggleKeyInputsDisabled(2, 0);
+	}
+
+	if(pUnkClass3 && pUnkClass3->GetField28())
+		return;
+
+	if(!field_306)
+	{
+		RECT rect;
+
+		pClassSelectDialog->SetVisible(true);
+		GetClientRect(pGame->GetMainWindowHwnd(), &rect);
+		pClassSelectDialog->SetLocation(rect.right / 2 - pClassSelectDialog->GetWidth() / 2,
+			rect.bottom - pClassSelectDialog->GetHeight() - 50);
+
+		field_306 = 1;
+		RequestClass(field_2FE);
+		return;
+	}
+
+	if(GetTickCount() - field_14B < 2000)
+		return;
+
+	if(!field_302)
+	{
+		if(!field_143)
+			return;
+
+		if((GetAsyncKeyState(VK_SHIFT) & 0x8000) && !pCmdWindow->GetField14E0())
+		{
+			sub_10004060();
+			return;
+		}
+	}
+
+	if(!field_143)
+		return;
+
+	DWORD dwElapsed = GetTickCount() - field_147;
+
+	if((GetAsyncKeyState(VK_LEFT) & 0x8000) && dwElapsed > 250)
+	{
+		field_147 = GetTickCount();
+		SelectPreviousClass();
+		return;
+	}
+
+	if((GetAsyncKeyState(VK_RIGHT) & 0x8000) && dwElapsed > 250)
+	{
+		field_147 = GetTickCount();
+		SelectNextClass();
+	}
 }
