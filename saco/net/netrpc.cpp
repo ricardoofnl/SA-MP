@@ -34,6 +34,7 @@ public:
 	void FUNC_1006DB80(BOOL bEnable); // .text:1006DB80
 	void FUNC_10072BC0(BOOL bEnable); // .text:10072BC0
 	void FUNC_100724E0(DWORD dwIndex); // .text:100724E0
+	void FUNC_10072420(WORD wObjectID, BOOL bPlayerObject); // .text:10072420
 };
 
 extern int dword_1026EB60;
@@ -584,7 +585,30 @@ void EditAttachedObject(RPCParameters *rpcParams)
 
 	((CEditDispatch *)dword_1026EB60)->FUNC_100724E0(dwIndex);
 }
-void EditObject(RPCParameters *rpcParams) {}
+void EditObject(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bool bPlayerObject = false;
+	WORD wObjectID = 0xFFFF;
+
+	bsData.Read(bPlayerObject);
+	bsData.Read(wObjectID);
+
+	if(dword_1026EB64 && ((CEditDispatch *)dword_1026EB64)->field_0)
+		((CEditDispatch *)dword_1026EB64)->FUNC_1006DB80(FALSE);
+
+	if(dword_1026EB68 && ((CEditDispatch *)dword_1026EB68)->field_0)
+		((CEditDispatch *)dword_1026EB68)->FUNC_10071520();
+
+	if(bPlayerObject)
+		((CEditDispatch *)dword_1026EB60)->FUNC_10072420(wObjectID,TRUE);
+	else
+		((CEditDispatch *)dword_1026EB60)->FUNC_10072420(wObjectID,FALSE);
+}
 void SelectObject(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
