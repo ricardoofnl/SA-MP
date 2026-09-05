@@ -9,6 +9,26 @@ extern CAudioStream * pAudioStream;
 extern CChatWindow * pChatWindow;
 extern CDownloadList * dword_1026EB98;
 
+// the three UI dispatch objects the script RPCs poke; net/netrpc.cpp keeps its own
+// copy of this shape as CEditDispatch
+#pragma pack(1)
+class CScrEditDispatch
+{
+public:
+	DWORD field_0;
+	char  _gap4[0x7C];
+	DWORD field_80;
+
+	void FUNC_1006DB80(BOOL bEnable); // .text:1006DB80
+	void FUNC_10071440(int a1); // .text:10071440
+	void FUNC_10071520(); // .text:10071520
+	void FUNC_10072BC0(BOOL bEnable); // .text:10072BC0
+};
+
+extern CScrEditDispatch * dword_1026EB60;
+extern CScrEditDispatch * dword_1026EB64;
+extern CScrEditDispatch * dword_1026EB68;
+
 char pText[257];
 
 //----------------------------------------------------
@@ -1381,7 +1401,32 @@ void ScrUnk52(RPCParameters *rpcParams)
 		else pGame->GetCamera()->InterpolateLookAt(&vecFrom, &vecTo, iTime, byteCut);
 	}
 }
-void ScrUnk53(RPCParameters *rpcParams) {}
+void ScrUnk53(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	bool bUnk;
+	int iUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bUnk = false;
+	iUnk = 0;
+
+	bsData.Read(bUnk);
+	bsData.Read(iUnk);
+
+	if(dword_1026EB64 && dword_1026EB64->field_0) dword_1026EB64->FUNC_1006DB80(FALSE);
+	if(dword_1026EB60 && dword_1026EB60->field_80) dword_1026EB60->FUNC_10072BC0(FALSE);
+
+	if(bUnk) {
+		if(dword_1026EB68) dword_1026EB68->FUNC_10071440(iUnk);
+	} else if(dword_1026EB68) {
+		dword_1026EB68->FUNC_10071520();
+	}
+}
 void ScrUnk54(RPCParameters *rpcParams) {}
 void ScrUnkA9(RPCParameters *rpcParams)
 {
