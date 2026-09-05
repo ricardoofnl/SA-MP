@@ -708,7 +708,29 @@ void ScrUnk58(RPCParameters *rpcParams)
 	if(pPlayerPool) pPlayerPool->GetLocalPlayer()->sub_100030F0(byteUnk);
 }
 void ScrUnk59(RPCParameters *rpcParams) {}
-void ScrUnk5A(RPCParameters *rpcParams) {}
+void ScrUnk5A(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VECTOR vecMoveSpeed;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(vecMoveSpeed.X);
+	bsData.Read(vecMoveSpeed.Y);
+	bsData.Read(vecMoveSpeed.Z);
+
+	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+	if(pPlayerPed) {
+		if(pPlayerPed->FUNC_100AD860()) {
+			pPlayerPed->FUNC_100ABDF0(pPlayerPed->FUNC_100ABDD0() ^ 3);
+		}
+
+		pPlayerPed->SetMoveSpeedVector(vecMoveSpeed);
+	}
+}
 void ScrUnk5B(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);

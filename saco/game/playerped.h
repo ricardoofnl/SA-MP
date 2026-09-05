@@ -211,6 +211,8 @@ public:
 	BOOL  FUNC_100ACE40(); // .text:100ACE40
 	void  FUNC_100ACF00(int a1); // .text:100ACF00
 	BOOL  FUNC_100AD860(); // .text:100AD860
+	int   FUNC_100ABDD0(); // .text:100ABDD0
+	void  FUNC_100ABDF0(int a1); // .text:100ABDF0
 	void  FUNC_100AD880(); // .text:100AD880
 	void  FUNC_100AC720(); // .text:100AC720
 	void  FUNC_100AEC90(); // .text:100AEC90
