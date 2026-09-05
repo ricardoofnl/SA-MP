@@ -1885,6 +1885,15 @@ void FUNC_100AE520()
 
 //-----------------------------------------------------------
 
+int CPlayerPed::FUNC_100AC690()
+{
+	if(GamePool_Ped_GetAt(m_dwGTAId) && m_pPed)
+		return (m_pPed->dwStateFlags >> 26) & 1;
+
+	return 0;
+}
+//-----------------------------------------------------------
+
 struc_13 * CPlayerPed::FUNC_100AE5D0()
 {
 	if(m_bytePlayerNumber) return FUNC_100B43D0(m_bytePlayerNumber);

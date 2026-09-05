@@ -194,6 +194,7 @@ public:
 	void  FUNC_100AEC90(); // .text:100AEC90
 	int   FUNC_100AEF60(); // .text:100AEF60
 
+	int   FUNC_100AC690(); // .text:100AC690
 	struc_13 * FUNC_100AE5D0(); // .text:100AE5D0
 
 
