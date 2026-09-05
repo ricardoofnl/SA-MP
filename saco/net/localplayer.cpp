@@ -317,3 +317,49 @@ void CLocalPlayer::FUNC_10006FE0()
 		}
 	}
 }
+
+//----------------------------------------------------
+
+void CLocalPlayer::sub_10003710(int a1, int a2)
+{
+	field_2DA = a1;
+	field_2DE = a2;
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::sub_10004060()
+{
+	if(field_306)
+	{
+		FUNC_10003B60();
+		field_302 = 1;
+	}
+}
+
+//----------------------------------------------------
+
+// on foot and in a vehicle report their update rate separately
+int CLocalPlayer::FUNC_10003B30()
+{
+	if(m_pPlayerPed)
+	{
+		if(m_pPlayerPed->IsInVehicle())
+			return FUNC_10003AB0();
+
+		return FUNC_10003AF0();
+	}
+
+	return 1000;
+}
+
+//----------------------------------------------------
+
+// the three words live inside field_0, so they are read through it
+BOOL CLocalPlayer::FUNC_10004340(WORD a1, WORD a2, WORD a3)
+{
+	if(a1 == *(WORD *)&field_0[6] && a2 == *(WORD *)&field_0[4] && a3 == *(WORD *)&field_0[2])
+		return FALSE;
+
+	return TRUE;
+}

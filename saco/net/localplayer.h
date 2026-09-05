@@ -138,6 +138,12 @@ public:
 	void sub_100041C0(int a1); // .text:100041C0
 	void sub_100030F0(BYTE a1); // .text:100030F0
 	void sub_10003710(int a1, int a2); // .text:10003710
+	void sub_10004060(); // .text:10004060
+	int  FUNC_10003AB0(); // .text:10003AB0
+	int  FUNC_10003AF0(); // .text:10003AF0
+	int  FUNC_10003B30(); // .text:10003B30
+	void FUNC_10003B60(); // .text:10003B60
+	BOOL FUNC_10004340(WORD a1, WORD a2, WORD a3); // .text:10004340
 
 	DWORD GetField_F0() { return field_F0; };
 };
