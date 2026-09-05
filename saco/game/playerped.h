@@ -5,6 +5,8 @@
 #include "aimstuff.h"
 #include "entity.h"
 
+struct struc_13;
+
 DWORD __stdcall GamePool_Vehicle_GetIndex(VEHICLE_TYPE *pVehicle);
 void FUNC_100AE520(); // .text:100AE520
 
@@ -191,6 +193,9 @@ public:
 	void  FUNC_100AC720(); // .text:100AC720
 	void  FUNC_100AEC90(); // .text:100AEC90
 	int   FUNC_100AEF60(); // .text:100AEF60
+
+	struc_13 * FUNC_100AE5D0(); // .text:100AE5D0
+
 
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];

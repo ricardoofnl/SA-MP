@@ -1884,3 +1884,11 @@ void FUNC_100AE520()
 }
 
 //-----------------------------------------------------------
+
+struc_13 * CPlayerPed::FUNC_100AE5D0()
+{
+	if(m_bytePlayerNumber) return FUNC_100B43D0(m_bytePlayerNumber);
+
+	return NULL;
+}
+//-----------------------------------------------------------
