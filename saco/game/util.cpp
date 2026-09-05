@@ -1835,3 +1835,83 @@ void __stdcall FUNC_100B6330(BYTE *pObject)
 			FUNC_100B19D0(pObject);
 	}
 }
+
+//-----------------------------------------------------------
+
+void FUNC_100B5260(MATRIX4X4 *pMatrix, float *pQuatOut)
+{
+	FUNC_100B4D70(pMatrix->right.X, pMatrix->right.Y, pMatrix->right.Z,
+		pMatrix->up.X, pMatrix->up.Y, pMatrix->up.Z,
+		pMatrix->at.X, pMatrix->at.Y, pMatrix->at.Z,
+		&pQuatOut[0], &pQuatOut[1], &pQuatOut[2], &pQuatOut[3]);
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B5420(float *pQuat, MATRIX4X4 *pMatrix)
+{
+	FUNC_100B4F10(pQuat[0], pQuat[1], pQuat[2], pQuat[3],
+		&pMatrix->right.X, &pMatrix->right.Y, &pMatrix->right.Z,
+		&pMatrix->up.X, &pMatrix->up.Y, &pMatrix->up.Z,
+		&pMatrix->at.X, &pMatrix->at.Y, &pMatrix->at.Z);
+}
+
+//-----------------------------------------------------------
+
+VECTOR VAR_10117400[3];
+DWORD VAR_10117424;
+
+void FUNC_100B57E0(int a1, int nIndex, int a3, int a4)
+{
+	VECTOR *pEntry = &VAR_10117400[nIndex];
+	DWORD dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7EB800 : 0x7EB7C0;
+
+	_asm push a4
+	_asm push a3
+	_asm push pEntry
+	_asm push a1
+	_asm mov edx, dwFunc
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B5790(int a1, int nIndex, int a3)
+{
+	VECTOR *pEntry = &VAR_10117400[nIndex];
+
+	VAR_10117424 = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7F2010 : 0x7F1FD0;
+
+	_asm push 1
+	_asm push a3
+	_asm push pEntry
+	_asm push a1
+	_asm mov ebx, VAR_10117424
+	_asm call ebx
+	_asm pop ebx
+	_asm pop ebx
+	_asm pop ebx
+	_asm pop ebx
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B5740(int a1, int a2)
+{
+	VAR_1026DF88 = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7F20B0 : 0x7F2070;
+	VAR_1026DF80 = a2;
+	VAR_1026DF84 = a1;
+
+	_asm pushad
+	_asm push VAR_1026DF80
+	_asm push VAR_1026DF84
+	_asm mov edx, VAR_1026DF88
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm popad
+}

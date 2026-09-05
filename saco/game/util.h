@@ -157,6 +157,16 @@ void FUNC_100B56F0(int a1, int a2, int a3); // .text:100B56F0
 void FUNC_100B62B0(BYTE *pObject); // .text:100B62B0
 BOOL __stdcall FUNC_100B62F0(BYTE *pObject); // .text:100B62F0
 void __stdcall FUNC_100B6330(BYTE *pObject); // .text:100B6330
+void FUNC_100B4D70(float m00, float m01, float m02, float m10, float m11, float m12,
+		float m20, float m21, float m22, float *pW, float *pX, float *pY, float *pZ); // .text:100B4D70, todo: implement
+void FUNC_100B4F10(float w, float x, float y, float z, float *pM00, float *pM01,
+		float *pM02, float *pM10, float *pM11, float *pM12, float *pM20, float *pM21,
+		float *pM22); // .text:100B4F10, todo: implement
+void FUNC_100B5260(MATRIX4X4 *pMatrix, float *pQuatOut); // .text:100B5260
+void FUNC_100B5420(float *pQuat, MATRIX4X4 *pMatrix); // .text:100B5420
+void FUNC_100B57E0(int a1, int nIndex, int a3, int a4); // .text:100B57E0
+void FUNC_100B5790(int a1, int nIndex, int a3); // .text:100B5790
+void FUNC_100B5740(int a1, int a2); // .text:100B5740
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 
