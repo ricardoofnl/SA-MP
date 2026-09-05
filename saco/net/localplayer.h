@@ -90,7 +90,7 @@ public:
 	DWORD field_306;
 	DWORD field_30A;
 
-	BYTE _pad30E;
+	BYTE field_30E;
 
 	BYTE field_30F;
 	DWORD field_310;

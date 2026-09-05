@@ -59,6 +59,8 @@ public:
 	void  sub_100B7AC0(int iPanelDamage, int iDoorDamage, BYTE byteLightDamage); // .text:100B7AC0
 	void  sub_100B7940(BYTE byteTyreDamage); // .text:100B7940
 	void  FUNC_100B72C0(int a1); // .text:100B72C0
+	void  FUNC_100B8170(float a1); // .text:100B8170
+	void  FUNC_100B80B0(short a1); // .text:100B80B0
 
 	void  SetHydraThrusters(DWORD dwDirection);
 	DWORD GetHydraThrusters();

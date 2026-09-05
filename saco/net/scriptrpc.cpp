@@ -329,9 +329,74 @@ void ScrUnk7D(RPCParameters *rpcParams)
 	// nothing
 }
 
-void ScrUnk7E(RPCParameters *rpcParams) {}
-void ScrUnk7F(RPCParameters *rpcParams) {}
-void ScrUnk39(RPCParameters *rpcParams) {}
+void ScrUnk7E(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	PLAYERID playerId;
+	BYTE byteMode;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(playerId);
+	bsData.Read(byteMode);
+
+	switch(byteMode) {
+		case 2: byteMode = 15; break;
+		case 3: byteMode = 14; break;
+		default: byteMode = 4; break;
+	}
+
+	CLocalPlayer *pLocalPlayer = pNetGame->GetPlayerPool()->GetLocalPlayer();
+	pLocalPlayer->field_30E = byteMode;
+	pLocalPlayer->FUNC_10004280(playerId);
+}
+void ScrUnk7F(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	PLAYERID playerId;
+	BYTE byteMode;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(playerId);
+	bsData.Read(byteMode);
+
+	switch(byteMode) {
+		case 2: byteMode = 15; break;
+		case 3: byteMode = 14; break;
+		default: byteMode = 3; break;
+	}
+
+	CLocalPlayer *pLocalPlayer = pNetGame->GetPlayerPool()->GetLocalPlayer();
+	pLocalPlayer->field_30E = byteMode;
+	pLocalPlayer->FUNC_10004230(playerId);
+}
+void ScrUnk39(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VEHICLEID vehicleId;
+	short sUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+	if(!pVehiclePool) return;
+
+	bsData.Read(vehicleId);
+	bsData.Read(sUnk);
+
+	if(pVehiclePool->GetSlotState(vehicleId))
+		((CVehicle *)pVehiclePool->GetAt(vehicleId))->FUNC_100B80B0(sUnk);
+}
 void ScrUnk4B(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -939,7 +1004,24 @@ void ScrUnk9F(RPCParameters *rpcParams)
 		((CEntity *)pNetGame->GetVehiclePool()->GetAt(vehicleId))->TeleportTo(fX, fY, fZ);
 	}
 }
-void ScrUnkA0(RPCParameters *rpcParams) {}
+void ScrUnkA0(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VEHICLEID vehicleId;
+	float fUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(vehicleId);
+	bsData.Read(fUnk);
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+	if(pVehiclePool && pVehiclePool->GetSlotState(vehicleId))
+		((CVehicle *)pVehiclePool->GetAt(vehicleId))->FUNC_100B8170(fUnk);
+}
 void ScrUnkA1(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -1299,8 +1381,44 @@ void ScrUnkA9(RPCParameters *rpcParams)
 	}
 }
 void ScrUnkAD(RPCParameters *rpcParams) {}
-void ScrUnkAE(RPCParameters *rpcParams) {}
-void ScrUnkAF(RPCParameters *rpcParams) {}
+void ScrUnkAE(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	ACTORID actorId;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(actorId);
+
+	CActorPool *pActorPool = pNetGame->GetActorPool();
+	if(pActorPool) {
+		CActorPed *pActor = (CActorPed *)pActorPool->GetAt(actorId);
+		if(pActor) pActor->FUNC_1009C550();
+	}
+}
+void ScrUnkAF(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	ACTORID actorId;
+	float fUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(actorId);
+	bsData.Read(fUnk);
+
+	CActorPool *pActorPool = pNetGame->GetActorPool();
+	if(pActorPool) {
+		CActorPed *pActor = (CActorPed *)pActorPool->GetAt(actorId);
+		if(pActor) pActor->FUNC_1009C570(fUnk);
+	}
+}
 void ScrUnkB0(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -1327,7 +1445,26 @@ void ScrUnkB0(RPCParameters *rpcParams)
 		}
 	}
 }
-void ScrUnkB2(RPCParameters *rpcParams) {}
+void ScrUnkB2(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	ACTORID actorId;
+	int iUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(actorId);
+	bsData.Read(iUnk);
+
+	CActorPool *pActorPool = pNetGame->GetActorPool();
+	if(pActorPool) {
+		CActorPed *pActor = (CActorPed *)pActorPool->GetAt(actorId);
+		if(pActor) pActor->FUNC_1009C5D0(iUnk);
+	}
+}
 void ScrUnk30(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
