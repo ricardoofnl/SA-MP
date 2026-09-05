@@ -53,6 +53,8 @@ public:
 
 	BOOL sub_10014090(PLAYERID playerId, BYTE byteReason); // .text:10014090
 
+	BOOL sub_10014250(PLAYERID playerId, PCHAR szPlayerName, BOOL bIsNPC); // .text:10014250
+
 	PLAYERID FUNC_100138C0(DWORD dwPedPtr); // .text:100138C0
 
 	CRemotePlayer* GetAt(PLAYERID playerId) {

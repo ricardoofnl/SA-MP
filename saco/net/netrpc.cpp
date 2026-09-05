@@ -42,6 +42,16 @@ extern int dword_1026EB60;
 extern int dword_1026EB64;
 extern int dword_1026EB68;
 
+// the chat-bubble overlay global also lives in IDirect3DDevice9Hook.cpp
+class CChatBubbleDispatch
+{
+public:
+
+	void FUNC_10066E10(PLAYERID playerId, PCHAR szText, DWORD dwColor, float fDrawDistance, DWORD dwExpireTime); // .text:10066E10
+};
+
+extern int dword_1026EB78;
+
 // MATCH
 BYTE Checksum(BYTE *pData, WORD wLen)
 {
@@ -122,7 +132,44 @@ void Unk3A(RPCParameters *rpcParams)
 	if(wLabelID < MAX_LABELS && pLabelPool->m_bLabelSlotState[wLabelID])
 		pLabelPool->Delete(wLabelID);
 }
-void Unk3B(RPCParameters *rpcParams) {}
+void Unk3B(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	PLAYERID playerId;
+	DWORD dwColor;
+	float fDrawDistance;
+	DWORD dwExpireTime;
+	BYTE byteTextLen;
+	char szText[257];
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(pNetGame)
+	{
+		CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+		if(pPlayerPool)
+		{
+			memset(szText,0,sizeof(szText));
+
+			bsData.Read(playerId);
+			bsData.Read(dwColor);
+			bsData.Read(fDrawDistance);
+			bsData.Read(dwExpireTime);
+			bsData.Read(byteTextLen);
+
+			if(byteTextLen <= 144)
+			{
+				bsData.Read(szText,byteTextLen);
+				szText[byteTextLen] = '\0';
+
+				if(pPlayerPool->GetSlotState(playerId))
+					((CChatBubbleDispatch *)dword_1026EB78)->FUNC_10066E10(playerId,szText,dwColor,fDrawDistance,dwExpireTime);
+			}
+		}
+	}
+}
 void Unk3D(RPCParameters *rpcParams) {}
 // MATCH
 void SetCheckpoint(RPCParameters *rpcParams)
