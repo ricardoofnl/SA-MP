@@ -569,6 +569,20 @@ void UnkAA(RPCParameters *rpcParams)
 void ClientCheck(RPCParameters *rpcParams) {}
 void UnkAB(RPCParameters *rpcParams) {}
 // not registered, kept alive only by the rest of the section
+void FUNC_1000EBA0(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(dword_1026EB98)
+	{
+		dword_1026EB98->FUNC_1000BD60();
+		dword_1026EB98->FUNC_1000DB30(0);
+	}
+}
+// not registered either
 void FUNC_1000EC30(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
