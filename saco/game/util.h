@@ -117,6 +117,7 @@ void FUNC_100B5470(float *pQuat, MATRIX4X4 *pMatrix); // .text:100B5470
 void FUNC_100B5500(float *pQuat); // .text:100B5500
 int FUNC_100B4100(int iModel); // .text:100B4100
 int FUNC_100B4180(int iModel); // .text:100B4180
+int FUNC_100B1DA0(DWORD *pRenderWare, int a2, int a3); // .text:100B1DA0
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 

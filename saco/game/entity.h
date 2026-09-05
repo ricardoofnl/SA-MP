@@ -63,6 +63,7 @@ public:
 	BYTE  FUNC_100B8340(); // .text:100B8340
 	float FUNC_100B72A0(); // .text:100B72A0
 	int   FUNC_100B7390(); // .text:100B7390
+	DWORD * FUNC_1009FA60(); // .text:1009FA60
 
 	VECTOR		field_4[5];
 	ENTITY_TYPE *m_pEntity;

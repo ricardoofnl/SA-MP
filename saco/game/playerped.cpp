@@ -2230,3 +2230,14 @@ int CPlayerPed::FUNC_100AD9E0()
 	return FUNC_100B4180(m_pPed->entity.nModelIndex);
 }
 //-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100AE530(int a1, int a2)
+{
+	if(!m_pPed) return;
+
+	DWORD *pRenderWare = FUNC_1009FA60();
+	if(!pRenderWare) return;
+
+	FUNC_100B1DA0(pRenderWare, a1, a2);
+}
+//-----------------------------------------------------------
