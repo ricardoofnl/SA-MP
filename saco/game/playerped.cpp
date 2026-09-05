@@ -1944,6 +1944,25 @@ BOOL CPlayerPed::FUNC_100AD030()
 }
 //-----------------------------------------------------------
 
+void CPlayerPed::FUNC_100AD080()
+{
+	if(!m_pPed) return;
+	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
+
+	DWORD dwTask = (DWORD)m_pPed->Tasks->pdwJumpJetPack;
+	if(!dwTask) return;
+
+	if(GetTaskTypeFromTask((DWORD *)dwTask) != 1022) return;
+
+	_asm mov ecx, dwTask
+	_asm mov edx, 0x6275E0
+	_asm push 1
+	_asm call edx
+
+	m_pPed->Tasks->pdwJumpJetPack = 0;
+}
+//-----------------------------------------------------------
+
 int CPlayerPed::FUNC_100AE960(int a1)
 {
 	int iResult;
