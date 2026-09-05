@@ -1032,7 +1032,39 @@ void ScrUnk71(RPCParameters *rpcParams)
 		}
 	}
 }
-void ScrUnk29(RPCParameters *rpcParams) {}
+void ScrUnk29(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	BYTE byteLen;
+	VECTOR vecPos;
+	float fRadius;
+	BYTE byteUsePos;
+	char szURL[257];
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	memset(szURL, 0, sizeof(szURL));
+
+	byteLen = 0;
+	vecPos.X = 0.0f;
+	vecPos.Y = 0.0f;
+	vecPos.Z = 0.0f;
+	fRadius = 0.0f;
+	byteUsePos = 0;
+
+	bsData.Read(byteLen);
+	bsData.Read(szURL, byteLen);
+	bsData.Read(vecPos.X);
+	bsData.Read(vecPos.Y);
+	bsData.Read(vecPos.Z);
+	bsData.Read(fRadius);
+	bsData.Read(byteUsePos);
+
+	if(pAudioStream) pAudioStream->FUNC_10066960(szURL, vecPos.X, vecPos.Y, vecPos.Z, fRadius, byteUsePos);
+}
 void ScrUnk2A(RPCParameters *rpcParams)
 {
 	if(pAudioStream) pAudioStream->Stop(0);

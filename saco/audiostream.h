@@ -18,6 +18,7 @@ public:
 	void SyncProc();
 	void Process();
 	void Play();
+	void FUNC_10066960(char *szURL, float fX, float fY, float fZ, float fRadius, char bUsePos); // .text:10066960
 	void ControlGameRadio();
 	void DrawInfo();
 };
