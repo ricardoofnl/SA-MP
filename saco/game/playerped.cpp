@@ -1921,6 +1921,16 @@ BOOL CPlayerPed::FUNC_100ADA00()
 }
 //-----------------------------------------------------------
 
+void CPlayerPed::FUNC_100AD3E0()
+{
+	if(field_2B9) {
+		ScriptCommand(&disassociate_object, field_2B9, 0.0f, 0.0f, 0.0f, 0);
+		ScriptCommand(&destroy_object_with_fade, field_2B9);
+		field_2B9 = 0;
+	}
+}
+//-----------------------------------------------------------
+
 BOOL CPlayerPed::FUNC_100AD030()
 {
 	if(m_pPed) {

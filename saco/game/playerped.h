@@ -197,6 +197,7 @@ public:
 	int   FUNC_100AC690(); // .text:100AC690
 	void  FUNC_100ACE50(int a1); // .text:100ACE50
 	BOOL  FUNC_100ADA00(); // .text:100ADA00
+	void  FUNC_100AD3E0(); // .text:100AD3E0
 	BOOL  FUNC_100AD030(); // .text:100AD030
 	int   FUNC_100AE960(int a1); // .text:100AE960
 	void  FUNC_100AD8B0(int iWeapon); // .text:100AD8B0
