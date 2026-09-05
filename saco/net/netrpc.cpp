@@ -6,6 +6,21 @@ extern CGame * pGame;
 extern CChatWindow *pChatWindow;
 extern RakNetStatisticsStruct RakServerStats;
 
+// the download list global lives in main.cpp's data; only the touched fields are known
+class CDownloadListDispatch
+{
+public:
+
+	char _gap0[0x221];
+	char field_221;
+
+	void FUNC_1000BD60(); // .text:1000BD60
+	void FUNC_1000DB30(DWORD dwIndex); // .text:1000DB30
+	void FUNC_1000C0C0(); // .text:1000C0C0
+};
+
+extern CDownloadListDispatch *dword_1026EB98;
+
 // MATCH
 BYTE Checksum(BYTE *pData, WORD wLen)
 {
@@ -553,6 +568,21 @@ void UnkAA(RPCParameters *rpcParams)
 }
 void ClientCheck(RPCParameters *rpcParams) {}
 void UnkAB(RPCParameters *rpcParams) {}
+// not registered, kept alive only by the rest of the section
+void FUNC_1000EC30(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	if(dword_1026EB98)
+	{
+		CDownloadListDispatch *pDownloadList = dword_1026EB98;
+		pDownloadList->field_221 = 1;
+		pDownloadList->FUNC_1000C0C0();
+	}
+}
 // MATCH
 void UnkAC(RPCParameters *rpcParams)
 {
