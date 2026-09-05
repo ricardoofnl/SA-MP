@@ -381,6 +381,29 @@ void CRemotePlayer::FUNC_10014FF0()
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
+{
+	field_1E1 = NULL;
+	if(iTime && (iTime - field_1BD) < 0) return;
+
+	field_1BD = iTime;
+	memcpy(&field_C5, pSync, sizeof(field_C5));
+	field_1B0 = pSync[0x22];
+	field_1AC = pSync[0x23];
+	field_1B8 = 16;
+	field_1B9 = GetTickCount();
+	field_C = pSync[0x25];
+	// the sign-bit mask is what emits jns; '< 0' emits jge
+	if(field_C5.iAnimation & 0x80000000) field_C5.iAnimation = 0;
+
+	if(m_pPlayerPed && m_pPlayerPed->IsInVehicle() && field_C != 3 && field_C != 4 &&
+		!m_pPlayerPed->FUNC_100AC640()) FUNC_100148F0();
+
+	if(field_10A != 17) field_10A = 17;
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_100148F0()
 {
 	if(m_pPlayerPed && m_pPlayerPed->IsInVehicle()) {

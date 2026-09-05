@@ -28,7 +28,7 @@ public:
 		char _padE7[16];
 		VECTOR vecOffset; // 0xF7
 		WORD wVehicleID; // 0x103
-		char _pad105[4];
+		int iAnimation; // 0x105
 	} field_C5;
 	char field_109;
 	BYTE field_10A;
@@ -43,12 +43,12 @@ public:
 	VECTOR field_194;
 	VECTOR field_1A0;
 
-	int field_1AC;
-	int field_1B0;
+	float field_1AC;
+	float field_1B0;
 	int field_1B4;
 	char field_1B8;
 	DWORD field_1B9;
-	DWORD field_1BD;
+	int field_1BD;
 	int field_1C1;
 	int field_1C5;
 	VECTOR field_1C9;
@@ -85,6 +85,7 @@ public:
 	void FUNC_10014650(); // .text:10014650
 	void FUNC_100148F0(); // .text:100148F0
 	void FUNC_10014FF0(); // .text:10014FF0
+	void FUNC_10017260(BYTE *pSync, int iTime); // .text:10017260
 	void FUNC_10014800(); // .text:10014800
 	void FUNC_10017610(char *szText); // .text:10017610
 	void FUNC_100150D0(VECTOR *pPos, VECTOR *pMoveSpeed); // .text:100150D0
