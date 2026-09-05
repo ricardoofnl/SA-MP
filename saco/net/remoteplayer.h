@@ -117,6 +117,7 @@ public:
 	void FUNC_10014C40(); // .text:10014C40
 	void FUNC_10016370(BULLET_SYNC_DATA *pSync); // .text:10016370
 	void FUNC_10014950(); // .text:10014950
+	void FUNC_10015140(); // .text:10015140
 	void FUNC_10015C90(TRAILER_SYNC_DATA *pTrailer); // .text:10015C90
 	void FUNC_10014E60(); // .text:10014E60
 	void FUNC_10015460(); // .text:10015460

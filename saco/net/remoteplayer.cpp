@@ -9,6 +9,7 @@ extern CNetGame* pNetGame;
 extern CChatWindow *pChatWindow;
 
 float fPosLerp = 0.1f;
+float fVehLerp = 0.06f;
 int bClampVehicleTurnSpeed = 1;
 
 //----------------------------------------------------
@@ -473,6 +474,58 @@ void CRemotePlayer::FUNC_10016370(BULLET_SYNC_DATA *pSync)
 
 	m_pPlayerPed->FUNC_100AF280(&shotSync);
 	m_pPlayerPed->FUNC_100AFA70();
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_10015140()
+{
+	MATRIX4X4 mat;
+	VECTOR vecMove;
+	float fZLimit;
+
+	vecMove.X = 0.0f;
+	vecMove.Y = 0.0f;
+	vecMove.Z = 0.0f;
+
+	if(!field_1E1) return;
+
+	field_1E1->GetMatrix(&mat);
+
+	if(!field_1E1->IsAdded()) {
+		mat.pos.X = field_194.X;
+		mat.pos.Y = field_194.Y;
+		mat.pos.Z = field_194.Z;
+		field_1E1->SetMatrix(mat);
+		return;
+	}
+
+	field_160 = FloatOffset(field_194.X, mat.pos.X);
+	field_164 = FloatOffset(field_194.Y, mat.pos.Y);
+	field_168 = FloatOffset(field_194.Z, mat.pos.Z);
+
+	if(field_160 <= 0.05f && field_164 <= 0.05f && field_168 <= 0.05f) return;
+
+	fZLimit = 0.5f;
+	if(field_1E1->GetVehicleSubtype() == 4 || field_1E1->GetVehicleSubtype() == 5 ||
+		field_1E1->GetVehicleSubtype() == 3) fZLimit = 2.0f;
+
+	if(field_160 > 8.0f || field_164 > 8.0f || field_168 > fZLimit) {
+		mat.pos.X = field_194.X;
+		mat.pos.Y = field_194.Y;
+		mat.pos.Z = field_194.Z;
+		field_1E1->SetMatrix(mat);
+		field_1E1->SetMoveSpeedVector(field_1A0);
+		return;
+	}
+
+	field_1E1->GetMoveSpeedVector(&vecMove);
+	if(field_160 > 0.05f) vecMove.X = (field_194.X - mat.pos.X) * fVehLerp + vecMove.X;
+	if(field_164 > 0.05f) vecMove.Y = (field_194.Y - mat.pos.Y) * fVehLerp + vecMove.Y;
+	if(field_168 > 0.05f) vecMove.Z = (field_194.Z - mat.pos.Z) * fVehLerp + vecMove.Z;
+
+	if(FloatOffset(vecMove.X, 0.0f) > 0.01f || FloatOffset(vecMove.Y, 0.0f) > 0.01f ||
+		FloatOffset(vecMove.Z, 0.0f) > 0.01f) field_1E1->SetMoveSpeedVector(vecMove);
 }
 
 //----------------------------------------------------
