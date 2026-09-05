@@ -1844,3 +1844,13 @@ void CPlayerPed::FUNC_100AD880()
 }
 
 //-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100AC720()
+{
+	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
+	if(!m_pPed) return;
+
+	m_pPed->dwStateFlags &= ~0x4000000;
+}
+
+//-----------------------------------------------------------
