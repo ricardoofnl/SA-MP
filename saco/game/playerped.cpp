@@ -1982,3 +1982,29 @@ struc_13 * CPlayerPed::FUNC_100AE5D0()
 	return NULL;
 }
 //-----------------------------------------------------------
+
+DWORD CPlayerPed::FUNC_100AEBB0(int a1)
+{
+	DWORD dwClump;
+	DWORD dwGetClump;
+	DWORD dwRenderWare;
+
+	if(!m_pPed) return 0;
+	if(m_pPed->entity.vtable == 0x863C40) return 0;
+	if(!m_pPed->entity.pdwRenderWare) return 0;
+
+	dwRenderWare = (DWORD)m_pPed->entity.pdwRenderWare;
+	dwClump = 0;
+	dwGetClump = 0x734A40;
+
+	_asm push dwRenderWare
+	_asm mov edx, dwGetClump
+	_asm call edx
+	_asm pop edx
+	_asm mov dwClump, eax
+
+	DWORD dwAnim = *(DWORD *)(dwClump + 0x20);
+
+	return dwAnim + a1 * *(DWORD *)(dwAnim + 0x24) + 0x4C;
+}
+//-----------------------------------------------------------

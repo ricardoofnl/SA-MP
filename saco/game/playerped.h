@@ -203,6 +203,7 @@ public:
 	void  FUNC_100AD8B0(int iWeapon); // .text:100AD8B0
 	struc_13 * FUNC_100AE5D0(); // .text:100AE5D0
 
+	DWORD FUNC_100AEBB0(int a1); // .text:100AEBB0
 
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
