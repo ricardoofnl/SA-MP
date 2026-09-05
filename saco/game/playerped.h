@@ -67,6 +67,7 @@ public:
 	void  FUNC_100ABD70(float a1); // .text:100ABD70
 	void  FUNC_100AC010(); // .text:100AC010
 	void  FUNC_100AC790(int a1); // .text:100AC790
+	BYTE  FUNC_100AC850(WORD *pKiller); // .text:100AC850
 	DWORD GetStateFlags();
 	void  SetStateFlags(DWORD dwStateFlags);
 	BOOL  IsDead();

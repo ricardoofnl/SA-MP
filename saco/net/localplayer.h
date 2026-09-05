@@ -152,6 +152,8 @@ public:
 	void FUNC_10004080(); // .text:10004080
 	void FUNC_10004230(WORD a1); // .text:10004230
 	void FUNC_10004280(PLAYERID playerId); // .text:10004280
+	void SendDeath(); // .text:10005810
+	void SetInteriorId(BYTE byteInteriorId); // .text:10005970
 	void FUNC_10003F50(); // .text:10003F50
 	void FUNC_10003FC0(); // .text:10003FC0
 	void FUNC_100041C0(BOOL bSpectating); // .text:100041C0

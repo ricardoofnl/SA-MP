@@ -647,3 +647,30 @@ int FUNC_10004120()
 
 	return iCount;
 }
+
+//----------------------------------------------------
+
+// reports the death reason and who did it
+void CLocalPlayer::SendDeath()
+{
+	RakNet::BitStream bsSend;
+	WORD wKiller;
+
+	BYTE byteReason = m_pPlayerPed->FUNC_100AC850(&wKiller);
+
+	bsSend.Write(byteReason);
+	bsSend.Write(wKiller);
+	pNetGame->GetRakClient()->RPC(RPC_Death, &bsSend, HIGH_PRIORITY, RELIABLE_ORDERED, 0, FALSE);
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::SetInteriorId(BYTE byteInteriorId)
+{
+	field_1CF = byteInteriorId;
+
+	RakNet::BitStream bsSend;
+
+	bsSend.Write(byteInteriorId);
+	pNetGame->GetRakClient()->RPC(RPC_SetInteriorId, &bsSend, HIGH_PRIORITY, RELIABLE, 0, FALSE);
+}
