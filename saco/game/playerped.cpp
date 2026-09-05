@@ -1894,6 +1894,21 @@ int CPlayerPed::FUNC_100AC690()
 }
 //-----------------------------------------------------------
 
+int CPlayerPed::FUNC_100AE960(int a1)
+{
+	int iResult;
+	DWORD dwPedPtr = (DWORD)m_pPed;
+
+	_asm mov edi, dwPedPtr
+	_asm mov eax, a1
+	_asm mov edx, [edi+eax*4+0x488]
+	_asm mov eax, [edx+0x14]
+	_asm mov iResult, eax
+
+	return iResult;
+}
+//-----------------------------------------------------------
+
 struc_13 * CPlayerPed::FUNC_100AE5D0()
 {
 	if(m_bytePlayerNumber) return FUNC_100B43D0(m_bytePlayerNumber);
