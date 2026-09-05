@@ -36,7 +36,10 @@ public:
 	int field_10C;
 	int field_110;
 
-	char _gap114[88];
+	char _gap114[76];
+	float field_160;
+	float field_164;
+	char _gap168[4];
 	float quat16C[4];
 	VECTOR field_17C;
 	VECTOR field_188;
@@ -91,6 +94,7 @@ public:
 	void FUNC_100148F0(); // .text:100148F0
 	void FUNC_10014FF0(); // .text:10014FF0
 	void FUNC_10017260(BYTE *pSync, int iTime); // .text:10017260
+	void FUNC_10014E60(); // .text:10014E60
 	void FUNC_10015460(); // .text:10015460
 	void FUNC_10015760(BYTE *pAim); // .text:10015760
 	BOOL FUNC_10017130(int a1, int iSkin, int a3, VECTOR *pPos, float fRotation,

@@ -23,6 +23,7 @@ typedef char CRemotePlayer_offsets[(
 	offsetof(CRemotePlayer, field_10A) == 0x10A &&
 	offsetof(CRemotePlayer, field_10B) == 0x10B &&
 	offsetof(CRemotePlayer, field_10C) == 0x10C &&
+	offsetof(CRemotePlayer, field_160) == 0x160 &&
 	offsetof(CRemotePlayer, field_17C) == 0x17C &&
 	offsetof(CRemotePlayer, field_188) == 0x188 &&
 	offsetof(CRemotePlayer, field_194) == 0x194 &&
@@ -405,6 +406,42 @@ void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
 		!m_pPlayerPed->FUNC_100AC640()) FUNC_100148F0();
 
 	if(field_10A != 17) field_10A = 17;
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_10014E60()
+{
+	if(!m_pPlayerPed) return;
+
+	MATRIX4X4 mat;
+	VECTOR vecMove;
+
+	m_pPlayerPed->GetMatrix(&mat);
+
+	if(!m_pPlayerPed->IsAdded()) {
+		mat.pos.X = field_17C.X;
+		mat.pos.Y = field_17C.Y;
+		m_pPlayerPed->SetMatrix(mat);
+		return;
+	}
+
+	field_160 = FloatOffset(field_17C.X, mat.pos.X);
+	field_164 = FloatOffset(field_17C.Y, mat.pos.Y);
+
+	if(field_160 <= 0.01f && field_164 <= 0.01f) return;
+
+	if(field_160 > 2.0f || field_164 > 2.0f) {
+		mat.pos.X = field_17C.X;
+		mat.pos.Y = field_17C.Y;
+		m_pPlayerPed->SetMatrix(mat);
+		return;
+	}
+
+	m_pPlayerPed->GetMoveSpeedVector(&vecMove);
+	if(field_160 > 0.001f) vecMove.X = (field_17C.X - mat.pos.X) * 0.1f + vecMove.X;
+	if(field_164 > 0.001f) vecMove.Y = (field_17C.Y - mat.pos.Y) * 0.1f + vecMove.Y;
+	m_pPlayerPed->SetMoveSpeedVector(vecMove);
 }
 
 //----------------------------------------------------
