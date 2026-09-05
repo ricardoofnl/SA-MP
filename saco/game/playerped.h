@@ -226,6 +226,8 @@ public:
 	void  FUNC_100AEC10(MATRIX4X4 *pMatrix, int iBone); // .text:100AEC10
 	void  FUNC_100AEC50(MATRIX4X4 *pMatrix, int iBone); // .text:100AEC50
 
+	int		FUNC_100AD9C0(); // .text:100AD9C0
+
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
 	struc_97 field_74[10];

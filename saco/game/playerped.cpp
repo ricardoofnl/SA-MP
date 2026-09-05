@@ -2214,3 +2214,11 @@ void CPlayerPed::FUNC_100AEC50(MATRIX4X4 *pMatrix, int iBone)
 	FUNC_100AEB10(pMatrix, iFrame);
 }
 //-----------------------------------------------------------
+
+int CPlayerPed::FUNC_100AD9C0()
+{
+	if(!m_pPed) return -1;
+
+	return FUNC_100B4100(m_pPed->entity.nModelIndex);
+}
+//-----------------------------------------------------------
