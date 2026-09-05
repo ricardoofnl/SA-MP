@@ -122,6 +122,16 @@ int FUNC_100B4100(int iModel); // .text:100B4100
 int FUNC_100B4180(int iModel); // .text:100B4180
 int FUNC_100B1DA0(DWORD *pRenderWare, int a2, int a3); // .text:100B1DA0
 void FUNC_100B58A0(DWORD dwFrame, VECTOR *vecOut, int *a3); // .text:100B58A0
+void __stdcall FUNC_100B44C0(BYTE bytePlayer, DWORD dwValue); // .text:100B44C0
+DWORD __stdcall FUNC_100B4520(DWORD *pdw); // .text:100B4520
+void __stdcall FUNC_100B4530(DWORD *pdwVtable); // .text:100B4530
+void __stdcall FUNC_100B4550(DWORD *pdw, float fValue); // .text:100B4550
+float __stdcall FUNC_100B4560(DWORD *pdw); // .text:100B4560
+void __stdcall FUNC_100B4660(int iModel, int nTxdIndex); // .text:100B4660
+void FUNC_100B46C0(DWORD dwValue); // .text:100B46C0
+float FUNC_100B4FE0(float x, float y, float z); // .text:100B4FE0
+int FUNC_100B56D0(int a1, int a2, int a3); // .text:100B56D0
+void FUNC_100B5720(); // .text:100B5720
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 
