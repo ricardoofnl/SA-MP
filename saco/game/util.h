@@ -78,6 +78,8 @@ int FUNC_100B3D00(); // .text:100B3D00
 DWORD * __stdcall GetModelInfo(int iModel); // .text:100A7A40
 BOOL __stdcall IsValidModel(int iModel); // .text:100B3DB0
 BOOL __stdcall IsValidPedModel(int iModel); // .text:100B3DD0
+DWORD * __stdcall FUNC_100B46D0(int iModel); // .text:100B46D0
+WORD __stdcall FUNC_100B4700(int iModel); // .text:100B4700
 
 bool HasCollisionLoaded(VECTOR *vec);
 BOOL __stdcall IsATrainPart(ENTITY_TYPE *pEntity);

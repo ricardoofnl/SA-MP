@@ -8,6 +8,7 @@ extern CGame * pGame;
 extern CChatWindow *pChatWindow;
 extern RakNetStatisticsStruct RakServerStats;
 extern CScoreBoard *pScoreBoard;
+extern HANDLE hInstance;
 
 // the download list global lives in main.cpp's data; only the touched fields are known
 class CDownloadListDispatch
@@ -891,7 +892,134 @@ void FUNC_10011990(BYTE byteType, DWORD dwValue, BYTE byteResult)
 
 	pNetGame->GetRakClient()->RPC(RPC_ClientCheck,&bsSend,HIGH_PRIORITY,RELIABLE_ORDERED,0,FALSE);
 }
-void ClientCheck(RPCParameters *rpcParams) {}
+void ClientCheck(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	BYTE byteType = 0;
+	WORD wOffset = 0;
+	WORD wLength = 0;
+	BYTE byteSum = 0;
+	DWORD dwAddress = 0;
+
+	bsData.Read(byteType);
+	bsData.Read(dwAddress);
+	bsData.Read(wOffset);
+	bsData.Read(wLength);
+
+	if(wOffset > 256 || wLength > 256 || wLength < 2) return;
+
+	if(byteType == 0x46)
+	{
+		if(IsValidModel(dwAddress))
+		{
+			DWORD *pModelInfo = GetModelInfo(dwAddress);
+			if(pModelInfo)
+				byteSum = Checksum((BYTE *)pModelInfo + wOffset,wLength);
+		}
+
+		FUNC_10011990(0x46,dwAddress,byteSum);
+		return;
+	}
+
+	if(byteType == 2)
+	{
+		if(pGame->FindPlayerPed())
+		{
+			if(pGame->FindPlayerPed()->IsInVehicle() && !pGame->FindPlayerPed()->FUNC_100ABFC0())
+			{
+				VEHICLE_TYPE *pVehicle = (VEHICLE_TYPE *)pGame->FindPlayerPed()->m_pPed->pVehicle;
+				if(pVehicle)
+				{
+					dwAddress = pVehicle->entity.dwPhysFlags;
+					byteSum = 2;
+				}
+			}
+			else
+			{
+				PED_TYPE *pPed = pGame->FindPlayerPed()->m_pPed;
+				if(pPed)
+				{
+					dwAddress = pPed->entity.dwPhysFlags;
+					byteSum = 1;
+				}
+			}
+		}
+
+		FUNC_10011990(2,dwAddress,byteSum);
+		return;
+	}
+
+	if(byteType == 0x47)
+	{
+		if(IsValidModel(dwAddress))
+		{
+			int iTries = 0;
+
+			if(!pGame->sub_100A0970(dwAddress))
+			{
+				pGame->sub_100A0940(dwAddress,2);
+				pGame->sub_100A0960();
+
+				while(!pGame->sub_100A0970(dwAddress))
+				{
+					iTries++;
+					if(iTries > 1000) break;
+					Sleep(1);
+				}
+			}
+
+			if(pGame->sub_100A0970(dwAddress))
+			{
+				DWORD *pModelInfo = FUNC_100B46D0(dwAddress);
+				if(pModelInfo)
+					byteSum = Checksum((BYTE *)pModelInfo + wOffset,wLength);
+
+				if(!FUNC_100B4700(dwAddress))
+					pGame->sub_100A09A0(dwAddress,0);
+			}
+		}
+
+		FUNC_10011990(0x47,dwAddress,byteSum);
+		return;
+	}
+
+	if(byteType == 5)
+	{
+		if(dwAddress >= 0x400000 && dwAddress <= 0x856E00)
+		{
+			BYTE *pAddress = (BYTE *)dwAddress;
+			if(pAddress)
+				byteSum = Checksum(pAddress + wOffset,wLength);
+
+			FUNC_10011990(5,dwAddress,byteSum);
+		}
+
+		return;
+	}
+
+	if(byteType == 0x45)
+	{
+		if(dwAddress <= 0xC3500)
+		{
+			BYTE *pAddress = (BYTE *)hInstance + dwAddress;
+			if(pAddress)
+				byteSum = Checksum(pAddress + wOffset,wLength);
+
+			FUNC_10011990(0x45,dwAddress,byteSum);
+		}
+
+		return;
+	}
+
+	if(byteType == 0x48)
+	{
+		FUNC_10011990(0x48,(RakNet::GetTime() & 0xFFFFFFF) | 0x30000000,0);
+	}
+}
 void UnkAB(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);

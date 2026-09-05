@@ -150,6 +150,8 @@ public:
 	BOOL sub_100A0930();
 	void sub_100A0940(int a1, int a2);
 	void sub_100A0960();
+	BOOL sub_100A0970(int iModel); // .text:100A0970
+	void sub_100A09A0(int iModel, int a2); // .text:100A09A0
 
 	BOOL sub_100A1BC0();
 	void sub_100A1C10();
