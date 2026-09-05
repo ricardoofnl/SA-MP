@@ -1854,3 +1854,15 @@ void CPlayerPed::FUNC_100AC720()
 }
 
 //-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100AEC90()
+{
+	DWORD dwPedPtr = (DWORD)m_pPed;
+	if(!dwPedPtr) return;
+
+	_asm mov ecx, dwPedPtr
+	_asm mov eax, 0x532B20
+	_asm call eax
+}
+
+//-----------------------------------------------------------
