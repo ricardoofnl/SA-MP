@@ -20,4 +20,8 @@ public:
 
 	void FUNC_10001350(); // .text:10001350
 
+	// .text:100011D0
+	void sub_100011D0(WORD wLabelID, PCHAR szText, DWORD dwColor, float fX, float fY, float fZ,
+		float fDrawDistance, BYTE byteShowBehindWalls, WORD wAttachedPlayer, WORD wAttachedVehicle);
+
 };

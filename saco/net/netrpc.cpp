@@ -1,5 +1,6 @@
 
 #include "../main.h"
+#include "../../raknet/StringCompressor.h"
 
 extern CNetGame*	pNetGame;
 extern CGame * pGame;
@@ -113,7 +114,46 @@ void Unk22(RPCParameters *rpcParams)
 		}
 	}
 }
-void Unk24(RPCParameters *rpcParams) {}
+void Unk24(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	WORD wLabelID;
+	DWORD dwColor;
+	float fX, fY, fZ;
+	float fDrawDistance;
+	WORD wAttachedPlayer;
+	WORD wAttachedVehicle;
+	char szText[2049];
+
+	CLabelPool *pLabelPool = pNetGame->GetLabelPool();
+
+	if(pLabelPool)
+	{
+		BYTE byteShowBehindWalls = 0;
+
+		memset(szText,0,sizeof(szText));
+
+		bsData.Read(wLabelID);
+		bsData.Read(dwColor);
+		bsData.Read(fX);
+		bsData.Read(fY);
+		bsData.Read(fZ);
+		bsData.Read(fDrawDistance);
+		bsData.Read(byteShowBehindWalls);
+		bsData.Read(wAttachedPlayer);
+		bsData.Read(wAttachedVehicle);
+
+		stringCompressor->DecodeString(szText,2048,&bsData);
+
+		if(wLabelID < MAX_LABELS)
+			pLabelPool->sub_100011D0(wLabelID,szText,dwColor,fX,fY,fZ,fDrawDistance,
+				byteShowBehindWalls,wAttachedPlayer,wAttachedVehicle);
+	}
+}
 // MATCH
 void Unk3A(RPCParameters *rpcParams)
 {
