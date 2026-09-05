@@ -9,6 +9,8 @@ extern CNetGame		 *pNetGame;
 DWORD dword_100FE0A4 = -1;
 DWORD dword_100FE0A8 = 30;
 DWORD dword_100FE0AC = 30;
+DWORD dword_101189A0;
+DWORD dword_101189A4;
 
 //----------------------------------------------------------
 
@@ -606,4 +608,42 @@ void CLocalPlayer::FUNC_10003FC0()
 			pNetGame->GetSettings()->fWorldBoundryNY))
 			pGame->DisplayGameText("Stay within the ~r~world boundries", 1000, 5);
 	}
+}
+
+//----------------------------------------------------
+
+// counts the spawned players, recomputed once every 30 calls
+int FUNC_10004120()
+{
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	WORD i = 0;
+
+	if(dword_101189A4)
+	{
+		dword_101189A4--;
+		return dword_101189A0;
+	}
+
+	int iCount = 0;
+
+	dword_101189A4 = 30;
+	dword_101189A0 = 0;
+
+	if(pPlayerPool)
+	{
+		int iMax = pPlayerPool->field_2F3A;
+
+		for(; i <= iMax; i++)
+		{
+			if(pPlayerPool->GetSlotState(i))
+			{
+				CRemotePlayer *pRemotePlayer = pPlayerPool->GetAt(i);
+
+				if(pRemotePlayer->m_pPlayerPed && pRemotePlayer->field_10A)
+					dword_101189A0 = ++iCount;
+			}
+		}
+	}
+
+	return iCount;
 }
