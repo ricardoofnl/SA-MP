@@ -1797,3 +1797,10 @@ VECTOR* CPlayerPed::GetTransformedBonePosition(int iBone, VECTOR *vecOffset)
 }
 
 //-----------------------------------------------------------
+
+int CPlayerPed::FUNC_100AE260()
+{
+	return field_2F2;
+}
+
+//-----------------------------------------------------------

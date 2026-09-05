@@ -181,6 +181,8 @@ public:
 	void		FUNC_100AD0F0(); // .text:100AD0F0
 	void		FUNC_100AFFD0(); // .text:100AFFD0
 
+	int   FUNC_100AE260(); // .text:100AE260
+
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
 	struc_97 field_74[10];
