@@ -404,6 +404,25 @@ void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10017440(BYTE *pSync)
+{
+	memcpy(field_AD, pSync, sizeof(field_AD));
+	field_1E7 = *(WORD *)pSync;
+	field_10B = pSync[2] & 0x3F;
+	field_1E1 = (CVehicle *)pNetGame->GetVehiclePool()->GetAt(field_1E7);
+	field_1B0 = pSync[4];
+	field_1AC = pSync[5];
+	field_1B8 = 18;
+	field_1B9 = GetTickCount();
+	field_C = 0;
+
+	if(m_pPlayerPed && !m_pPlayerPed->IsInVehicle()) FUNC_10014800();
+
+	if(field_10A != 18) field_10A = 18;
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_100148F0()
 {
 	if(m_pPlayerPed && m_pPlayerPed->IsInVehicle()) {
