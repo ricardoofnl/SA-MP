@@ -3709,6 +3709,71 @@ NUDE FUNC_100A46F0()
 //-----------------------------------------------------------
 
 //-----------------------------------------------------------
+
+DWORD unnamed_10151770;
+DWORD unnamed_10151774;
+DWORD unnamed_101514B0;
+DWORD unnamed_10151778;
+float unnamed_1015094C[3];
+
+// the triple forced into 0xB76870 while the game runs its own check
+float unnamed_10113AF4[3] = {0.0f, 0.0f, 15.0f};
+// original code at 0x5543C0, and the `jz` at 0x5543DC
+BYTE unnamed_10113B00[22] = {0x8B,0xCE,0xE8,0x79,0x01,0xFE,0xFF,0x84,0xC0,0x74,0xB5,
+	0x8B,0xCE,0xE8,0x0E,0xB7,0x1C,0x00,0x84,0xC0,0x75,0xAA};
+WORD unnamed_10113B18 = 0x4774;
+
+// .text:100A4F60 : only one entity gets the patched check
+NUDE FUNC_100A4F60()
+{
+	__asm
+	{
+		mov eax, [esp+4]
+		mov edx, unnamed_10151770
+		cmp eax, edx
+		jz runHook
+		mov edx, 0x554230
+		jmp edx
+
+runHook:
+		mov edx, [esp+4]
+		mov unnamed_10151774, edx
+		mov edx, [esp+8]
+		mov unnamed_101514B0, edx
+		pushad
+	}
+
+	memcpy(unnamed_1015094C, (void *)0xB76870, 12);
+	memcpy((void *)0xB76870, unnamed_10113AF4, 12);
+
+	UnFuck(0x5543C0, 0x20);
+	memset((void *)0x5543C0, 0x90, 22);
+	memset((void *)0x5543DC, 0x90, 2);
+
+	__asm
+	{
+		push unnamed_101514B0
+		push unnamed_10151774
+		mov edx, 0x554230
+		call edx
+		mov unnamed_10151778, eax
+		pop edx
+		pop edx
+	}
+
+	memcpy((void *)0xB76870, unnamed_1015094C, 12);
+	memcpy((void *)0x5543C0, unnamed_10113B00, 22);
+	*(WORD *)0x5543DC = unnamed_10113B18;
+
+	__asm
+	{
+		popad
+		mov eax, unnamed_10151778
+		retn
+	}
+}
+
+//-----------------------------------------------------------
 // trampolines that only snapshot the caller's arguments before handing the
 // call on to GTA
 
