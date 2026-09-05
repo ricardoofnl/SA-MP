@@ -33,6 +33,7 @@ public:
 	void FUNC_10071520(); // .text:10071520
 	void FUNC_1006DB80(BOOL bEnable); // .text:1006DB80
 	void FUNC_10072BC0(BOOL bEnable); // .text:10072BC0
+	void FUNC_100724E0(DWORD dwIndex); // .text:100724E0
 };
 
 extern int dword_1026EB60;
@@ -568,7 +569,21 @@ void RequestSpawn(RPCParameters *rpcParams)
 	else
 		pLocalPlayer->field_302 = 0;
 }
-void EditAttachedObject(RPCParameters *rpcParams) {}
+void EditAttachedObject(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	DWORD dwIndex = 0;
+	bsData.Read(dwIndex);
+
+	if(dword_1026EB64 && ((CEditDispatch *)dword_1026EB64)->field_0)
+		((CEditDispatch *)dword_1026EB64)->FUNC_1006DB80(FALSE);
+
+	((CEditDispatch *)dword_1026EB60)->FUNC_100724E0(dwIndex);
+}
 void EditObject(RPCParameters *rpcParams) {}
 void SelectObject(RPCParameters *rpcParams)
 {
