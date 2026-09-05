@@ -1449,3 +1449,98 @@ BOOL __stdcall FUNC_100B4860(VEHICLE_TYPE *pVehicle)
 
 	return bTowed;
 }
+
+//-----------------------------------------------------------
+
+DWORD VAR_1026BBB8[PLAYER_PED_SLOTS];
+
+void __stdcall FUNC_100B44C0(BYTE bytePlayer, DWORD dwValue)
+{
+	VAR_1026BBB8[bytePlayer] = dwValue;
+}
+
+//-----------------------------------------------------------
+
+DWORD __stdcall FUNC_100B4520(DWORD *pdw)
+{
+	return *pdw;
+}
+
+//-----------------------------------------------------------
+
+void __stdcall FUNC_100B4530(DWORD *pdwVtable)
+{
+	if(pdwVtable && *pdwVtable == 0x85BBF0)
+		*pdwVtable = 0x85BD30;
+}
+
+//-----------------------------------------------------------
+
+void __stdcall FUNC_100B4550(DWORD *pdw, float fValue)
+{
+	*(float *)((BYTE *)pdw + 0x18) = fValue;
+}
+
+//-----------------------------------------------------------
+
+float __stdcall FUNC_100B4560(DWORD *pdw)
+{
+	return *(float *)((BYTE *)pdw + 0x18);
+}
+
+//-----------------------------------------------------------
+
+void __stdcall FUNC_100B4660(int iModel, int nTxdIndex)
+{
+	DWORD *pModelInfo = GetModelInfo(iModel);
+
+	_asm mov edx, pModelInfo
+	_asm mov eax, nTxdIndex
+	_asm mov [edx+0x0A], ax
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B46C0(DWORD dwValue)
+{
+	*(DWORD *)0x9689E0 = dwValue;
+}
+
+//-----------------------------------------------------------
+
+float FUNC_100B4FE0(float x, float y, float z)
+{
+	return (x * x) + (y * y) + (z * z);
+}
+
+//-----------------------------------------------------------
+
+int FUNC_100B56D0(int a1, int a2, int a3)
+{
+	_asm push a3
+	_asm push a2
+	_asm push a1
+	_asm mov edx, 0x7EDDC0
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+}
+
+//-----------------------------------------------------------
+
+DWORD VAR_1026DF80;
+DWORD VAR_1026DF84;
+DWORD VAR_1026DF88;
+
+void FUNC_100B5720()
+{
+	_asm pushad
+	_asm push VAR_1026DF80
+	_asm push VAR_1026DF84
+	_asm mov edx, VAR_1026DF88
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm popad
+}
