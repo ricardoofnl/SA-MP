@@ -1936,6 +1936,22 @@ int CPlayerPed::FUNC_100AE960(int a1)
 }
 //-----------------------------------------------------------
 
+void CPlayerPed::FUNC_100AD8B0(int iWeapon)
+{
+	if(!m_pPed) return;
+
+	DWORD dwPedPtr = (DWORD)m_pPed;
+	iWeapon = (int)pGame->GetWeaponInfo(iWeapon, 1);
+
+	_asm mov ebx, iWeapon
+	_asm mov eax, [ebx+0xC]
+	_asm push eax
+	_asm mov ecx, dwPedPtr
+	_asm mov edx, 0x5E3990
+	_asm call edx
+}
+//-----------------------------------------------------------
+
 struc_13 * CPlayerPed::FUNC_100AE5D0()
 {
 	if(m_bytePlayerNumber) return FUNC_100B43D0(m_bytePlayerNumber);
