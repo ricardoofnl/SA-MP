@@ -1,5 +1,6 @@
 
 #include "../main.h"
+#include "../game/util.h"
 #include "../../raknet/StringCompressor.h"
 
 extern CNetGame*	pNetGame;
@@ -891,7 +892,30 @@ void FUNC_10011990(BYTE byteType, DWORD dwValue, BYTE byteResult)
 	pNetGame->GetRakClient()->RPC(RPC_ClientCheck,&bsSend,HIGH_PRIORITY,RELIABLE_ORDERED,0,FALSE);
 }
 void ClientCheck(RPCParameters *rpcParams) {}
-void UnkAB(RPCParameters *rpcParams) {}
+void UnkAB(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	ACTOR_INFO ActorInfo;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CActorPool *pActorPool = pNetGame->GetActorPool();
+
+	if(!pActorPool) return;
+
+	memset(&ActorInfo,0,sizeof(ACTOR_INFO));
+	bsData.Read((PCHAR)&ActorInfo,sizeof(ACTOR_INFO));
+
+	if(IsValidPedModel(ActorInfo.iModel))
+	{
+		pActorPool->sub_10001900(&ActorInfo);
+
+		// retail still does the lookup here even though nothing follows it
+		if(!pActorPool->GetAt(ActorInfo.ActorID)) return;
+	}
+}
 // not registered, kept alive only by the rest of the section
 void FUNC_1000EBA0(RPCParameters *rpcParams)
 {
