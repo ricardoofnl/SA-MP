@@ -151,6 +151,7 @@ public:
 	BOOL FUNC_10003A60(void *a2, void *a3, unsigned int a4); // .text:10003A60
 	void FUNC_10004080(); // .text:10004080
 	void FUNC_10004230(WORD a1); // .text:10004230
+	void FUNC_10004280(PLAYERID playerId); // .text:10004280
 	void FUNC_10003F50(); // .text:10003F50
 	void FUNC_100041C0(BOOL bSpectating); // .text:100041C0
 

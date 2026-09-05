@@ -571,3 +571,19 @@ void CLocalPlayer::FUNC_100041C0(BOOL bSpectating)
 	field_314 = 0;
 	field_310 = -1;
 }
+
+//----------------------------------------------------
+
+// picks a player to spectate; state 32 is not a spectatable one
+void CLocalPlayer::FUNC_10004280(PLAYERID playerId)
+{
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+
+	if(pPlayerPool && pPlayerPool->GetSlotState(playerId) && pPlayerPool->GetAt(playerId)->field_10A
+		&& pPlayerPool->GetAt(playerId)->field_10A != 32)
+	{
+		field_30F = 1;
+		field_310 = playerId;
+		field_314 = 0;
+	}
+}
