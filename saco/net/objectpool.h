@@ -7,7 +7,8 @@ class CObject
 public:
 	char _gap0[68];
 	int field_44;
-	char _gap48[12];
+	char _gap48[11];
+	BYTE field_53;
 	float field_54;
 	char _gap58[4403];
 	int field_118B;
@@ -19,6 +20,7 @@ public:
 	void FUNC_100A9E30();
 	void FUNC_100A9E70();
 	void FUNC_100A80A0(VECTOR *pPos); // .text:100A80A0
+	void FUNC_100A8030(); // .text:100A8030
 };
 
 class CObjectPool
