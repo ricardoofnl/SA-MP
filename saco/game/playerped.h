@@ -209,6 +209,7 @@ public:
 
 	DWORD FUNC_100AE990(); // .text:100AE990
 	DWORD FUNC_100AE9E0(); // .text:100AE9E0
+	DWORD FUNC_100AEA30(); // .text:100AEA30
 
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
