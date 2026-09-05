@@ -6,6 +6,7 @@
 #include "entity.h"
 
 DWORD __stdcall GamePool_Vehicle_GetIndex(VEHICLE_TYPE *pVehicle);
+void FUNC_100AE520(); // .text:100AE520
 
 struct struc_97
 {
