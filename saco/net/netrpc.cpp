@@ -53,6 +53,17 @@ public:
 
 extern int dword_1026EB78;
 
+// the dialog global, same story
+class CDialogDispatch
+{
+public:
+
+	void FUNC_1006FFB0(int iDialogID, int iStyle, PCHAR szCaption, PCHAR szInfo,
+		PCHAR szButton1, PCHAR szButton2, int iUnk); // .text:1006FFB0
+};
+
+extern int dword_1026EB50;
+
 // MATCH
 BYTE Checksum(BYTE *pData, WORD wLen)
 {
@@ -210,7 +221,50 @@ void Unk3B(RPCParameters *rpcParams)
 		}
 	}
 }
-void Unk3D(RPCParameters *rpcParams) {}
+void Unk3D(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	short sDialogID;
+	BYTE byteStyle;
+	BYTE byteLen;
+	DWORD dwLen;
+	char szCaption[257];
+	char szButton2[257];
+	char szButton1[257];
+	char szInfo[4097];
+
+	memset(szCaption,0,sizeof(szCaption));
+	memset(szButton1,0,sizeof(szButton1));
+	memset(szButton2,0,sizeof(szButton2));
+	memset(szInfo,0,sizeof(szInfo));
+
+	bsData.Read(sDialogID);
+	bsData.Read(byteStyle);
+
+	bsData.Read(byteLen);
+	bsData.Read(szCaption,byteLen);
+
+	bsData.Read(byteLen);
+	bsData.Read(szButton1,byteLen);
+
+	bsData.Read(byteLen);
+	bsData.Read(szButton2,byteLen);
+
+	stringCompressor->DecodeString(szInfo,4096,&bsData);
+
+	dwLen = strlen(szCaption);
+	if(dwLen)
+	{
+		dwLen = strlen(szInfo);
+		if(dwLen)
+			((CDialogDispatch *)dword_1026EB50)->FUNC_1006FFB0(sDialogID,byteStyle,
+				szCaption,szInfo,szButton1,szButton2,1);
+	}
+}
 // MATCH
 void SetCheckpoint(RPCParameters *rpcParams)
 {
