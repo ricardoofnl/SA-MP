@@ -2222,3 +2222,11 @@ int CPlayerPed::FUNC_100AD9C0()
 	return FUNC_100B4100(m_pPed->entity.nModelIndex);
 }
 //-----------------------------------------------------------
+
+int CPlayerPed::FUNC_100AD9E0()
+{
+	if(!m_pPed) return -1;
+
+	return FUNC_100B4180(m_pPed->entity.nModelIndex);
+}
+//-----------------------------------------------------------

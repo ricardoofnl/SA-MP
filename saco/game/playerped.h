@@ -227,6 +227,7 @@ public:
 	void  FUNC_100AEC50(MATRIX4X4 *pMatrix, int iBone); // .text:100AEC50
 
 	int		FUNC_100AD9C0(); // .text:100AD9C0
+	int		FUNC_100AD9E0(); // .text:100AD9E0
 
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
