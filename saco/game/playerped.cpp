@@ -1921,6 +1921,19 @@ BOOL CPlayerPed::FUNC_100ADA00()
 }
 //-----------------------------------------------------------
 
+BOOL CPlayerPed::FUNC_100AD030()
+{
+	if(m_pPed) {
+		if(GamePool_Ped_GetAt(m_dwGTAId)) {
+			if(m_pPed->Tasks->pdwJumpJetPack) {
+				if(GetTaskTypeFromTask(m_pPed->Tasks->pdwJumpJetPack) == 1022) return TRUE;
+			}
+		}
+	}
+	return FALSE;
+}
+//-----------------------------------------------------------
+
 int CPlayerPed::FUNC_100AE960(int a1)
 {
 	int iResult;
