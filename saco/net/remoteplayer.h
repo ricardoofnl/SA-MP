@@ -74,6 +74,8 @@ public:
 	DWORD GetPlayerColorAsRGBA();
 	DWORD GetPlayerColorAsARGB();
 
+	void FUNC_10017C80(BYTE byteValue) { field_4 = (byteValue != 0); }; // .text:10017C80
+
 	BOOL FUNC_10001080() { return m_pPlayerPed && field_10A; }; // .text:10001080
 
 	void EnterVehicle(VEHICLEID VehicleID, BOOL bPassenger);

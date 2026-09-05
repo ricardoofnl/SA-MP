@@ -232,7 +232,7 @@ void ScrUnk50(RPCParameters *rpcParams)
 	bsData.Read(byteUnk);
 
 	if(pNetGame->GetPlayerPool()->GetSlotState(playerId)) {
-		pNetGame->GetPlayerPool()->GetAt(playerId)->field_4 = (byteUnk != 0);
+		pNetGame->GetPlayerPool()->GetAt(playerId)->FUNC_10017C80(byteUnk);
 	}
 }
 void ScrUnk63(RPCParameters *rpcParams) {}
