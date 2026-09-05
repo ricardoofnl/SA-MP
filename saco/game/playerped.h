@@ -232,6 +232,11 @@ public:
 	void		FUNC_100AEF90(); // .text:100AEF90
 	void		FUNC_100AE530(int a1, int a2); // .text:100AE530
 
+	DWORD		FUNC_100AE790(); // .text:100AE790
+	DWORD *		FUNC_100AE6E0(); // .text:100AE6E0
+	DWORD		FUNC_100AE5F0(DWORD *pTask); // .text:100AE5F0
+	DWORD		FUNC_100AE6A0(); // .text:100AE6A0
+
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
 	struc_97 field_74[10];

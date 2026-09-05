@@ -2255,3 +2255,16 @@ void CPlayerPed::FUNC_100AE530(int a1, int a2)
 	FUNC_100B1DA0(pRenderWare, a1, a2);
 }
 //-----------------------------------------------------------
+
+DWORD CPlayerPed::FUNC_100AE790()
+{
+	if(!m_pPed) return 0;
+	if(m_pPed->entity.vtable == 0x863C40) return 0;
+	if(!m_pPed->entity.pdwRenderWare) return 0;
+
+	DWORD *pTask = FUNC_100AE6E0();
+	if(pTask) return FUNC_100AE5F0(pTask);
+
+	return FUNC_100AE6A0();
+}
+//-----------------------------------------------------------
