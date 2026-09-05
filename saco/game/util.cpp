@@ -1970,3 +1970,74 @@ void FUNC_100B5500(float *pQuat)
 	pQuat[2] = qOut.y;
 	pQuat[3] = qOut.z;
 }
+
+//-----------------------------------------------------------
+
+void FUNC_100B58A0(DWORD dwFrame, VECTOR *vecOut, int *a3)
+{
+	DWORD dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7EBAC0 : 0x7EBA80;
+
+	_asm push a3
+	_asm push vecOut
+	_asm push dwFrame
+	_asm mov edx, dwFunc
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+}
+
+//-----------------------------------------------------------
+
+VECTOR VAR_1026DF90;
+VECTOR VAR_1026DF9C;
+float VAR_1026CF7C;
+
+void FUNC_100B5830(int a1, int nIndex, float *pfOut)
+{
+	VAR_1026DF9C = VAR_10117400[nIndex];
+
+	DWORD dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7F2760 : 0x7F2720;
+
+	_asm lea eax, VAR_1026DF90
+	_asm push eax
+	_asm lea eax, VAR_1026CF7C
+	_asm push eax
+	_asm lea eax, VAR_1026DF9C
+	_asm push eax
+	_asm push a1
+	_asm mov edx, dwFunc
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+
+	*pfOut = VAR_1026CF7C;
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B5480(float *pQuatOut, float *pQuatFrom, float *pQuatTo, float fT)
+{
+	D3DXQUATERNION qOut;
+	D3DXQUATERNION q1;
+	D3DXQUATERNION q2;
+
+	q1.w = pQuatFrom[0];
+	q1.x = pQuatFrom[1];
+	q1.y = pQuatFrom[2];
+	q1.z = pQuatFrom[3];
+
+	q2.w = pQuatTo[0];
+	q2.x = pQuatTo[1];
+	q2.y = pQuatTo[2];
+	q2.z = pQuatTo[3];
+
+	D3DXQuaternionSlerp(&qOut, &q1, &q2, fT);
+
+	pQuatOut[0] = qOut.w;
+	pQuatOut[1] = qOut.x;
+	pQuatOut[2] = qOut.y;
+	pQuatOut[3] = qOut.z;
+}
