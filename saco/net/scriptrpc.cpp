@@ -94,7 +94,27 @@ void ScrSetGravity(RPCParameters *rpcParams)
 
 	pGame->SetGravity(fGravity);
 }
-void ScrUnk93(RPCParameters *rpcParams) {}
+void ScrUnk93(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VEHICLEID vehicleId;
+	int iUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(vehicleId);
+	bsData.Read(iUnk);
+
+	if(pNetGame->GetVehiclePool()) {
+		if(pNetGame->GetVehiclePool()->GetSlotState(vehicleId)) {
+			CVehicle *pVehicle = (CVehicle *)pNetGame->GetVehiclePool()->GetAt(vehicleId);
+			if(pVehicle) pVehicle->FUNC_100B72C0(iUnk);
+		}
+	}
+}
 void ScrUnk94(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -620,7 +640,25 @@ void ScrUnk6F(RPCParameters *rpcParams)
 	pChatWindow->AddDebugMessage("Widescreen = %i", byteEnable);
 	ScriptCommand(&set_widescreen, byteEnable);
 }
-void ScrUnk62(RPCParameters *rpcParams) {}
+void ScrUnk62(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VEHICLEID vehicleId;
+	BYTE byteTyreDamage;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(vehicleId);
+	bsData.Read(byteTyreDamage);
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+	CVehicle *pVehicle = (CVehicle *)pVehiclePool->GetAt(vehicleId);
+
+	if(pVehiclePool && pVehicle) pVehicle->sub_100B7940(byteTyreDamage);
+}
 void ScrUnk70(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -867,8 +905,38 @@ void ScrUnk0F(RPCParameters *rpcParams)
 
 	pGame->FindPlayerPed()->TogglePlayerControllable(byteControllable);
 }
-void ScrUnk10(RPCParameters *rpcParams) {}
-void ScrUnk11(RPCParameters *rpcParams) {}
+void ScrUnk10(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	int iSound;
+	float fX, fY, fZ;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(iSound);
+	bsData.Read(fX);
+	bsData.Read(fY);
+	bsData.Read(fZ);
+
+	CAudio *pAudio = pGame->m_pGameAudio;
+	pAudio->PlaySound(iSound, fX, fY, fZ);
+}
+void ScrUnk11(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(pNetGame->GetSettings()->fWorldBoundryPX);
+	bsData.Read(pNetGame->GetSettings()->fWorldBoundryZX);
+	bsData.Read(pNetGame->GetSettings()->fWorldBoundryPY);
+	bsData.Read(pNetGame->GetSettings()->fWorldBoundryNY);
+}
 void ScrUnk12(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
