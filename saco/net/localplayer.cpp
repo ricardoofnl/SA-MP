@@ -587,3 +587,23 @@ void CLocalPlayer::FUNC_10004280(PLAYERID playerId)
 		field_314 = 0;
 	}
 }
+
+//----------------------------------------------------
+
+// the in-vehicle half of the boundary check, keyed off the driven vehicle
+void CLocalPlayer::FUNC_10003FC0()
+{
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+	WORD wVehicleId = pVehiclePool->FUNC_1001EB90((int)m_pPlayerPed->GetGtaVehicle());
+
+	if(!pGame->FUNC_100A0EE0() && wVehicleId != INVALID_VEHICLE_ID && wVehicleId < MAX_VEHICLES
+		&& pVehiclePool->field_3074[wVehicleId])
+	{
+		CVehicle *pVehicle = (CVehicle *)pVehiclePool->field_1134[wVehicleId];
+
+		if(pVehicle && pVehicle->FUNC_1009F420(pNetGame->GetSettings()->fWorldBoundryPX,
+			pNetGame->GetSettings()->fWorldBoundryZX, pNetGame->GetSettings()->fWorldBoundryPY,
+			pNetGame->GetSettings()->fWorldBoundryNY))
+			pGame->DisplayGameText("Stay within the ~r~world boundries", 1000, 5);
+	}
+}
