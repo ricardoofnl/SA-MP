@@ -940,7 +940,24 @@ void ScrUnk9F(RPCParameters *rpcParams)
 	}
 }
 void ScrUnkA0(RPCParameters *rpcParams) {}
-void ScrUnkA1(RPCParameters *rpcParams) {}
+void ScrUnkA1(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VEHICLEID vehicleId;
+	BYTE byteA, byteB;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(vehicleId);
+	bsData.Read(byteA);
+	bsData.Read(byteB);
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+	if(pVehiclePool) pVehiclePool->FUNC_1001EB30(vehicleId, byteA, byteB);
+}
 void ScrUnk0F(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
