@@ -1403,7 +1403,47 @@ void ScrUnkA9(RPCParameters *rpcParams)
 		}
 	}
 }
-void ScrUnkAD(RPCParameters *rpcParams) {}
+void ScrUnkAD(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	ACTORID actorId;
+	BYTE byteAnimFileLen;
+	BYTE byteAnimNameLen;
+	char szAnimFile[256];
+	char szAnimName[256];
+	float fT;
+	bool bUnk1, bUnk2, bUnk3, bUnk4;
+	int iUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	CActorPool *pActorPool = pNetGame->GetActorPool();
+	if(pActorPool) {
+		memset(szAnimFile, 0, sizeof(szAnimFile));
+		memset(szAnimName, 0, sizeof(szAnimName));
+
+		bsData.Read(actorId);
+		bsData.Read(byteAnimFileLen);
+		bsData.Read(szAnimFile, byteAnimFileLen);
+		bsData.Read(byteAnimNameLen);
+		bsData.Read(szAnimName, byteAnimNameLen);
+		bsData.Read(fT);
+		bsData.Read(bUnk1);
+		bsData.Read(bUnk2);
+		bsData.Read(bUnk4);
+		bsData.Read(bUnk3);
+		bsData.Read(iUnk);
+
+		szAnimFile[byteAnimFileLen] = 0;
+		szAnimName[byteAnimNameLen] = 0;
+
+		CActorPed *pActor = (CActorPed *)pActorPool->GetAt(actorId);
+		if(pActor) pActor->ApplyAnimation(szAnimName, szAnimFile, fT, bUnk1, bUnk2, bUnk4, bUnk3, iUnk);
+	}
+}
 void ScrUnkAE(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
