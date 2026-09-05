@@ -3774,6 +3774,81 @@ runHook:
 }
 
 //-----------------------------------------------------------
+
+DWORD unnamed_10150974;
+DWORD unnamed_101514C4;
+DWORD unnamed_101514C0;
+DWORD unnamed_101506B4;
+DWORD unnamed_10150A94;
+DWORD unnamed_101514A0;
+VEHICLE_TYPE *unnamed_101514E8;
+MATRIX4X4 unnamed_101509E0;
+MATRIX4X4 unnamed_10150C40;
+DWORD unnamed_10150CDC;
+
+void FUNC_100B5790(MATRIX4X4 *pMatrix, int iAxis, float fAngle);	// .text:100B5790, lives in another translation unit
+
+// .text:100A47B0 : aims the drive by camera along the vehicle's own axes
+NUDE FUNC_100A47B0()
+{
+	__asm
+	{
+		mov unnamed_10150974, ecx
+		mov eax, [esp]
+		mov unnamed_101514C4, eax
+		mov eax, [esp+4]
+		mov unnamed_101514C0, eax
+		mov eax, [esp+8]
+		mov unnamed_101506B4, eax
+		mov eax, [esp+12]
+		mov unnamed_10150A94, eax
+		mov eax, [esp+16]
+		mov unnamed_101514A0, eax
+		pushad
+
+		push unnamed_101514A0
+		push unnamed_10150A94
+		push unnamed_101506B4
+		push unnamed_101514C0
+		mov ecx, unnamed_10150974
+		mov edx, 0x521500
+		call edx
+	}
+
+	pGame->FindPlayerPed()->FUNC_100AEEE0(&unnamed_101509E0);
+
+	if(pGame->FindPlayerPed()->IsInVehicle())
+	{
+		unnamed_101514E8 = pGame->FindPlayerPed()->GetGtaVehicle();
+
+		if(unnamed_101514E8)
+		{
+			memcpy(&unnamed_10150C40, unnamed_101514E8->entity.mat, sizeof(MATRIX4X4));
+			FUNC_100B5790(&unnamed_10150C40, 2, 90.0f);
+			FUNC_100B5790(&unnamed_10150C40, 0, 90.0f);
+
+			unnamed_10150CDC = (DWORD)GameGetInternalAim();
+			*(DWORD *)unnamed_10150CDC = *(DWORD *)&unnamed_10150C40.right.X;
+			*(float *)(unnamed_10150CDC + 4) = unnamed_10150C40.right.Y;
+			*(float *)(unnamed_10150CDC + 8) = unnamed_10150C40.right.Z;
+			*(float *)(unnamed_10150CDC + 0x24) = unnamed_10150C40.up.X;
+			*(float *)(unnamed_10150CDC + 0x28) = unnamed_10150C40.up.Y;
+			*(float *)(unnamed_10150CDC + 0x2C) = unnamed_10150C40.up.Z;
+		}
+	}
+
+	*(float *)(unnamed_10150974 + 0x19C) = unnamed_101509E0.pos.X;
+	*(float *)(unnamed_10150974 + 0x1A0) = unnamed_101509E0.pos.Y;
+	*(float *)(unnamed_10150974 + 0x1A4) = unnamed_101509E0.pos.Z;
+
+	__asm
+	{
+		popad
+		retn 0x10
+	}
+}
+
+//-----------------------------------------------------------
 // trampolines that only snapshot the caller's arguments before handing the
 // call on to GTA
 

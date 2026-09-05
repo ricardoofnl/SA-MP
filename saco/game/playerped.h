@@ -175,6 +175,7 @@ public:
 	void		FUNC_100AFC70(VECTOR *vecIn, VECTOR *vecOut); // .text:100AFC70
 	BOOL		FUNC_100ACEF0(); // .text:100ACEF0
 	void		FUNC_100AF280(void *pShotSync); // .text:100AF280
+	void		FUNC_100AEEE0(MATRIX4X4 *pMatrix); // .text:100AEEE0
 
 	BOOL		HasObjectAttached(); // .text:100AEE30
 	void		RemoveAttachedObject(int iIndex); // .text:100AEE50
