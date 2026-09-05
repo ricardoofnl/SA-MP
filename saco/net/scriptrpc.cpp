@@ -557,7 +557,34 @@ void ScrUnk6F(RPCParameters *rpcParams)
 	ScriptCommand(&set_widescreen, byteEnable);
 }
 void ScrUnk62(RPCParameters *rpcParams) {}
-void ScrUnk70(RPCParameters *rpcParams) {}
+void ScrUnk70(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD wUnk;
+	int iUnk1, iUnk2, iUnk3, iUnk4;
+	VECTOR vecPos;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	iUnk1 = 0;
+	iUnk2 = 0;
+	iUnk3 = 0;
+	iUnk4 = 0;
+
+	bsData.Read(wUnk);
+	bsData.Read(iUnk1);
+	bsData.Read(iUnk2);
+	bsData.Read(iUnk3);
+	bsData.Read(iUnk4);
+	bsData.Read(vecPos.X);
+	bsData.Read(vecPos.Y);
+	bsData.Read(vecPos.Z);
+
+	pGame->PlayCrimeReport(iUnk4, &vecPos, iUnk1, iUnk2, iUnk3);
+}
 void ScrSetSpawnInfo(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);

@@ -168,6 +168,7 @@ public:
 	void LoadCullZone(char *szLine);
 	BOOL IsUsingController();
 	void DisableWeaponLockOnTarget();
+	void PlayCrimeReport(int a1, VECTOR *pPos, int a3, int a4, int a5); // .text:100A1790
 };
 
 //-----------------------------------------------------------
