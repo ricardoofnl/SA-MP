@@ -172,6 +172,7 @@ public:
 
 	BOOL		HasObjectAttached(); // .text:100AEE30
 	void		RemoveAttachedObject(int iIndex); // .text:100AEE50
+	void		FUNC_100B0B10(int iIndex, char *pAttachData); // .text:100B0B10
 	BOOL		GetAttachedObjectSlotState(int iIndex); // .text:100AEEB0
 	void		RemoveAllAttachedObjects(); // .text:100B0AB0
 	void		StopCarrying(); // .text:100ADC00

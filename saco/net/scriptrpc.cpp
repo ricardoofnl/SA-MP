@@ -956,7 +956,45 @@ void ScrUnk43(RPCParameters *rpcParams)
 
 	if(iWeapon >= 0 && iWeapon <= 46) pPlayerPed->SetArmedWeapon(iWeapon, false);
 }
-void ScrUnk71(RPCParameters *rpcParams) {}
+void ScrUnk71(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	bool bAttach;
+	int iIndex;
+	PLAYERID playerId;
+	char szAttach[52];
+	CPlayerPed *pPlayerPed;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	memset(szAttach, 0, sizeof(szAttach));
+
+	bsData.Read(playerId);
+	bsData.Read(iIndex);
+	bsData.Read(bAttach);
+
+	if(bAttach) bsData.Read(szAttach, 52);
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	if(pPlayerPool) {
+		if(playerId == pPlayerPool->GetLocalPlayerID()) {
+			pPlayerPed = pPlayerPool->GetLocalPlayer()->GetPlayerPed();
+		} else {
+			if(playerId >= MAX_PLAYERS) return;
+			if(!pPlayerPool->field_2A[playerId]) return;
+			CNetPlayer *pNetPlayer = pPlayerPool->m_pPlayers[playerId];
+			pPlayerPed = (pNetPlayer ? pNetPlayer->m_pRemotePlayer : NULL)->m_pPlayerPed;
+		}
+
+		if(pPlayerPed) {
+			if(!bAttach) pPlayerPed->RemoveAttachedObject(iIndex);
+			else pPlayerPed->FUNC_100B0B10(iIndex, szAttach);
+		}
+	}
+}
 void ScrUnk29(RPCParameters *rpcParams) {}
 void ScrUnk2A(RPCParameters *rpcParams)
 {
