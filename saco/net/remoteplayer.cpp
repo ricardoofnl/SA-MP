@@ -36,6 +36,8 @@ typedef char CRemotePlayer_offsets[(
 
 typedef char CNetPlayer_offsets[(offsetof(CNetPlayer, m_PlayerName) == 0x14) ? 1 : -1];
 typedef char struc_41_offsets[(offsetof(struc_41, field_30) == 0x30) ? 1 : -1];
+typedef char WEAPON_SLOT_offsets[(offsetof(WEAPON_SLOT_TYPE, field_8) == 8 &&
+	sizeof(WEAPON_SLOT_TYPE) == 28) ? 1 : -1];
 typedef char CPlayerPool_offsets[(offsetof(CPlayerPool, field_6) == 6 &&
 	sizeof(std::string) == 0x1C) ? 1 : -1];
 
@@ -401,6 +403,53 @@ void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
 		!m_pPlayerPed->FUNC_100AC640()) FUNC_100148F0();
 
 	if(field_10A != 17) field_10A = 17;
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_10015760(BYTE *pAim)
+{
+	if(!m_pPlayerPed) return;
+
+	m_pPlayerPed->SetCameraMode(pAim[0]);
+
+	CAMERA_AIM aim;
+	VECTOR vecFront;
+	VECTOR vecUp;
+
+	vecUp.X = 0.0f;
+	vecUp.Y = 0.0f;
+	vecUp.Z = 0.0f;
+
+	aim.f1x = *(float *)(pAim + 1);
+	aim.f1y = *(float *)(pAim + 5);
+	aim.f1z = *(float *)(pAim + 9);
+	vecFront.X = *(float *)(pAim + 1);
+	vecFront.Y = *(float *)(pAim + 5);
+	vecFront.Z = *(float *)(pAim + 9);
+
+	FUNC_100B6900(&vecFront, &vecUp);
+
+	aim.f2x = vecUp.X;
+	aim.f2y = vecUp.Y;
+	aim.f2z = vecUp.Z;
+	aim.pos1x = *(float *)(pAim + 0xD);
+	aim.pos1y = *(float *)(pAim + 0x11);
+	aim.pos1z = *(float *)(pAim + 0x15);
+	aim.pos2x = *(float *)(pAim + 0xD);
+	aim.pos2y = *(float *)(pAim + 0x11);
+	aim.pos2z = *(float *)(pAim + 0x15);
+
+	m_pPlayerPed->SetCurrentAim(&aim);
+	m_pPlayerPed->SetAimZ(*(float *)(pAim + 0x19));
+	m_pPlayerPed->SetCameraExtZoom((float)(pAim[0x1D] & 0x3F) * 0.015873017f,
+		(float)pAim[0x1E] * 0.0039215689f);
+
+	WEAPON_SLOT_TYPE *pSlot = m_pPlayerPed->GetCurrentWeaponSlot();
+	BYTE byteState = pAim[0x1D] >> 6;
+	if(byteState == 3) pSlot->field_4 = 2;
+	else if(byteState != 2) pSlot->field_8 = pAim[0x1D] >> 6;
+	else if(pSlot->field_8 < 2) pSlot->field_8 = 2;
 }
 
 //----------------------------------------------------

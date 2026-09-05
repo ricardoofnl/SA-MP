@@ -112,6 +112,7 @@ void FUNC_100B5D20(); // .text:100B5D20
 void FUNC_100B52B0(MATRIX4X4 *pMatrix, float *pQuatOut); // .text:100B52B0
 void FUNC_100B5480(float *pQuatOut, float *pQuatFrom, float *pQuatTo, float fT); // .text:100B5480
 void FUNC_100B6A80(float *pQuat, MATRIX4X4 *pMatrix); // .text:100B6A80
+void __stdcall FUNC_100B6900(VECTOR *pFront, VECTOR *pOut); // .text:100B6900
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 
