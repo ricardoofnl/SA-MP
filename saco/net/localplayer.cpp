@@ -6,7 +6,9 @@
 extern CGame		 *pGame;
 extern CNetGame		 *pNetGame;
 
-DWORD dword_100FE0A4;
+DWORD dword_100FE0A4 = -1;
+DWORD dword_100FE0A8 = 30;
+DWORD dword_100FE0AC = 30;
 
 //----------------------------------------------------------
 
@@ -362,4 +364,81 @@ BOOL CLocalPlayer::FUNC_10004340(WORD a1, WORD a2, WORD a3)
 		return FALSE;
 
 	return TRUE;
+}
+
+//----------------------------------------------------
+
+// the sync interval, 15ms while the server asks for it and 30ms otherwise
+int CLocalPlayer::FUNC_10003AB0()
+{
+	if(m_pPlayerPed)
+	{
+		if(pNetGame->GetField239())
+			return 15;
+
+		return dword_100FE0AC + pGame->FUNC_100A00F0();
+	}
+
+	return 1000;
+}
+
+//----------------------------------------------------
+
+int CLocalPlayer::FUNC_10003AF0()
+{
+	if(m_pPlayerPed)
+	{
+		if(pNetGame->GetField239())
+			return 15;
+
+		return dword_100FE0A8 + pGame->FUNC_100A00F0();
+	}
+
+	return 1000;
+}
+
+//----------------------------------------------------
+
+BOOL CLocalPlayer::FUNC_10004300(WORD a1, WORD a2, WORD a3)
+{
+	if(a1 == *(WORD *)&field_94[4] && a2 == *(WORD *)&field_94[2] && a3 == *(WORD *)&field_94[0])
+		return FALSE;
+
+	return TRUE;
+}
+
+//----------------------------------------------------
+
+PLAYERID CLocalPlayer::FUNC_10004B70()
+{
+	if(!m_pPlayerPed)
+		return -1;
+
+	int iPed = m_pPlayerPed->FUNC_100AEF60();
+	if(!iPed)
+		return -1;
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	if(!pPlayerPool)
+		return -1;
+
+	return pPlayerPool->FUNC_100138C0(iPed);
+}
+
+//----------------------------------------------------
+
+ACTORID CLocalPlayer::FUNC_10004BB0()
+{
+	if(!m_pPlayerPed)
+		return -1;
+
+	int iPed = m_pPlayerPed->FUNC_100AEF60();
+	if(!iPed)
+		return -1;
+
+	CActorPool *pActorPool = pNetGame->GetActorPool();
+	if(!pActorPool)
+		return -1;
+
+	return pActorPool->FUNC_100018B0(iPed);
 }

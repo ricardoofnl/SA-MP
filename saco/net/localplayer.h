@@ -144,6 +144,9 @@ public:
 	int  FUNC_10003B30(); // .text:10003B30
 	void FUNC_10003B60(); // .text:10003B60
 	BOOL FUNC_10004340(WORD a1, WORD a2, WORD a3); // .text:10004340
+	BOOL FUNC_10004300(WORD a1, WORD a2, WORD a3); // .text:10004300
+	PLAYERID FUNC_10004B70(); // .text:10004B70
+	ACTORID  FUNC_10004BB0(); // .text:10004BB0
 
 	DWORD GetField_F0() { return field_F0; };
 };
