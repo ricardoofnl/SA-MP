@@ -1929,7 +1929,7 @@ void CPlayerPed::FUNC_100AD3E0()
 {
 	if(field_2B9) {
 		ScriptCommand(&disassociate_object, field_2B9, 0.0f, 0.0f, 0.0f, 0);
-		ScriptCommand(&destroy_object_with_fade, field_2B9);
+		ScriptCommand(&destroy_object, field_2B9);
 		field_2B9 = 0;
 	}
 }
@@ -2160,7 +2160,7 @@ void CPlayerPed::FUNC_100AE1E0()
 	if(!field_2F2) return;
 
 	if(field_2BD) {
-		ScriptCommand(&destroy_object_with_fade, field_2BD);
+		ScriptCommand(&script_0650, field_2BD);
 		field_2BD = 0;
 	}
 

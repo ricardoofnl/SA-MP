@@ -104,6 +104,10 @@ const SCRIPT_COMMAND refresh_streaming_at				= { 0x04E4, "ff" };
 const SCRIPT_COMMAND select_interior					= { 0x04BB, "i" };		// interior
 const SCRIPT_COMMAND disassociate_object				= { 0x0682, "ifffi" };	// var_object, x, y, z, ukn
 const SCRIPT_COMMAND destroy_object_with_fade			= { 0x09A2, "i" };		// var_object
+// the two object commands samp.dll references that were missing here; the diff cannot
+// see a wrong command id, the operand is a masked relocation
+const SCRIPT_COMMAND destroy_object						= { 0x0108, "i" };		// var_object
+const SCRIPT_COMMAND script_0650						= { 0x0650, "i" };		// var_object, name not resolved
 const SCRIPT_COMMAND task_pick_up_object				= { 0x070A, "iifffiissi" };
 const SCRIPT_COMMAND link_actor_to_interior				= { 0x0860, "ii" };		// var_actor, interior
 const SCRIPT_COMMAND put_actor_in_car2					= { 0x0430, "iii" };
