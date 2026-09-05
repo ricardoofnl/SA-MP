@@ -217,6 +217,7 @@ public:
 	void  FUNC_100AEA80(MATRIX4X4 *pMatrix, int iFrame); // .text:100AEA80
 	void  FUNC_100AEB10(MATRIX4X4 *pMatrix, int iFrame); // .text:100AEB10
 
+	void  FUNC_100ACE90(); // .text:100ACE90
 
 	void  FUNC_100AEC10(MATRIX4X4 *pMatrix, int iBone); // .text:100AEC10
 	void  FUNC_100AEC50(MATRIX4X4 *pMatrix, int iBone); // .text:100AEC50

@@ -2171,6 +2171,20 @@ void CPlayerPed::FUNC_100AE1E0()
 }
 //-----------------------------------------------------------
 
+void CPlayerPed::FUNC_100ACE90()
+{
+	int iWeapon;
+
+	if(!field_2E2) return;
+	if(!m_pPed) return;
+	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
+
+	ScriptCommand(&get_actor_armed_weapon, m_dwGTAId, &iWeapon);
+
+	if((BYTE)iWeapon) SetArmedWeapon(0, 0);
+}
+//-----------------------------------------------------------
+
 void CPlayerPed::FUNC_100AEC10(MATRIX4X4 *pMatrix, int iBone)
 {
 	int iFrame;
