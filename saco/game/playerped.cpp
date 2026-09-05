@@ -2312,3 +2312,16 @@ DWORD CPlayerPed::FUNC_100AE790()
 	return FUNC_100AE6A0();
 }
 //-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100AD440()
+{
+	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
+	if(!IsAdded()) return;
+	if(!field_2B9) return;
+	if(FUNC_100ABC50() == 46) return;
+
+	ScriptCommand(&disassociate_object, field_2B9, 0.0f, 0.0f, 0.0f, 0);
+	ScriptCommand(&destroy_object_with_fade, field_2B9);
+	field_2B9 = 0;
+}
+//-----------------------------------------------------------

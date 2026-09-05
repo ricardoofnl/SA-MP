@@ -238,6 +238,8 @@ public:
 	DWORD		FUNC_100AE5F0(DWORD *pTask); // .text:100AE5F0
 	DWORD		FUNC_100AE6A0(); // .text:100AE6A0
 
+	void		FUNC_100AD440(); // .text:100AD440
+
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
 	struc_97 field_74[10];
