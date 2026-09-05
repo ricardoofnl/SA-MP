@@ -44,6 +44,8 @@ typedef char BULLET_SYNC_offsets[(offsetof(BULLET_SYNC_DATA, byteWeaponID) == 0x
 	sizeof(BULLET_SYNC_DATA) == 0x28) ? 1 : -1];
 typedef char TRAILER_SYNC_offsets[(offsetof(TRAILER_SYNC_DATA, vecTurnSpeed) == 0x2A &&
 	sizeof(TRAILER_SYNC_DATA) == 0x36) ? 1 : -1];
+typedef char UNOCCUPIED_SYNC_offsets[(offsetof(UNOCCUPIED_SYNC_DATA, vecTurnSpeed) == 0x33 &&
+	offsetof(CVehiclePool, field_8E34) == 0x8E34 && offsetof(CVehicle, field_83) == 0x83) ? 1 : -1];
 typedef char struc_41_offsets[(offsetof(struc_41, field_30) == 0x30) ? 1 : -1];
 typedef char WEAPON_SLOT_offsets[(offsetof(WEAPON_SLOT_TYPE, field_8) == 8 &&
 	sizeof(WEAPON_SLOT_TYPE) == 28) ? 1 : -1];
@@ -474,6 +476,76 @@ void CRemotePlayer::FUNC_10016370(BULLET_SYNC_DATA *pSync)
 
 	m_pPlayerPed->FUNC_100AF280(&shotSync);
 	m_pPlayerPed->FUNC_100AFA70();
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_100158D0(UNOCCUPIED_SYNC_DATA *pSync)
+{
+	if(!pSync->VehicleID) return;
+	if(pSync->VehicleID == INVALID_VEHICLE_ID) return;
+
+	MATRIX4X4 mat;
+	VECTOR vecMove;
+
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+	if(!pVehiclePool) return;
+
+	CVehicle *pVehicle = (CVehicle *)pVehiclePool->GetAt(pSync->VehicleID);
+	pVehiclePool->field_8E34[pSync->VehicleID] = m_PlayerID;
+	if(!pVehicle) return;
+
+	if(pVehicle->FUNC_100B70E0()) return;
+	if(pVehicle->FUNC_100B7CF0()) return;
+	if(!FUNC_100B4A70(&pSync->vecDirection)) return;
+	if(!FUNC_100B4A70(&pSync->vecRoll)) return;
+	if(!FUNC_100B4B50(&pSync->vecPos)) return;
+	if(!FUNC_100B4AE0(&pSync->vecMoveSpeed)) return;
+	if(!FUNC_100B4AE0(&pSync->vecTurnSpeed)) return;
+
+	pVehicle->GetMatrix(&mat);
+
+	mat.up.X = pSync->vecDirection.X;
+	mat.up.Y = pSync->vecDirection.Y;
+	mat.up.Z = pSync->vecDirection.Z;
+	mat.right.X = pSync->vecRoll.X;
+	mat.right.Y = pSync->vecRoll.Y;
+	mat.right.Z = pSync->vecRoll.Z;
+
+	if(FloatOffset(pSync->vecPos.X, mat.pos.X) <= 0.1f &&
+		FloatOffset(pSync->vecPos.Y, mat.pos.Y) <= 0.1f &&
+		FloatOffset(pSync->vecPos.Z, mat.pos.Z) <= 0.1f) return;
+
+	if(FloatOffset(pSync->vecPos.X, mat.pos.X) > 6.0f ||
+		FloatOffset(pSync->vecPos.Y, mat.pos.Y) > 6.0f ||
+		FloatOffset(pSync->vecPos.Z, mat.pos.Z) > 3.0f) {
+		mat.pos.X = pSync->vecPos.X;
+		mat.pos.Y = pSync->vecPos.Y;
+		mat.pos.Z = pSync->vecPos.Z;
+		pVehicle->SetMatrix(mat);
+		pVehicle->SetMoveSpeedVector(pSync->vecMoveSpeed);
+		pVehicle->SetTurnSpeedVector(pSync->vecTurnSpeed);
+		return;
+	}
+
+	pVehicle->SetMatrix(mat);
+	pVehicle->SetMoveSpeedVector(pSync->vecMoveSpeed);
+	pVehicle->SetTurnSpeedVector(pSync->vecTurnSpeed);
+
+	vecMove.X = 0.0f;
+	vecMove.Y = 0.0f;
+	vecMove.Z = 0.0f;
+	pVehicle->GetMoveSpeedVector(&vecMove);
+
+	if(FloatOffset(pSync->vecPos.X, mat.pos.X) > 0.05)
+		vecMove.X = (pSync->vecPos.X - mat.pos.X) * fVehLerp + vecMove.X;
+	if(FloatOffset(pSync->vecPos.Y, mat.pos.Y) > 0.05)
+		vecMove.Y = (pSync->vecPos.Y - mat.pos.Y) * fVehLerp + vecMove.Y;
+	if(FloatOffset(pSync->vecPos.Z, mat.pos.Z) > 0.05)
+		vecMove.Z = (pSync->vecPos.Z - mat.pos.Z) * fVehLerp + vecMove.Z;
+
+	pVehicle->SetMoveSpeedVector(vecMove);
+	pVehicle->field_83 = 1;
 }
 
 //----------------------------------------------------

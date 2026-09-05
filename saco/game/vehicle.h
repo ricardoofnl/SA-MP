@@ -35,7 +35,9 @@ public:
 	BYTE		m_byteColor2;
 	BOOL		m_bHasNewColor;
 
-	char _gap7F[57];
+	char _gap7F[4];
+	int		field_83;
+	char _gap87[49];
 
 	CVehicle( int iType, float fPosX, float fPosY, float fPosZ, float fRotation = 0.0f, BOOL bKeepModelLoaded = FALSE, int a8 = 0);
 
@@ -97,6 +99,8 @@ public:
 	CVehicle *FUNC_100B7C90(); // .text:100B7C90
 	BOOL	FUNC_100B7D70(); // .text:100B7D70
 	BOOL	FUNC_100B7DD0(); // .text:100B7DD0
+	BOOL	FUNC_100B70E0(); // .text:100B70E0
+	BOOL	FUNC_100B7CF0(); // .text:100B7CF0
 
 	BOOL	FUNC_100B7460(); // .text:100B7460
 	BOOL	FUNC_100B7E00(); // .text:100B7E00

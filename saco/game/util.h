@@ -61,6 +61,7 @@ DWORD unnamed_100B6100(char *szString, int nMaxLen);
 int FUNC_100B61D0(int a1); // .text:100B61D0
 
 bool FUNC_100B4B50(VECTOR *vecPos);
+bool FUNC_100B4AE0(VECTOR *vec); // .text:100B4AE0
 void FUNC_100B4D10(VECTOR *vecOut, MATRIX4X4 *pMatrix, VECTOR *vecOffset);
 int FUNC_100B4BE0(int a1, int a2, int a3); // .text:100B4BE0
 int FUNC_100B4C00(int a1, int a2, int a3); // .text:100B4C00

@@ -26,7 +26,8 @@ public:
 	int field_3074[MAX_VEHICLES];
 	int field_4FB4[MAX_VEHICLES];
 
-	char _gap6EF4[12000];
+	char _gap6EF4[8000];
+	WORD field_8E34[MAX_VEHICLES];
 
 	DWORD field_9DD4[MAX_VEHICLES];
 
