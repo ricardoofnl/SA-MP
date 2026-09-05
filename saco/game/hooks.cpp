@@ -2987,6 +2987,15 @@ NUDE CTimer__GetCurrentTimeInCycles_Hook()
 	_asm jmp edx
 }
 
+//-----------------------------------------------------------
+
+// .text:100A23F0 : drops a 0x190 byte game frame and returns
+NUDE FUNC_100A23F0()
+{
+	_asm add esp, 0x190
+	_asm retn
+}
+
 
 //-----------------------------------------------------------
 
@@ -3071,6 +3080,117 @@ NUDE FUNC_100A5FF0()
 	_asm call edx
 
 	_asm ret
+}
+
+//-----------------------------------------------------------
+// trampolines that only snapshot the caller's arguments before handing the
+// call on to GTA
+
+DWORD unnamed_10150A20;
+DWORD unnamed_10151730;
+DWORD unnamed_10150C14;
+DWORD unnamed_101515F8;
+DWORD unnamed_101514AC;
+
+// .text:100A4410
+NUDE FUNC_100A4410()
+{
+	_asm mov eax, [esp]
+	_asm mov unnamed_10150A20, eax
+	_asm pushad
+	_asm popad
+	_asm mov eax, 0x4C95C0
+	_asm jmp eax
+}
+
+//-----------------------------------------------------------
+
+// .text:100A4B40
+NUDE FUNC_100A4B40()
+{
+	_asm mov eax, [esp]
+	_asm mov unnamed_1015172C, eax
+	_asm mov unnamed_10151730, ecx
+	_asm pushad
+	_asm popad
+	_asm mov eax, 0x5A2BD0
+	_asm jmp eax
+}
+
+//-----------------------------------------------------------
+
+// .text:100A4920
+NUDE FUNC_100A4920()
+{
+	_asm mov eax, [esp+4]
+	_asm mov unnamed_10150C14, eax
+	_asm mov eax, [esp+8]
+	_asm mov unnamed_101515F8, eax
+	_asm mov eax, [esp+12]
+	_asm mov unnamed_101514AC, eax
+	_asm pushad
+	_asm popad
+	_asm mov eax, 0x40C6B0
+	_asm jmp eax
+}
+
+//-----------------------------------------------------------
+
+// .text:100A4F50
+NUDE FUNC_100A4F50()
+{
+	_asm pushad
+	_asm popad
+	_asm mov eax, 0x61E3F0
+	_asm jmp eax
+}
+
+//-----------------------------------------------------------
+
+// .text:100A4F30 : only let the game run its own handler while we are not connected
+NUDE FUNC_100A4F30()
+{
+	if(pGame->sub_100A0920())
+	{
+		_asm retn
+	}
+
+	_asm mov edx, 0x69EFC0
+	_asm jmp edx
+}
+
+//-----------------------------------------------------------
+
+// .text:100A4EB0
+NUDE FUNC_100A4EB0()
+{
+	_asm
+	{
+		mov eax, [esp+4]
+		push eax
+		mov eax, 0x5618D0
+		call eax
+		pop edx
+		pushad
+	}
+
+	if(pGame) pGame->sub_100A1C10();
+
+	_asm
+	{
+		popad
+		retn
+	}
+}
+
+//-----------------------------------------------------------
+
+// .text:100A5E20
+NUDE FUNC_100A5E20()
+{
+	_asm mov edx, 0x72B850
+	_asm call edx
+	_asm retn
 }
 
 //-----------------------------------------------------------
