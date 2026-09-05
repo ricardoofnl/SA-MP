@@ -1095,7 +1095,38 @@ void ScrUnk2B(RPCParameters *rpcParams)
 	FUNC_1009D3D0(iModel, fX, fY, fZ, fRadius);
 }
 void ScrUnk51(RPCParameters *rpcParams) {}
-void ScrUnk52(RPCParameters *rpcParams) {}
+void ScrUnk52(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	bool bPosition;
+	BYTE byteCut;
+	int iTime;
+	VECTOR vecFrom, vecTo;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bPosition = true;
+	bsData.Read(bPosition);
+	bsData.Read(vecFrom.X);
+	bsData.Read(vecFrom.Y);
+	bsData.Read(vecFrom.Z);
+	bsData.Read(vecTo.X);
+	bsData.Read(vecTo.Y);
+	bsData.Read(vecTo.Z);
+	bsData.Read(iTime);
+	bsData.Read(byteCut);
+
+	if(byteCut < 1 || byteCut > 2) byteCut = 2;
+
+	if(iTime > 0) {
+		pNetGame->GetPlayerPool()->GetLocalPlayer()->field_314 = 1;
+		if(bPosition) pGame->GetCamera()->InterpolatePosition(&vecFrom, &vecTo, iTime, byteCut);
+		else pGame->GetCamera()->InterpolateLookAt(&vecFrom, &vecTo, iTime, byteCut);
+	}
+}
 void ScrUnk53(RPCParameters *rpcParams) {}
 void ScrUnk54(RPCParameters *rpcParams) {}
 void ScrUnkA9(RPCParameters *rpcParams) {}

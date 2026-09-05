@@ -94,7 +94,7 @@ public:
 	BYTE field_30F;
 	DWORD field_310;
 
-	BYTE _pad314[4];
+	DWORD field_314;
 
 	WORD field_318;
 
