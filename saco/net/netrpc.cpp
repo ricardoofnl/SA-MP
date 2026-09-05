@@ -60,7 +60,48 @@ void LoadModelsThread(void *pParam)
 }
 
 // TODO: these RPCs
-void Unk22(RPCParameters *rpcParams) {}
+void Unk22(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	PLAYERID playerId;
+	int iSkill;
+	WORD wLevel;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+	bsData.Read(playerId);
+	bsData.Read(iSkill);
+	bsData.Read(wLevel);
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+
+	if(pPlayerPool)
+	{
+		if(playerId == pPlayerPool->GetLocalPlayerID())
+		{
+			CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
+			if(pPlayerPed)
+				pPlayerPed->SetWeaponSkillLevel(iSkill,wLevel);
+		}
+		else if(playerId < MAX_PLAYERS)
+		{
+			if(pPlayerPool->field_2A[playerId])
+			{
+				CNetPlayer *pPlayer = pPlayerPool->m_pPlayers[playerId];
+				if(pPlayer)
+				{
+					CRemotePlayer *pRemotePlayer = pPlayer->m_pRemotePlayer;
+					if(pRemotePlayer)
+					{
+						if(pRemotePlayer->FUNC_10001080() && pRemotePlayer->m_pPlayerPed)
+							pRemotePlayer->m_pPlayerPed->SetWeaponSkillLevel(iSkill,wLevel);
+					}
+				}
+			}
+		}
+	}
+}
 void Unk24(RPCParameters *rpcParams) {}
 // MATCH
 void Unk3A(RPCParameters *rpcParams)
