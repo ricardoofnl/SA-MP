@@ -529,3 +529,114 @@ void CChatWindow::FUNC_10067940()
 
 	field_12E = rect.bottom;
 }
+
+//----------------------------------------------------
+// draws the text with a black outline, thicker over 1280 wide
+
+void CChatWindow::FUNC_10067470(char *szText, RECT rect, DWORD dwColor)
+{
+	ID3DXFontHook *pFont;
+	ID3DXFont *pShadow;
+	int iLen;
+
+	pShadow = m_pFontRender->field_8;
+	pFont = m_pFontRender->field_0;
+	iLen = strlen(szText);
+
+	if(field_8 == 2)
+	{
+		char szBuffer[512] = {0};
+		int iShadowLen;
+
+		strncpy(szBuffer,szText,511);
+		RemoveColorEmbedsFromString(szBuffer);
+		iShadowLen = strlen(szBuffer);
+
+		if(*(int *)0xC17044 > 1280)
+		{
+			rect.top -= 2;
+			rect.bottom -= 2;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.top++;
+			rect.bottom++;
+			rect.left--;
+			rect.right--;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.left++;
+			rect.right++;
+			rect.left++;
+			rect.right++;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.left--;
+			rect.right--;
+			rect.top++;
+			rect.bottom++;
+			rect.top += 2;
+			rect.bottom += 2;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.top--;
+			rect.bottom--;
+			rect.left--;
+			rect.right--;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.left++;
+			rect.right++;
+			rect.left++;
+			rect.right++;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.left--;
+			rect.right--;
+			rect.top--;
+			rect.bottom--;
+			rect.left -= 2;
+			rect.right -= 2;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.left += 2;
+			rect.right += 2;
+			rect.left += 2;
+			rect.right += 2;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.left -= 2;
+			rect.right -= 2;
+		}
+		else
+		{
+			rect.top--;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.top += 2;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.top--;
+			rect.left--;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.left += 2;
+
+			pShadow->DrawTextA(field_63A6,szBuffer,iShadowLen,&rect,DT_NOCLIP|DT_SINGLELINE,0xFF000000);
+
+			rect.left--;
+		}
+	}
+
+	pFont->DrawTextA(field_63A6,szText,iLen,&rect,DT_NOCLIP|DT_SINGLELINE,dwColor|0xFF000000);
+}
