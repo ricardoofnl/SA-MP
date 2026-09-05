@@ -85,6 +85,7 @@ public:
 
 	void	FUNC_100B7090(int a1); // .text:100B7090
 	void	FUNC_100B7840(int a1); // .text:100B7840
+	void	FUNC_100B7900(float fT); // .text:100B7900
 	void	FUNC_100B81A0(); // .text:100B81A0
 	void	FUNC_100B81F0(); // .text:100B81F0
 	void	FUNC_100B8150(char *szText); // .text:100B8150

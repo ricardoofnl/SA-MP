@@ -404,6 +404,38 @@ void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10015650(MATRIX4X4 *pMat, VECTOR *pMoveSpeed, float fT)
+{
+	int bTeleport = 0;
+
+	if(!m_pPlayerPed) return;
+	if(!field_1E1) return;
+
+	MATRIX4X4 mat;
+	VECTOR vecMove;
+	float fDiff;
+
+	field_1E1->GetMatrix(&mat);
+
+	if(pMat->pos.X >= mat.pos.X) fDiff = pMat->pos.X - mat.pos.X;
+	else fDiff = mat.pos.X - pMat->pos.X;
+	if(fDiff > 10.0f) bTeleport = 1;
+
+	if(pMat->pos.Y >= mat.pos.Y) fDiff = pMat->pos.Y - mat.pos.Y;
+	else fDiff = mat.pos.Y - pMat->pos.Y;
+	if(fDiff > 10.0f || bTeleport)
+		field_1E1->TeleportTo(pMat->pos.X, pMat->pos.Y, pMat->pos.Z);
+
+	field_1E1->GetMoveSpeedVector(&vecMove);
+	vecMove.X = pMoveSpeed->X;
+	vecMove.Y = pMoveSpeed->Y;
+	vecMove.Z = pMoveSpeed->Z;
+	field_1E1->SetMoveSpeedVector(vecMove);
+	field_1E1->FUNC_100B7900(fT);
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_10017340(BYTE *pSync, int iTime)
 {
 	if(iTime && (iTime - field_1BD) < 0) return;
