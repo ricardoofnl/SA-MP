@@ -204,6 +204,7 @@ public:
 	struc_13 * FUNC_100AE5D0(); // .text:100AE5D0
 
 	DWORD FUNC_100AEBB0(int a1); // .text:100AEBB0
+	void  FUNC_100AE560(int iType, int a2, int a3, int a4); // .text:100AE560
 
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];

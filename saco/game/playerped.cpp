@@ -2008,3 +2008,33 @@ DWORD CPlayerPed::FUNC_100AEBB0(int a1)
 	return dwAnim + a1 * *(DWORD *)(dwAnim + 0x24) + 0x4C;
 }
 //-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100AE560(int iType, int a2, int a3, int a4)
+{
+	if(!m_pPed) return;
+	if(m_pPed->entity.vtable == 0x863C40) return;
+	if(!m_pPed->entity.pdwRenderWare) return;
+
+	DWORD dwRenderWare = (DWORD)m_pPed->entity.pdwRenderWare;
+
+	if(iType == 1) {
+		_asm push a3
+		_asm push a2
+		_asm push dwRenderWare
+		_asm mov edx, 0x4D3AA0
+		_asm call edx
+		_asm add esp, 0xC
+		return;
+	}
+
+	if(iType == 2) {
+		_asm push a4
+		_asm push a3
+		_asm push a2
+		_asm push dwRenderWare
+		_asm mov edx, 0x4D4610
+		_asm call edx
+		_asm add esp, 0x10
+	}
+}
+//-----------------------------------------------------------
