@@ -1915,3 +1915,58 @@ void FUNC_100B5740(int a1, int a2)
 	_asm pop edx
 	_asm popad
 }
+
+//-----------------------------------------------------------
+// same body as FUNC_100B5260; retail keeps both copies
+
+void FUNC_100B52B0(MATRIX4X4 *pMatrix, float *pQuatOut)
+{
+	FUNC_100B4D70(pMatrix->right.X, pMatrix->right.Y, pMatrix->right.Z,
+		pMatrix->up.X, pMatrix->up.Y, pMatrix->up.Z,
+		pMatrix->at.X, pMatrix->at.Y, pMatrix->at.Z,
+		&pQuatOut[0], &pQuatOut[1], &pQuatOut[2], &pQuatOut[3]);
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B5210(int a1, void *a2)
+{
+	float quat[4];
+	float *pQuat;
+	DWORD dwFunc;
+
+	pQuat = quat;
+	dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7EB600 : 0x7EB5C0;
+
+	_asm push a1
+	_asm push pQuat
+	_asm mov eax, dwFunc
+	_asm call eax
+	_asm pop edx
+	_asm pop edx
+
+	((float *)a2)[0] = quat[3];
+	((float *)a2)[1] = quat[0];
+	((float *)a2)[2] = quat[1];
+	((float *)a2)[3] = quat[2];
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B5500(float *pQuat)
+{
+	D3DXQUATERNION qOut;
+	D3DXQUATERNION qIn;
+
+	qIn.w = pQuat[0];
+	qIn.x = pQuat[1];
+	qIn.y = pQuat[2];
+	qIn.z = pQuat[3];
+
+	D3DXQuaternionNormalize(&qOut, &qIn);
+
+	pQuat[0] = qOut.w;
+	pQuat[1] = qOut.x;
+	pQuat[2] = qOut.y;
+	pQuat[3] = qOut.z;
+}
