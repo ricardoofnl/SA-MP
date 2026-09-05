@@ -1616,16 +1616,16 @@ void __stdcall FUNC_100B4630(int iModel, int a2)
 
 //-----------------------------------------------------------
 
-DWORD __stdcall FUNC_100B46D0(int iModel)
+DWORD * __stdcall FUNC_100B46D0(int iModel)
 {
 	DWORD *pModelInfo = GetModelInfo(iModel);
-	DWORD dwRet = 0;
+	DWORD *pRet = 0;
 
 	_asm mov eax, pModelInfo
 	_asm mov edx, [eax+0x14]
-	_asm mov dwRet, edx
+	_asm mov pRet, edx
 
-	return dwRet;
+	return pRet;
 }
 
 //-----------------------------------------------------------

@@ -137,7 +137,6 @@ DWORD __stdcall FUNC_100B45A0(int iModel); // .text:100B45A0
 void __stdcall FUNC_100B45D0(int iModel, int a2); // .text:100B45D0
 void __stdcall FUNC_100B4600(int iModel, int a2); // .text:100B4600
 void __stdcall FUNC_100B4630(int iModel, int a2); // .text:100B4630
-DWORD __stdcall FUNC_100B46D0(int iModel); // .text:100B46D0
 WORD __stdcall FUNC_100B4700(int iModel); // .text:100B4700
 void __stdcall FUNC_100B4730(int iModel, WORD wValue); // .text:100B4730
 BOOL __stdcall FUNC_100B44E0(DWORD *pModelInfo); // .text:100B44E0
