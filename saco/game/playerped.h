@@ -228,6 +228,8 @@ public:
 
 	int		FUNC_100AD9C0(); // .text:100AD9C0
 	int		FUNC_100AD9E0(); // .text:100AD9E0
+	void		FUNC_100AF1F0(); // .text:100AF1F0
+	void		FUNC_100AEF90(); // .text:100AEF90
 	void		FUNC_100AE530(int a1, int a2); // .text:100AE530
 
 	int			m_iCellPhoneEnabled;

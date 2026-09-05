@@ -2231,6 +2231,20 @@ int CPlayerPed::FUNC_100AD9E0()
 }
 //-----------------------------------------------------------
 
+void CPlayerPed::FUNC_100AF1F0()
+{
+	DWORD dwPedPtr = (DWORD)m_pPed;
+
+	if(dwPedPtr) {
+		_asm mov ecx, dwPedPtr
+		_asm mov eax, 0x532B20
+		_asm call eax
+	}
+
+	FUNC_100AEF90();
+}
+//-----------------------------------------------------------
+
 void CPlayerPed::FUNC_100AE530(int a1, int a2)
 {
 	if(!m_pPed) return;
