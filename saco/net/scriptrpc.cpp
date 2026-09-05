@@ -534,7 +534,44 @@ void ScrUnk56(RPCParameters *rpcParams)
 
 	pPlayerPed->ApplyAnimation(szAnimName, szAnimFile, fT, bUnk1, bUnk2, bUnk4, bUnk3, iUnk);
 }
-void ScrUnk57(RPCParameters *rpcParams) {}
+void ScrUnk57(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	PLAYERID playerId;
+	MATRIX4X4 matPlayer;
+	CPlayerPed *pPlayerPed;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(playerId);
+
+	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+	if(!pPlayerPool) goto done;
+
+	if(playerId == pPlayerPool->GetLocalPlayerID()) {
+		pPlayerPed = pPlayerPool->GetLocalPlayer()->GetPlayerPed();
+	} else {
+		if(playerId >= MAX_PLAYERS) goto done;
+		if(!pPlayerPool->field_2A[playerId]) goto done;
+		CNetPlayer *pNetPlayer = pPlayerPool->m_pPlayers[playerId];
+		if(!pNetPlayer) goto done;
+		CRemotePlayer *pRemotePlayer = pNetPlayer->m_pRemotePlayer;
+		if(!pRemotePlayer) goto done;
+		pPlayerPed = pRemotePlayer->m_pPlayerPed;
+		pRemotePlayer->field_1C1 = 0;
+	}
+
+	if(!pPlayerPed) goto done;
+
+	pPlayerPed->GetMatrix(&matPlayer);
+	pPlayerPed->TeleportTo(matPlayer.pos.X, matPlayer.pos.Y, matPlayer.pos.Z);
+
+done:
+	;
+}
 void ScrUnk58(RPCParameters *rpcParams) {}
 void ScrUnk59(RPCParameters *rpcParams) {}
 void ScrUnk5A(RPCParameters *rpcParams) {}
