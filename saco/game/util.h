@@ -140,6 +140,11 @@ void __stdcall FUNC_100B4630(int iModel, int a2); // .text:100B4630
 DWORD __stdcall FUNC_100B46D0(int iModel); // .text:100B46D0
 WORD __stdcall FUNC_100B4700(int iModel); // .text:100B4700
 void __stdcall FUNC_100B4730(int iModel, WORD wValue); // .text:100B4730
+BOOL __stdcall FUNC_100B44E0(DWORD *pModelInfo); // .text:100B44E0
+WORD FUNC_100B6470(int a1, int a2, int a3, int a4, int a5); // .text:100B6470
+void VectorScale(VECTOR *vecOut, VECTOR *vecIn, float fScale); // .text:100B51B0
+void FUNC_100B51E0(int a1, int a2); // .text:100B51E0
+float FUNC_100B5180(float *pQuat); // .text:100B5180
 void FUNC_100B5210(int a1, void *a2); // .text:100B5210, __cdecl: the caller's
 // stack cleanup is folded into the next call's argument setup
 

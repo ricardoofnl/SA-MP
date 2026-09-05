@@ -1655,3 +1655,62 @@ void __stdcall FUNC_100B4730(int iModel, WORD wValue)
 		_asm mov [edx+8], bx
 	}
 }
+
+//-----------------------------------------------------------
+
+BOOL __stdcall FUNC_100B44E0(DWORD *pModelInfo)
+{
+	if(pModelInfo && (*pModelInfo == 0x85BBF0 || *pModelInfo == 0x85BC30 ||
+		*pModelInfo == 0x85BC70 || *pModelInfo == 0x85BCB0 || *pModelInfo == 0x85BCF0))
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+//-----------------------------------------------------------
+
+WORD FUNC_100B6470(int a1, int a2, int a3, int a4, int a5)
+{
+	if(!a1) return 0;
+
+	WORD wRet = 0;
+
+	_asm lea edx, a1
+	_asm xor eax, eax
+	_asm mov ax, [edx+0x12]
+	_asm mov wRet, ax
+
+	return wRet;
+}
+
+//-----------------------------------------------------------
+
+void VectorScale(VECTOR *vecOut, VECTOR *vecIn, float fScale)
+{
+	vecOut->X = fScale * vecIn->X;
+	vecOut->Y = fScale * vecIn->Y;
+	vecOut->Z = fScale * vecIn->Z;
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B51E0(int a1, int a2)
+{
+	DWORD dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7EB600 : 0x7EB5C0;
+
+	_asm push a2
+	_asm push a1
+	_asm mov eax, dwFunc
+	_asm call eax
+	_asm pop edx
+	_asm pop edx
+}
+
+//-----------------------------------------------------------
+
+float FUNC_100B5180(float *pQuat)
+{
+	return pQuat[0] * pQuat[0] + (pQuat[1] * pQuat[1] + pQuat[2] * pQuat[2] +
+		pQuat[3] * pQuat[3]);
+}
