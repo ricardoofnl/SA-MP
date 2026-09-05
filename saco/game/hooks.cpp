@@ -3143,6 +3143,186 @@ NUDE FUNC_100A5FF0()
 }
 
 //-----------------------------------------------------------
+
+extern char szUnk_10113968[8];	// lives in game.cpp
+
+// .text:100A41A0 : hands the caller a copy of the eight byte version tag
+bool FUNC_100A41A0(char *pszTag)
+{
+	memset(pszTag, 0, 8);
+	memcpy(pszTag, szUnk_10113968, 8);
+	return true;
+}
+
+//-----------------------------------------------------------
+
+DWORD unnamed_1015162C;
+DWORD unnamed_101506EC;
+DWORD unnamed_10150C84;
+DWORD unnamed_101516B0;
+DWORD unnamed_101516B4;
+DWORD unnamed_101516B8;
+DWORD unnamed_101516C0;
+DWORD unnamed_101516C4;
+DWORD unnamed_10150CF0;
+PED_TYPE *unnamed_10150CF8;
+DWORD unnamed_10113ACC;
+DWORD unnamed_10113AD0;
+WORD  unnamed_10113AD4;
+
+WORD FUNC_1009CFD0(int a1); // .text:1009CFD0, lives in another translation unit
+
+// .text:100A4340
+NUDE FUNC_100A4340()
+{
+	_asm mov edx, [esp]
+	_asm mov unnamed_1015162C, edx
+	_asm mov edx, [esp+4]
+	_asm mov unnamed_101506EC, edx
+	_asm mov edx, [esp+8]
+	_asm mov unnamed_10150C84, edx
+	_asm mov edx, [esp+12]
+	_asm mov unnamed_101516B4, edx
+	_asm mov edx, [esp+16]
+	_asm mov unnamed_101516B8, edx
+	_asm pushad
+
+	unnamed_10150CF8 = GamePool_FindPlayerPed();
+	if(unnamed_10150CF8) unnamed_10150CF0 = (DWORD)unnamed_10150CF8->entity.pdwRenderWare;
+	else unnamed_10150CF0 = 0;
+
+	_asm popad
+	_asm push 0xFFFFFFFF
+	_asm push 0x83BD6B
+	_asm jmp unnamed_10113ACC
+}
+
+//-----------------------------------------------------------
+
+// .text:100A43B0
+NUDE FUNC_100A43B0()
+{
+	_asm mov edx, [esp+4]
+	_asm mov unnamed_101506EC, edx
+	_asm mov edx, [esp+8]
+	_asm mov unnamed_101516C0, edx
+	_asm mov edx, [esp+12]
+	_asm mov unnamed_101516B0, edx
+	_asm mov edx, [esp+16]
+	_asm mov unnamed_101516B4, edx
+	_asm pushad
+	_asm mov eax, unnamed_101516B4
+	_asm push eax
+	_asm mov ecx, unnamed_101516B0
+	_asm push ecx
+	_asm call FUNC_100B4430
+	_asm mov unnamed_101516C4, eax
+	_asm mov edx, unnamed_101516C4
+	_asm push edx
+	_asm call FUNC_1009CFD0
+	_asm add esp, 4
+	_asm mov unnamed_10113AD4, ax
+	_asm popad
+	_asm jmp unnamed_10113AD0
+}
+
+//-----------------------------------------------------------
+
+DWORD unnamed_101506A8;
+DWORD unnamed_101514C8;
+DWORD unnamed_10150C08;
+DWORD unnamed_101509DC;
+DWORD unnamed_10150CD8;
+DWORD unnamed_10150980;
+DWORD unnamed_10150A8C;
+
+// .text:100A4D40
+NUDE FUNC_100A4D40()
+{
+	_asm mov unnamed_101506A8, ecx
+	_asm mov eax, [esp+4]
+	_asm mov unnamed_101514C8, eax
+	_asm mov eax, [esp+8]
+	_asm mov unnamed_10150C08, eax
+	_asm mov eax, [esp+12]
+	_asm mov unnamed_101509DC, eax
+	_asm mov eax, [esp+16]
+	_asm mov unnamed_10150CD8, eax
+	_asm mov eax, [esp+20]
+	_asm mov unnamed_10150980, eax
+	_asm mov eax, [esp+24]
+	_asm mov unnamed_10150A8C, eax
+	_asm pushad
+	_asm popad
+	_asm push unnamed_10150A8C
+	_asm push unnamed_10150980
+	_asm push unnamed_10150CD8
+	_asm push unnamed_101509DC
+	_asm push unnamed_10150C08
+	_asm push unnamed_101514C8
+	_asm mov ecx, unnamed_101506A8
+	_asm mov eax, 0x514970
+	_asm call eax
+	_asm pushad
+	_asm popad
+	_asm retn 0x18
+}
+
+//-----------------------------------------------------------
+
+DWORD unnamed_10151618;
+DWORD unnamed_101506F0;
+DWORD unnamed_101514E4;
+
+// .text:100A2F60 : runs the call with the 0x858EF0 float forced to 2.0
+NUDE FUNC_100A2F60()
+{
+	_asm mov unnamed_10151628, ecx
+	_asm mov eax, [esp+4]
+	_asm mov unnamed_10151618, eax
+
+	UnFuck(0x858EF0, 4);
+	unnamed_101506F0 = *(DWORD *)0x858EF0;
+	*(DWORD *)0x858EF0 = 0x40000000;
+
+	_asm mov ecx, unnamed_10151628
+	_asm push unnamed_10151618
+	_asm mov eax, 0x62A380
+	_asm call eax
+	_asm mov unnamed_101514E4, eax
+
+	*(DWORD *)0x858EF0 = unnamed_101506F0;
+
+	_asm mov eax, unnamed_101514E4
+	_asm retn 4
+}
+
+//-----------------------------------------------------------
+
+DWORD unnamed_101517C0;
+
+// .text:100A5530 : skips the game call once we are connected
+NUDE FUNC_100A5530()
+{
+	_asm mov unnamed_101517C0, ecx
+	_asm pushad
+
+	if(pGame && pGame->sub_100A1BC0())
+	{
+		_asm popad
+		_asm mov ecx, unnamed_101517C0
+		_asm retn
+	}
+
+	_asm mov ecx, unnamed_101517C0
+	_asm mov edx, 0x60DC50
+	_asm call edx
+	_asm popad
+	_asm mov ecx, unnamed_101517C0
+	_asm retn
+}
+
+//-----------------------------------------------------------
 // trampolines that only snapshot the caller's arguments before handing the
 // call on to GTA
 

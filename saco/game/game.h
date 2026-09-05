@@ -151,6 +151,7 @@ public:
 	void sub_100A0940(int a1, int a2);
 	void sub_100A0960();
 
+	BOOL sub_100A1BC0();
 	void sub_100A1C10();
 	void sub_100A1DB0(int a1);
 
