@@ -1894,6 +1894,22 @@ int CPlayerPed::FUNC_100AC690()
 }
 //-----------------------------------------------------------
 
+void CPlayerPed::FUNC_100ACE50(int a1)
+{
+	field_2E2 = a1;
+
+	if(a1) {
+		field_2F7 = 1;
+		field_2F6 = 1;
+		field_2F8 = 1;
+	} else {
+		field_2F7 = 0;
+		field_2F6 = 0;
+		field_2F8 = 0;
+	}
+}
+//-----------------------------------------------------------
+
 BOOL CPlayerPed::FUNC_100ADA00()
 {
 	if(!m_pPed) {
