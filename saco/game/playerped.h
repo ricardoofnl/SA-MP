@@ -232,6 +232,7 @@ public:
 	void		FUNC_100AEF90(); // .text:100AEF90
 	void		FUNC_100AE530(int a1, int a2); // .text:100AE530
 
+	float		FUNC_100AF220(); // .text:100AF220
 	DWORD		FUNC_100AE790(); // .text:100AE790
 	DWORD *		FUNC_100AE6E0(); // .text:100AE6E0
 	DWORD		FUNC_100AE5F0(DWORD *pTask); // .text:100AE5F0

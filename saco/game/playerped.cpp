@@ -2256,6 +2256,25 @@ void CPlayerPed::FUNC_100AE530(int a1, int a2)
 }
 //-----------------------------------------------------------
 
+float CPlayerPed::FUNC_100AF220()
+{
+	VECTOR vec;
+	int iUnk;
+
+	DWORD dwFrame = FUNC_100AEBB0(0);
+	if(!dwFrame) return 0.0f;
+
+	vec.X = 0.0f;
+	vec.Y = 0.0f;
+	vec.Z = 0.0f;
+	iUnk = 0;
+
+	FUNC_100B58A0(dwFrame, &vec, &iUnk);
+
+	return 1.0f - vec.Z;
+}
+//-----------------------------------------------------------
+
 DWORD CPlayerPed::FUNC_100AE790()
 {
 	if(!m_pPed) return 0;
