@@ -2081,3 +2081,27 @@ DWORD CPlayerPed::FUNC_100AE990()
 	return dwResult;
 }
 //-----------------------------------------------------------
+
+DWORD CPlayerPed::FUNC_100AE9E0()
+{
+	DWORD dwGetClump;
+	DWORD dwRenderWare;
+	DWORD dwResult;
+
+	if(!m_pPed) return 0;
+	if(m_pPed->entity.vtable == 0x863C40) return 0;
+	if(!m_pPed->entity.pdwRenderWare) return 0;
+
+	dwRenderWare = (DWORD)m_pPed->entity.pdwRenderWare;
+	dwGetClump = 0x734A40;
+
+	_asm push dwRenderWare
+	_asm mov edx, dwGetClump
+	_asm call edx
+	_asm pop edx
+	_asm mov edx, [eax+4]
+	_asm mov dwResult, edx
+
+	return dwResult;
+}
+//-----------------------------------------------------------

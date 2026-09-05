@@ -208,6 +208,7 @@ public:
 	void  FUNC_100AE560(int iType, int a2, int a3, int a4); // .text:100AE560
 
 	DWORD FUNC_100AE990(); // .text:100AE990
+	DWORD FUNC_100AE9E0(); // .text:100AE9E0
 
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
