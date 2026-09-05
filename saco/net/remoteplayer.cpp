@@ -271,7 +271,7 @@ int CRemotePlayer::FUNC_10016330()
 void CRemotePlayer::FUNC_10017610(char *szText)
 {
 	CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
-	pChatWindow->FUNC_10068020(pPlayerPool->GetPlayerName(m_PlayerID),
+	pChatWindow->AddChatMessage(pPlayerPool->GetPlayerName(m_PlayerID),
 		(TranslateColorCodeToRGBA(m_PlayerID) >> 8) | 0xFF000000, szText);
 }
 

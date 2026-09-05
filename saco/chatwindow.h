@@ -88,8 +88,6 @@ public:
 
 	int AddDebugMessage(CHAR *szFormat, ...);
 
-	int FUNC_10068020(char *szName, int iColor, char *szText); // .text:10068020
-
 	void AddInfoMessage(CHAR *szFormat, ...); // .text:10068070
 
 	void AddClientMessage(DWORD dwColor, CHAR *szMessage); // .text:10068170
