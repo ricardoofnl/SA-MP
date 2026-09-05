@@ -8,6 +8,7 @@ using namespace RakNet;
 extern CNetGame* pNetGame;
 extern CChatWindow *pChatWindow;
 
+float fPosLerp = 0.1f;
 int bClampVehicleTurnSpeed = 1;
 
 //----------------------------------------------------
@@ -406,6 +407,49 @@ void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
 		!m_pPlayerPed->FUNC_100AC640()) FUNC_100148F0();
 
 	if(field_10A != 17) field_10A = 17;
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_10014C40()
+{
+	if(!m_pPlayerPed) return;
+
+	MATRIX4X4 mat;
+	VECTOR vecMove;
+	float fOffZ;
+
+	m_pPlayerPed->GetMatrix(&mat);
+
+	if(!m_pPlayerPed->IsAdded()) {
+		mat.pos.X = field_17C.X;
+		mat.pos.Y = field_17C.Y;
+		mat.pos.Z = field_17C.Z;
+		m_pPlayerPed->SetMatrix(mat);
+		return;
+	}
+
+	field_160 = FloatOffset(field_17C.X, mat.pos.X);
+	field_164 = FloatOffset(field_17C.Y, mat.pos.Y);
+	fOffZ = FloatOffset(field_17C.Z, mat.pos.Z);
+	field_168 = fOffZ;
+
+	if(field_160 <= 0.00001f && field_164 <= 0.00001f && fOffZ <= 0.00001f) return;
+
+	if(field_160 > 2.0f || field_164 > 2.0f || fOffZ > 1.0f) {
+		mat.pos.X = field_17C.X;
+		mat.pos.Y = field_17C.Y;
+		mat.pos.Z = field_17C.Z;
+		m_pPlayerPed->SetMatrix(mat);
+		return;
+	}
+
+	m_pPlayerPed->GetMoveSpeedVector(&vecMove);
+	float fLerp = fPosLerp;
+	if(field_160 > 0.00001f) vecMove.X = (field_17C.X - mat.pos.X) * fLerp + vecMove.X;
+	if(field_164 > 0.00001f) vecMove.Y = (field_17C.Y - mat.pos.Y) * fLerp + vecMove.Y;
+	if(field_168 > 0.00001f) vecMove.Z = (field_17C.Z - mat.pos.Z) * fLerp + vecMove.Z;
+	m_pPlayerPed->SetMoveSpeedVector(vecMove);
 }
 
 //----------------------------------------------------
