@@ -11,14 +11,38 @@ extern CScoreBoard *pScoreBoard;
 extern HANDLE hInstance;
 
 // the download list global lives in main.cpp's data; only the touched fields are known
+// the 94-byte record FUNC_10011EB0 reads off the wire
+typedef struct _DOWNLOAD_INFO
+{
+	char  _gap0[7];
+	BYTE  field_7;
+	DWORD field_8;
+	DWORD field_C;
+	DWORD dwCrc;
+	char  _gap14[0x32];
+	DWORD field_46;
+	DWORD field_4A;
+	DWORD field_4E;
+	DWORD field_52;
+	BYTE  field_56;
+	BYTE  field_57;
+	char  _gap58[6];
+} DOWNLOAD_INFO;
+
 class CDownloadListDispatch
 {
 public:
 
 	char _gap0[0x221];
 	char field_221;
+	// the size is pinned by the `new` in FUNC_10011EB0
+	char _gap222[0x1E4B];
+
+	CDownloadListDispatch(); // .text:1000DE20
 
 	void FUNC_1000BD60(); // .text:1000BD60
+	void FUNC_1000D4C0(DWORD dwUnk); // .text:1000D4C0
+	void FUNC_1000DAE0(DWORD dwUnk, DOWNLOAD_INFO *pInfo); // .text:1000DAE0
 	void FUNC_1000DB30(DWORD dwIndex); // .text:1000DB30
 	void FUNC_1000C0C0(); // .text:1000C0C0
 };
@@ -1056,6 +1080,46 @@ void FUNC_1000EBA0(RPCParameters *rpcParams)
 	{
 		dword_1026EB98->FUNC_1000BD60();
 		dword_1026EB98->FUNC_1000DB30(0);
+	}
+}
+// not registered either
+void FUNC_10011EB0(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+
+	DOWNLOAD_INFO Info;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	memset(&Info,0,sizeof(DOWNLOAD_INFO));
+
+	DWORD dwUnk1 = 0;
+	DWORD dwUnk2 = 0;
+
+	if(!dword_1026EB98)
+	{
+		dword_1026EB98 = new CDownloadListDispatch;
+		dword_1026EB98->FUNC_1000BD60();
+	}
+
+	if(dword_1026EB98)
+	{
+		bsData.Read(dwUnk1);
+		bsData.Read(dwUnk2);
+		bsData.Read(Info.field_7);
+		bsData.Read(Info.field_8);
+		bsData.Read(Info.field_C);
+		bsData.Read(Info.dwCrc);
+		bsData.Read(Info.field_46);
+		bsData.Read(Info.field_4A);
+		bsData.Read(Info.field_4E);
+		bsData.Read(Info.field_52);
+		bsData.Read(Info.field_56);
+		bsData.Read(Info.field_57);
+
+		dword_1026EB98->FUNC_1000DAE0(dwUnk1,&Info);
+		dword_1026EB98->FUNC_1000D4C0(dwUnk2);
 	}
 }
 // not registered either
