@@ -2826,7 +2826,9 @@ extern DWORD unnamed_10118990; // 0x10118990, lives in another translation unit
 // where a synced shot came from, snapshotted by CPlayerPed::FUNC_100AFA70
 struct SHOT_SYNC_DATA
 {
-	char			_gap0[0x1C];
+	DWORD			field_0;
+	VECTOR			vecOrigin;
+	VECTOR			vecColPoint;
 	VECTOR			vecOffset;
 	ENTITY_TYPE		*pAttachedTo;
 };
@@ -2890,6 +2892,62 @@ BOOL CWorld__ProcessLineOfSight_Hook(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR 
 		sub_100A5410(vecOrigin, vecLine, colPoint, pHitEntity);
 
 	return bLineOfSightResult;
+}
+
+//-----------------------------------------------------------
+
+SHOT_SYNC_DATA unnamed_101506F8;
+MATRIX4X4 unnamed_10150990;
+MATRIX4X4 unnamed_10150BC8;
+ENTITY_TYPE *unnamed_101517AC;
+
+void FUNC_100B5910(MATRIX4X4 *pOut, MATRIX4X4 *pMatrix);	// .text:100B5910, lives in another translation unit
+void FUNC_100B5740(MATRIX4X4 *pOut, MATRIX4X4 *pMatrix);	// .text:100B5740, lives in another translation unit
+
+// .text:100A5410 : records where the local player's own shot landed, in the hit
+// entity's space when there is one
+void __stdcall sub_100A5410(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR *colPoint, DWORD *pHitEntity)
+{
+	memset(&unnamed_101506F8, 0, sizeof(unnamed_101506F8));
+
+	// element wise, a VECTOR assignment would cost a scratch base register
+	*(DWORD *)&unnamed_101506F8.vecOrigin.X = *(DWORD *)&vecOrigin->X;
+	*(DWORD *)&unnamed_101506F8.vecOrigin.Y = *(DWORD *)&vecOrigin->Y;
+	*(DWORD *)&unnamed_101506F8.vecOrigin.Z = *(DWORD *)&vecOrigin->Z;
+	*(DWORD *)&unnamed_101506F8.vecColPoint.X = *(DWORD *)&colPoint->X;
+	*(DWORD *)&unnamed_101506F8.vecColPoint.Y = *(DWORD *)&colPoint->Y;
+	*(DWORD *)&unnamed_101506F8.vecColPoint.Z = *(DWORD *)&colPoint->Z;
+
+	if(pHitEntity)
+	{
+		unnamed_101517AC = (ENTITY_TYPE *)*pHitEntity;
+
+		if(unnamed_101517AC)
+		{
+			if(unnamed_101517AC->mat)
+			{
+				if(unnamed_10118990 == 0)
+				{
+					memset(&unnamed_10150990, 0, sizeof(unnamed_10150990));
+					memset(&unnamed_10150BC8, 0, sizeof(unnamed_10150BC8));
+
+					FUNC_100B5910(&unnamed_10150BC8, unnamed_101517AC->mat);
+					FUNC_100B5740(&unnamed_10150990, &unnamed_10150BC8);
+					FUNC_100B4D10(&unnamed_101506F8.vecOffset, &unnamed_10150990, colPoint);
+				}
+				else
+				{
+					unnamed_101506F8.vecOffset.X = colPoint->X - unnamed_101517AC->mat->pos.X;
+					unnamed_101506F8.vecOffset.Y = colPoint->Y - unnamed_101517AC->mat->pos.Y;
+					unnamed_101506F8.vecOffset.Z = colPoint->Z - unnamed_101517AC->mat->pos.Z;
+				}
+
+				unnamed_101506F8.pAttachedTo = unnamed_101517AC;
+			}
+		}
+	}
+
+	pGame->FindPlayerPed()->FUNC_100AF280(&unnamed_101506F8);
 }
 
 //-----------------------------------------------------------
