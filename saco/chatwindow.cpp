@@ -7,6 +7,9 @@ extern CConfig *pConfig;
 extern CCmdWindow *pCmdWindow;
 extern CGame *pGame;
 
+typedef char AssertEntrySize[sizeof(CHAT_WINDOW_ENTRY) == 252 ? 1 : -1];
+typedef char AssertEntryText[offsetof(CHAT_WINDOW_ENTRY, szText) == 0x20 ? 1 : -1];
+typedef char AssertEntryType[offsetof(CHAT_WINDOW_ENTRY, iType) == 0xF0 ? 1 : -1];
 typedef char AssertChatWindowSize[sizeof(CChatWindow) == 25578 ? 1 : -1];
 typedef char AssertTimestampWidth[offsetof(CChatWindow, field_63E6) == 0x63E6 ? 1 : -1];
 
@@ -438,4 +441,91 @@ void CChatWindow::FUNC_10067ED0()
 			}
 		}
 	}
+}
+
+//----------------------------------------------------
+// lays out the visible page of chat lines
+
+void CChatWindow::FUNC_10067940()
+{
+	int x = 0;
+	int iEntry;
+	RECT rect, rectName;
+	char szTimestamp[72];
+	struct tm *pTime;
+	int iPos;
+
+	memset(szTimestamp,0,64);
+
+	rect.top = 10;
+	rect.left = 45;
+	rect.right = 550;
+	rect.bottom = 110;
+
+	if(m_pScrollBar->GetTrackPos() < 1)
+		m_pScrollBar->SetTrackPos(1);
+
+	iPos = m_pScrollBar->GetTrackPos();
+	if(iPos < 1)
+		iPos = 1;
+
+	iEntry = iPos;
+
+	while(x != field_0)
+	{
+		if(m_bTimestamp)
+		{
+			pTime = localtime(&m_ChatWindowEntries[iEntry].tTime);
+			memset(szTimestamp,0,64);
+
+			if(pTime)
+				strftime(szTimestamp,64,"[%H:%M:%S]",pTime);
+		}
+
+		switch(m_ChatWindowEntries[iEntry].iType)
+		{
+		case 2:
+			if(m_bTimestamp)
+			{
+				if(strlen(szTimestamp) && m_ChatWindowEntries[iEntry].szName[0])
+				{
+					FUNC_10067470(szTimestamp,rect,m_ChatWindowEntries[iEntry].dwTextColor);
+					rect.left = field_63E6+50;
+				}
+			}
+
+			if(strlen(m_ChatWindowEntries[iEntry].szName))
+			{
+				m_pFontRender->field_0->DrawTextA(NULL,m_ChatWindowEntries[iEntry].szName,-1,&rectName,DT_CALCRECT,0xFF000000);
+				FUNC_10067470(m_ChatWindowEntries[iEntry].szName,rect,m_ChatWindowEntries[iEntry].dwNameColor);
+				rect.left += rectName.right-rectName.left+5;
+			}
+
+			FUNC_10067470(m_ChatWindowEntries[iEntry].szText,rect,m_ChatWindowEntries[iEntry].dwTextColor);
+			break;
+
+		case 4:
+		case 8:
+			if(m_bTimestamp)
+			{
+				if(strlen(szTimestamp))
+				{
+					FUNC_10067470(szTimestamp,rect,m_ChatWindowEntries[iEntry].dwTextColor);
+					rect.left = field_63E6+50;
+				}
+			}
+
+			FUNC_10067470(m_ChatWindowEntries[iEntry].szText,rect,m_ChatWindowEntries[iEntry].dwTextColor);
+			break;
+		}
+
+		iEntry++;
+
+		rect.top += field_63E2+1;
+		rect.bottom = rect.top+field_63E2+1;
+		rect.left = 45;
+		x++;
+	}
+
+	field_12E = rect.bottom;
 }

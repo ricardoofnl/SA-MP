@@ -7,7 +7,12 @@
 #pragma pack(1)
 typedef struct _CHAT_WINDOW_ENTRY
 {
-	char _gap0[252];
+	time_t	tTime;
+	char	szName[28];
+	char	szText[208];
+	int		iType;
+	DWORD	dwTextColor;
+	DWORD	dwNameColor;
 } CHAT_WINDOW_ENTRY;
 
 class CChatWindow // size: 25578
@@ -64,6 +69,8 @@ public:
 	void ReleaseTextures(); // .text:100671A0
 
 	void FUNC_10067410(); // .text:10067410
+
+	void FUNC_10067470(char *szText, RECT rect, DWORD dwColor); // .text:10067470
 
 	void FUNC_10067940(); // .text:10067940
 
