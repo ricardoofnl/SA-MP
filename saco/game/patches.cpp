@@ -130,7 +130,8 @@ void ApplyNewColStoreSizePatch(DWORD dwCount)
 
 	int x=0;
 	while(x!=7) {
-		UnFuck(dwPatchAddrColStoreSize[x] + 2, 4);
+		DWORD oldProt2;
+		VirtualProtect((PVOID)(dwPatchAddrColStoreSize[x] + 2),4,PAGE_EXECUTE_READWRITE,&oldProt2);
 		*(PDWORD)(dwPatchAddrColStoreSize[x] + 2) = 44 * dwCount;
 		x++;
 	}
@@ -473,6 +474,7 @@ PED_MODEL PedModelsMemory[319];
 
 void RelocatePedsListHack()
 {
+	DWORD oldProt;
 	BYTE *aPedsListMemory = (BYTE*)&PedModelsMemory[0];
 
 	// Init the mem
@@ -484,7 +486,7 @@ void RelocatePedsListHack()
 	}
 	// Patch the GetPedsModelInfo to use us
 	// instead of the gta_sa.exe mem.
-	UnFuck(0x4C67AD,4);
+	VirtualProtect((PVOID)0x4C67AD,4,PAGE_EXECUTE_READWRITE,&oldProt);
 	*(DWORD *)0x4C67AD = (DWORD)aPedsListMemory;
 }
 
