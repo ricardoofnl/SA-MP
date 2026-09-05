@@ -1866,3 +1866,14 @@ void CPlayerPed::FUNC_100AEC90()
 }
 
 //-----------------------------------------------------------
+
+int CPlayerPed::FUNC_100AEF60()
+{
+	if(!m_pPed) return 0;
+	if(m_pPed->entity.vtable == 0x863C40) return 0;
+	if(!m_pPed->entity.pdwRenderWare) return 0;
+
+	return *(int *)((DWORD)m_pPed + 0x79C);
+}
+
+//-----------------------------------------------------------

@@ -189,6 +189,7 @@ public:
 	void  FUNC_100AD880(); // .text:100AD880
 	void  FUNC_100AC720(); // .text:100AC720
 	void  FUNC_100AEC90(); // .text:100AEC90
+	int   FUNC_100AEF60(); // .text:100AEF60
 
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
