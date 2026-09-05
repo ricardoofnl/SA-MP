@@ -626,6 +626,16 @@ void UnkAA(RPCParameters *rpcParams)
 
 	if(pNetGame) pNetGame->field_233 = bValue;
 }
+void FUNC_10011990(BYTE byteType, DWORD dwValue, BYTE byteResult)
+{
+	RakNet::BitStream bsSend;
+
+	bsSend.Write(byteType);
+	bsSend.Write(dwValue);
+	bsSend.Write(byteResult);
+
+	pNetGame->GetRakClient()->RPC(RPC_ClientCheck,&bsSend,HIGH_PRIORITY,RELIABLE_ORDERED,0,FALSE);
+}
 void ClientCheck(RPCParameters *rpcParams) {}
 void UnkAB(RPCParameters *rpcParams) {}
 // not registered, kept alive only by the rest of the section
