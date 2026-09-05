@@ -1196,22 +1196,23 @@ void ScrUnk21(RPCParameters *rpcParams)
 	PlayerID sender = rpcParams->sender;
 
 	int iLen;
+	char szName[33];
 
 	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
 
-	char szName[33] = {0};
+	memset(szName, 0, sizeof(szName));
 
 	bsData.Read(szName, 32);
 
 	CPlayerPed *pPlayerPed = pGame->FindPlayerPed();
 	if(pPlayerPed) {
 		iLen = strlen(szName);
-		if(iLen) {
-			pPlayerPed->SetShopName(szName);
-			pPlayerPed->LoadShoppingDataSubsection(szName);
-		} else {
+		if(!iLen) {
 			pPlayerPed->SetShopName(NULL);
 			pPlayerPed->LoadShoppingDataSubsection("");
+		} else {
+			pPlayerPed->SetShopName(szName);
+			pPlayerPed->LoadShoppingDataSubsection(szName);
 		}
 	}
 }
