@@ -3323,6 +3323,97 @@ NUDE FUNC_100A5530()
 }
 
 //-----------------------------------------------------------
+
+DWORD unnamed_1015174C;
+DWORD unnamed_101506CC;
+DWORD unnamed_1015097C;
+VECTOR unnamed_10150968;
+VECTOR unnamed_10150BA8;
+
+// .text:100A4DC0
+NUDE FUNC_100A4DC0()
+{
+	_asm mov ebx, [esp+4]
+	_asm mov unnamed_1015174C, ebx
+	_asm mov ebx, [esp+8]
+	_asm mov unnamed_101506CC, ebx
+	_asm mov ebx, [esp+12]
+	_asm mov unnamed_1015097C, ebx
+	_asm pushad
+
+	if(pGame && pGame->FindPlayerPed())
+		pGame->FindPlayerPed()->FUNC_100AFC70(&unnamed_10150BA8, &unnamed_10150968);
+
+	_asm popad
+	_asm mov ebx, 0x742300
+	_asm jmp ebx
+}
+
+//-----------------------------------------------------------
+
+VECTOR *unnamed_101517C4;
+DWORD unnamed_101517C8;
+
+// .text:100A5570
+NUDE FUNC_100A5570()
+{
+	_asm mov unnamed_101517C8, ecx
+	_asm mov eax, [esp+4]
+	_asm mov unnamed_101517C4, eax
+	_asm pushad
+
+	if(pNetGame && pChatWindow)
+	{
+		pChatWindow->AddDebugMessage("Joypad: %d LocalContext: %u UpdateCameraAim: %f %f %f",
+			pGame->sub_100A1BC0(), unnamed_1015168C,
+			unnamed_101517C4->X, unnamed_101517C4->Y, unnamed_101517C4->Z);
+	}
+
+	_asm mov ecx, unnamed_101517C8
+	_asm push unnamed_101517C4
+	_asm mov eax, 0x50CB10
+	_asm call eax
+	_asm popad
+	_asm retn 4
+}
+
+//-----------------------------------------------------------
+
+char unnamed_101514F0[256];
+
+// .text:100A5EB0 : the game only has 24 bytes for a frame node name
+int FUNC_100A5EB0(DWORD dwFrame, DWORD dwNameLen, DWORD a3)
+{
+	DWORD dwRet = 0;
+
+	if(dwNameLen >= 0x18)
+	{
+		if(pGame)
+		{
+			_snprintf(unnamed_101514F0, 256,
+				"SA-MP: FrameNode name was too long (%u). SA-MP must exit.", dwNameLen);
+			ShowWindow(pGame->GetMainWindowHwnd(), SW_MINIMIZE);
+			MessageBox(NULL, unnamed_101514F0, "SA-MP", MB_ICONWARNING);
+		}
+
+		_asm mov esp, 0
+		_asm int 3
+	}
+
+	_asm push a3
+	_asm push dwNameLen
+	_asm push dwFrame
+	_asm mov edx, 0x72FA50
+	_asm call edx
+	_asm mov dwRet, eax
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+
+	return dwRet;
+}
+
+//-----------------------------------------------------------
 // trampolines that only snapshot the caller's arguments before handing the
 // call on to GTA
 
