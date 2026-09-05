@@ -39,6 +39,8 @@ typedef char CRemotePlayer_offsets[(
 	offsetof(CRemotePlayer, field_1F9) == 0x1F9) ? 1 : -1];
 
 typedef char CNetPlayer_offsets[(offsetof(CNetPlayer, m_PlayerName) == 0x14) ? 1 : -1];
+typedef char BULLET_SYNC_offsets[(offsetof(BULLET_SYNC_DATA, byteWeaponID) == 0x27 &&
+	sizeof(BULLET_SYNC_DATA) == 0x28) ? 1 : -1];
 typedef char struc_41_offsets[(offsetof(struc_41, field_30) == 0x30) ? 1 : -1];
 typedef char WEAPON_SLOT_offsets[(offsetof(WEAPON_SLOT_TYPE, field_8) == 8 &&
 	sizeof(WEAPON_SLOT_TYPE) == 28) ? 1 : -1];
@@ -407,6 +409,68 @@ void CRemotePlayer::FUNC_10017260(BYTE *pSync, int iTime)
 		!m_pPlayerPed->FUNC_100AC640()) FUNC_100148F0();
 
 	if(field_10A != 17) field_10A = 17;
+}
+
+//----------------------------------------------------
+
+void CRemotePlayer::FUNC_10016370(BULLET_SYNC_DATA *pSync)
+{
+	if(!m_pPlayerPed) return;
+	if(!m_pPlayerPed->IsAdded()) return;
+
+	SHOT_SYNC_DATA shotSync;
+
+	memset(&shotSync, 0, sizeof(shotSync));
+	shotSync.vecOrigin.X = pSync->vecHitOrigin.X;
+	shotSync.vecOrigin.Y = pSync->vecHitOrigin.Y;
+	shotSync.vecOrigin.Z = pSync->vecHitOrigin.Z;
+	shotSync.vecColPoint.X = pSync->vecHitTarget.X;
+	shotSync.vecColPoint.Y = pSync->vecHitTarget.Y;
+	shotSync.vecColPoint.Z = pSync->vecHitTarget.Z;
+	shotSync.vecOffset.X = pSync->vecCenterOfHit.X;
+	shotSync.vecOffset.Y = pSync->vecCenterOfHit.Y;
+	shotSync.vecOffset.Z = pSync->vecCenterOfHit.Z;
+
+	if(pSync->byteHitType) {
+		if(shotSync.vecOffset.X > 300.0f || shotSync.vecOffset.X < -300.0f ||
+			shotSync.vecOffset.Y > 300.0f || shotSync.vecOffset.Y < -300.0f ||
+			shotSync.vecOffset.Z > 300.0f || shotSync.vecOffset.Z < -300.0f) return;
+
+		if(pSync->byteHitType == 1) {
+			CPlayerPool *pPlayerPool = pNetGame->GetPlayerPool();
+			if(pPlayerPool) {
+				PLAYERID playerId = pSync->wHitID;
+				if(playerId == pPlayerPool->m_LocalPlayerID) {
+					shotSync.pAttachedTo = (ENTITY_TYPE *)pGame->FindPlayerPed()->m_pPed;
+				} else if(playerId == m_PlayerID) return;
+				else if(pPlayerPool->GetSlotState(playerId)) {
+					CPlayerPed *pPlayerPed = pPlayerPool->GetAt(playerId)->m_pPlayerPed;
+					if(pPlayerPed) shotSync.pAttachedTo = (ENTITY_TYPE *)pPlayerPed->m_pPed;
+				}
+			}
+		} else if(pSync->byteHitType == 2) {
+			CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+			if(pVehiclePool) {
+				VEHICLEID VehicleID = pSync->wHitID;
+				if(pVehiclePool->GetSlotState(VehicleID))
+					shotSync.pAttachedTo =
+						(ENTITY_TYPE *)((CVehicle *)pVehiclePool->GetAt(VehicleID))->m_pVehicle;
+			}
+		}
+	}
+
+	if(m_pPlayerPed->IsAdded()) {
+		if(m_pPlayerPed->GetCurrentWeapon() != pSync->byteWeaponID) {
+			m_pPlayerPed->SetArmedWeapon(pSync->byteWeaponID, true);
+			if(m_pPlayerPed->GetCurrentWeapon() != pSync->byteWeaponID) {
+				m_pPlayerPed->GiveWeapon(pSync->byteWeaponID, 9999);
+				m_pPlayerPed->SetArmedWeapon(pSync->byteWeaponID, true);
+			}
+		}
+	}
+
+	m_pPlayerPed->FUNC_100AF280(&shotSync);
+	m_pPlayerPed->FUNC_100AFA70();
 }
 
 //----------------------------------------------------

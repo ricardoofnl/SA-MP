@@ -2823,16 +2823,6 @@ NUDE CWeapon__FireInstantHit_Hook()
 
 extern DWORD unnamed_10118990; // 0x10118990, lives in another translation unit
 
-// where a synced shot came from, snapshotted by CPlayerPed::FUNC_100AFA70
-struct SHOT_SYNC_DATA
-{
-	DWORD			field_0;
-	VECTOR			vecOrigin;
-	VECTOR			vecColPoint;
-	VECTOR			vecOffset;
-	ENTITY_TYPE		*pAttachedTo;
-};
-
 // todo: implement sub_100A5410
 void __stdcall sub_100A5410(VECTOR *vecOrigin, VECTOR *vecLine, VECTOR *colPoint, DWORD *pHitEntity);
 

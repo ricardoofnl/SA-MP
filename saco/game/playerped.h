@@ -7,6 +7,16 @@
 
 struct struc_13;
 
+// where a synced shot came from, snapshotted by CPlayerPed::FUNC_100AFA70
+struct SHOT_SYNC_DATA
+{
+	DWORD			field_0;
+	VECTOR			vecOrigin;
+	VECTOR			vecColPoint;
+	VECTOR			vecOffset;
+	ENTITY_TYPE		*pAttachedTo;
+};
+
 DWORD __stdcall GamePool_Vehicle_GetIndex(VEHICLE_TYPE *pVehicle);
 void FUNC_100AE520(); // .text:100AE520
 
