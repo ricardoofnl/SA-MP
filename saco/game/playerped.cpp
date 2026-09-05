@@ -2335,6 +2335,45 @@ void CPlayerPed::FUNC_100AD440()
 }
 //-----------------------------------------------------------
 
+char szDanceG[16][16] = {
+	"DANCE_G1", "DANCE_G2", "DANCE_G3", "DANCE_G4",
+	"DANCE_G5", "DANCE_G6", "DANCE_G7", "DANCE_G8",
+	"DANCE_G9", "DANCE_G10", "DANCE_G11", "DANCE_G12",
+	"DANCE_G13", "DANCE_G14", "DANCE_G15", "DANCE_G16"
+};
+
+char szDanceB[16][16] = {
+	"DANCE_B1", "DANCE_B2", "DANCE_B3", "DANCE_B4",
+	"DANCE_B5", "DANCE_B6", "DANCE_B7", "DANCE_B8",
+	"DANCE_B9", "DANCE_B10", "DANCE_B11", "DANCE_B12",
+	"DANCE_B13", "DANCE_B14", "DANCE_B15", "DANCE_B16"
+};
+
+char szStrip[16][16] = {
+	"strip_A", "strip_B", "strip_C", "strip_D",
+	"strip_E", "strip_F", "strip_G", "STR_A2B",
+	"STR_B2A", "STR_B2C", "STR_C1", "STR_C2",
+	"STR_C2B", "STR_A2B", "STR_B2C", "STR_C2"
+};
+
+char * CPlayerPed::FUNC_100ADB70(int iIndex)
+{
+	if(!m_iDanceState) return "";
+
+	if(m_iDanceStyle >= 0 && m_iDanceStyle <= 2) {
+		if(!m_pPed || FUNC_100B4100(m_pPed->entity.nModelIndex) != 5) {
+			if(FUNC_100AD9C0() != 22) return szDanceB[iIndex];
+		}
+
+		return szDanceG[iIndex];
+	}
+
+	if(m_iDanceStyle == 3) return szStrip[iIndex];
+
+	return "";
+}
+//-----------------------------------------------------------
+
 DWORD CPlayerPed::FUNC_100AE6A0()
 {
 	short sIndex = FUNC_1009CFD0(FUNC_100B4430(VAR_10151658, VAR_1015165C));

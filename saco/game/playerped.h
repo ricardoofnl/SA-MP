@@ -261,6 +261,7 @@ public:
 
 	void		FUNC_100AD440(); // .text:100AD440
 
+	char *		FUNC_100ADB70(int iIndex); // .text:100ADB70
 
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
