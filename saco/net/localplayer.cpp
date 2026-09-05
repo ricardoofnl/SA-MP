@@ -783,3 +783,67 @@ void CLocalPlayer::FUNC_10002FA0()
 		}
 	}
 }
+
+//----------------------------------------------------
+
+// the special action code the sync packets carry; 5 to 8 are the dance styles
+BYTE CLocalPlayer::GetSpecialAction()
+{
+	if(m_pPlayerPed->FUNC_100ACDC0())
+		return 2;
+
+	if(m_pPlayerPed->FUNC_100ADB60())
+	{
+		switch(m_pPlayerPed->m_iDanceStyle)
+		{
+		case 0:
+			return 5;
+		case 1:
+			return 6;
+		case 2:
+			return 7;
+		case 3:
+			return 8;
+		}
+	}
+
+	if(m_pPlayerPed->FUNC_100ACB60())
+		return 10;
+
+	if(m_pPlayerPed->FUNC_100AE0A0())
+		return 11;
+
+	if(m_pPlayerPed->FUNC_100AE260())
+		return 68;
+
+	if(m_pPlayerPed->FUNC_100AC690())
+		return 1;
+
+	if(m_pPlayerPed->FUNC_100AC5D0())
+		return 3;
+
+	if(m_pPlayerPed->FUNC_100AC640())
+		return 4;
+
+	if(m_pPlayerPed->FUNC_100ADC90())
+	{
+		if(m_pPlayerPed->FUNC_100ADC90() == 1)
+			return 20;
+
+		if(m_pPlayerPed->FUNC_100ADC90() == 2)
+			return 22;
+
+		if(m_pPlayerPed->FUNC_100ADC90() == 3)
+			return 23;
+
+		if(m_pPlayerPed->FUNC_100ADC90() == 4)
+			return 21;
+	}
+
+	if(m_pPlayerPed->FUNC_100ACEF0())
+		return 24;
+
+	BYTE byteAction = m_pPlayerPed->FUNC_100ACE40() ? 25 : 0;
+
+	return byteAction;
+}

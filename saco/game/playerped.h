@@ -206,6 +206,10 @@ public:
 	void		FUNC_100AFFD0(); // .text:100AFFD0
 
 	int   FUNC_100AE260(); // .text:100AE260
+	int   FUNC_100ACDC0(); // .text:100ACDC0
+	int   FUNC_100ACB60(); // .text:100ACB60
+	int   FUNC_100ADB60(); // .text:100ADB60
+	int   FUNC_100AE0A0(); // .text:100AE0A0
 	void  FUNC_100AE100(); // .text:100AE100
 	void  FUNC_100ADCA0(); // .text:100ADCA0
 	void  FUNC_100B02D0(int a1); // .text:100B02D0

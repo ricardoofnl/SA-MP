@@ -152,6 +152,7 @@ public:
 	void FUNC_10004230(WORD a1); // .text:10004230
 	void FUNC_10004280(PLAYERID playerId); // .text:10004280
 	void FUNC_10002FA0(); // .text:10002FA0
+	BYTE GetSpecialAction(); // .text:10003410
 	void FUNC_10006100(); // .text:10006100
 	void SendDeath(); // .text:10005810
 	void SetInteriorId(BYTE byteInteriorId); // .text:10005970
