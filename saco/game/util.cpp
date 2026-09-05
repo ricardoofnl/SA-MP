@@ -1714,3 +1714,124 @@ float FUNC_100B5180(float *pQuat)
 	return pQuat[0] * pQuat[0] + (pQuat[1] * pQuat[1] + pQuat[2] * pQuat[2] +
 		pQuat[3] * pQuat[3]);
 }
+
+//-----------------------------------------------------------
+
+void FUNC_100B5910(int a1, int a2)
+{
+	DWORD dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7F1960 : 0x7F1920;
+
+	_asm push a2
+	_asm push a1
+	_asm mov edx, dwFunc
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B5940(int a1, int a2)
+{
+	DWORD dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7F2300 : 0x7F22C0;
+
+	_asm push 1
+	_asm push a2
+	_asm push a1
+	_asm mov edx, dwFunc
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B58D0(int a1, int a2, int a3)
+{
+	int nCopy = a2;
+	DWORD dwFunc = (iGtaVersion != GTASA_VERSION_USA10) ? 0x7F2010 : 0x7F1FD0;
+
+	_asm push 1
+	_asm push a3
+	_asm push nCopy
+	_asm push a1
+	_asm mov edx, dwFunc
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+}
+
+//-----------------------------------------------------------
+
+// patched to the EU entry point on first use, so it has to be a real variable
+DWORD VAR_101173FC = 0x7EDD90;
+
+void FUNC_100B56F0(int a1, int a2, int a3)
+{
+	if(iGtaVersion == GTASA_VERSION_EU10)
+		VAR_101173FC = 0x7EDDD0;
+
+	_asm push a3
+	_asm push 1
+	_asm push a2
+	_asm push a1
+	_asm mov edx, VAR_101173FC
+	_asm call edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+	_asm pop edx
+}
+
+//-----------------------------------------------------------
+
+void FUNC_100B62B0(BYTE *pObject)
+{
+	if(pObject)
+	{
+		if(*pObject == 1)
+		{
+			DWORD dwOther = *(DWORD *)(pObject + 4);
+
+			FUNC_100B1800(pObject);
+
+			if(dwOther) FUNC_100B17D0(dwOther);
+		}
+		else if(*pObject == 2)
+		{
+			FUNC_100B1C80(pObject);
+		}
+	}
+}
+
+//-----------------------------------------------------------
+
+BOOL __stdcall FUNC_100B62F0(BYTE *pObject)
+{
+	if(!pObject || *pObject != 1) return FALSE;
+
+	DWORD dwFunc = (DWORD)FUNC_100B1430(pObject);
+
+	_asm push pObject
+	_asm mov ebx, dwFunc
+	_asm call ebx
+	_asm pop ebx
+
+	return TRUE;
+}
+
+//-----------------------------------------------------------
+
+void __stdcall FUNC_100B6330(BYTE *pObject)
+{
+	if(pObject)
+	{
+		if(*pObject == 1)
+			FUNC_100B62F0(pObject);
+		else if(*pObject == 2)
+			FUNC_100B19D0(pObject);
+	}
+}
