@@ -28,7 +28,30 @@ void ScrUnkA7(RPCParameters *rpcParams)
 
 	if(pNetGame) pNetGame->SetField232(bValue);
 }
-void ScrUnk38(RPCParameters *rpcParams) {}
+void ScrUnk38(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	BYTE byteIndex;
+	VECTOR vecPos;
+	BYTE byteIcon;
+	DWORD dwColor;
+	BYTE byteStyle;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(byteIndex);
+	bsData.Read(vecPos.X);
+	bsData.Read(vecPos.Y);
+	bsData.Read(vecPos.Z);
+	bsData.Read(byteIcon);
+	bsData.Read(dwColor);
+	bsData.Read(byteStyle);
+
+	pNetGame->SetMapIcon(byteIndex, vecPos.X, vecPos.Y, vecPos.Z, byteIcon, dwColor, byteStyle);
+}
 void ScrUnk90(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
