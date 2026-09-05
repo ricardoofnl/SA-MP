@@ -75,7 +75,32 @@ void ScrUnk93(RPCParameters *rpcParams) {}
 void ScrUnk94(RPCParameters *rpcParams) {}
 void ScrUnk95(RPCParameters *rpcParams) {}
 void ScrUnk2C(RPCParameters *rpcParams) {}
-void ScrUnk2D(RPCParameters *rpcParams) {}
+void ScrUnk2D(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	WORD objectId;
+	float fX, fY, fZ;
+	int iUnk;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	bsData.Read(objectId);
+	bsData.Read(fX);
+	bsData.Read(fY);
+	bsData.Read(fZ);
+	bsData.Read(iUnk);
+
+	CObjectPool *pObjectPool = pNetGame->GetObjectPool();
+	if(objectId <= MAX_OBJECTS) {
+		if(pObjectPool->field_4[objectId]) {
+			CEntity *pObject = (CEntity *)pObjectPool->field_FA4[objectId];
+			if(pObject) pObject->TeleportTo(fX, fY, fZ);
+		}
+	}
+}
 void ScrUnk2E(RPCParameters *rpcParams)
 {
 	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
@@ -162,7 +187,35 @@ void ScrUnk50(RPCParameters *rpcParams)
 }
 void ScrUnk63(RPCParameters *rpcParams) {}
 void ScrUnk7A(RPCParameters *rpcParams) {}
-void ScrUnk7B(RPCParameters *rpcParams) {}
+void ScrUnk7B(RPCParameters *rpcParams)
+{
+	PCHAR Data = reinterpret_cast<PCHAR>(rpcParams->input);
+	int iBitLength = rpcParams->numberOfBitsOfData;
+	PlayerID sender = rpcParams->sender;
+
+	VEHICLEID vehicleId;
+	BYTE byteLen;
+
+	RakNet::BitStream bsData(Data,(iBitLength/8)+1,false);
+
+	char szText[33] = {0};
+
+	byteLen = 0;
+
+	bsData.Read(vehicleId);
+	bsData.Read(byteLen);
+
+	if(byteLen <= 32) {
+		bsData.Read(szText, byteLen);
+
+		CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+		if(pVehiclePool) {
+			if(pVehiclePool->GetSlotState(vehicleId)) {
+				((CVehicle *)pVehiclePool->GetAt(vehicleId))->FUNC_100B8150(szText);
+			}
+		}
+	}
+}
 void ScrUnk7C(RPCParameters *rpcParams) {}
 
 void ScrUnk7D(RPCParameters *rpcParams)
