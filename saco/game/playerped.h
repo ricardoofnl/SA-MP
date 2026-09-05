@@ -261,6 +261,7 @@ public:
 
 	void		FUNC_100AD440(); // .text:100AD440
 
+
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
 	struc_97 field_74[10];

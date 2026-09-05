@@ -18,6 +18,15 @@ extern BOOL	bIgnoreNextExit;
 extern BYTE	*pbyteCurrentPlayer;
 extern int	iGtaVersion;
 
+// all three live in the translation unit at 0x100A4xxx, which also reads them
+extern int   VAR_10151658;
+extern int   VAR_1015165C;
+extern float VAR_10151660;
+
+// .text:1009CFD0, lives in another translation unit; it returns -1 when the lookup
+// fails, so the return has to be signed
+short FUNC_1009CFD0(int a1);
+
 typedef char CPlayerPed_size_probe[sizeof(CPlayerPed) == 0x32D ? 1 : -1];
 typedef char CPlayerPed_2BD_probe[offsetof(CPlayerPed, field_2BD) == 0x2BD ? 1 : -1];
 
@@ -2323,5 +2332,13 @@ void CPlayerPed::FUNC_100AD440()
 	ScriptCommand(&disassociate_object, field_2B9, 0.0f, 0.0f, 0.0f, 0);
 	ScriptCommand(&destroy_object_with_fade, field_2B9);
 	field_2B9 = 0;
+}
+//-----------------------------------------------------------
+
+DWORD CPlayerPed::FUNC_100AE6A0()
+{
+	short sIndex = FUNC_1009CFD0(FUNC_100B4430(VAR_10151658, VAR_1015165C));
+
+	return (((BYTE)VAR_10151660 | 0xFFFF8000) << 16) | sIndex;
 }
 //-----------------------------------------------------------
