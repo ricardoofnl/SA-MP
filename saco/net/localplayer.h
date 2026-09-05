@@ -58,7 +58,8 @@ public:
 
 	DWORD field_147;
 
-	BYTE _pad14B[50];
+	DWORD field_14B;
+	SPAWN_INFO m_SpawnInfo;
 
 	DWORD field_17D;
 	DWORD field_181;
@@ -147,6 +148,9 @@ public:
 	BOOL FUNC_10004300(WORD a1, WORD a2, WORD a3); // .text:10004300
 	PLAYERID FUNC_10004B70(); // .text:10004B70
 	ACTORID  FUNC_10004BB0(); // .text:10004BB0
+	BOOL FUNC_10003A60(void *a2, void *a3, unsigned int a4); // .text:10003A60
+	void FUNC_10004080(); // .text:10004080
+	void FUNC_10004230(WORD a1); // .text:10004230
 
 	DWORD GetField_F0() { return field_F0; };
 };

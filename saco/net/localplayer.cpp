@@ -12,6 +12,14 @@ DWORD dword_100FE0AC = 30;
 
 //----------------------------------------------------------
 
+// layout locks for the fields split out of the pads
+typedef char AssertLocalSize[sizeof(CLocalPlayer) == 0x324 ? 1 : -1];
+typedef char AssertField14B[offsetof(CLocalPlayer, field_14B) == 0x14B ? 1 : -1];
+typedef char AssertSpawnInfo[offsetof(CLocalPlayer, m_SpawnInfo) == 0x14F ? 1 : -1];
+typedef char AssertField314[offsetof(CLocalPlayer, field_314) == 0x314 ? 1 : -1];
+
+//----------------------------------------------------------
+
 CLocalPlayer::CLocalPlayer()
 {
 	field_147 = GetTickCount();
@@ -441,4 +449,83 @@ ACTORID CLocalPlayer::FUNC_10004BB0()
 		return -1;
 
 	return pActorPool->FUNC_100018B0(iPed);
+}
+
+//----------------------------------------------------
+
+// only accepts a spawn point the game says is inside the world
+void CLocalPlayer::sub_10003BE0(SPAWN_INFO *pSpawnInfo)
+{
+	if(FUNC_100B4B50(&pSpawnInfo->vecPos))
+	{
+		memcpy(&m_SpawnInfo, pSpawnInfo, sizeof(SPAWN_INFO));
+		field_17D = 1;
+	}
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::sub_100040E0(BOOL bSpawn)
+{
+	if(bSpawn)
+	{
+		if(m_pPlayerPed)
+		{
+			m_pPlayerPed->FUNC_100AC010();
+			m_pPlayerPed->SetSkin(m_SpawnInfo.iSkin);
+		}
+
+		field_143 = 1;
+	}
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::FUNC_10004080()
+{
+	field_143 = 0;
+
+	if(m_pPlayerPed)
+	{
+		m_pPlayerPed->FUNC_100ABBD0();
+		m_pPlayerPed->FUNC_100ABD70(100.0f);
+		m_pPlayerPed->FUNC_100AC790(0);
+	}
+
+	field_14B = GetTickCount();
+	field_147 = GetTickCount();
+}
+
+//----------------------------------------------------
+
+// resends at most twice a second unless the block actually changed
+BOOL CLocalPlayer::FUNC_10003A60(void *a2, void *a3, unsigned int a4)
+{
+	if(GetTickCount() - field_13F > 500)
+	{
+		field_13F = GetTickCount();
+		return TRUE;
+	}
+
+	if(memcmp(a2, a3, a4))
+	{
+		field_13F = GetTickCount();
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+//----------------------------------------------------
+
+void CLocalPlayer::FUNC_10004230(WORD a1)
+{
+	CVehiclePool *pVehiclePool = pNetGame->GetVehiclePool();
+
+	if(pVehiclePool && a1 < MAX_VEHICLES && pVehiclePool->field_3074[a1])
+	{
+		field_30F = 2;
+		field_310 = a1;
+		field_314 = 0;
+	}
 }

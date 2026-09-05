@@ -63,6 +63,10 @@ public:
 	void  SetArmour(float fArmour);
 
 	void  SetSkin(int iSkin); // .text:100AFF50
+	void  FUNC_100ABBD0(); // .text:100ABBD0
+	void  FUNC_100ABD70(float a1); // .text:100ABD70
+	void  FUNC_100AC010(); // .text:100AC010
+	void  FUNC_100AC790(int a1); // .text:100AC790
 	DWORD GetStateFlags();
 	void  SetStateFlags(DWORD dwStateFlags);
 	BOOL  IsDead();
