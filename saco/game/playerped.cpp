@@ -17,6 +17,9 @@ extern BOOL	bIgnoreNextExit;
 
 extern BYTE	*pbyteCurrentPlayer;
 
+typedef char CPlayerPed_size_probe[sizeof(CPlayerPed) == 0x32D ? 1 : -1];
+typedef char CPlayerPed_2BD_probe[offsetof(CPlayerPed, field_2BD) == 0x2BD ? 1 : -1];
+
 //-----------------------------------------------------------
 // Used for instancing the local player.
 
@@ -2144,5 +2147,25 @@ void CPlayerPed::FUNC_100AC6C0()
 	_asm mov ecx, dwTasks
 	_asm mov edx, 0x601230
 	_asm call edx
+}
+//-----------------------------------------------------------
+
+void CPlayerPed::FUNC_100AE1E0()
+{
+	MATRIX4X4 mat;
+
+	if(!m_pPed) return;
+	if(!GamePool_Ped_GetAt(m_dwGTAId)) return;
+	if(!field_2F2) return;
+
+	if(field_2BD) {
+		ScriptCommand(&destroy_object_with_fade, field_2BD);
+		field_2BD = 0;
+	}
+
+	GetMatrix(&mat);
+	TeleportTo(mat.pos.X, mat.pos.Y, mat.pos.Z);
+
+	field_2F2 = 0;
 }
 //-----------------------------------------------------------

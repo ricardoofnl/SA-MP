@@ -212,6 +212,8 @@ public:
 	DWORD FUNC_100AEA30(); // .text:100AEA30
 	void  FUNC_100AC6C0(); // .text:100AC6C0
 
+	void  FUNC_100AE1E0(); // .text:100AE1E0
+
 	int			m_iCellPhoneEnabled;
 	int field_4C[10];
 	struc_97 field_74[10];
@@ -222,7 +224,7 @@ public:
 	BYTE		m_bytePlayerNumber;
 	char _gap2B1[8];
 	int field_2B9;
-	char _gap2BD[4];
+	int field_2BD;
 	int field_2C1;
 	int field_2C5;
 	int field_2C9;
