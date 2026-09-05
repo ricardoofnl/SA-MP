@@ -475,6 +475,67 @@ void CRemotePlayer::FUNC_10016370(BULLET_SYNC_DATA *pSync)
 
 //----------------------------------------------------
 
+void CRemotePlayer::FUNC_10014950()
+{
+	if(!m_pPlayerPed) return;
+	if(!m_pPlayerPed->IsAdded()) return;
+
+	if(field_C == 1 && !m_pPlayerPed->FUNC_100AC690()) {
+		m_pPlayerPed->FUNC_100AC6C0();
+		return;
+	}
+	if(field_C != 1 && m_pPlayerPed->FUNC_100AC690()) m_pPlayerPed->FUNC_100AC720();
+
+	if(field_C == 11 && !m_pPlayerPed->IsCellphoneEnabled()) {
+		m_pPlayerPed->ToggleCellphone(1);
+		return;
+	}
+	if(field_C != 11 && m_pPlayerPed->IsCellphoneEnabled()) {
+		m_pPlayerPed->ToggleCellphone(0);
+		return;
+	}
+
+	if(field_C == 2 && !m_pPlayerPed->IsInJetpackMode()) {
+		field_8 = 1;
+		m_pPlayerPed->StartJetpack();
+		return;
+	}
+	if(field_C != 2 && m_pPlayerPed->IsInJetpackMode()) {
+		field_8 = 0;
+		m_pPlayerPed->StopJetpack();
+		return;
+	}
+
+	if(field_C == 10 && !m_pPlayerPed->HasHandsUp()) m_pPlayerPed->HandsUp();
+	if(field_C != 10 && m_pPlayerPed->HasHandsUp()) m_pPlayerPed->StopDancing();
+
+	if(!m_pPlayerPed->FUNC_100AE260() && field_C == 68) m_pPlayerPed->FUNC_100AE100();
+	if(m_pPlayerPed->FUNC_100AE260() && field_C != 68) m_pPlayerPed->FUNC_100AE1E0();
+
+	if(field_C == 20 && m_pPlayerPed->FUNC_100ADC90() != 1) m_pPlayerPed->FUNC_100B02D0(1);
+	if(field_C == 22 && m_pPlayerPed->FUNC_100ADC90() != 2) m_pPlayerPed->FUNC_100B02D0(2);
+	if(field_C == 23 && m_pPlayerPed->FUNC_100ADC90() != 3) m_pPlayerPed->FUNC_100B02D0(3);
+	if(field_C == 21 && m_pPlayerPed->FUNC_100ADC90() != 4) m_pPlayerPed->FUNC_100B02D0(4);
+
+	if(m_pPlayerPed->FUNC_100ADC90()) {
+		if(field_C == 20 || field_C == 22 || field_C == 23 || field_C == 21)
+			m_pPlayerPed->FUNC_100ADCA0();
+		else m_pPlayerPed->StopCarrying();
+	}
+
+	if(!m_pPlayerPed->FUNC_100ACEF0() && field_C == 24) m_pPlayerPed->FUNC_100ACF00(1);
+	if(m_pPlayerPed->FUNC_100ACEF0() && field_C != 24 && field_C != 3 && field_C != 4)
+		m_pPlayerPed->FUNC_100ACF00(0);
+
+	if(!m_pPlayerPed->FUNC_100ACE40() && field_C == 25) m_pPlayerPed->FUNC_100ACE50(1);
+	if(m_pPlayerPed->FUNC_100ACE40() && field_C != 25 && field_C != 3 && field_C != 4)
+		m_pPlayerPed->FUNC_100ACE50(0);
+
+	m_pPlayerPed->FUNC_100AD440();
+}
+
+//----------------------------------------------------
+
 void CRemotePlayer::FUNC_10014C40()
 {
 	if(!m_pPlayerPed) return;

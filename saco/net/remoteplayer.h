@@ -107,6 +107,7 @@ public:
 	void FUNC_10017260(BYTE *pSync, int iTime); // .text:10017260
 	void FUNC_10014C40(); // .text:10014C40
 	void FUNC_10016370(BULLET_SYNC_DATA *pSync); // .text:10016370
+	void FUNC_10014950(); // .text:10014950
 	void FUNC_10014E60(); // .text:10014E60
 	void FUNC_10015460(); // .text:10015460
 	void FUNC_10015760(BYTE *pAim); // .text:10015760
